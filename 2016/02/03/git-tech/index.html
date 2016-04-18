@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Git 常用命令">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git.jpg">
-<meta property="og:updated_time" content="2016-04-12T07:22:34.000Z">
+<meta property="og:updated_time" content="2016-04-18T06:15:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基本命令">
 <meta name="twitter:description" content="Git 常用命令">
@@ -362,6 +362,8 @@ git branch -a #查看远程分支
 <pre><code>git push origin --delete &lt;branchName&gt; 或者 git push origin :&lt;branchName&gt;
 </code></pre><p>重命名本地分支：</p>
 <pre><code>git branch -m &lt;old_branch_name&gt; &lt;new_branch_name&gt;
+</code></pre><p>删除不存在对应远程分支的本地分支:</p>
+<pre><code>git remote prune origin或者git fetch -p
 </code></pre><h6 id="8-git上修改后还原所有的"><a href="#8-git上修改后还原所有的" class="headerlink" title="8.git上修改后还原所有的"></a>8.git上修改后还原所有的</h6><pre><code>git reset --hard
 </code></pre><h6 id="9-提交之前撤销add操作"><a href="#9-提交之前撤销add操作" class="headerlink" title="9.提交之前撤销add操作"></a>9.提交之前撤销add操作</h6><pre><code>git reset HEAD 或者    git revert HEAD --no-commit
 </code></pre><h6 id="10-查看文件被谁改动"><a href="#10-查看文件被谁改动" class="headerlink" title="10.查看文件被谁改动"></a>10.查看文件被谁改动</h6><pre><code>git blame FILE
@@ -392,7 +394,17 @@ git push osc master
 <li>如果一个匹配 pattern 后面有一个斜杠,如 foo/,则默认会匹配所有（包含父子文件夹）中的 foo 文件夹内容</li>
 <li>如果一个匹配 pattern 不包含斜杠,如 foo,Git 会将其作为一个 shell 的查找命令匹配内容</li>
 </ul>
-<p>附：相关资料</p>
+<h6 id="16-Git查看、删除、重命名tag"><a href="#16-Git查看、删除、重命名tag" class="headerlink" title="16.Git查看、删除、重命名tag"></a>16.Git查看、删除、重命名tag</h6><p>创建tag：</p>
+<pre><code>git tag &lt;tagname&gt; 或者 git tag -a &lt;tagname&gt; -m &quot;create tag desc&quot;
+</code></pre><p>把本地tag推送到远程：</p>
+<pre><code>git push --tags
+</code></pre><p>获取远程tag</p>
+<pre><code>git fetch origin tag &lt;tagname&gt;
+</code></pre><p>删除tag：</p>
+<pre><code>git tag -d &lt;tagname&gt;   #删除本地tag
+git push origin --delete tag &lt;tagname&gt; #删除远程tag
+git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
+</code></pre><p>附：相关资料</p>
 <ul>
 <li><a href="http://www.bootcss.com/p/git-guide/" target="_blank" rel="external">git - 简易指南</a>  </li>
 <li><a href="http://git-scm.com/" target="_blank" rel="external">git 官网</a></li>
@@ -603,7 +615,7 @@ git push osc master
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中"><span class="nav-number">1.</span> <span class="nav-text">1.安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-创建一个本地仓库的克隆版本"><span class="nav-number">2.</span> <span class="nav-text">2.创建一个本地仓库的克隆版本</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-添加文件到缓冲区"><span class="nav-number">3.</span> <span class="nav-text">3.添加文件到缓冲区</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-提交文件"><span class="nav-number">4.</span> <span class="nav-text">4.提交文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库"><span class="nav-number">5.</span> <span class="nav-text">5.你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#6-可以把-master-换成想要推送的任何分支，创建分支并切换过去"><span class="nav-number">6.</span> <span class="nav-text">6.可以把 master 换成想要推送的任何分支，创建分支并切换过去</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#7-创建、查看、删除、重命名分支"><span class="nav-number">7.</span> <span class="nav-text">7.创建、查看、删除、重命名分支</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#8-git上修改后还原所有的"><span class="nav-number">8.</span> <span class="nav-text">8.git上修改后还原所有的</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#9-提交之前撤销add操作"><span class="nav-number">9.</span> <span class="nav-text">9.提交之前撤销add操作</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#10-查看文件被谁改动"><span class="nav-number">10.</span> <span class="nav-text">10.查看文件被谁改动</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#11-版本回退"><span class="nav-number">11.</span> <span class="nav-text">11.版本回退</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#12-恢复到新版本"><span class="nav-number">12.</span> <span class="nav-text">12.恢复到新版本</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#13-Git补丁管理-方便在多台机器上开发同步时用"><span class="nav-number">13.</span> <span class="nav-text">13.Git补丁管理(方便在多台机器上开发同步时用)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#13-Git-push到多个远程库"><span class="nav-number">14.</span> <span class="nav-text">13.Git push到多个远程库</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#14-远程url切换"><span class="nav-number">15.</span> <span class="nav-text">14.远程url切换</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#15-在已忽略文件夹中不忽略指定文件夹，例如："><span class="nav-number">16.</span> <span class="nav-text">15.在已忽略文件夹中不忽略指定文件夹，例如：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中"><span class="nav-number">1.</span> <span class="nav-text">1.安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-创建一个本地仓库的克隆版本"><span class="nav-number">2.</span> <span class="nav-text">2.创建一个本地仓库的克隆版本</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-添加文件到缓冲区"><span class="nav-number">3.</span> <span class="nav-text">3.添加文件到缓冲区</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-提交文件"><span class="nav-number">4.</span> <span class="nav-text">4.提交文件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库"><span class="nav-number">5.</span> <span class="nav-text">5.你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#6-可以把-master-换成想要推送的任何分支，创建分支并切换过去"><span class="nav-number">6.</span> <span class="nav-text">6.可以把 master 换成想要推送的任何分支，创建分支并切换过去</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#7-创建、查看、删除、重命名分支"><span class="nav-number">7.</span> <span class="nav-text">7.创建、查看、删除、重命名分支</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#8-git上修改后还原所有的"><span class="nav-number">8.</span> <span class="nav-text">8.git上修改后还原所有的</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#9-提交之前撤销add操作"><span class="nav-number">9.</span> <span class="nav-text">9.提交之前撤销add操作</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#10-查看文件被谁改动"><span class="nav-number">10.</span> <span class="nav-text">10.查看文件被谁改动</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#11-版本回退"><span class="nav-number">11.</span> <span class="nav-text">11.版本回退</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#12-恢复到新版本"><span class="nav-number">12.</span> <span class="nav-text">12.恢复到新版本</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#13-Git补丁管理-方便在多台机器上开发同步时用"><span class="nav-number">13.</span> <span class="nav-text">13.Git补丁管理(方便在多台机器上开发同步时用)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#13-Git-push到多个远程库"><span class="nav-number">14.</span> <span class="nav-text">13.Git push到多个远程库</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#14-远程url切换"><span class="nav-number">15.</span> <span class="nav-text">14.远程url切换</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#15-在已忽略文件夹中不忽略指定文件夹，例如："><span class="nav-number">16.</span> <span class="nav-text">15.在已忽略文件夹中不忽略指定文件夹，例如：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#16-Git查看、删除、重命名tag"><span class="nav-number">17.</span> <span class="nav-text">16.Git查看、删除、重命名tag</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
