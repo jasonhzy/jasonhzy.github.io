@@ -40,7 +40,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="PHP," />
+  <meta name="keywords" content="PHP,CURL," />
 
 
 
@@ -56,18 +56,16 @@
 
 
 
-<meta name="description" content="分享一张PHP函数图，便于学习记忆">
+<meta name="description" content="cURL介绍cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP 函数图">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/01/31/php-fun/index.html">
+<meta property="og:title" content="PHP的cURL文件上传">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/05/04/php-curl-file/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="分享一张PHP函数图，便于学习记忆">
-<meta property="og:image" content="http://jasonhzy.github.io/images/php-fun.jpg">
-<meta property="og:updated_time" content="2016-03-27T14:09:24.000Z">
+<meta property="og:description" content="cURL介绍cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。">
+<meta property="og:updated_time" content="2016-05-04T07:43:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP 函数图">
-<meta name="twitter:description" content="分享一张PHP函数图，便于学习记忆">
-<meta name="twitter:image" content="http://jasonhzy.github.io/images/php-fun.jpg">
+<meta name="twitter:title" content="PHP的cURL文件上传">
+<meta name="twitter:description" content="cURL介绍cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。">
 
 
 
@@ -85,7 +83,7 @@
   };
 </script>
 
-  <title> PHP 函数图 | Jason Website </title>
+  <title> PHP的cURL文件上传 | Jason Website </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -260,7 +258,7 @@
             
             
               
-                PHP 函数图
+                PHP的cURL文件上传
               
             
           </h1>
@@ -272,8 +270,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-31T12:14:10+08:00" content="2016-01-31">
-              2016-01-31
+            <time itemprop="dateCreated" datetime="2016-05-04T14:25:32+08:00" content="2016-05-04">
+              2016-05-04
             </time>
           </span>
 
@@ -302,8 +300,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/01/31/php-fun/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/31/php-fun/" itemprop="commentsCount"></span>
+                <a href="/2016/05/04/php-curl-file/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/04/php-curl-file/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -324,7 +322,58 @@
       
 
       
-        <p>分享一张PHP函数图，便于学习记忆<br><a id="more"></a><br><img src="/images/php-fun.jpg" alt="PHP函数图"></p>
+        <h2 id="cURL介绍"><a href="#cURL介绍" class="headerlink" title="cURL介绍"></a>cURL介绍</h2><p>cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。</p>
+<a id="more"></a>
+<h2 id="PHP创建cURL的基本结构"><a href="#PHP创建cURL的基本结构" class="headerlink" title="PHP创建cURL的基本结构"></a>PHP创建cURL的基本结构</h2><p>1）初始化</p>
+<pre><code>curl_init()
+</code></pre><p>2）设置变量</p>
+<pre><code>curl_setopt()
+</code></pre><p>3）执行并获取结果</p>
+<pre><code>curl_exec()
+</code></pre><p>4）释放cURL句柄</p>
+<pre><code>curl_close()
+</code></pre><h2 id="PHP-cURl实现GET和POST"><a href="#PHP-cURl实现GET和POST" class="headerlink" title="PHP cURl实现GET和POST"></a>PHP cURl实现GET和POST</h2><h3 id="GET方式实现"><a href="#GET方式实现" class="headerlink" title="GET方式实现"></a>GET方式实现</h3><pre><code>//初始化
+$ch = curl_init();
+//设置选项，包括URL
+curl_setopt($ch, CURLOPT_URL, &quot;http://loalhost/test.php&quot;);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+//执行并获取HTML文档内容
+$output = curl_exec($ch);
+//释放curl句柄
+curl_close($ch);
+//打印获得的数据
+print_r($output);
+</code></pre><h3 id="POST方式请求"><a href="#POST方式请求" class="headerlink" title="POST方式请求"></a>POST方式请求</h3><pre><code>$url = &quot;http://localhost/test.php&quot;;
+$post_data = array(&apos;key&apos; =&gt; &apos;value&apos;);
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// post数据
+curl_setopt($ch, CURLOPT_POST, 1);
+// post的变量
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+$output = curl_exec($ch);
+curl_close($ch);
+//打印获得的数据
+print_r($output);
+</code></pre><p>以上方式获取到的数据是json格式的，使用json_decode函数解释成数组。    </p>
+<pre><code>$output_array = json_decode($output,true);
+</code></pre><h3 id="PHP不同版本之间cURL上传文件的区别"><a href="#PHP不同版本之间cURL上传文件的区别" class="headerlink" title="PHP不同版本之间cURL上传文件的区别"></a>PHP不同版本之间cURL上传文件的区别</h3><p><strong>普通curl命令形式访问</strong></p>
+<pre><code>curl -F &quot;name=jason&amp;file=@/tmp/test.jpg&quot; htt://localhost/test.php
+</code></pre><p><strong>PHP的cURL类库上传文件</strong></p>
+<p>PHP的cURL支持通过给CURL_POSTFIELDS传递关联数组（而不是字符串）来生成multipart/form-data的POST请求。<br>传统上，PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。这与命令行直接调用cURL程序的语法是一致的：</p>
+<pre><code>curl_setopt(ch, CURLOPT_POSTFIELDS, array(
+    &apos;file&apos; =&gt; &apos;@&apos;.realpath(&apos;image.png&apos;), 
+)); 
+$ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
+</code></pre><p>PHP从5.5开始引入了新的CURLFile类用来指向文件。CURLFile类也可以详细定义MIME类型、文件名等可能出现在multipart/form-data数据中的附加信息。PHP推荐使用CURLFile替代旧的@语法：</p>
+<pre><code>curl_setopt(ch, CURLOPT_POSTFIELDS, [
+    &apos;file&apos; =&gt; new CURLFile(realpath(&apos;image.png&apos;)), 
+]); 
+</code></pre><p>PHP5.5另外引入了CURL_SAFE_UPLOAD选项，可以强制PHP的cURL模块拒绝旧的@语法，仅接受CURLFile式的文件。5.5的默认值为false，5.6的默认值为true。</p>
+<p><strong>注</strong>：PHP5.4及以下版本仅支持@语法形式；PHP5.5两种都是支持的，设置CURL_SAFE_UPLOAD＝true强制使用CURLFile方式；PHP5.6+仅支持CURLFile方式，即使设置CURL_SAFE_UPLOAD＝false也是毫无意义的。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://segmentfault.com/a/1190000000725185" target="_blank" rel="external">考虑PHP5.0~5.6各版本兼容性的cURL文件上传</a></p>
 
       
     </div>
@@ -335,6 +384,8 @@
           
             <a href="/tags/PHP/" rel="tag">#PHP</a>
           
+            <a href="/tags/CURL/" rel="tag">#CURL</a>
+          
         </div>
       
 
@@ -342,17 +393,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/25/centos-install/" rel="next" title="CentOS7.x 配置LAMP环境">
-                <i class="fa fa-chevron-left"></i> CentOS7.x 配置LAMP环境
+              <a href="/2016/03/29/hexo-create/" rel="next" title="Hexo环境搭建">
+                <i class="fa fa-chevron-left"></i> Hexo环境搭建
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/02/01/poetry-snow/" rel="prev" title="沁园春·雪">
-                沁园春·雪 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -367,10 +414,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/01/31/php-fun/"
-     data-title="PHP 函数图"
+        <div class="ds-share flat" data-thread-key="2016/05/04/php-curl-file/"
+     data-title="PHP的cURL文件上传"
      data-content=""
-     data-url="http://jasonhzy.github.io/2016/01/31/php-fun/">
+     data-url="http://jasonhzy.github.io/2016/05/04/php-curl-file/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -397,8 +444,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/31/php-fun/"
-           data-title="PHP 函数图" data-url="http://jasonhzy.github.io/2016/01/31/php-fun/">
+      <div class="ds-thread" data-thread-key="2016/05/04/php-curl-file/"
+           data-title="PHP的cURL文件上传" data-url="http://jasonhzy.github.io/2016/05/04/php-curl-file/">
       </div>
     
   </div>
@@ -531,7 +578,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cURL介绍"><span class="nav-number">1.</span> <span class="nav-text">cURL介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP创建cURL的基本结构"><span class="nav-number">2.</span> <span class="nav-text">PHP创建cURL的基本结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP-cURl实现GET和POST"><span class="nav-number">3.</span> <span class="nav-text">PHP cURl实现GET和POST</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GET方式实现"><span class="nav-number">3.1.</span> <span class="nav-text">GET方式实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#POST方式请求"><span class="nav-number">3.2.</span> <span class="nav-text">POST方式请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP不同版本之间cURL上传文件的区别"><span class="nav-number">3.3.</span> <span class="nav-text">PHP不同版本之间cURL上传文件的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
