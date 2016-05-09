@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Git 常用命令">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git.jpg">
-<meta property="og:updated_time" content="2016-05-05T07:47:18.000Z">
+<meta property="og:updated_time" content="2016-05-09T13:31:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基本命令">
 <meta name="twitter:description" content="Git 常用命令">
@@ -382,6 +382,10 @@ git add .
 git commit -m &apos;First commit&apos; 
 git push origin master
 git push osc master
+
+
+git remote rm   [alias]      #删除一个别名,eg:origin osc
+git remote rename [old-alias] [new-alias] #重命名,eg:git remote rename osc test 
 </code></pre><h6 id="14-远程url切换"><a href="#14-远程url切换" class="headerlink" title="14.远程url切换"></a>14.远程url切换</h6><pre><code>git remote set-url origin &lt;URL&gt; #origin是可以替换的
 </code></pre><h6 id="15-在已忽略文件夹中不忽略指定文件夹，例如："><a href="#15-在已忽略文件夹中不忽略指定文件夹，例如：" class="headerlink" title="15.在已忽略文件夹中不忽略指定文件夹，例如："></a>15.在已忽略文件夹中不忽略指定文件夹，例如：</h6><pre><code>themes/*
 !themes/jacman/
