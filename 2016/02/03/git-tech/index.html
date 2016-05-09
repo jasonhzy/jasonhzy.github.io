@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Git 常用命令">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git.jpg">
-<meta property="og:updated_time" content="2016-05-09T13:31:05.000Z">
+<meta property="og:updated_time" content="2016-05-09T13:36:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基本命令">
 <meta name="twitter:description" content="Git 常用命令">
@@ -367,9 +367,11 @@ git branch -a #查看远程分支
 </code></pre><h6 id="8-git上修改后还原所有的"><a href="#8-git上修改后还原所有的" class="headerlink" title="8.git上修改后还原所有的"></a>8.git上修改后还原所有的</h6><pre><code>git reset --hard
 </code></pre><h6 id="9-提交之前撤销add操作"><a href="#9-提交之前撤销add操作" class="headerlink" title="9.提交之前撤销add操作"></a>9.提交之前撤销add操作</h6><pre><code>git reset HEAD 或者    git revert HEAD --no-commit
 </code></pre><h6 id="10-查看文件被谁改动"><a href="#10-查看文件被谁改动" class="headerlink" title="10.查看文件被谁改动"></a>10.查看文件被谁改动</h6><pre><code>git blame FILE
-</code></pre><h6 id="11-版本回退"><a href="#11-版本回退" class="headerlink" title="11.版本回退"></a>11.版本回退</h6><p>git log 命令查看提交的历史记录<br>在Git中，用HEAD表示当前版本，也就是最新的提交，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100，例如回退到上一个版本：<br>        git reset –hard HEAD^</p>
-<h6 id="12-恢复到新版本"><a href="#12-恢复到新版本" class="headerlink" title="12.恢复到新版本"></a>12.恢复到新版本</h6><p>git reflog用来记录每一次操作的命令，记录着每次操作的commit_id<br>如果回退到某个版本:<br>        git reset –hard commit_id</p>
-<h6 id="13-Git补丁管理-方便在多台机器上开发同步时用"><a href="#13-Git补丁管理-方便在多台机器上开发同步时用" class="headerlink" title="13.Git补丁管理(方便在多台机器上开发同步时用)"></a>13.Git补丁管理(方便在多台机器上开发同步时用)</h6><p>生成补丁:</p>
+</code></pre><h6 id="11-版本回退"><a href="#11-版本回退" class="headerlink" title="11.版本回退"></a>11.版本回退</h6><p>git log 命令查看提交的历史记录<br>在Git中，用HEAD表示当前版本，也就是最新的提交，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100，例如回退到上一个版本：</p>
+<pre><code>git reset --hard HEAD^
+</code></pre><h6 id="12-恢复到新版本"><a href="#12-恢复到新版本" class="headerlink" title="12.恢复到新版本"></a>12.恢复到新版本</h6><p>git reflog用来记录每一次操作的命令，记录着每次操作的commit_id<br>如果回退到某个版本:</p>
+<pre><code>git reset --hard commit_id
+</code></pre><h6 id="13-Git补丁管理-方便在多台机器上开发同步时用"><a href="#13-Git补丁管理-方便在多台机器上开发同步时用" class="headerlink" title="13.Git补丁管理(方便在多台机器上开发同步时用)"></a>13.Git补丁管理(方便在多台机器上开发同步时用)</h6><p>生成补丁:</p>
 <pre><code>git diff &gt; ../sync.patch
 </code></pre><p>打补丁:</p>
 <pre><code>git apply ../sync.patch
@@ -382,7 +384,6 @@ git add .
 git commit -m &apos;First commit&apos; 
 git push origin master
 git push osc master
-
 
 git remote rm   [alias]      #删除一个别名,eg:origin osc
 git remote rename [old-alias] [new-alias] #重命名,eg:git remote rename osc test 
