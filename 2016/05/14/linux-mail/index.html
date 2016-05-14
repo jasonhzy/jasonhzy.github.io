@@ -40,7 +40,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="PHP,CURL," />
+  <meta name="keywords" content="Linux,mail," />
 
 
 
@@ -56,16 +56,27 @@
 
 
 
-<meta name="description" content="cURL介绍cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。">
+<meta name="description" content="在 Debian / Ubuntu 系统：apt-get install mailutils
+apt-get install sharutils  #支持附件发送，使用uuencode
+apt-get install sendmail
+apt-get install sendmail-cf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP的cURL文件上传">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/05/04/php-curl-file/index.html">
+<meta property="og:title" content="linux mail命令发送邮件">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/05/14/linux-mail/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="cURL介绍cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。">
-<meta property="og:updated_time" content="2016-05-04T07:43:19.000Z">
+<meta property="og:description" content="在 Debian / Ubuntu 系统：apt-get install mailutils
+apt-get install sharutils  #支持附件发送，使用uuencode
+apt-get install sendmail
+apt-get install sendmail-cf">
+<meta property="og:image" content="http://jasonhzy.github.io/images/email.png">
+<meta property="og:updated_time" content="2016-05-14T08:14:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP的cURL文件上传">
-<meta name="twitter:description" content="cURL介绍cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。">
+<meta name="twitter:title" content="linux mail命令发送邮件">
+<meta name="twitter:description" content="在 Debian / Ubuntu 系统：apt-get install mailutils
+apt-get install sharutils  #支持附件发送，使用uuencode
+apt-get install sendmail
+apt-get install sendmail-cf">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/email.png">
 
 
 
@@ -83,7 +94,7 @@
   };
 </script>
 
-  <title> PHP的cURL文件上传 | Jason Website </title>
+  <title> linux mail命令发送邮件 | Jason Website </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +269,7 @@
             
             
               
-                PHP的cURL文件上传
+                linux mail命令发送邮件
               
             
           </h1>
@@ -270,8 +281,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-04T14:25:32+08:00" content="2016-05-04">
-              2016-05-04
+            <time itemprop="dateCreated" datetime="2016-05-14T14:43:53+08:00" content="2016-05-14">
+              2016-05-14
             </time>
           </span>
 
@@ -284,8 +295,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
+                  <a href="/categories/mail/" itemprop="url" rel="index">
+                    <span itemprop="name">mail</span>
                   </a>
                 </span>
 
@@ -300,8 +311,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/04/php-curl-file/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/04/php-curl-file/" itemprop="commentsCount"></span>
+                <a href="/2016/05/14/linux-mail/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/14/linux-mail/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -322,58 +333,32 @@
       
 
       
-        <h2 id="cURL介绍"><a href="#cURL介绍" class="headerlink" title="cURL介绍"></a>cURL介绍</h2><p>cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。</p>
-<a id="more"></a>
-<h2 id="PHP创建cURL的基本结构"><a href="#PHP创建cURL的基本结构" class="headerlink" title="PHP创建cURL的基本结构"></a>PHP创建cURL的基本结构</h2><p>1）初始化</p>
-<pre><code>curl_init()
-</code></pre><p>2）设置变量</p>
-<pre><code>curl_setopt()
-</code></pre><p>3）执行并获取结果</p>
-<pre><code>curl_exec()
-</code></pre><p>4）释放cURL句柄</p>
-<pre><code>curl_close()
-</code></pre><h2 id="PHP-cURl实现GET和POST"><a href="#PHP-cURl实现GET和POST" class="headerlink" title="PHP cURl实现GET和POST"></a>PHP cURl实现GET和POST</h2><h3 id="GET方式实现"><a href="#GET方式实现" class="headerlink" title="GET方式实现"></a>GET方式实现</h3><pre><code>//初始化
-$ch = curl_init();
-//设置选项，包括URL
-curl_setopt($ch, CURLOPT_URL, &quot;http://loalhost/test.php&quot;);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_HEADER, 0);
-//执行并获取HTML文档内容
-$output = curl_exec($ch);
-//释放curl句柄
-curl_close($ch);
-//打印获得的数据
-print_r($output);
-</code></pre><h3 id="POST方式请求"><a href="#POST方式请求" class="headerlink" title="POST方式请求"></a>POST方式请求</h3><pre><code>$url = &quot;http://localhost/test.php&quot;;
-$post_data = array(&apos;key&apos; =&gt; &apos;value&apos;);
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-// post数据
-curl_setopt($ch, CURLOPT_POST, 1);
-// post的变量
-curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-$output = curl_exec($ch);
-curl_close($ch);
-//打印获得的数据
-print_r($output);
-</code></pre><p>以上方式获取到的数据是json格式的，使用json_decode函数解释成数组。    </p>
-<pre><code>$output_array = json_decode($output,true);
-</code></pre><h3 id="PHP不同版本之间cURL上传文件的区别"><a href="#PHP不同版本之间cURL上传文件的区别" class="headerlink" title="PHP不同版本之间cURL上传文件的区别"></a>PHP不同版本之间cURL上传文件的区别</h3><p><strong>普通curl命令形式访问</strong></p>
-<pre><code>curl -F &quot;name=jason&amp;file=@/tmp/test.jpg&quot; htt://localhost/test.php
-</code></pre><p><strong>PHP的cURL类库上传文件</strong></p>
-<p>PHP的cURL支持通过给CURL_POSTFIELDS传递关联数组（而不是字符串）来生成multipart/form-data的POST请求。<br>传统上，PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。这与命令行直接调用cURL程序的语法是一致的：</p>
-<pre><code>curl_setopt(ch, CURLOPT_POSTFIELDS, array(
-    &apos;file&apos; =&gt; &apos;@&apos;.realpath(&apos;image.png&apos;), 
-)); 
-$ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
-</code></pre><p>PHP从5.5开始引入了新的CURLFile类用来指向文件。CURLFile类也可以详细定义MIME类型、文件名等可能出现在multipart/form-data数据中的附加信息。PHP推荐使用CURLFile替代旧的@语法：</p>
-<pre><code>curl_setopt(ch, CURLOPT_POSTFIELDS, [
-    &apos;file&apos; =&gt; new CURLFile(realpath(&apos;image.png&apos;)), 
-]); 
-</code></pre><p>PHP5.5另外引入了CURL_SAFE_UPLOAD选项，可以强制PHP的cURL模块拒绝旧的@语法，仅接受CURLFile式的文件。5.5的默认值为false，5.6的默认值为true。</p>
-<p><strong>注</strong>：PHP5.4及以下版本仅支持@语法形式；PHP5.5两种都是支持的，设置CURL_SAFE_UPLOAD＝true强制使用CURLFile方式；PHP5.6+仅支持CURLFile方式，即使设置CURL_SAFE_UPLOAD＝false也是毫无意义的。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://segmentfault.com/a/1190000000725185" target="_blank" rel="external">考虑PHP5.0~5.6各版本兼容性的cURL文件上传</a></p>
+        <p><img src="/images/email.png" alt="email info"></p>
+<h2 id="在-Debian-Ubuntu-系统："><a href="#在-Debian-Ubuntu-系统：" class="headerlink" title="在 Debian / Ubuntu 系统："></a>在 Debian / Ubuntu 系统：</h2><pre><code>apt-get install mailutils
+apt-get install sharutils  #支持附件发送，使用uuencode
+apt-get install sendmail
+apt-get install sendmail-cf
+</code></pre><a id="more"></a>
+<h2 id="sendmail"><a href="#sendmail" class="headerlink" title="sendmail"></a>sendmail</h2><p>启用sendmail</p>
+<pre><code>service start sendmail #systemctl start sendmail.service
+</code></pre><p>sendmail配置</p>
+<p>sendmail默认只会为本机用户发送邮件，只有把它扩展到整个Internet，才会成为真正的邮件服务器,sendmail的配置文件：/etc/mail/sendmail.mc</p>
+<pre><code>DAEMON_OPTIONS(`Family=inet,  Name=MTA-v4, Port=smtp,Addr=127.0.0.1&apos;)dnl
+</code></pre><p>将Addr=127.0.0.1修改成0.0.0.0</p>
+<p>修改之后产生新的配置文件：</p>
+<pre><code>mv sendmail.cf sendmail.cf~   #做一个备份
+m4 sendmail.mc &gt; sendmail.cf  #&gt;的左右有空格，提示错误没有安装sendmail-cf
+</code></pre><h2 id="发送有主题的邮件"><a href="#发送有主题的邮件" class="headerlink" title="发送有主题的邮件"></a>发送有主题的邮件</h2><pre><code>echo &quot;Email text&quot; | mail -s &quot;Test Subject&quot; user@example.com #-s的用处是指定邮件的主题
+</code></pre><h2 id="从文件中读取邮件内容并发送"><a href="#从文件中读取邮件内容并发送" class="headerlink" title="从文件中读取邮件内容并发送"></a>从文件中读取邮件内容并发送</h2><pre><code>mail -s &quot;message send from file&quot; user@example.com &lt; /path/to/file
+</code></pre><h2 id="将从管道获取到的echo命令输出作为邮件内容发送"><a href="#将从管道获取到的echo命令输出作为邮件内容发送" class="headerlink" title="将从管道获取到的echo命令输出作为邮件内容发送"></a>将从管道获取到的echo命令输出作为邮件内容发送</h2><pre><code>echo &quot;This is message body&quot; | mail -s &quot;This is Subject&quot;
+user@example.com
+</code></pre><h2 id="发送带附件的邮件"><a href="#发送带附件的邮件" class="headerlink" title="发送带附件的邮件"></a>发送带附件的邮件</h2><pre><code>echo “Body with attachment &quot;| mail -a foo.tar.gz -s &quot;attached file&quot; user@example.com
+</code></pre><h2 id="uuencode"><a href="#uuencode" class="headerlink" title="uuencode"></a>uuencode</h2><p>邮件传输系统最初是被设计来传送7位编码（类似ASCII）的内容的。这就意味这它是用来发送文本内容，而不能发会使用8位的二进制内容（如程序文件或者图片）。uuencode（“UNIX to UNIX encoding”，UNIX之间使用的编码方式）程序用来解决这个限制。使用uuencode，发送端将二进制格式的转换成文本格式来传输，接收端再转换回去。<br>我们可以简单地使用uuencode和mailx或者mutt配合，来发送二进制内容，类似这样：</p>
+<pre><code>uuencode example.jpeg example.jpeg | mail user@example.com
+</code></pre><p><strong>注意：</strong><br>1、/etc/hosts中修改为：</p>
+<pre><code>127.0.0.1    localhost localhost.localdomain jason #jason计算机主机名
+</code></pre><p>参考资料</p>
+<p>1、<a href="https://linux.cn/article-5502-1.html" target="_blank" rel="external">发送邮件的命令行工具</a></p>
 
       
     </div>
@@ -382,9 +367,9 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
       
         <div class="post-tags">
           
-            <a href="/tags/PHP/" rel="tag">#PHP</a>
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
           
-            <a href="/tags/CURL/" rel="tag">#CURL</a>
+            <a href="/tags/mail/" rel="tag">#mail</a>
           
         </div>
       
@@ -393,17 +378,13 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/29/hexo-create/" rel="next" title="Hexo环境搭建">
-                <i class="fa fa-chevron-left"></i> Hexo环境搭建
+              <a href="/2016/05/05/git-log/" rel="next" title="Git日志格式、颜色设置">
+                <i class="fa fa-chevron-left"></i> Git日志格式、颜色设置
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/05/git-log/" rel="prev" title="Git日志格式、颜色设置">
-                Git日志格式、颜色设置 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -418,10 +399,10 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/05/04/php-curl-file/"
-     data-title="PHP的cURL文件上传"
+        <div class="ds-share flat" data-thread-key="2016/05/14/linux-mail/"
+     data-title="linux mail命令发送邮件"
      data-content=""
-     data-url="http://jasonhzy.github.io/2016/05/04/php-curl-file/">
+     data-url="http://jasonhzy.github.io/2016/05/14/linux-mail/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -448,8 +429,8 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/04/php-curl-file/"
-           data-title="PHP的cURL文件上传" data-url="http://jasonhzy.github.io/2016/05/04/php-curl-file/">
+      <div class="ds-thread" data-thread-key="2016/05/14/linux-mail/"
+           data-title="linux mail命令发送邮件" data-url="http://jasonhzy.github.io/2016/05/14/linux-mail/">
       </div>
     
   </div>
@@ -582,7 +563,7 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cURL介绍"><span class="nav-number">1.</span> <span class="nav-text">cURL介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP创建cURL的基本结构"><span class="nav-number">2.</span> <span class="nav-text">PHP创建cURL的基本结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP-cURl实现GET和POST"><span class="nav-number">3.</span> <span class="nav-text">PHP cURl实现GET和POST</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GET方式实现"><span class="nav-number">3.1.</span> <span class="nav-text">GET方式实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#POST方式请求"><span class="nav-number">3.2.</span> <span class="nav-text">POST方式请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP不同版本之间cURL上传文件的区别"><span class="nav-number">3.3.</span> <span class="nav-text">PHP不同版本之间cURL上传文件的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Debian-Ubuntu-系统："><span class="nav-number">1.</span> <span class="nav-text">在 Debian / Ubuntu 系统：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sendmail"><span class="nav-number">2.</span> <span class="nav-text">sendmail</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送有主题的邮件"><span class="nav-number">3.</span> <span class="nav-text">发送有主题的邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从文件中读取邮件内容并发送"><span class="nav-number">4.</span> <span class="nav-text">从文件中读取邮件内容并发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将从管道获取到的echo命令输出作为邮件内容发送"><span class="nav-number">5.</span> <span class="nav-text">将从管道获取到的echo命令输出作为邮件内容发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送带附件的邮件"><span class="nav-number">6.</span> <span class="nav-text">发送带附件的邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uuencode"><span class="nav-number">7.</span> <span class="nav-text">uuencode</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
