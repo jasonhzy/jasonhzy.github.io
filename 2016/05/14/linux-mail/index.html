@@ -68,15 +68,16 @@ apt-get install sendmail-cf">
 apt-get install sharutils  #支持附件发送，使用uuencode
 apt-get install sendmail
 apt-get install sendmail-cf">
-<meta property="og:image" content="http://jasonhzy.github.io/images/email.png">
-<meta property="og:updated_time" content="2016-05-14T08:14:57.000Z">
+<meta property="og:image" content="http://jasonhzy.github.io/images/mail/email.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/mail/mailutils.png">
+<meta property="og:updated_time" content="2016-05-14T11:23:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux mail命令发送邮件">
 <meta name="twitter:description" content="在 Debian / Ubuntu 系统：apt-get install mailutils
 apt-get install sharutils  #支持附件发送，使用uuencode
 apt-get install sendmail
 apt-get install sendmail-cf">
-<meta name="twitter:image" content="http://jasonhzy.github.io/images/email.png">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/mail/email.png">
 
 
 
@@ -333,7 +334,7 @@ apt-get install sendmail-cf">
       
 
       
-        <p><img src="/images/email.png" alt="email info"></p>
+        <p><img src="/images/mail/email.png" alt="email info"></p>
 <h2 id="在-Debian-Ubuntu-系统："><a href="#在-Debian-Ubuntu-系统：" class="headerlink" title="在 Debian / Ubuntu 系统："></a>在 Debian / Ubuntu 系统：</h2><pre><code>apt-get install mailutils
 apt-get install sharutils  #支持附件发送，使用uuencode
 apt-get install sendmail
@@ -348,6 +349,14 @@ apt-get install sendmail-cf
 <p>修改之后产生新的配置文件：</p>
 <pre><code>mv sendmail.cf sendmail.cf~   #做一个备份
 m4 sendmail.mc &gt; sendmail.cf  #&gt;的左右有空格，提示错误没有安装sendmail-cf
+</code></pre><h2 id="安装mailutils"><a href="#安装mailutils" class="headerlink" title="安装mailutils"></a>安装mailutils</h2><p>安装过程中会让你选择一种配置类型。一般情况下，我们需要选择第二种类型：<strong>Internet Site</strong></p>
+<p><img src="/images/mail/mailutils.png" alt="mailutils"></p>
+<pre><code>No configuration 表示不要做任何配置；
+Internet Site 表示直接使用本地SMTP服务器发送和接收邮件；
+Internet with smarthost 表示使用本地SMTP服务器接收邮件，但发送邮件时不直接使用本地SMTP服务器，
+    而是使用第三方smart host来转发邮件；
+Satellite system 表示邮件的发送和接收都是由第三方smarthost来完成。
+Local only 表示邮件只能在本机用户之间发送和接收。
 </code></pre><h2 id="发送有主题的邮件"><a href="#发送有主题的邮件" class="headerlink" title="发送有主题的邮件"></a>发送有主题的邮件</h2><pre><code>echo &quot;Email text&quot; | mail -s &quot;Test Subject&quot; user@example.com #-s的用处是指定邮件的主题
 </code></pre><h2 id="从文件中读取邮件内容并发送"><a href="#从文件中读取邮件内容并发送" class="headerlink" title="从文件中读取邮件内容并发送"></a>从文件中读取邮件内容并发送</h2><pre><code>mail -s &quot;message send from file&quot; user@example.com &lt; /path/to/file
 </code></pre><h2 id="将从管道获取到的echo命令输出作为邮件内容发送"><a href="#将从管道获取到的echo命令输出作为邮件内容发送" class="headerlink" title="将从管道获取到的echo命令输出作为邮件内容发送"></a>将从管道获取到的echo命令输出作为邮件内容发送</h2><pre><code>echo &quot;This is message body&quot; | mail -s &quot;This is Subject&quot;
@@ -358,7 +367,7 @@ user@example.com
 </code></pre><p><strong>注意：</strong><br>1、/etc/hosts中修改为：</p>
 <pre><code>127.0.0.1    localhost localhost.localdomain jason #jason计算机主机名
 </code></pre><p>参考资料</p>
-<p>1、<a href="https://linux.cn/article-5502-1.html" target="_blank" rel="external">发送邮件的命令行工具</a></p>
+<p>1、<a href="https://linux.cn/article-5502-1.html" target="_blank" rel="external">发送邮件的命令行工具</a><br>2、<a href="https://www.linuxdashen.com/ubuntu搭建简易postfix邮箱服务器" target="_blank" rel="external">ubuntu搭建简易postfix邮箱服务器</a></p>
 
       
     </div>
@@ -563,7 +572,7 @@ user@example.com
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Debian-Ubuntu-系统："><span class="nav-number">1.</span> <span class="nav-text">在 Debian / Ubuntu 系统：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sendmail"><span class="nav-number">2.</span> <span class="nav-text">sendmail</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送有主题的邮件"><span class="nav-number">3.</span> <span class="nav-text">发送有主题的邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从文件中读取邮件内容并发送"><span class="nav-number">4.</span> <span class="nav-text">从文件中读取邮件内容并发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将从管道获取到的echo命令输出作为邮件内容发送"><span class="nav-number">5.</span> <span class="nav-text">将从管道获取到的echo命令输出作为邮件内容发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送带附件的邮件"><span class="nav-number">6.</span> <span class="nav-text">发送带附件的邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uuencode"><span class="nav-number">7.</span> <span class="nav-text">uuencode</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Debian-Ubuntu-系统："><span class="nav-number">1.</span> <span class="nav-text">在 Debian / Ubuntu 系统：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sendmail"><span class="nav-number">2.</span> <span class="nav-text">sendmail</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mailutils"><span class="nav-number">3.</span> <span class="nav-text">安装mailutils</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送有主题的邮件"><span class="nav-number">4.</span> <span class="nav-text">发送有主题的邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从文件中读取邮件内容并发送"><span class="nav-number">5.</span> <span class="nav-text">从文件中读取邮件内容并发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将从管道获取到的echo命令输出作为邮件内容发送"><span class="nav-number">6.</span> <span class="nav-text">将从管道获取到的echo命令输出作为邮件内容发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送带附件的邮件"><span class="nav-number">7.</span> <span class="nav-text">发送带附件的邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uuencode"><span class="nav-number">8.</span> <span class="nav-text">uuencode</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
