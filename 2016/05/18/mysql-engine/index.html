@@ -40,7 +40,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MAC," />
+  <meta name="keywords" content="Mysql," />
 
 
 
@@ -56,19 +56,18 @@
 
 
 
-<meta name="description" content="设置在vim中，鼠标可以控制光标快速定位：临时设置：set mouse=a长久设置，在~/.vimrc中添加：set mouse=a
-但是在mac中的vim设置之后是不起作用的，解决方案如下：">
+<meta name="description" content="数据库存储引擎定义MySQL中的数据用各种不同的技术存储在文件（或者内存）中，这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并最终提供不同的功能和能力，这些不同的技术以及配套的相关功能在MySQL中称为存储引擎（也称为表类型）。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MAC(OS X Yosemite)支持鼠标">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/03/28/mac-vim/index.html">
+<meta property="og:title" content="Mysql存储引擎">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/05/18/mysql-engine/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="设置在vim中，鼠标可以控制光标快速定位：临时设置：set mouse=a长久设置，在~/.vimrc中添加：set mouse=a
-但是在mac中的vim设置之后是不起作用的，解决方案如下：">
-<meta property="og:updated_time" content="2016-03-28T14:11:16.000Z">
+<meta property="og:description" content="数据库存储引擎定义MySQL中的数据用各种不同的技术存储在文件（或者内存）中，这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并最终提供不同的功能和能力，这些不同的技术以及配套的相关功能在MySQL中称为存储引擎（也称为表类型）。">
+<meta property="og:image" content="http://jasonhzy.github.io/images/mysql/mysql-engine.png">
+<meta property="og:updated_time" content="2016-05-18T09:45:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MAC(OS X Yosemite)支持鼠标">
-<meta name="twitter:description" content="设置在vim中，鼠标可以控制光标快速定位：临时设置：set mouse=a长久设置，在~/.vimrc中添加：set mouse=a
-但是在mac中的vim设置之后是不起作用的，解决方案如下：">
+<meta name="twitter:title" content="Mysql存储引擎">
+<meta name="twitter:description" content="数据库存储引擎定义MySQL中的数据用各种不同的技术存储在文件（或者内存）中，这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并最终提供不同的功能和能力，这些不同的技术以及配套的相关功能在MySQL中称为存储引擎（也称为表类型）。">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/mysql/mysql-engine.png">
 
 
 
@@ -86,7 +85,7 @@
   };
 </script>
 
-  <title> MAC(OS X Yosemite)支持鼠标 | Jason Website </title>
+  <title> Mysql存储引擎 | Jason Website </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +260,7 @@
             
             
               
-                MAC(OS X Yosemite)支持鼠标
+                Mysql存储引擎
               
             
           </h1>
@@ -273,8 +272,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-28T14:37:52+08:00" content="2016-03-28">
-              2016-03-28
+            <time itemprop="dateCreated" datetime="2016-05-18T16:58:53+08:00" content="2016-05-18">
+              2016-05-18
             </time>
           </span>
 
@@ -287,8 +286,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/MAC/" itemprop="url" rel="index">
-                    <span itemprop="name">MAC</span>
+                  <a href="/categories/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
                   </a>
                 </span>
 
@@ -303,8 +302,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/28/mac-vim/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/28/mac-vim/" itemprop="commentsCount"></span>
+                <a href="/2016/05/18/mysql-engine/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/18/mysql-engine/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -325,15 +324,51 @@
       
 
       
-        <p>设置在vim中，鼠标可以控制光标快速定位：<br>临时设置：set mouse=a<br>长久设置，在~/.vimrc中添加：set mouse=a</p>
-<p>但是在mac中的vim设置之后是不起作用的，解决方案如下：</p>
+        <h2 id="数据库存储引擎定义"><a href="#数据库存储引擎定义" class="headerlink" title="数据库存储引擎定义"></a>数据库存储引擎定义</h2><p>MySQL中的数据用各种不同的技术存储在文件（或者内存）中，这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并最终提供不同的功能和能力，这些不同的技术以及配套的相关功能在MySQL中称为存储引擎（也称为表类型）。</p>
 <a id="more"></a>
-<h2 id="安装SIMBL"><a href="#安装SIMBL" class="headerlink" title="安装SIMBL"></a>安装SIMBL</h2><p>mouseterm依赖于simbl，必须先进行安装</p>
-<h2 id="安装MouseTerm"><a href="#安装MouseTerm" class="headerlink" title="安装MouseTerm"></a>安装MouseTerm</h2><h2 id="启用鼠标，编辑-vimrc，添加如下信息"><a href="#启用鼠标，编辑-vimrc，添加如下信息" class="headerlink" title="启用鼠标，编辑~/.vimrc，添加如下信息"></a>启用鼠标，编辑~/.vimrc，添加如下信息</h2><pre><code>if has(&quot;mouse&quot;)
-    set mouse=a
-endif
-</code></pre><p>参考资料：</p>
-<p>1.<a href="https://bitheap.org/mouseterm/" target="_blank" rel="external">资料MouseTerm</a><br>2.<a href="https://github.com/brodie/mouseterm.git" target="_blank" rel="external">MouseTerm-Github</a><br>3.<a href="http://www.culater.net/software/SIMBL/SIMBL.php" target="_blank" rel="external">SIML</a><br>4.<a href="/download/SIMBL&amp;MouseTerm.zip">SIMBL&amp;MouseTerm下载</a></p>
+<h2 id="MySQL数据库主要存储引擎"><a href="#MySQL数据库主要存储引擎" class="headerlink" title="MySQL数据库主要存储引擎"></a>MySQL数据库主要存储引擎</h2><p><img src="/images/mysql/mysql-engine.png" alt="mysql engine"></p>
+<table>
+<thead>
+<tr>
+<th>存储引擎</th>
+<th>功能&amp;特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MyISAM</td>
+<td>拥有较高的插入，查询速度，但不支持事务，表级锁</td>
+</tr>
+<tr>
+<td>InnoDB</td>
+<td>5.5版本后Mysql的默认数据库存储引擎，事务型数据库的首选引擎，支持ACID事务，支持行级锁定</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>所有数据置于内存的存储引擎，拥有极高的插入，更新和查询效率。但是会占用和数据量成正比的内存空间。并且其内容会在Mysql重新启动时丢失，处理非事务表</td>
+</tr>
+<tr>
+<td>Archive</td>
+<td>非常适合存储大量的独立的，作为历史记录的数据。因为它们不经常被读取。Archive拥有高效的插入速度，但其对查询的支持相对较差</td>
+</tr>
+<tr>
+<td>CSV</td>
+<td>逻辑上由逗号分割数据的存储引擎。它会在数据库子目录里为每个数据表创建一个.CSV文件。这是一种普通文本文件，每个数据行占用一个文本行。CSV存储引擎不支持索引</td>
+</tr>
+<tr>
+<td>BlackHole</td>
+<td>黑洞引擎，写入的任何数据都会消失，一般用于记录binlog做复制的中继</td>
+</tr>
+<tr>
+<td>MRG_MYISAM</td>
+<td>将一定数量的MyISAM表联合而成一个整体，在超大规模数据存储时很有用，实现大数据的水平分表（如创建一个MRG_MyISAM引擎作为主表，可以实现读操作，更新，删除操作，在多个MyISAM引擎的子表中插入存储数据）</td>
+</tr>
+<tr>
+<td>PERFORMANCE_SCHEMA</td>
+<td>主要用于收集数据库服务器性能参数。MySQL用户是不能创建存储引擎为PERFORMANCE_SCHEMA的表</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -342,7 +377,7 @@ endif
       
         <div class="post-tags">
           
-            <a href="/tags/MAC/" rel="tag">#MAC</a>
+            <a href="/tags/Mysql/" rel="tag">#Mysql</a>
           
         </div>
       
@@ -351,17 +386,13 @@ endif
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/11/linux-ftp/" rel="next" title="Linux上配置FTP">
-                <i class="fa fa-chevron-left"></i> Linux上配置FTP
+              <a href="/2016/05/16/mysql-backup/" rel="next" title="MySQL数据库备份和还原">
+                <i class="fa fa-chevron-left"></i> MySQL数据库备份和还原
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/28/mamp-config/" rel="prev" title="MAC下php环境的搭建">
-                MAC下php环境的搭建 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -376,10 +407,10 @@ endif
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/03/28/mac-vim/"
-     data-title="MAC(OS X Yosemite)支持鼠标"
+        <div class="ds-share flat" data-thread-key="2016/05/18/mysql-engine/"
+     data-title="Mysql存储引擎"
      data-content=""
-     data-url="http://jasonhzy.github.io/2016/03/28/mac-vim/">
+     data-url="http://jasonhzy.github.io/2016/05/18/mysql-engine/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -406,8 +437,8 @@ endif
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/28/mac-vim/"
-           data-title="MAC(OS X Yosemite)支持鼠标" data-url="http://jasonhzy.github.io/2016/03/28/mac-vim/">
+      <div class="ds-thread" data-thread-key="2016/05/18/mysql-engine/"
+           data-title="Mysql存储引擎" data-url="http://jasonhzy.github.io/2016/05/18/mysql-engine/">
       </div>
     
   </div>
@@ -540,7 +571,7 @@ endif
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装SIMBL"><span class="nav-number">1.</span> <span class="nav-text">安装SIMBL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装MouseTerm"><span class="nav-number">2.</span> <span class="nav-text">安装MouseTerm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用鼠标，编辑-vimrc，添加如下信息"><span class="nav-number">3.</span> <span class="nav-text">启用鼠标，编辑~/.vimrc，添加如下信息</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库存储引擎定义"><span class="nav-number">1.</span> <span class="nav-text">数据库存储引擎定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL数据库主要存储引擎"><span class="nav-number">2.</span> <span class="nav-text">MySQL数据库主要存储引擎</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
