@@ -40,7 +40,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Linux,mail," />
+  <meta name="keywords" content="Mysql," />
 
 
 
@@ -56,28 +56,25 @@
 
 
 
-<meta name="description" content="在 Debian / Ubuntu 系统：apt-get install mailutils
-apt-get install sharutils  #支持附件发送，使用uuencode
-apt-get install sendmail
-apt-get install sendmail-cf">
+<meta name="description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:
+
+表头(header): 每一列的名称;列(row): 具有相同数据类型的数据的集合;行(col): 每一行用来描述某个人/物的具体信息;值(value): 行的具体信息">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux mail命令发送邮件">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/05/14/linux-mail/index.html">
+<meta property="og:title" content="MySQL数据库备份和还原">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/05/16/mysql-backup/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="在 Debian / Ubuntu 系统：apt-get install mailutils
-apt-get install sharutils  #支持附件发送，使用uuencode
-apt-get install sendmail
-apt-get install sendmail-cf">
-<meta property="og:image" content="http://jasonhzy.github.io/images/mail/email.png">
-<meta property="og:image" content="http://jasonhzy.github.io/images/mail/mailutils.png">
-<meta property="og:updated_time" content="2016-05-14T11:23:08.000Z">
+<meta property="og:description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:
+
+表头(header): 每一列的名称;列(row): 具有相同数据类型的数据的集合;行(col): 每一行用来描述某个人/物的具体信息;值(value): 行的具体信息">
+<meta property="og:image" content="http://jasonhzy.github.io/images/mysql-back/MariaDB-mysql.jpg">
+<meta property="og:image" content="http://jasonhzy.github.io/images/mysql-back/mysql-table.png">
+<meta property="og:updated_time" content="2016-05-17T01:17:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux mail命令发送邮件">
-<meta name="twitter:description" content="在 Debian / Ubuntu 系统：apt-get install mailutils
-apt-get install sharutils  #支持附件发送，使用uuencode
-apt-get install sendmail
-apt-get install sendmail-cf">
-<meta name="twitter:image" content="http://jasonhzy.github.io/images/mail/email.png">
+<meta name="twitter:title" content="MySQL数据库备份和还原">
+<meta name="twitter:description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:
+
+表头(header): 每一列的名称;列(row): 具有相同数据类型的数据的集合;行(col): 每一行用来描述某个人/物的具体信息;值(value): 行的具体信息">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/mysql-back/MariaDB-mysql.jpg">
 
 
 
@@ -95,7 +92,7 @@ apt-get install sendmail-cf">
   };
 </script>
 
-  <title> linux mail命令发送邮件 | Jason Website </title>
+  <title> MySQL数据库备份和还原 | Jason Website </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -270,7 +267,7 @@ apt-get install sendmail-cf">
             
             
               
-                linux mail命令发送邮件
+                MySQL数据库备份和还原
               
             
           </h1>
@@ -282,8 +279,8 @@ apt-get install sendmail-cf">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-14T14:43:53+08:00" content="2016-05-14">
-              2016-05-14
+            <time itemprop="dateCreated" datetime="2016-05-16T22:29:32+08:00" content="2016-05-16">
+              2016-05-16
             </time>
           </span>
 
@@ -296,8 +293,8 @@ apt-get install sendmail-cf">
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mail/" itemprop="url" rel="index">
-                    <span itemprop="name">mail</span>
+                  <a href="/categories/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
                   </a>
                 </span>
 
@@ -312,8 +309,8 @@ apt-get install sendmail-cf">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/14/linux-mail/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/14/linux-mail/" itemprop="commentsCount"></span>
+                <a href="/2016/05/16/mysql-backup/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/16/mysql-backup/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -334,41 +331,34 @@ apt-get install sendmail-cf">
       
 
       
-        <p><img src="/images/mail/email.png" alt="email info"></p>
-<h2 id="在-Debian-Ubuntu-系统："><a href="#在-Debian-Ubuntu-系统：" class="headerlink" title="在 Debian / Ubuntu 系统："></a>在 Debian / Ubuntu 系统：</h2><pre><code>apt-get install mailutils
-apt-get install sharutils  #支持附件发送，使用uuencode
-apt-get install sendmail
-apt-get install sendmail-cf
-</code></pre><a id="more"></a>
-<h2 id="sendmail"><a href="#sendmail" class="headerlink" title="sendmail"></a>sendmail</h2><p>启用sendmail</p>
-<pre><code>service start sendmail #systemctl start sendmail.service
-</code></pre><p>sendmail配置</p>
-<p>sendmail默认只会为本机用户发送邮件，只有把它扩展到整个Internet，才会成为真正的邮件服务器,sendmail的配置文件：/etc/mail/sendmail.mc</p>
-<pre><code>DAEMON_OPTIONS(`Family=inet,  Name=MTA-v4, Port=smtp,Addr=127.0.0.1&apos;)dnl
-</code></pre><p>将Addr=127.0.0.1修改成0.0.0.0</p>
-<p>修改之后产生新的配置文件：</p>
-<pre><code>mv sendmail.cf sendmail.cf~   #做一个备份
-m4 sendmail.mc &gt; sendmail.cf  #&gt;的左右有空格，提示错误没有安装sendmail-cf
-</code></pre><h2 id="安装mailutils"><a href="#安装mailutils" class="headerlink" title="安装mailutils"></a>安装mailutils</h2><p>安装过程中会让你选择一种配置类型。一般情况下，我们需要选择第二种类型：<strong>Internet Site</strong></p>
-<p><img src="/images/mail/mailutils.png" alt="mailutils"></p>
-<pre><code>No configuration 表示不要做任何配置；
-Internet Site 表示直接使用本地SMTP服务器发送和接收邮件；
-Internet with smarthost 表示使用本地SMTP服务器接收邮件，但发送邮件时不直接使用本地SMTP服务器，
-    而是使用第三方smart host来转发邮件；
-Satellite system 表示邮件的发送和接收都是由第三方smarthost来完成。
-Local only 表示邮件只能在本机用户之间发送和接收。
-</code></pre><h2 id="发送有主题的邮件"><a href="#发送有主题的邮件" class="headerlink" title="发送有主题的邮件"></a>发送有主题的邮件</h2><pre><code>echo &quot;Email text&quot; | mail -s &quot;Test Subject&quot; user@example.com #-s的用处是指定邮件的主题
-</code></pre><h2 id="从文件中读取邮件内容并发送"><a href="#从文件中读取邮件内容并发送" class="headerlink" title="从文件中读取邮件内容并发送"></a>从文件中读取邮件内容并发送</h2><pre><code>mail -s &quot;message send from file&quot; user@example.com &lt; /path/to/file
-</code></pre><h2 id="将从管道获取到的echo命令输出作为邮件内容发送"><a href="#将从管道获取到的echo命令输出作为邮件内容发送" class="headerlink" title="将从管道获取到的echo命令输出作为邮件内容发送"></a>将从管道获取到的echo命令输出作为邮件内容发送</h2><pre><code>echo &quot;This is message body&quot; | mail -s &quot;This is Subject&quot;
-user@example.com
-</code></pre><h2 id="发送带附件的邮件"><a href="#发送带附件的邮件" class="headerlink" title="发送带附件的邮件"></a>发送带附件的邮件</h2><pre><code>echo “Body with attachment &quot;| mail -a foo.tar.gz -s &quot;attached file&quot; user@example.com
-</code></pre><h2 id="uuencode"><a href="#uuencode" class="headerlink" title="uuencode"></a>uuencode</h2><p>邮件传输系统最初是被设计来传送7位编码（类似ASCII）的内容的。这就意味这它是用来发送文本内容，而不能发会使用8位的二进制内容（如程序文件或者图片）。uuencode（“UNIX to UNIX encoding”，UNIX之间使用的编码方式）程序用来解决这个限制。使用uuencode，发送端将二进制格式的转换成文本格式来传输，接收端再转换回去。<br>我们可以简单地使用uuencode和mailx或者mutt配合，来发送二进制内容，类似这样：</p>
-<pre><code>uuencode example.jpeg example.jpeg | mail user@example.com
-</code></pre><p><strong>注意：</strong><br>1、/etc/hosts中修改为：</p>
-<pre><code>127.0.0.1    localhost localhost.localdomain jason #jason计算机主机名
-</code></pre><p>参考资料</p>
-<p>1、<a href="https://linux.cn/article-5502-1.html" target="_blank" rel="external">发送邮件的命令行工具</a><br>2、<a href="https://www.linuxdashen.com/ubuntu搭建简易postfix邮箱服务器" target="_blank" rel="external">ubuntu搭建简易postfix邮箱服务器</a></p>
-
+        <p><img src="/images/mysql-back/MariaDB-mysql.jpg" alt="mysql"></p>
+<h2 id="MySQL简介"><a href="#MySQL简介" class="headerlink" title="MySQL简介"></a>MySQL简介</h2><p>MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,<br>如图所示的一个表格:</p>
+<p><img src="/images/mysql-back/mysql-table.png" alt="mysql table"></p>
+<p><strong>表头(header)</strong>: 每一列的名称;<br><strong>列(row)</strong>: 具有相同数据类型的数据的集合;<br><strong>行(col)</strong>: 每一行用来描述某个人/物的具体信息;<br><strong>值(value)</strong>: 行的具体信息, 每个值必须与该列的数据类型相同;<br><strong>键(key)</strong>: 表中用来识别某个特定的人\物的方法,键的值在当前列中具有唯一性。</p>
+<h2 id="备份与还原常用命令"><a href="#备份与还原常用命令" class="headerlink" title="备份与还原常用命令"></a>备份与还原常用命令</h2><p>备份MySQL数据库的命令</p>
+<pre><code>mysqldump -hhostname -uusername -ppassword databasename &gt; backupfile.sql
+</code></pre><p>备份MySQL数据库为带删除表的格式<br>备份MySQL数据库为带删除表的格式，能够让该备份覆盖已有数据库而不需要手动删除原有数据库。</p>
+<pre><code>mysqldump -–add-drop-table -uusername -ppassword databasename &gt; backupfile.sql
+</code></pre><p>直接将MySQL数据库压缩备份</p>
+<pre><code>mysqldump -hhostname -uusername -ppassword databasename | gzip &gt; backupfile.sql.gz
+</code></pre><p>备份MySQL数据库某个(些)表</p>
+<pre><code>mysqldump -hhostname -uusername -ppassword databasename specific_table1 
+specific_table2 &gt; backupfile.sql
+</code></pre><p>同时备份多个MySQL数据库</p>
+<pre><code>mysqldump -hhostname -uusername -ppassword –databases databasename1 databasename2 
+databasename3 &gt; multibackupfile.sql
+</code></pre><p>仅仅备份数据库结构</p>
+<pre><code>mysqldump –no-data –databases databasename1 databasename2               
+databasename3 &gt; structurebackupfile.sql
+</code></pre><p>备份服务器上所有数据库</p>
+<pre><code>mysqldump –all-databases &gt; allbackupfile.sql
+</code></pre><p>还原MySQL数据库的命令</p>
+<pre><code>mysql -hhostname -uusername -ppassword databasename &lt; backupfile.sql
+</code></pre><p>还原压缩的MySQL数据库</p>
+<pre><code>gunzip &lt; backupfile.sql.gz | mysql -uusername -ppassword databasename
+</code></pre><p>将数据库转移到新服务器</p>
+<pre><code>mysqldump -uusername -ppassword databasename | mysql –host=*.*.*.* -C databasename
+</code></pre>
       
     </div>
 
@@ -376,9 +366,7 @@ user@example.com
       
         <div class="post-tags">
           
-            <a href="/tags/Linux/" rel="tag">#Linux</a>
-          
-            <a href="/tags/mail/" rel="tag">#mail</a>
+            <a href="/tags/Mysql/" rel="tag">#Mysql</a>
           
         </div>
       
@@ -387,17 +375,13 @@ user@example.com
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/05/git-log/" rel="next" title="Git日志格式、颜色设置">
-                <i class="fa fa-chevron-left"></i> Git日志格式、颜色设置
+              <a href="/2016/05/14/linux-mail/" rel="next" title="linux mail命令发送邮件">
+                <i class="fa fa-chevron-left"></i> linux mail命令发送邮件
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/16/mysql-backup/" rel="prev" title="MySQL数据库备份和还原">
-                MySQL数据库备份和还原 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -412,10 +396,10 @@ user@example.com
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/05/14/linux-mail/"
-     data-title="linux mail命令发送邮件"
+        <div class="ds-share flat" data-thread-key="2016/05/16/mysql-backup/"
+     data-title="MySQL数据库备份和还原"
      data-content=""
-     data-url="http://jasonhzy.github.io/2016/05/14/linux-mail/">
+     data-url="http://jasonhzy.github.io/2016/05/16/mysql-backup/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -442,8 +426,8 @@ user@example.com
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/14/linux-mail/"
-           data-title="linux mail命令发送邮件" data-url="http://jasonhzy.github.io/2016/05/14/linux-mail/">
+      <div class="ds-thread" data-thread-key="2016/05/16/mysql-backup/"
+           data-title="MySQL数据库备份和还原" data-url="http://jasonhzy.github.io/2016/05/16/mysql-backup/">
       </div>
     
   </div>
@@ -576,7 +560,7 @@ user@example.com
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Debian-Ubuntu-系统："><span class="nav-number">1.</span> <span class="nav-text">在 Debian / Ubuntu 系统：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sendmail"><span class="nav-number">2.</span> <span class="nav-text">sendmail</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mailutils"><span class="nav-number">3.</span> <span class="nav-text">安装mailutils</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送有主题的邮件"><span class="nav-number">4.</span> <span class="nav-text">发送有主题的邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从文件中读取邮件内容并发送"><span class="nav-number">5.</span> <span class="nav-text">从文件中读取邮件内容并发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将从管道获取到的echo命令输出作为邮件内容发送"><span class="nav-number">6.</span> <span class="nav-text">将从管道获取到的echo命令输出作为邮件内容发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送带附件的邮件"><span class="nav-number">7.</span> <span class="nav-text">发送带附件的邮件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uuencode"><span class="nav-number">8.</span> <span class="nav-text">uuencode</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL简介"><span class="nav-number">1.</span> <span class="nav-text">MySQL简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份与还原常用命令"><span class="nav-number">2.</span> <span class="nav-text">备份与还原常用命令</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
