@@ -243,15 +243,6 @@
 
     
     
-      
-      
-        
-        
-        
-      
-
-      
-    
 
     
       
@@ -342,36 +333,13 @@
 
       
         
-          
-            <p><img src="/images/mysql-back/MariaDB-mysql.jpg" alt="mysql"></p>
+          <p><img src="/images/mysql-back/MariaDB-mysql.jpg" alt="mysql"></p>
 <h2 id="MySQL简介"><a href="#MySQL简介" class="headerlink" title="MySQL简介"></a>MySQL简介</h2><p>MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,<br>如图所示的一个表格:</p>
-<p><img src="/images/mysql-back/mysql-table.png" alt="mysql table"></p>
-<p><strong>表头(header)</strong>: 每一列的名称;<br><strong>列(row)</strong>: 具有相同数据类型的数据的集合;<br><strong>行(col)</strong>: 每一行用来描述某个人/物的具体信息;<br><strong>值(value)</strong>: 行的具体信息, 每个值必须与该列的数据类型相同;<br><strong>键(key)</strong>: 表中用来识别某个特定的人\物的方法,键的值在当前列中具有唯一性。</p>
-<h2 id="备份与还原常用命令"><a href="#备份与还原常用命令" class="headerlink" title="备份与还原常用命令"></a>备份与还原常用命令</h2><p>备份MySQL数据库的命令</p>
-<pre><code>mysqldump -hhostname -uusername -ppassword databasename &gt; backupfile.sql
-</code></pre><p>备份MySQL数据库为带删除表的格式<br>备份MySQL数据库为带删除表的格式，能够让该备份覆盖已有数据库而不需要手动删除原有数据库。</p>
-<pre><code>mysqldump -–add-drop-table -uusername -ppassword databasename &gt; backupfile.sql
-</code></pre><p>直接将MySQL数据库压缩备份</p>
-<pre><code>mysqldump -hhostname -uusername -ppassword databasename | gzip &gt; backupfile.sql.gz
-</code></pre><p>备份MySQL数据库某个(些)表</p>
-<pre><code>mysqldump -hhostname -uusername -ppassword databasename specific_table1 
-specific_table2 &gt; backupfile.sql
-</code></pre><p>同时备份多个MySQL数据库</p>
-<pre><code>mysqldump -hhostname -uusername -ppassword –databases databasename1 databasename2 
-databasename3 &gt; multibackupfile.sql
-</code></pre><p>仅仅备份数据库结构</p>
-<pre><code>mysqldump –no-data –databases databasename1 databasename2               
-databasename3 &gt; structurebackupfile.sql
-</code></pre><p>备份服务器上所有数据库</p>
-<pre><code>mysqldump –all-databases &gt; allbackupfile.sql
-</code></pre><p>还原MySQL数据库的命令</p>
-<pre><code>mysql -hhostname -uusername -ppassword databasename &lt; backupfile.sql
-</code></pre><p>还原压缩的MySQL数据库</p>
-<pre><code>gunzip &lt; backupfile.sql.gz | mysql -uusername -ppassword databasename
-</code></pre><p>将数据库转移到新服务器</p>
-<pre><code>mysqldump -uusername -ppassword databasename | mysql –host=*.*.*.* -C databasename
-</code></pre>
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/16/mysql-backup/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

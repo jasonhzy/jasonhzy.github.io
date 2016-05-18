@@ -56,24 +56,18 @@
 
 
 
-<meta name="description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:
-
-表头(header): 每一列的名称;列(row): 具有相同数据类型的数据的集合;行(col): 每一行用来描述某个人/物的具体信息;值(value): 行的具体信息">
+<meta name="description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL数据库备份和还原">
 <meta property="og:url" content="http://jasonhzy.github.io/2016/05/16/mysql-backup/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:
-
-表头(header): 每一列的名称;列(row): 具有相同数据类型的数据的集合;行(col): 每一行用来描述某个人/物的具体信息;值(value): 行的具体信息">
+<meta property="og:description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-back/MariaDB-mysql.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-back/mysql-table.png">
-<meta property="og:updated_time" content="2016-05-17T01:17:23.000Z">
+<meta property="og:updated_time" content="2016-05-18T02:03:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL数据库备份和还原">
-<meta name="twitter:description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:
-
-表头(header): 每一列的名称;列(row): 具有相同数据类型的数据的集合;行(col): 每一行用来描述某个人/物的具体信息;值(value): 行的具体信息">
+<meta name="twitter:description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:">
 <meta name="twitter:image" content="http://jasonhzy.github.io/images/mysql-back/MariaDB-mysql.jpg">
 
 
@@ -333,6 +327,7 @@
       
         <p><img src="/images/mysql-back/MariaDB-mysql.jpg" alt="mysql"></p>
 <h2 id="MySQL简介"><a href="#MySQL简介" class="headerlink" title="MySQL简介"></a>MySQL简介</h2><p>MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,<br>如图所示的一个表格:</p>
+<a id="more"></a>
 <p><img src="/images/mysql-back/mysql-table.png" alt="mysql table"></p>
 <p><strong>表头(header)</strong>: 每一列的名称;<br><strong>列(row)</strong>: 具有相同数据类型的数据的集合;<br><strong>行(col)</strong>: 每一行用来描述某个人/物的具体信息;<br><strong>值(value)</strong>: 行的具体信息, 每个值必须与该列的数据类型相同;<br><strong>键(key)</strong>: 表中用来识别某个特定的人\物的方法,键的值在当前列中具有唯一性。</p>
 <h2 id="备份与还原常用命令"><a href="#备份与还原常用命令" class="headerlink" title="备份与还原常用命令"></a>备份与还原常用命令</h2><p>备份MySQL数据库的命令</p>
