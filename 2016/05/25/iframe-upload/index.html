@@ -40,7 +40,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Mysql," />
+  <meta name="keywords" content="iframe,PHP," />
 
 
 
@@ -56,18 +56,18 @@
 
 
 
-<meta name="description" content="数据库存储引擎定义MySQL中的数据用各种不同的技术存储在文件（或者内存）中，这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并最终提供不同的功能和能力，这些不同的技术以及配套的相关功能在MySQL中称为存储引擎（也称为表类型）。">
+<meta name="description" content="无刷新上传文件由于无法实现Ajax方式的文件上传，但又想实现类似的文件上传成功之后有提示的效果，或者form的submit提交保存之后有提示信息的，可以借助一些手段实现类似的无刷新并有提示信息的效果。这里采用的是iframe的方式，原理就是输出一段js代码到 iframe中，然后在iframe中来控制它的父页面">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql存储引擎">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/05/18/mysql-engine/index.html">
+<meta property="og:title" content="iframe实现无刷新上传文件">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/05/25/iframe-upload/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="数据库存储引擎定义MySQL中的数据用各种不同的技术存储在文件（或者内存）中，这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并最终提供不同的功能和能力，这些不同的技术以及配套的相关功能在MySQL中称为存储引擎（也称为表类型）。">
-<meta property="og:image" content="http://jasonhzy.github.io/images/mysql/mysql-engine.png">
-<meta property="og:updated_time" content="2016-05-18T09:45:24.000Z">
+<meta property="og:description" content="无刷新上传文件由于无法实现Ajax方式的文件上传，但又想实现类似的文件上传成功之后有提示的效果，或者form的submit提交保存之后有提示信息的，可以借助一些手段实现类似的无刷新并有提示信息的效果。这里采用的是iframe的方式，原理就是输出一段js代码到 iframe中，然后在iframe中来控制它的父页面">
+<meta property="og:image" content="http://jasonhzy.github.io/images/iframe-upload.png">
+<meta property="og:updated_time" content="2016-05-25T09:16:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql存储引擎">
-<meta name="twitter:description" content="数据库存储引擎定义MySQL中的数据用各种不同的技术存储在文件（或者内存）中，这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并最终提供不同的功能和能力，这些不同的技术以及配套的相关功能在MySQL中称为存储引擎（也称为表类型）。">
-<meta name="twitter:image" content="http://jasonhzy.github.io/images/mysql/mysql-engine.png">
+<meta name="twitter:title" content="iframe实现无刷新上传文件">
+<meta name="twitter:description" content="无刷新上传文件由于无法实现Ajax方式的文件上传，但又想实现类似的文件上传成功之后有提示的效果，或者form的submit提交保存之后有提示信息的，可以借助一些手段实现类似的无刷新并有提示信息的效果。这里采用的是iframe的方式，原理就是输出一段js代码到 iframe中，然后在iframe中来控制它的父页面">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/iframe-upload.png">
 
 
 
@@ -85,7 +85,7 @@
   };
 </script>
 
-  <title> Mysql存储引擎 | Jason Website </title>
+  <title> iframe实现无刷新上传文件 | Jason Website </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -260,7 +260,7 @@
             
             
               
-                Mysql存储引擎
+                iframe实现无刷新上传文件
               
             
           </h1>
@@ -272,8 +272,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-18T16:58:53+08:00" content="2016-05-18">
-              2016-05-18
+            <time itemprop="dateCreated" datetime="2016-05-25T16:40:58+08:00" content="2016-05-25">
+              2016-05-25
             </time>
           </span>
 
@@ -286,8 +286,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">Mysql</span>
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
                   </a>
                 </span>
 
@@ -302,8 +302,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/18/mysql-engine/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/18/mysql-engine/" itemprop="commentsCount"></span>
+                <a href="/2016/05/25/iframe-upload/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/25/iframe-upload/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -324,51 +324,18 @@
       
 
       
-        <h2 id="数据库存储引擎定义"><a href="#数据库存储引擎定义" class="headerlink" title="数据库存储引擎定义"></a>数据库存储引擎定义</h2><p>MySQL中的数据用各种不同的技术存储在文件（或者内存）中，这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并最终提供不同的功能和能力，这些不同的技术以及配套的相关功能在MySQL中称为存储引擎（也称为表类型）。</p>
+        <h2 id="无刷新上传文件"><a href="#无刷新上传文件" class="headerlink" title="无刷新上传文件"></a>无刷新上传文件</h2><p>由于无法实现Ajax方式的文件上传，但又想实现类似的文件上传成功之后有提示的效果，或者form的submit提交保存之后有提示信息的，可以借助一些手段实现类似的无刷新并有提示信息的效果。这里采用的是iframe的方式，原理就是输出一段js代码到 iframe中，然后在iframe中来控制它的父页面</p>
+<p><img src="/images/iframe-upload.png" alt="iframe"></p>
 <a id="more"></a>
-<h2 id="MySQL数据库主要存储引擎"><a href="#MySQL数据库主要存储引擎" class="headerlink" title="MySQL数据库主要存储引擎"></a>MySQL数据库主要存储引擎</h2><p><img src="/images/mysql/mysql-engine.png" alt="mysql engine"></p>
-<table>
-<thead>
-<tr>
-<th>存储引擎</th>
-<th>功能&amp;特点</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>MyISAM</td>
-<td>拥有较高的插入，查询速度，但不支持事务，表级锁</td>
-</tr>
-<tr>
-<td>InnoDB</td>
-<td>5.5版本后Mysql的默认数据库存储引擎，事务型数据库的首选引擎，支持ACID事务，支持行级锁定</td>
-</tr>
-<tr>
-<td>Memory</td>
-<td>所有数据置于内存的存储引擎，拥有极高的插入，更新和查询效率。但是会占用和数据量成正比的内存空间。并且其内容会在Mysql重新启动时丢失，处理非事务表</td>
-</tr>
-<tr>
-<td>Archive</td>
-<td>非常适合存储大量的独立的，作为历史记录的数据。因为它们不经常被读取。Archive拥有高效的插入速度，但其对查询的支持相对较差</td>
-</tr>
-<tr>
-<td>CSV</td>
-<td>逻辑上由逗号分割数据的存储引擎。它会在数据库子目录里为每个数据表创建一个.CSV文件。这是一种普通文本文件，每个数据行占用一个文本行。CSV存储引擎不支持索引</td>
-</tr>
-<tr>
-<td>BlackHole</td>
-<td>黑洞引擎，写入的任何数据都会消失，一般用于记录binlog做复制的中继</td>
-</tr>
-<tr>
-<td>MRG_MYISAM</td>
-<td>将一定数量的MyISAM表联合而成一个整体，在超大规模数据存储时很有用，实现大数据的水平分表（如创建一个MRG_MyISAM引擎作为主表，可以实现读操作，更新，删除操作，在多个MyISAM引擎的子表中插入存储数据）</td>
-</tr>
-<tr>
-<td>PERFORMANCE_SCHEMA</td>
-<td>主要用于收集数据库服务器性能参数。MySQL用户是不能创建存储引擎为PERFORMANCE_SCHEMA的表</td>
-</tr>
-</tbody>
-</table>
+<h2 id="HTML代码"><a href="#HTML代码" class="headerlink" title="HTML代码"></a>HTML代码</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>无刷新上传文件<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="css"></span><br><span class="line">            <span class="selector-class">.file</span> &#123;</span><br><span class="line">                <span class="attribute">position</span>: relative;</span><br><span class="line">                <span class="attribute">display</span>: inline-block;</span><br><span class="line">                <span class="attribute">background</span>: <span class="number">#D0EEFF</span>;</span><br><span class="line">                <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#99D3F5</span>;</span><br><span class="line">                <span class="attribute">border-radius</span>: <span class="number">4px</span>;</span><br><span class="line">                <span class="attribute">padding</span>: <span class="number">4px</span> <span class="number">12px</span>;</span><br><span class="line">                <span class="attribute">overflow</span>: hidden;</span><br><span class="line">                <span class="attribute">color</span>: <span class="number">#1E88C7</span>;</span><br><span class="line">                <span class="attribute">text-decoration</span>: none;</span><br><span class="line">                <span class="attribute">text-indent</span>: <span class="number">0</span>;</span><br><span class="line">                <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="selector-class">.file</span> <span class="selector-tag">input</span> &#123;</span><br><span class="line">                <span class="attribute">position</span>: absolute;</span><br><span class="line">                <span class="attribute">font-size</span>: <span class="number">100px</span>;</span><br><span class="line">                <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">                <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">                <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="selector-class">.file</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">                <span class="attribute">background</span>: <span class="number">#AADFFD</span>;</span><br><span class="line">                <span class="attribute">border-color</span>: <span class="number">#78C3F3</span>;</span><br><span class="line">                <span class="attribute">color</span>: <span class="number">#004974</span>;</span><br><span class="line">                <span class="attribute">text-decoration</span>: none;</span><br><span class="line">            &#125;</span><br><span class="line">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"save.php"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span></span><br><span class="line">    		<span class="attr">target</span>=<span class="string">"iframe_upload"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"callback"</span> <span class="attr">value</span>=<span class="string">"jsoncallback"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:void(0);"</span> <span class="attr">class</span>=<span class="string">"file"</span>&gt;</span>选择文件</span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">value</span>=<span class="string">"上传"</span> <span class="attr">name</span>=<span class="string">"file"</span> <span class="attr">accept</span>=<span class="string">"image/*"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"上传"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">name</span>=<span class="string">"iframe_upload"</span> <span class="attr">style</span>=<span class="string">"visibility:hidden;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line">        <span class="built_in">window</span>.jsoncallback=<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> code = data.result_code;</span><br><span class="line">            <span class="keyword">if</span>(code==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="built_in">window</span>.location.href = data.url ? data.url : <span class="built_in">window</span>.location.href;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               alert(data.result_msg);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>form的target设为iframe的name属性值，即iframe_upload</li>
+<li>添加hidden的input的标签，可以自定义回调函数名称</li>
+<li>添加隐藏的iframe，name属性值与form的target必须保持一致</li>
+<li>添加js代码实现信息提示</li>
+</ul>
+<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$jsoncallback = $_POST[<span class="string">'callback'</span>];</span><br><span class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	if(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</span><br><span class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> response_post($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)&#123;</span><br><span class="line">	$output=<span class="string">""</span>;</span><br><span class="line">	$output .= <span class="string">'&lt;script&gt;'</span>;</span><br><span class="line">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></span><br><span class="line">		.json_encode(array(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</span><br><span class="line">		.<span class="string">');'</span>);</span><br><span class="line">	$output .= <span class="string">'&lt;/script&gt;'</span>;</span><br><span class="line">	echo $output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -377,7 +344,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Mysql/" rel="tag">#Mysql</a>
+            <a href="/tags/iframe-PHP/" rel="tag">#iframe,PHP</a>
           
         </div>
       
@@ -386,17 +353,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/16/mysql-backup/" rel="next" title="MySQL数据库备份和还原">
-                <i class="fa fa-chevron-left"></i> MySQL数据库备份和还原
+              <a href="/2016/05/18/mysql-engine/" rel="next" title="Mysql存储引擎">
+                <i class="fa fa-chevron-left"></i> Mysql存储引擎
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/25/iframe-upload/" rel="prev" title="iframe实现无刷新上传文件">
-                iframe实现无刷新上传文件 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -411,10 +374,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/05/18/mysql-engine/"
-     data-title="Mysql存储引擎"
+        <div class="ds-share flat" data-thread-key="2016/05/25/iframe-upload/"
+     data-title="iframe实现无刷新上传文件"
      data-content=""
-     data-url="http://jasonhzy.github.io/2016/05/18/mysql-engine/">
+     data-url="http://jasonhzy.github.io/2016/05/25/iframe-upload/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -441,8 +404,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/18/mysql-engine/"
-           data-title="Mysql存储引擎" data-url="http://jasonhzy.github.io/2016/05/18/mysql-engine/">
+      <div class="ds-thread" data-thread-key="2016/05/25/iframe-upload/"
+           data-title="iframe实现无刷新上传文件" data-url="http://jasonhzy.github.io/2016/05/25/iframe-upload/">
       </div>
     
   </div>
@@ -575,7 +538,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库存储引擎定义"><span class="nav-number">1.</span> <span class="nav-text">数据库存储引擎定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL数据库主要存储引擎"><span class="nav-number">2.</span> <span class="nav-text">MySQL数据库主要存储引擎</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#无刷新上传文件"><span class="nav-number">1.</span> <span class="nav-text">无刷新上传文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML代码"><span class="nav-number">2.</span> <span class="nav-text">HTML代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后台代码（PHP为例）"><span class="nav-number">3.</span> <span class="nav-text">后台代码（PHP为例）</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
