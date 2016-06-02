@@ -40,7 +40,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Mysql," />
+  <meta name="keywords" content="Python," />
 
 
 
@@ -56,20 +56,19 @@
 
 
 
-<meta name="description">
+<meta name="description" content="网络爬虫
+网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。”">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql 数据库主从同步(Master-Slave)">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/02/05/master-slave/index.html">
+<meta property="og:title" content="Python 爬虫(BeautifulSoup)">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/06/02/python-reptile/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description">
-<meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-slave.jpg">
-<meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-status.png">
-<meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/slave-status.png">
-<meta property="og:updated_time" content="2016-03-27T14:09:24.000Z">
+<meta property="og:description" content="网络爬虫
+网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。”">
+<meta property="og:updated_time" content="2016-06-02T09:13:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql 数据库主从同步(Master-Slave)">
-<meta name="twitter:description">
-<meta name="twitter:image" content="http://jasonhzy.github.io/images/master-slave/master-slave.jpg">
+<meta name="twitter:title" content="Python 爬虫(BeautifulSoup)">
+<meta name="twitter:description" content="网络爬虫
+网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。”">
 
 
 
@@ -87,7 +86,7 @@
   };
 </script>
 
-  <title> Mysql 数据库主从同步(Master-Slave) | Jason Website </title>
+  <title> Python 爬虫(BeautifulSoup) | Jason Website </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -262,7 +261,7 @@
             
             
               
-                Mysql 数据库主从同步(Master-Slave)
+                Python 爬虫(BeautifulSoup)
               
             
           </h1>
@@ -274,8 +273,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-05T10:03:25+08:00" content="2016-02-05">
-              2016-02-05
+            <time itemprop="dateCreated" datetime="2016-06-02T14:46:56+08:00" content="2016-06-02">
+              2016-06-02
             </time>
           </span>
 
@@ -288,8 +287,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">Mysql</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -304,8 +303,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/02/05/master-slave/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/05/master-slave/" itemprop="commentsCount"></span>
+                <a href="/2016/06/02/python-reptile/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/python-reptile/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -326,105 +325,66 @@
       
 
       
-        <p><img src="/images/master-slave/master-slave.jpg" alt="原理图"></p>
-<a id="more"></a>
-<h2 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h2><blockquote>
-<p>分为同步复制和异步复制，实际复制架构中大部分为异步复制。 复制的基本过程如下：<br>1).Slave上面的IO进程连接上Master，并请求从指定日志文件的指定位置（或者从最开始的日志）之后的日志内容；<br>2).Master接收到来自Slave的IO进程的请求后，通过负责复制的IO进程根据请求信息读取制定日志指定位置之后的日志信息，返回给Slave<br>的IO进程。返回信息中除了日志所包含的信息之外，还包括本次返回的信息已经到Master端的bin-log文件的名称以及bin-log的位置；<br>3).Slave的IO进程接收到信息后，将接收到的日志内容依次添加到Slave端的relay-log文件的最末端，并将读取到的Master端的<br>bin-log的文件名和位置记录到master-info文件中，以便在下一次读取的时候能够清楚的告诉Master“我需要从某个bin-log的哪个位置开始往后的日志内容，请发给我”；<br>4).Slave的Sql进程检测到relay-log中新增加了内容后，会马上解析relay-log的内容成为在Master端真实执行时候的那些可执行的内容，并在自身执行。</p>
+        <h2 id="网络爬虫"><a href="#网络爬虫" class="headerlink" title="网络爬虫"></a>网络爬虫</h2><blockquote>
+<p>网络爬虫（又被称为网页蜘蛛，网络机器人，在FOAF社区中间，更经常的称为网页追逐者），是一种按照一定的规则，自动地抓取万维网信息的程序或者脚本。”</p>
 </blockquote>
-<h2 id="环境描述"><a href="#环境描述" class="headerlink" title="环境描述"></a>环境描述</h2><ul>
-<li>OS：CentOS</li>
-<li>主服务器master：192.168.11.120</li>
-<li>从服务器slave：192.168.11.139</li>
-</ul>
-<h2 id="mysql主从配置"><a href="#mysql主从配置" class="headerlink" title="mysql主从配置"></a>mysql主从配置</h2><h3 id="mysql主服务器配置-master"><a href="#mysql主服务器配置-master" class="headerlink" title="mysql主服务器配置(master)"></a>mysql主服务器配置(master)</h3><p>master服务器配置:<br>vim /etc/my.cnf</p>
-<pre><code>[mysqld]
-server-id=120
-log-bin=/var/lib/mysql/mysql-bin # 启用二进制日志
-binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
-#binlog-ignore-db = mysql,information_schema #忽略写入binlog的库
-</code></pre><p>重启服务器：</p>
-<pre><code>service mysqld  restart #systemctl restart mysqld.service --- centos7.x重启mysql
-</code></pre><p>在主服务器上建立帐户并授权slave：</p>
-<pre><code>#创建slave帐号，密码123456
-mysql&gt; GRANT REPLICATION SLAVE ON *.* to &apos;slave&apos;@&apos;192.168.11.%&apos; identified by &apos;123456&apos; WITH GRANT OPTION; 
-#更新数据库权限
-mysql&gt;flush privileges;
-</code></pre><p>查询master的状态：</p>
-<pre><code>mysql&gt; show master status;
-</code></pre><p>显示结果：<br>        <img src="/images/master-slave/master-status.png" alt="slave status"></p>
-<p>注：执行完这个步骤后不要再操作主数据库了，防止主数据库状态值变化</p>
-<h3 id="mysql从服务器配置-slave"><a href="#mysql从服务器配置-slave" class="headerlink" title="mysql从服务器配置(slave)"></a>mysql从服务器配置(slave)</h3><p>slave服务器配置:<br>vim /etc/my.cnf</p>
-<pre><code>[mysqld]
-server-id=139
-log-bin=/var/lib/mysql/mysql-bin # 启用二进制日志
-binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
-</code></pre><p>重启服务器：</p>
-<pre><code>service mysqld  restart #systemctl restart mysqld.service --- centos7.x重启mysql
-</code></pre><p>设置同步源：</p>
-<pre><code>mysql&gt; CHANGE MASTER TO MASTER_HOST=&apos;192.168.11.120&apos;, #主服务器master的ip
-    MASTER_USER=&apos;slave&apos;,
-    MASTER_PASSWORD=&apos;123456&apos;,
-    MASTER_LOG_FILE=&apos;mysql-bin.000022&apos;,  #对应show master status中File
-    MASTER_LOG_POS=245;                     #对应show master status中Position
-</code></pre><p>启用同步：</p>
-<pre><code>mysql&gt;start slave
-</code></pre><p>停止同步：</p>
-<pre><code>mysql&gt;stop slave
-</code></pre><p>检查从服务器状态：</p>
-<pre><code>mysql&gt; SHOW SLAVE STATUS\G;
-</code></pre><p>显示结果：<br>    <img src="/images/master-slave/slave-status.png" alt="slave status"></p>
-<p><strong>注意：</strong>Slave_IO_Running及Slave_SQL_Running进程必须正常运行，即YES状态，否则说明同步失败</p>
-<p>下面介绍几个比较关键的参数，全面的说明可阅读<a href="https://dev.mysql.com/doc/refman/5.5/en/show-slave-status.html" target="_blank" rel="external">参考手册</a>。</p>
-<ul>
-<li>Slave_IO_Running: IO线程是否正常运行</li>
-<li>Slave_SQL_Running: SQL线程是否正常运行</li>
-<li>Master_Log_File: IO线程正在读取的主服务器日志文件</li>
-<li>Read_Master_Log_Pos: IO线程正在读取的主服务器日志文件的位置</li>
-<li>Relay_Log_File: SQL线程正在读取和执行的本地日志文件</li>
-<li>Relay_Log_Pos: SQL线程正在读取和执行的本地日志文件的位置</li>
-<li>Relay_Master_Log_File: SQL线程正在重演的事件所在的主服务器日志文件</li>
-<li>Exec_Master_Log_Pos: SQL线程正在重演的事件在主服务器日志文件中的位置</li>
-<li>Seconds_Behind_Master:如果网络没有明显的延迟，该参数标志着SQL线程的事件重演速度。如果该值较大且不断递增，调整<a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit" target="_blank" rel="external">innodb_flush_log_at_trx_commit</a>会有比较明显的效果，但是可能会在MySQL进程崩溃时丢失数据。</li>
-</ul>
-<h3 id="mysql数据库同步验证"><a href="#mysql数据库同步验证" class="headerlink" title="mysql数据库同步验证"></a>mysql数据库同步验证</h3><p>主从数据库设置工作已经完成，可以在master新建数据库和表，插入和修改数据，查看slave是否获得同步，测试一下是否成功。</p>
-<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><p>1、Slave_IO_Running: No Slave_SQL_Running: No</p>
-<pre><code>需要开启slave，即：start slave
-</code></pre><p>2、Slave_IO_Running: No Slave_SQL_Running: Yes</p>
-<pre><code>出现error，如Last_IO_Error: error connecting to master &apos;slave@192.168.11.120:3306&apos; - retry-time: 60  retries: 86400
-</code></pre><p>解决方案：</p>
-<pre><code>1).mysql -h192.168.11.120 -uslave  -p
-如果出现ERROR 2003 (HY000): Can&apos;t connect to MySQL server on &apos;192.168.11.120&apos; (113) 说明服务器不允许远程访问
+<a id="more"></a>
+<h2 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h2><p>采用easy_install或pip可以直接安装</p>
+<p>1.安装MySQL-python</p>
+<pre><code>pip/easy_install  install MySQL-python
+</code></pre><p>2.安装BeautifulSoup<br>Beautiful Soup3 的文档,Beautiful Soup 3目前已经停止开发,我们推荐在现在的项目中使用Beautiful Soup 4,移植到BS4</p>
+<pre><code>apt-get install Python-bs4  #Debain或ubuntu
+pip/easy_install  install beautifulsoup4
+</code></pre><h2 id="安装解析器"><a href="#安装解析器" class="headerlink" title="安装解析器"></a>安装解析器</h2><p>Beautiful Soup支持Python标准库中的HTML解析器,还支持一些第三方的解析器,其中一个是<br>lxml .根据操作系统不同,可以选择下列方法来安装lxml:</p>
+<pre><code>apt-get install Python-lxml
+pip/easy_install install lxml
+</code></pre><p>另一个可供选择的解析器是纯Python实现的 html5lib, html5lib的解析方式与浏览器相同,可以选择下列方法来安装html5lib:</p>
+<pre><code>apt-get install Python-html5lib
+pip/easy_install install html5lib
+</code></pre><p>下表列出了主要的解析器,以及它们的优缺点:</p>
+<table>
+<thead>
+<tr>
+<th>解析器</th>
+<th>使用方法</th>
+<th>优势</th>
+<th>劣势</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python标准库</td>
+<td>BeautifulSoup(markup, “html.parser”)</td>
+<td>Python的内置标准库、执行速度适中、文档容错能力强</td>
+<td>Python 2.7.3 or 3.2.2)前 的版本中文档容错能力差</td>
+</tr>
+<tr>
+<td>lxml HTML 解析器</td>
+<td>BeautifulSoup(markup, “lxml”)</td>
+<td>速度快、文档容错能力强</td>
+<td>需要安装C语言库</td>
+</tr>
+<tr>
+<td>lxml XML 解析器</td>
+<td>BeautifulSoup(markup, [“lxml”, “xml”]) BeautifulSoup(markup, “xml”)</td>
+<td>速度快、唯一支持XML的解析器</td>
+<td>需要安装C语言库</td>
+</tr>
+<tr>
+<td>html5lib</td>
+<td>BeautifulSoup(markup, “html5lib”)</td>
+<td>最好的容错性、以浏览器的方式解析文档、生成HTML5格式的文档</td>
+<td>速度慢、不依赖外部扩展</td>
+</tr>
+</tbody>
+</table>
+<p>推荐使用lxml作为解析器,因为效率更高.在Python2.7.3之前的版本和Python3中3.2.2之前的版本,必须安装lxml或html5lib,因为那些Python版本的标准库中内置的HTML解析方法不够稳定.</p>
+<h2 id="采用BeautifulSoup爬取示例"><a href="#采用BeautifulSoup爬取示例" class="headerlink" title="采用BeautifulSoup爬取示例"></a>采用BeautifulSoup爬取示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#---------------------------------------------------</span></span><br><span class="line"><span class="comment">#   程序：糗事百科笑料爬虫</span></span><br><span class="line"><span class="comment">#   作者：Jason Hu</span></span><br><span class="line"><span class="comment">#   日期：2016-06-01</span></span><br><span class="line"><span class="comment">#   语言：Python</span></span><br><span class="line"><span class="comment">#   说明：自定义爬取页数，并将爬取的内容保存在Mysql数据库中</span></span><br><span class="line"><span class="comment">#---------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> MySQLdb <span class="keyword">as</span> db</span><br><span class="line"><span class="keyword">from</span> warnings <span class="keyword">import</span> filterwarnings</span><br><span class="line"></span><br><span class="line"><span class="comment">#filterwarnings('ignore', category = db.Warning)</span></span><br><span class="line">filterwarnings(<span class="string">"ignore"</span>, <span class="string">"Table '.*' already exists"</span>)</span><br><span class="line">filterwarnings(<span class="string">"ignore"</span>, <span class="string">"Can't create database '.*'; database exists"</span>)</span><br><span class="line"></span><br><span class="line">page = <span class="number">1</span>  <span class="comment">#设置页数</span></span><br><span class="line">url = <span class="string">'http://www.qiushibaike.com/hot/page/'</span> + str(page) <span class="comment">#url地址</span></span><br><span class="line"><span class="comment">#有些网站反爬虫, 伪装为浏览器抓取</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    request = urllib2.Request(url, headers = headers)</span><br><span class="line">    response = urllib2.urlopen(request)</span><br><span class="line">    content = response.read()</span><br><span class="line">    soup = BeautifulSoup(content, <span class="string">'html.parser'</span>, from_encoding=<span class="string">'UTF-8'</span>)</span><br><span class="line">    div_article = soup.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'class'</span> : <span class="string">'col1'</span>&#125;)</span><br><span class="line">    article_list = div_article.findAll(<span class="string">'div'</span>, attrs=&#123;<span class="string">'class'</span>: <span class="string">'article block untagged mb15'</span>&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#connection db to insert data</span></span><br><span class="line">    conn = db.connect(host=<span class="string">'localhost'</span>, user=<span class="string">'root'</span>, passwd=<span class="string">''</span>, unix_socket=<span class="string">'/opt/local/var/run/mysql55/mysqld.sock'</span>)</span><br><span class="line">    cur = conn.cursor()</span><br><span class="line">    cur.execute(<span class="string">'create database if not exists python default charset utf8 collate utf8_general_ci;'</span>)</span><br><span class="line">    conn.select_db(<span class="string">'python'</span>)</span><br><span class="line">    cur.execute(<span class="string">'truncate table joke;'</span>)</span><br><span class="line">    sql = <span class="string">'''</span><br><span class="line">            create table if not exists joke(</span><br><span class="line">                `id` int not null auto_increment,</span><br><span class="line">                `author` varchar(30),</span><br><span class="line">                `photo` text,</span><br><span class="line">                `love_nums` int default 0,</span><br><span class="line">                `comment_nums` int default 0,</span><br><span class="line">                `content` text,</span><br><span class="line">                `create_time` datetime,</span><br><span class="line">                `update_time` datetime,</span><br><span class="line">                primary key(`id`)</span><br><span class="line">            )engine=Innodb default charset=utf8;</span><br><span class="line">        '''</span></span><br><span class="line">    cur.execute(sql)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> article <span class="keyword">in</span> article_list:</span><br><span class="line">        author_tag = article.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'class'</span> : <span class="string">'author clearfix'</span>&#125;)</span><br><span class="line">        author_img = author_tag.img.attrs[<span class="string">'src'</span>]</span><br><span class="line">        author = author_tag.h2.text</span><br><span class="line"></span><br><span class="line">        content_tag = article.select(<span class="string">'div.content'</span>)</span><br><span class="line">        content = content_tag[<span class="number">0</span>].get_text().strip()</span><br><span class="line"></span><br><span class="line">        comment_tag = article.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'class'</span>: <span class="string">'stats'</span>&#125;)</span><br><span class="line">        love_nums = comment_tag.find(<span class="string">'span'</span>, attrs=&#123;<span class="string">'class'</span>: <span class="string">'stats-vote'</span>&#125;).find(<span class="string">'i'</span>).text</span><br><span class="line">        comment_nums = comment_tag.find(<span class="string">'span'</span>, attrs=&#123;<span class="string">'class'</span>: <span class="string">'stats-comments'</span>&#125;).find(<span class="string">'i'</span>).text</span><br><span class="line"></span><br><span class="line">        create_time = datetime.now().strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>)</span><br><span class="line">        update_time = datetime.now().strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>)</span><br><span class="line"></span><br><span class="line">        joke = [author, author_img, love_nums, comment_nums, content, create_time, update_time]</span><br><span class="line">        cur.execute(<span class="string">'insert into joke(`author`, `photo`, `love_nums`, `comment_nums`, `content`, \</span><br><span class="line">                    `create_time`, `update_time`) values(%s, %s, %s, %s, %s, %s, %s)'</span>, joke);</span><br><span class="line">    conn.commit()</span><br><span class="line">    cur.close()</span><br><span class="line">    conn.close()</span><br><span class="line"><span class="keyword">except</span> urllib2.URLError, e:</span><br><span class="line">    <span class="keyword">print</span> e</span><br><span class="line"><span class="keyword">except</span> db.Error, e:</span><br><span class="line">    conn.rollback()</span><br><span class="line">    <span class="keyword">print</span> e</span><br></pre></td></tr></table></figure>
+<p>参考资料</p>
+<ol>
+<li><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html" target="_blank" rel="external">Beautiful Soup 4.2.0文档</a></li>
+</ol>
 
-2).netstat -an | grep 3306
-查看是否开启远程访问的端口3306
-
-3).centos下配置开启3306端口：
-centos7.x下：
-vim /etc/firewalld/zones/public.xml 添加3306端口：
-
-&lt;zone&gt;
-    &lt;short&gt;Public&lt;/short&gt;
-    &lt;description&gt;For use in public areas. You do not trust the other computers on networks 
-        to not harm your computer. Only selected incoming connections are accepted.&lt;/description&gt;
-    &lt;service name=&quot;dhcpv6-client&quot;/&gt;
-    &lt;service name=&quot;ssh&quot;/&gt;
-    &lt;service name=&quot;http&quot;/&gt;
-    &lt;port protocol=&quot;tcp&quot; port=&quot;3306&quot;/&gt;
-&lt;/zone&gt;
-重启firewalld：systemctl restart firewalld.service
-
-centos6.x下：
-vim /etc/sysconfig/iptables 添加3306端口：
-
--A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT   #允许80端口通过防火墙
--A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT   #允许3306端口通过防火墙
--A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
-
-如果/etc/my.cnf或者/etc/mysql/my.cnf配置文件中有bind-address，则需要修改配置：
-（1）注释掉 即：#bind-address=127.0.0.1
-（2）修改为：bind-addess=192.168.11.120 即本机的ip
-（3）修改为：bind-address=0.0.0.0
-</code></pre>
       
     </div>
 
@@ -432,7 +392,7 @@ vim /etc/sysconfig/iptables 添加3306端口：
       
         <div class="post-tags">
           
-            <a href="/tags/Mysql/" rel="tag">#Mysql</a>
+            <a href="/tags/Python/" rel="tag">#Python</a>
           
         </div>
       
@@ -441,17 +401,13 @@ vim /etc/sysconfig/iptables 添加3306端口：
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/02/03/ssh-alive/" rel="next" title="How to Keep Alive SSH Sessions">
-                <i class="fa fa-chevron-left"></i> How to Keep Alive SSH Sessions
+              <a href="/2016/05/25/iframe-upload/" rel="next" title="iframe实现无刷新上传文件">
+                <i class="fa fa-chevron-left"></i> iframe实现无刷新上传文件
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/02/19/sort-algorithm/" rel="prev" title="排序算法">
-                排序算法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -466,10 +422,10 @@ vim /etc/sysconfig/iptables 添加3306端口：
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/02/05/master-slave/"
-     data-title="Mysql 数据库主从同步(Master-Slave)"
+        <div class="ds-share flat" data-thread-key="2016/06/02/python-reptile/"
+     data-title="Python 爬虫(BeautifulSoup)"
      data-content=""
-     data-url="http://jasonhzy.github.io/2016/02/05/master-slave/">
+     data-url="http://jasonhzy.github.io/2016/06/02/python-reptile/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -496,8 +452,8 @@ vim /etc/sysconfig/iptables 添加3306端口：
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/02/05/master-slave/"
-           data-title="Mysql 数据库主从同步(Master-Slave)" data-url="http://jasonhzy.github.io/2016/02/05/master-slave/">
+      <div class="ds-thread" data-thread-key="2016/06/02/python-reptile/"
+           data-title="Python 爬虫(BeautifulSoup)" data-url="http://jasonhzy.github.io/2016/06/02/python-reptile/">
       </div>
     
   </div>
@@ -630,7 +586,7 @@ vim /etc/sysconfig/iptables 添加3306端口：
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制的原理"><span class="nav-number">1.</span> <span class="nav-text">主从复制的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境描述"><span class="nav-number">2.</span> <span class="nav-text">环境描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql主从配置"><span class="nav-number">3.</span> <span class="nav-text">mysql主从配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql主服务器配置-master"><span class="nav-number">3.1.</span> <span class="nav-text">mysql主服务器配置(master)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql从服务器配置-slave"><span class="nav-number">3.2.</span> <span class="nav-text">mysql从服务器配置(slave)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql数据库同步验证"><span class="nav-number">3.3.</span> <span class="nav-text">mysql数据库同步验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关问题"><span class="nav-number">4.</span> <span class="nav-text">相关问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络爬虫"><span class="nav-number">1.</span> <span class="nav-text">网络爬虫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖库"><span class="nav-number">2.</span> <span class="nav-text">安装依赖库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装解析器"><span class="nav-number">3.</span> <span class="nav-text">安装解析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#采用BeautifulSoup爬取示例"><span class="nav-number">4.</span> <span class="nav-text">采用BeautifulSoup爬取示例</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
