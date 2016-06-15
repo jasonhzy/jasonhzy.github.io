@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Git 常用命令">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git.jpg">
-<meta property="og:updated_time" content="2016-05-14T11:44:15.000Z">
+<meta property="og:updated_time" content="2016-06-13T03:58:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基本命令">
 <meta name="twitter:description" content="Git 常用命令">
@@ -337,7 +337,10 @@ git config --global user.email &quot;lotush@163.com&quot;
 　　color.interactive=auto
 　　color.diff=auto
 　　...
-</code></pre><h6 id="2-创建一个本地仓库的克隆版本"><a href="#2-创建一个本地仓库的克隆版本" class="headerlink" title="2.创建一个本地仓库的克隆版本"></a>2.创建一个本地仓库的克隆版本</h6><pre><code>git clone https://github.com/PinetTech/pinet-wechat.git &lt;指定目录&gt;
+</code></pre><h6 id="2-创建一个本地仓库的克隆版本"><a href="#2-创建一个本地仓库的克隆版本" class="headerlink" title="2.创建一个本地仓库的克隆版本"></a>2.创建一个本地仓库的克隆版本</h6><p>初始化Git仓库</p>
+<pre><code>git init --bare xxxx.git #xxx.git即仓库名称    
+</code></pre><p>克隆代码仓库</p>
+<pre><code>git clone https://github.com/PinetTech/pinet-wechat.git &lt;指定目录&gt;
 </code></pre><p>克隆指定分支(jason分支)</p>
 <pre><code>git clone -b jason https://github.com/PinetTech/pinet-wechat.git
 </code></pre><h6 id="3-添加文件到缓冲区"><a href="#3-添加文件到缓冲区" class="headerlink" title="3.添加文件到缓冲区"></a>3.添加文件到缓冲区</h6><pre><code>git add &lt;filename&gt;或者git add *
@@ -565,21 +568,21 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
