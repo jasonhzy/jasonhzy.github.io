@@ -8,7 +8,6 @@
 <html class="theme-next mist use-motion">
 <head>
   <meta charset="UTF-8"/>
-<meta property="wb:webmaster" content="5dab17e5cf234d1d" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -28,7 +27,36 @@
 
 
 
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
 
 
 
@@ -37,7 +65,7 @@
 
 <link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="Codeigniter,PHP," />
@@ -49,7 +77,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
 
 
 
@@ -77,7 +105,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
+    sidebar: {"position":"left","display":"hide"},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -86,6 +114,11 @@
     }
   };
 </script>
+
+
+
+
+  <link rel="canonical" href="http://jasonhzy.github.io/2016/02/27/ci-smarty/"/>
 
   <title> Codeigniter集成smarty | Jason Website </title>
 </head>
@@ -111,6 +144,8 @@
 
 
 
+
+
   
   
     
@@ -120,10 +155,11 @@
     <div class="headband"></div>
 
 	 <!-- --------- add Fork me on Github ---------- -->
-	<a href="https://github.com/jasonhzy"target="_blank" ><img style="position: absolute; top: 0; right: 0; border: 0;"
-		src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
-		alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
-	 <!----------- add Fork me on Github ------------> 
+	<a href="https://github.com/jasonhzy"target="_blank" ><img style="position: absolute; top: 0;
+		right: 0; border: 0;width: 100px;"
+				src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
+				alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+	<!----------- add Fork me on Github ------------>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-meta ">
@@ -151,25 +187,15 @@
   
 
   
-    <ul id="menu" class="menu menu-left">
+    <ul id="menu" class="menu">
       
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
-            
-            分类
           </a>
         </li>
       
@@ -177,7 +203,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -187,9 +213,19 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -197,7 +233,7 @@
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
             关于
           </a>
@@ -205,7 +241,16 @@
       
 
       
-      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
       
     </ul>
   
@@ -213,19 +258,12 @@
   
     <div class="site-search">
       
-  <form class="site-search-form">
-  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
-</form>
-
-<script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'wYfuGs5H93pB2SpT_N-x','2.0.0');
-</script>
-
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
 
 
     </div>
@@ -315,6 +353,8 @@
 
           
           
+
+          
         </div>
       </header>
     
@@ -339,6 +379,40 @@
 <h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>编写控制器：application/controllers/Example.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span> <span class="keyword">extends</span> <span class="title">CI_Controller</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="comment">// This example is taken from the Smarty demo and modified slightly</span></span><br><span class="line">		$this-&gt;ci_smarty-&gt;assign(<span class="string">"Name"</span>,<span class="string">"Fred Irving Johnathan Bradley Peppergill"</span>);</span><br><span class="line">		$this-&gt;ci_smarty-&gt;assign(<span class="string">"FirstName"</span>,<span class="keyword">array</span>(<span class="string">"John"</span>,<span class="string">"Mary"</span>,<span class="string">"James"</span>,<span class="string">"Henry"</span>));</span><br><span class="line">		$this-&gt;ci_smarty-&gt;assign(<span class="string">"LastName"</span>,<span class="keyword">array</span>(<span class="string">"Doe"</span>,<span class="string">"Smith"</span>,<span class="string">"Johnson"</span>,<span class="string">"Case"</span>));</span><br><span class="line">		$this-&gt;ci_smarty-&gt;assign(<span class="string">"Class"</span>,<span class="keyword">array</span>(<span class="keyword">array</span>(<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"C"</span>,<span class="string">"D"</span>), <span class="keyword">array</span>(<span class="string">"E"</span>, <span class="string">"F"</span>, <span class="string">"G"</span>, <span class="string">"H"</span>), </span><br><span class="line">				<span class="keyword">array</span>(<span class="string">"I"</span>, <span class="string">"J"</span>, <span class="string">"K"</span>, <span class="string">"L"</span>), <span class="keyword">array</span>(<span class="string">"M"</span>, <span class="string">"N"</span>, <span class="string">"O"</span>, <span class="string">"P"</span>)));</span><br><span class="line">		$this-&gt;ci_smarty-&gt;assign(<span class="string">"contacts"</span>, <span class="keyword">array</span>(<span class="keyword">array</span>(<span class="string">"phone"</span> =&gt; <span class="string">"555-1234"</span>, <span class="string">"fax"</span> =&gt; <span class="string">"555-2345"</span>, </span><br><span class="line">			<span class="string">"cell"</span> =&gt; <span class="string">"999-9999"</span>), <span class="keyword">array</span>(<span class="string">"phone"</span> =&gt; <span class="string">"555-4444"</span>, <span class="string">"fax"</span> =&gt; <span class="string">"555-3333"</span>, <span class="string">"cell"</span> =&gt; <span class="string">"888-8888"</span>)));</span><br><span class="line"></span><br><span class="line">		$this-&gt;ci_smarty-&gt;assign(<span class="string">"state_values"</span>, <span class="keyword">array</span>( <span class="string">'AL'</span>, <span class="string">'AK'</span>, <span class="string">'AZ'</span>, <span class="string">'AR'</span>, <span class="string">'CA'</span>, <span class="string">'CO'</span>, <span class="string">'CT'</span>, <span class="string">'DE'</span>, </span><br><span class="line">			<span class="string">'FL'</span>, <span class="string">'GA'</span>, <span class="string">'HI'</span>, <span class="string">'ID'</span>, <span class="string">'IL'</span>, <span class="string">'IN'</span>, <span class="string">'IA'</span>, <span class="string">'KS'</span>, <span class="string">'KY'</span>, <span class="string">'LA'</span>, <span class="string">'ME'</span>, <span class="string">'MD'</span>, <span class="string">'MA'</span>, <span class="string">'MI'</span>, <span class="string">'MN'</span>, </span><br><span class="line">			<span class="string">'MS'</span>, <span class="string">'MO'</span>, <span class="string">'MT'</span>, <span class="string">'NE'</span>, <span class="string">'NV'</span>, <span class="string">'NH'</span>, <span class="string">'NJ'</span>, <span class="string">'NM'</span>, <span class="string">'NY'</span>, <span class="string">'NC'</span>, <span class="string">'ND'</span>, <span class="string">'OH'</span>, <span class="string">'OK'</span>, <span class="string">'OR'</span>, <span class="string">'PA'</span>, </span><br><span class="line">			<span class="string">'RI'</span>, <span class="string">'SC'</span>, <span class="string">'SD'</span>, <span class="string">'TN'</span>, <span class="string">'TX'</span>, <span class="string">'UT'</span>, <span class="string">'VT'</span>, <span class="string">'VA'</span>, <span class="string">'WA'</span>, <span class="string">'WV'</span>, <span class="string">'WI'</span>, <span class="string">'WY'</span> ));</span><br><span class="line">		$this-&gt;ci_smarty-&gt;assign(<span class="string">"state_output"</span>, <span class="keyword">array</span>( <span class="string">'Alabama'</span>, <span class="string">'Alaska'</span>, <span class="string">'Arizona'</span>, <span class="string">'Arkansas'</span>, <span class="string">'California'</span>,</span><br><span class="line">			<span class="string">'Colorado'</span>, <span class="string">'Connecticut'</span>, <span class="string">'Delaware'</span>, <span class="string">'Florida'</span>, <span class="string">'Georgia'</span>, <span class="string">'Hawaii'</span>, <span class="string">'Idaho'</span>, <span class="string">'Illinois'</span>, <span class="string">'Indiana'</span>, </span><br><span class="line">			<span class="string">'Iowa'</span>, <span class="string">'Kansas'</span>, <span class="string">'Kentucky'</span>, <span class="string">'Louisiana'</span>, <span class="string">'Maine'</span>, <span class="string">'Maryland'</span>, <span class="string">'Massachusetts'</span>, <span class="string">'Michigan'</span>, </span><br><span class="line">			<span class="string">'Minnesota'</span>, <span class="string">'Mississippi'</span>, <span class="string">'Missouri'</span>, <span class="string">'Montana'</span>, <span class="string">'Nebraska'</span>, <span class="string">'Nevada'</span>, <span class="string">'New hampshire'</span>, </span><br><span class="line">			<span class="string">'New Jersey'</span>, <span class="string">'New Mexico'</span>, <span class="string">'New York'</span>, <span class="string">'North Carolina'</span>, <span class="string">'North Dakota'</span>, <span class="string">'Ohio'</span>, <span class="string">'Oklahoma'</span>, </span><br><span class="line">			<span class="string">'Oregon'</span>, <span class="string">'Pennsylvania'</span>, <span class="string">'Rhode Island'</span>, <span class="string">'South Carolina'</span>, <span class="string">'South Dakota'</span>, <span class="string">'Tennessee'</span>, </span><br><span class="line">			<span class="string">'Texas'</span>, <span class="string">'Utah'</span>, <span class="string">'Vermont'</span>, <span class="string">'Virginia'</span>, <span class="string">'Washington'</span>,	<span class="string">'West Virginia'</span>, <span class="string">'Wisconsin'</span>, <span class="string">'Wyoming'</span> ));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// english is the default if you don't set lang</span></span><br><span class="line">		$this-&gt;ci_smarty-&gt;assign(<span class="string">"lang"</span>, <span class="string">"english"</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Set the validation rules if this is a submit</span></span><br><span class="line">		<span class="keyword">if</span> ( $this-&gt;input-&gt;post(<span class="string">'action'</span>) == <span class="string">'submit'</span> )</span><br><span class="line">		&#123;</span><br><span class="line">			$this-&gt;form_validation-&gt;set_rules(<span class="string">'username'</span>, <span class="string">'Username'</span>, </span><br><span class="line">					<span class="string">'trim|required|min_length[5]|max_length[12]|xss_clean'</span>);</span><br><span class="line">			$this-&gt;form_validation-&gt;set_rules(<span class="string">'password'</span>, <span class="string">'Password'</span>, </span><br><span class="line">					<span class="string">'trim|required|matches[passconf]|md5'</span>);</span><br><span class="line">			$this-&gt;form_validation-&gt;set_rules(<span class="string">'passconf'</span>, <span class="string">'Password Confirmation'</span>, <span class="string">'trim|required'</span>);</span><br><span class="line">			$this-&gt;form_validation-&gt;set_rules(<span class="string">'email'</span>, <span class="string">'Email'</span>, <span class="string">'trim|required|valid_email'</span>);</span><br><span class="line">			$this-&gt;form_validation-&gt;set_rules(<span class="string">'state'</span>, <span class="string">'State'</span>, <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> ( ! $this-&gt;form_validation-&gt;run() )</span><br><span class="line">			&#123;</span><br><span class="line">				$data[<span class="string">'error'</span>] = <span class="string">'Check and fix the form errors below'</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				$data[<span class="string">'message'</span>] = <span class="string">'Thanks for posting!'</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// These assignments are passed by the associative array</span></span><br><span class="line">		$data[<span class="string">'title'</span>] = <span class="string">'Welcome to the Smarty Website'</span>;</span><br><span class="line">		$data[<span class="string">'bold'</span>] = <span class="keyword">true</span>;</span><br><span class="line">		$data[<span class="string">'ip_address'</span>] = $this-&gt;input-&gt;server(<span class="string">'REMOTE_ADDR'</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Calling the convenience function view() that allows passing data</span></span><br><span class="line">		$this-&gt;ci_smarty-&gt;view( <span class="string">'example.tpl'</span>, $data );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>运行结果：<br><img src="/images/ci_smarty/ci_example.png" alt="Example"></p>
 <p>参考资料<br><a href="http://www.coolphptools.com/codeigniter-smarty" target="_blank" rel="external">CodeIgniter+Smarty - Perfect Together</a><br><a href="/download/codeigniter-smarty-3.1.zip">代码下载</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wxpay.png" alt="Jason hu WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="Jason hu Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
 
       
     </div>
@@ -459,24 +533,28 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
-          <div class="site-state-item site-state-categories">
-            <a href="/categories">
-              <span class="site-state-item-count">19</span>
-              <span class="site-state-item-name">分类</span>
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
               </a>
-          </div>
+            </div>
+          
 
-          <div class="site-state-item site-state-tags">
-            <a href="/tags">
-              <span class="site-state-item-count">24</span>
-              <span class="site-state-item-name">标签</span>
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
               </a>
-          </div>
+            </div>
+          
 
         </nav>
 
@@ -486,42 +564,47 @@
           
             
               <span class="links-of-author-item">
-                <a href="https://github.com/jasonhzy" target="_blank">
+                <a href="https://github.com/jasonhzy" target="_blank" title="GitHub">
                   
-                    <i class="fa fa-github"></i> GitHub
+                    <i class="fa fa-fw fa-github"></i>
                   
+                  GitHub
                 </a>
               </span>
             
               <span class="links-of-author-item">
-                <a href="http://weibo.com/lotushzy" target="_blank">
+                <a href="http://weibo.com/lotushzy" target="_blank" title="Weibo">
                   
-                    <i class="fa fa-weibo"></i> Weibo
+                    <i class="fa fa-fw fa-weibo"></i>
                   
+                  Weibo
                 </a>
               </span>
             
               <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/lotushzy?trk=hp-identity-name" target="_blank">
+                <a href="https://www.linkedin.com/in/lotushzy?trk=hp-identity-name" target="_blank" title="Linkedin">
                   
-                    <i class="fa fa-globe"></i> Linkedin
+                    <i class="fa fa-fw fa-globe"></i>
                   
+                  Linkedin
                 </a>
               </span>
             
               <span class="links-of-author-item">
-                <a href="https://twitter.com/lotushzy" target="_blank">
+                <a href="https://twitter.com/lotushzy" target="_blank" title="Twitter">
                   
-                    <i class="fa fa-twitter"></i> Twitter
+                    <i class="fa fa-fw fa-twitter"></i>
                   
+                  Twitter
                 </a>
               </span>
             
               <span class="links-of-author-item">
-                <a href="http://segmentfault.com/u/jasonhu" target="_blank">
+                <a href="http://segmentfault.com/u/jasonhu" target="_blank" title="Segmentfault">
                   
-                    <i class="fa fa-globe"></i> Segmentfault
+                    <i class="fa fa-fw fa-globe"></i>
                   
+                  Segmentfault
                 </a>
               </span>
             
@@ -531,17 +614,13 @@
         
         
 
-        <div class="links-of-author motion-element">
-          
-        </div>
+        
+        
 
       </section>
 
       
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc-indicator-top post-toc-indicator">
-            <i class="fa fa-angle-double-up"></i>
-          </div>
           <div class="post-toc">
             
               
@@ -549,9 +628,6 @@
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#准备代码包"><span class="nav-number">1.</span> <span class="nav-text">准备代码包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置smarty"><span class="nav-number">2.</span> <span class="nav-text">配置smarty</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建模板目录"><span class="nav-number">3.</span> <span class="nav-text">创建模板目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写安装代码"><span class="nav-number">4.</span> <span class="nav-text">编写安装代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新CodeIgniter配置"><span class="nav-number">5.</span> <span class="nav-text">更新CodeIgniter配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">6.</span> <span class="nav-text">测试</span></a></li></ol></div>
             
-          </div>
-          <div class="post-toc-indicator-bottom post-toc-indicator">
-            <i class="fa fa-angle-double-down"></i>
           </div>
         </section>
       
@@ -568,10 +644,10 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2015 - 
   <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
-    <i class="icon-next-heart fa fa-heart"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Jason hu</span>
 </div>
@@ -587,213 +663,78 @@
   </a>
 </div>
 
+        
 
-
+        
       </div>
     </footer>
 
-    <div class="back-to-top"></div>
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
   </div>
 
   
 
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
 
   
 
 
 
+  
   <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
+  
   <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
+  
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
 
 
-
-  
-  
 
   
   
-<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
 
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.motion.complete', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      var $indicator = $(indicator);
-      var opacity = action === 'show' ? 1 : 0;
-      $indicator.velocity ?
-        $indicator.velocity('stop').velocity({
-          opacity: opacity
-        }, { duration: 100 }) :
-        $indicator.stop().animate({
-          opacity: opacity
-        }, 100);
-    }
-
-  });
-</script>
-
-<script type="text/javascript" id="sidebar.nav">
-  $(document).ready(function () {
-    var html = $('html');
-    var TAB_ANIMATE_DURATION = 200;
-    var hasVelocity = $.isFunction(html.velocity);
-
-    $('.sidebar-nav li').on('click', function () {
-      var item = $(this);
-      var activeTabClassName = 'sidebar-nav-active';
-      var activePanelClassName = 'sidebar-panel-active';
-      if (item.hasClass(activeTabClassName)) {
-        return;
-      }
-
-      var currentTarget = $('.' + activePanelClassName);
-      var target = $('.' + item.data('target'));
-
-      hasVelocity ?
-        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-            .addClass(activePanelClassName);
-        }) :
-        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-          currentTarget.hide();
-          target
-            .stop()
-            .css({'opacity': 0, 'display': 'block'})
-            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-              currentTarget.removeClass(activePanelClassName);
-              target.addClass(activePanelClassName);
-            });
-        });
-
-      item.siblings().removeClass(activeTabClassName);
-      item.addClass(activeTabClassName);
-    });
-
-    $('.post-toc a').on('click', function (e) {
-      e.preventDefault();
-      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
-      var offset = $(targetSelector).offset().top;
-      hasVelocity ?
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        }) :
-        $('html, body').stop().animate({
-          scrollTop: offset
-        }, 500);
-    });
-
-    // Expand sidebar on post detail page by default, when post has a toc.
-    NexT.motion.middleWares.sidebar = function () {
-      var $tocContent = $('.post-toc-content');
-
-      if (CONFIG.sidebar === 'post') {
-        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
-          NexT.utils.displaySidebar();
-        }
-      }
-    };
-  });
-</script>
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
 
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
 
 
 
@@ -824,12 +765,143 @@
 
 
 
-  
-  
 
   
   
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
 
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
 
 </body>
 </html>
