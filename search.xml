@@ -8,7 +8,44 @@
       <url>http://jasonhzy.github.io/2016/06/15/git-stash/</url>
       <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在使用Git开发时，开发者在自己的分支上进行开发，由于需要紧急开发一个新的分支，而当前手里的完成的工作还不能合并。<br>此时，使用git stash命令可以将当前做过的修改从工作区保存到暂存区中。</p>
 <a id="more"></a>
-<p>## </p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="添加改动到stash"><a href="#添加改动到stash" class="headerlink" title="添加改动到stash"></a>添加改动到stash</h3><pre><code>git stash [save [--patch] [-k|--[no-]keep-index] [-q|--quiet]
+                    [-u|--include-untracked] [-a|--all]
+                    [&lt;message&gt;]]
+</code></pre><p>当前在jason分支上，我修改a.php文件，并增加了一个untracked files:<br><img src="/images/git-stash/git-status.png" alt="git status"></p>
+<p>1.如果没有untracked files,即：</p>
+<pre><code>git stash
+</code></pre><p>2.如果需要在保存工作进度的时候使用指定的说明，必须使用如下格式:</p>
+<pre><code>git stash save &quot;message&quot;
+</code></pre><p>3.使用参数–patch会显示工作区和HEAD的差异，通过对差异文件的编辑决定在进度中<br>最终要保存的工作区的内容，通过编辑差异文件可以在进度中排除无关内容。</p>
+<p>4.使用-k或者–keep-index参数，在保存进度后不会将暂存区重置（默认会将暂存区和工作区强制重置，即命令：–no-keep-index的效果）<br>5.使用-u|–include-untracked，同时储藏未跟踪文件。不影响被忽略的文件</p>
+<pre><code>git stash save -u|--include-untracked
+</code></pre><p><img src="/images/git-stash/git-stash.png" alt="git-stash-save">    </p>
+<p>6.使用-a|–all来储藏所有的改动，包括未跟踪文件。不仅仅把新加入的代码文件放入暂存区，还会把用.gitignore忽略的文件放入暂存区</p>
+<pre><code>git stash save -a|--all
+</code></pre><h3 id="查看已经保存的储藏列表"><a href="#查看已经保存的储藏列表" class="headerlink" title="查看已经保存的储藏列表"></a>查看已经保存的储藏列表</h3><pre><code>$ git stash list
+stash@{0}: On jason: save change msg
+</code></pre><h3 id="删除储藏"><a href="#删除储藏" class="headerlink" title="删除储藏"></a>删除储藏</h3><p>如果没有指定是第几个储藏时，默认会删除最近的一次储藏</p>
+<pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
+</code></pre><p>删除所有的储藏</p>
+<pre><code>git stash clear
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#x74;&#x61;&#115;&#104;&#64;&#123;&#110;&#125;">&#x73;&#x74;&#x61;&#115;&#104;&#64;&#123;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
+<pre><code>git stash show [&lt;stash@{n}&gt;]
+</code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
+</code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
+<pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
+git stash apply #不会从储藏列表中删除刚刚恢复的暂存
+</code></pre><p>如果使用<a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#x74;&#97;&#115;&#x68;&#x40;&#123;&#110;&#125;">&#x73;&#x74;&#97;&#115;&#x68;&#x40;&#123;&#110;&#125;</a>参数，则从该<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#115;&#116;&#x61;&#115;&#104;&#x40;&#123;&#110;&#125;">&#115;&#116;&#x61;&#115;&#104;&#x40;&#123;&#110;&#125;</a>中恢复保存的内容</p>
+<pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
+git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
+</code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
+<pre><code>git stash pop --index
+git stash apply --index
+</code></pre><h3 id="使用储藏的内容创建新的分支"><a href="#使用储藏的内容创建新的分支" class="headerlink" title="使用储藏的内容创建新的分支"></a>使用储藏的内容创建新的分支</h3><p><branch-name>不能是已经存在的分支，并切换到创建的新分支，删除掉该储藏</branch-name></p>
+<pre><code>git stash branch &lt;branch-name&gt; [&lt;stash@{n}&gt;]
+</code></pre><h3 id="查看储藏列表的SHA-1值"><a href="#查看储藏列表的SHA-1值" class="headerlink" title="查看储藏列表的SHA-1值"></a>查看储藏列表的SHA-1值</h3><pre><code>$ git reflog show refs/stash
+60a3985 refs/stash@{0}: On jason: save change msg    
+</code></pre><p>参考资料</p>
+<p>1.<a href="http://myoss.github.io/2016/Git%E6%93%8D%E4%BD%9C/" target="_blank" rel="external">Git操作</a></p>
 ]]></content>
     </entry>
     
