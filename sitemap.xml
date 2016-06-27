@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jasonhzy.github.io/2016/02/03/git-tech/</loc>
+    
+    <lastmod>2016-06-27T05:24:29.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2016/06/15/git-stash/</loc>
     
     <lastmod>2016-06-17T07:06:59.000Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://jasonhzy.github.io/2016/05/05/git-log/</loc>
     
     <lastmod>2016-06-16T11:14:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/03/git-tech/</loc>
-    
-    <lastmod>2016-06-13T03:58:36.000Z</lastmod>
     
   </url>
   
