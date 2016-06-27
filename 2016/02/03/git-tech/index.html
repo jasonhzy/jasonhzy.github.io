@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Git 常用命令">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git.jpg">
-<meta property="og:updated_time" content="2016-06-27T05:24:29.000Z">
+<meta property="og:updated_time" content="2016-06-27T05:31:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基本命令">
 <meta name="twitter:description" content="Git 常用命令">
@@ -482,7 +482,7 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
 </tr>
 </tbody>
 </table>
-<h2 id="常见解决问题方案"><a href="#常见解决问题方案" class="headerlink" title="常见解决问题方案"></a>常见解决问题方案</h2><p>1.git add添加要提交的文件的时候，如果文件名是中文，会显示形如274\232\350\256\256\346\200\273\347\273\223.png 的乱码,有两种解决方案：<br>core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常。<br>1）利用git命令配置core.quotepath为false</p>
+<h2 id="常见解决问题方案"><a href="#常见解决问题方案" class="headerlink" title="常见解决问题方案"></a>常见解决问题方案</h2><p>1.git add添加要提交的文件的时候，如果文件名是中文，会显示形如274\232\350\256\256\346\200\273\347\273\223.png 的乱码,core.quotepath设为false的话，就不会对0x80以上的字符进行quote。中文显示正常。有两种解决方案：<br>1）利用git命令配置core.quotepath为false</p>
 <pre><code>git config --global core.quotepath false
 </code></pre><p>2）修改 ~/.gitconfig，找到 [core] 的位置後面，加上：</p>
 <pre><code>[core]
