@@ -28,13 +28,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x73;&#x74;&#97;&#115;&#x68;&#64;&#x7b;&#x6e;&#125;">&#x73;&#x74;&#97;&#115;&#x68;&#64;&#x7b;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#x74;&#97;&#x73;&#x68;&#x40;&#123;&#110;&#125;">&#x73;&#x74;&#97;&#x73;&#x68;&#x40;&#123;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#115;&#x74;&#x61;&#115;&#x68;&#64;&#x7b;&#110;&#x7d;">&#115;&#x74;&#x61;&#115;&#x68;&#64;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#115;&#116;&#97;&#115;&#104;&#x40;&#123;&#110;&#x7d;">&#115;&#116;&#97;&#115;&#104;&#x40;&#123;&#110;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#115;&#116;&#97;&#115;&#x68;&#x40;&#x7b;&#110;&#125;">&#115;&#116;&#97;&#115;&#x68;&#x40;&#x7b;&#110;&#125;</a>参数，则从该<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#115;&#116;&#97;&#x73;&#104;&#64;&#123;&#110;&#125;">&#115;&#116;&#97;&#x73;&#104;&#64;&#123;&#110;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -1288,12 +1288,11 @@ git branch -a #查看远程分支
 </code></pre><h6 id="8-git上修改后还原所有的"><a href="#8-git上修改后还原所有的" class="headerlink" title="8.git上修改后还原所有的"></a>8.git上修改后还原所有的</h6><pre><code>git reset --hard
 </code></pre><h6 id="9-提交之前撤销add操作"><a href="#9-提交之前撤销add操作" class="headerlink" title="9.提交之前撤销add操作"></a>9.提交之前撤销add操作</h6><pre><code>git reset HEAD 或者    git revert HEAD --no-commit
 </code></pre><h6 id="10-查看文件被谁改动"><a href="#10-查看文件被谁改动" class="headerlink" title="10.查看文件被谁改动"></a>10.查看文件被谁改动</h6><pre><code>git blame FILE
-</code></pre><h6 id="11-还原已经commit的"><a href="#11-还原已经commit的" class="headerlink" title="11.还原已经commit的"></a>11.还原已经commit的</h6><p>git log 命令查看提交的历史记录<br>在Git中，用HEAD表示当前版本，也就是最新的提交(commit)，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100，例如回退到上一个版本：<br>        git reset HEAD^/commit id</p>
-<pre><code>#改变本地HEAD的指针还原到工作区，我们可以再加工或者其他的操作。
-即已经提交的可以恢复到当前工作区，可以再次修改提交
+</code></pre><h6 id="11-还原已经add或commit的"><a href="#11-还原已经add或commit的" class="headerlink" title="11.还原已经add或commit的"></a>11.还原已经add或commit的</h6><p>git log 命令查看提交的历史记录<br>在Git中，用HEAD表示当前版本，也就是最新的提交(commit)，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100，例如回退到上一个版本：</p>
+<pre><code>git reset HEAD^/commit id
+#改变本地HEAD的指针还原到工作区，我们可以再加工或者其他的操作。即已经提交的可以恢复到当前工作区，可以再次修改提交
 git reset --hard HEAD^/commit id
-#强制移动指针到这个分支，会销毁它前面的所有的信息，本地也没有了，
-即不可恢复到工作区进行修改了
+#强制移动指针到这个分支，会销毁它前面的所有的信息，本地也没有了，即不可恢复到工作区进行修改了
 </code></pre><h6 id="12-恢复到某个版本"><a href="#12-恢复到某个版本" class="headerlink" title="12.恢复到某个版本"></a>12.恢复到某个版本</h6><p>git reflog用来记录每一次操作的命令，记录着每次操作的commit_id<br>如果回退到某个版本:</p>
 <pre><code>git reset --hard &lt;commit id&gt;
 git revert &lt;commit id&gt;
