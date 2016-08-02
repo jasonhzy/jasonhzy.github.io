@@ -94,12 +94,17 @@ bool setcookie ( string $name [, string $value [, int $expire = 0 [, string $pat
 <meta property="og:description" content="在PHP中用setcookie 来设置网站的cookie，该函数的用法如下：
 
 bool setcookie ( string $name [, string $value [, int $expire = 0 [, string $path [, string$domain [, bool $secure = false [, bool $httponly = false ]]]]]])">
-<meta property="og:updated_time" content="2016-08-01T02:04:16.000Z">
+<meta property="og:image" content="http://jasonhzy.github.io/images/php-cookie/father_1st_view.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/php-cookie/child_1st_view.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/php-cookie/father_2nd_view.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/php-cookie/child_2nd_view.png">
+<meta property="og:updated_time" content="2016-08-02T12:43:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP COOKIE path/domain参数">
 <meta name="twitter:description" content="在PHP中用setcookie 来设置网站的cookie，该函数的用法如下：
 
 bool setcookie ( string $name [, string $value [, int $expire = 0 [, string $path [, string$domain [, bool $secure = false [, bool $httponly = false ]]]]]])">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/php-cookie/father_1st_view.png">
 
 
 
@@ -432,7 +437,28 @@ bool setcookie ( string $name [, string $value [, int $expire = 0 [, string $pat
 </tr>
 </tbody>
 </table>
-<h2 id="path参数"><a href="#path参数" class="headerlink" title="path参数"></a>path参数</h2><h2 id="domain参数"><a href="#domain参数" class="headerlink" title="domain参数"></a>domain参数</h2><p>第五个参数$domain，它决定了cookie的作用域。现在有如下3个域名，一个顶级域名、一个二级域名和一个三级域名：<br>① lotus.com<br>②blog.lotus.com<br>③test.blog.lotus.com<br>首先在<strong>①lotus.com</strong>域名下设置cookie，做四次测试，分别设置domain参数为空、lotus.com、blog.lotus.com与test.blog.lotus.com<br>√表示该域名下能取到cookie，×表示不能取到cookie</p>
+<h2 id="path参数"><a href="#path参数" class="headerlink" title="path参数"></a>path参数</h2><p>如下的目录结构：<br>coookie<br>├─child<br>│   └── child.php<br>└─father.php<br>father.php中的代码：<br><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">setcookie(<span class="string">"father_set_0"</span>, <span class="string">"default"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>)<span class="comment">;</span></span><br><span class="line">setcookie(<span class="string">"father_set_1"</span>, <span class="string">"/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/"</span>)<span class="comment">;</span></span><br><span class="line">setcookie(<span class="string">"father_set_2"</span>, <span class="string">"/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/child/"</span>)<span class="comment">;</span></span><br><span class="line">setcookie(<span class="string">"father_set_3"</span>, <span class="string">"/cookie/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/cookie/child/"</span>)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">echo <span class="string">'&lt;pre&gt;'</span><span class="comment">;</span></span><br><span class="line">print_r($_COOKIE)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>child.php中的代码：<br><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">setcookie(<span class="string">"child_set_0"</span>, <span class="string">"default"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>)<span class="comment">;</span></span><br><span class="line">setcookie(<span class="string">"child_set_1"</span>, <span class="string">"/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>,<span class="string">"/"</span>)<span class="comment">;</span></span><br><span class="line">setcookie(<span class="string">"child_set_2"</span>, <span class="string">"/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/child"</span>)<span class="comment">;</span></span><br><span class="line">setcookie(<span class="string">"child_set_3"</span>, <span class="string">"/cookie/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/cookie/child/"</span>)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">echo <span class="string">'&lt;pre&gt;'</span><span class="comment">;</span></span><br><span class="line">print_r($_COOKIE)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>按father.php—&gt;child.php—&gt;father.php—&gt;child.php的顺序访问页面，输入出结果如下：<br>第一次访问father.php:</p>
+<p><img src="/images/php-cookie/father_1st_view.png" alt="father_first_view"></p>
+<p>初始状态下客户端没有相关的cookie记录，在上图中只有已收到的cookie，没有已发送的cookie，则打印$_COOKIE数组时是没有输出。<br>　　从上面这点可以看出，页面的每次请求cookie的变化是：页面请求时浏览器发送客户端已有的cookie，服务器端接收cookie将其存入数组$_COOKIE数组中供程序使用；而在服务器端响应本次请求设置的cookie尚未发送到客户端时$_COOKIE数组中是没有记录的。</p>
+<p>第一次访问child.php:</p>
+<p><img src="/images/php-cookie/child_1st_view.png" alt="child_first_view"></p>
+<p>页面打印出的$_COOKIE数组中有两个值，分别是请求时发送的数据,一个页面只能访问路径设置为当前页面路径和父路径的cookie，不能访问兄弟路径的cookie。</p>
+<p>第二次访问father.php:</p>
+<p><img src="/images/php-cookie/father_2nd_view.png" alt="father_second_view"></p>
+<p>这里就能看出来father.php虽然设置了三个cookie，但由于路径的原因浏览器请求时并没有发送其他子路径的cookie以至于不能读取。其中”child_set_1”是子路径下的页面设置的cookie，由于路径是本页面所在路径则能读取。</p>
+<p>　　还有一点值得注意的是，这次访问时没能打印出”child_set_0”的值，在child.php中”child_set_0”的路径是为空的，这点是默认为当前路径，而不是站点根目录的，所有子路径想设置cookie让父路径的页面访问则需要设置路径的。</p>
+<p>第二次访问child.php:</p>
+<p><img src="/images/php-cookie/child_2nd_view.png" alt="child_second_view"></p>
+<p>没能打印出路径为”/child”的cookie，这点说明浏览器只发送“直系”路径关系的cookie值</p>
+<p>总结：</p>
+<ul>
+<li>服务器端每次访问的cookie是每次请求头中发送给服务器端的</li>
+<li>setcookie如果不设置路径，默认为当前页面的路径，父亲路径的页面是无法访问的 </li>
+<li>客户端每次请求只发送当前路径下和“直系”关系的父路径的cookie（父路径的页面是不能访问子路径和兄弟路径的cookie的） </li>
+</ul>
+<h2 id="domain参数"><a href="#domain参数" class="headerlink" title="domain参数"></a>domain参数</h2><p>第五个参数$domain，它决定了cookie的作用域。现在有如下3个域名，一个顶级域名、一个二级域名和一个三级域名：<br>① lotus.com<br>②blog.lotus.com<br>③test.blog.lotus.com<br>首先在<strong>①lotus.com</strong>域名下设置cookie，做四次测试，分别设置domain参数为空、lotus.com、blog.lotus.com与test.blog.lotus.com<br>√表示该域名下能取到cookie，×表示不能取到cookie</p>
 <table>
 <thead>
 <tr>
