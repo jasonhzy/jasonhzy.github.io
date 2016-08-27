@@ -4,9 +4,24 @@
   
     
     <entry>
-      <title><![CDATA[nginx alias root]]></title>
+      <title><![CDATA[nginx 文件路径配置alias&root]]></title>
       <url>http://jasonhzy.github.io/2016/08/25/nginx-alias-root/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<p>nginx指定文件路径有两种方式root和alias，root与alias主要区别在于nginx如何解释location后面的uri，这会使两者分别以不同的方式将请求映射到服务器文件上。</p>
+<a id="more"></a>
+<h1 id="最基本的区别"><a href="#最基本的区别" class="headerlink" title="最基本的区别"></a>最基本的区别</h1><p>alias 指定的目录是准确的，给location指定一个目录。<br>root 指定目录的上级目录，并且该上级目录要含有locatoin指定名称的同名目录。<br>以root方式设置资源路径：</p>
+<pre><code>语法: root path;
+配置块: http、server、location、if
+</code></pre><p>以alias 方式设置资源路径</p>
+<pre><code>语法: alias path;
+配置块: location
+</code></pre><p>Example:<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">location /img/ &#123;</span><br><span class="line">	<span class="built_in">alias</span> /<span class="built_in">var</span>/www/<span class="built_in">image</span>/;</span><br><span class="line">&#125;</span><br><span class="line">#若按照上述配置的话，则访问/img/目录里面的文件时，ningx会自动去/<span class="built_in">var</span>/www/<span class="built_in">image</span>/目录找文件</span><br><span class="line">location /img/ &#123;</span><br><span class="line">	root /<span class="built_in">var</span>/www/<span class="built_in">image</span>;</span><br><span class="line">&#125;</span><br><span class="line">#若按照这种配置的话，则访问/img/目录下的文件时，nginx会去/<span class="built_in">var</span>/www/<span class="built_in">image</span>/img/目录下找文件</span><br></pre></td></tr></table></figure></p>
+<p>注意：</p>
+<pre><code>1.使用alias时，目录名后面一定要加”/“。
+2.使用alias标签的目录块中不能使用rewrite的break。
+3.alias在使用正则匹配时，必须捕捉要匹配的内容并在指定的内容处使用。
+4.alias只能位于location块中
+</code></pre><h1 id="配置alias支持PHP-fastcgi解析"><a href="#配置alias支持PHP-fastcgi解析" class="headerlink" title="配置alias支持PHP fastcgi解析"></a>配置alias支持PHP fastcgi解析</h1><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> /app &#123;</span><br><span class="line">	<span class="attribute">alias</span> /project/app/;</span><br><span class="line">	<span class="attribute">index</span> index.php;			</span><br><span class="line">	<span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123; <span class="comment">#方案一</span></span><br><span class="line">		<span class="attribute">fastcgi_pass</span> <span class="number">127.0.0.1:9100</span>;</span><br><span class="line">		<span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">		<span class="attribute">include</span> fastcgi.conf;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#location ~ /app/.+\.php$ &#123; ＃方案二</span></span><br><span class="line"><span class="comment">#	rewrite /app/(.+\.php) /$1 break;</span></span><br><span class="line"><span class="comment">#	include fastcgi.conf;</span></span><br><span class="line"><span class="comment">#	fastcgi_pass 127.0.0.1:9100;</span></span><br><span class="line"><span class="comment">#	fastcgi_index index.php;</span></span><br><span class="line"><span class="comment">#	fastcgi_param SCRIPT_FILENAME /project/app/$fastcgi_script_name;</span></span><br><span class="line"><span class="comment">#&#125;</span></span><br></pre></td></tr></table></figure>
+]]></content>
     </entry>
     
     <entry>
@@ -451,13 +466,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x73;&#116;&#x61;&#x73;&#x68;&#64;&#123;&#110;&#125;">&#x73;&#116;&#x61;&#x73;&#x68;&#64;&#123;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#115;&#116;&#97;&#115;&#x68;&#64;&#x7b;&#x6e;&#125;">&#115;&#116;&#97;&#115;&#x68;&#64;&#x7b;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x73;&#x74;&#97;&#115;&#x68;&#x40;&#123;&#x6e;&#125;">&#x73;&#x74;&#97;&#115;&#x68;&#x40;&#123;&#x6e;&#125;</a>参数，则从该<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#115;&#x74;&#x61;&#x73;&#x68;&#64;&#x7b;&#x6e;&#125;">&#115;&#x74;&#x61;&#x73;&#x68;&#64;&#x7b;&#x6e;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#x74;&#x61;&#115;&#104;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#x74;&#x61;&#115;&#104;&#x40;&#x7b;&#x6e;&#x7d;</a>参数，则从该<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#115;&#x74;&#97;&#115;&#x68;&#x40;&#123;&#x6e;&#125;">&#115;&#x74;&#97;&#115;&#x68;&#x40;&#123;&#x6e;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
