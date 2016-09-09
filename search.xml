@@ -1713,7 +1713,7 @@ git config --global user.email &quot;lotush@163.com&quot;
 <pre><code>git commit --amend &quot;修改的信息&quot;
 </code></pre><h6 id="5-你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库"><a href="#5-你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库" class="headerlink" title="5.你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库"></a>5.你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库</h6><pre><code>git push origin &lt;branchName&gt;
 </code></pre><h6 id="6-可以把-master-换成想要推送的任何分支，创建分支并切换过去"><a href="#6-可以把-master-换成想要推送的任何分支，创建分支并切换过去" class="headerlink" title="6.可以把 master 换成想要推送的任何分支，创建分支并切换过去"></a>6.可以把 master 换成想要推送的任何分支，创建分支并切换过去</h6><pre><code>git checkout -b &lt;branchName&gt;
-</code></pre><p>切换回主分支：</p>
+</code></pre><p>切换回某个分支：</p>
 <pre><code>git checkout &lt;branchName&gt;
 </code></pre><h6 id="7-创建、查看、删除、重命名分支"><a href="#7-创建、查看、删除、重命名分支" class="headerlink" title="7.创建、查看、删除、重命名分支"></a>7.创建、查看、删除、重命名分支</h6><p>创建分支：</p>
 <pre><code>git branch &lt;branchName&gt;
@@ -1781,6 +1781,10 @@ git remote rename [old-alias] [new-alias] #重命名,eg:git remote rename osc te
 <pre><code>git tag -d &lt;tagname&gt;   #删除本地tag
 git push origin --delete tag &lt;tagname&gt; #删除远程tag
 git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
+</code></pre><h6 id="17-用diff来检查改动"><a href="#17-用diff来检查改动" class="headerlink" title="17.用diff来检查改动"></a>17.用diff来检查改动</h6><p><img src="/images/git-diff.jpg" alt="git diff"></p>
+<p>比较分支</p>
+<p>比较两个分支，或是两个特定项目版本。来让我们看看在 “jason” 分支的哪些改动并不存在于“master”上：</p>
+<pre><code>git diff master..jason
 </code></pre><h2 id="Git支持四种数据传输协议，四种传输协议各自的优势和不足"><a href="#Git支持四种数据传输协议，四种传输协议各自的优势和不足" class="headerlink" title="Git支持四种数据传输协议，四种传输协议各自的优势和不足"></a>Git支持四种数据传输协议，四种传输协议各自的优势和不足</h2><table>
 <thead>
 <tr>
