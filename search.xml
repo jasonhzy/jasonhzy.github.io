@@ -4,6 +4,151 @@
   
     
     <entry>
+      <title><![CDATA[Ubuntu 配置LAMP环境]]></title>
+      <url>http://jasonhzy.github.io/2016/09/27/ubuntu-install/</url>
+      <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><img src="/images/ubuntu-lamp.jpg" alt="ubuntu lamp"></p>
+<p>不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）</p>
+<a id="more"></a>
+<p>Apache2目录结构：</p>
+<pre><code>apache2
+|--apache2.conf
+|--conf-available
+|--conf-enabled
+|--conf.d
+|--envvars
+|--http.conf
+|--magic
+|--mods-available
+|--mods-enabled
+|--ports.conf
+|--sites-avaliable
+|--sites-enabled
+</code></pre><ul>
+<li>apache2.conf: 主要配置文件</li>
+<li>envvars: Apache2环境变量设置，例如apache的用户和组</li>
+<li>httpd.conf：遗留的Apache2主要配置文件。这个文件是空的，其中的配置选项都转移到其他配置文件里了</li>
+<li>ports.conf: 监听 80 端口（默认HTTP通信端口）和 443 端口（SSL支持）如果你想 apache 监听其他端口，只需添加更多的 Listen 指令</li>
+<li>conf.d/: 用来控制Apache的一些特殊配置，比如SSL配置。</li>
+<li>sites-available/: web站点的虚拟主机文件，不同的请求对应不同的内容，但并不表示都正在使用</li>
+<li>sites-enabled/: 包含正在使用的虚拟主机的定义，通常只包含到sites-available目录下文件的符号链接。</li>
+<li>mods-available: 目录包含模块和模块配置文件，不是所有的模块都有配置文件 </li>
+<li>mods-enabled: 持有/etc/apache2/mods-available目录下文件的链接，当该目录下有一个模块文件和其配置文件，那么Apache重启后该模块将生效</li>
+</ul>
+<h3 id="Apache2-conf"><a href="#Apache2-conf" class="headerlink" title="Apache2.conf"></a>Apache2.conf</h3><p>主要分成三部分，全局配置、默认服务器配置和虚拟主机配置，在Ubuntu系统下，这个文件主要负责全局配置，默认服务器和虚拟主机可以通过Include语句来处理。</p>
+<p>全局配置</p>
+<p>Timeout: 默认设置为300，意思是服务器用300s来处理每个请求，即接收和发送的超时时间<br>KeepAlive: 设置为On，将允许同个客户端每个连接一直保持来处理多个请求(HTTP长连接)<br>MaxKeepAliveRequests: 设置每个连接最多能处理多少个单独的请求<br>KeepAliveTimeout: 参数设置下一个请求来之前来等待多久，超过这个时间自动关闭这个connection</p>
+<p>MPM配置</p>
+<p>MPM（Multi-Processing Module，多进程处理模块）模式，主要包括三种稳定的模式，分别是prefork，worker和event，它们同时也代表这Apache的演变和发展</p>
+<ul>
+<li>event：这个MPM适用于需要有大量持续连接的(KeepAlive)的情况，KeepAlive的好处相信大家都知道，可以在同一个TCP连接中响应多次请求，这种请求方式可以使一个包含很多元素（图片，CSS，etc）的HTML网页加速一半以上。在配置文件中设置KeepAlive为On，就可以开启KeepAlive。</li>
+<li>perfork：实现了一个非线程的MPM，兼容1.3，虽然速度不是很快，但是非常稳定，能够隔离每一个请求。perfork顾名思义，就是主进程先派生出一堆子进程，这样新的请求来了以后不需要等待服务器产生子进程所花的时间。使用perfork最重要的是设置MacClients的值，要足够大以发挥很好的性能，但是不能太高防止内存爆掉。</li>
+<li>worker：Apache2的新MPM。多进程+多线程，资源占用小的同时也比perfork要高效的多，是未来Apache2的发展趋势吧。该MPM重要的是两个选项：MaxClients和ThreadsPerChild。ThreadsPerChild用来每个子进程允许建立的线程数，MaxClients用来控制允许建立的总线程数。</li>
+</ul>
+<p>Apache的模式，可以使用httpd -V命令来查看:</p>
+<pre><code>Server version: Apache/2.4.18 (Unix)
+Server built:   Feb 20 2016 20:03:19
+Server&apos;s Module Magic Number: 20120211:52
+Server loaded:  APR 1.4.8, APR-UTIL 1.5.2
+Compiled using: APR 1.4.8, APR-UTIL 1.5.2
+Architecture:   64-bit
+Server MPM:     prefork
+threaded:     no
+    forked:     yes (variable process count)
+</code></pre><p>综上所述，如果需要更好的伸缩性，选择worker或event，如果需要更好的稳定性和兼容性，选择perfork。如果无法评估自己的需要，不妨直接选择worker</p>
+<p>如果需要切换模式，可以通过如下方法来切换：</p>
+<pre><code>sudo a2dismod mpm_prefork
+sudo a2enmod mpm_event
+sudo service apache2 restart #重启apache2
+</code></pre><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><p>php安装</p>
+<pre><code>sudo apt-get install php5.6 php5.6-common php5.6-curl php5.6-gd php5.6-mcrypt php5.6-xml 
+                    php5.6-bcmath php5.6-mbstring php5.6-mysql
+</code></pre><p>mysql安装</p>
+<pre><code>sudo apt-get install mysql mysql-server
+</code></pre><p>apache安装</p>
+<pre><code>sudo apt-get install apache2
+</code></pre><p>安装对脚本语言的支持</p>
+<pre><code>sudo apt-get install libapache2-mod-php5
+</code></pre><h3 id="Apache中启用和禁用网站和模块"><a href="#Apache中启用和禁用网站和模块" class="headerlink" title="Apache中启用和禁用网站和模块"></a>Apache中启用和禁用网站和模块</h3><p>启用和禁用网站</p>
+<pre><code>sudo a2ensite 虚拟主机文件名(example.com.conf)
+sudo a2dissite 虚拟主机文件名(example.com.conf)
+</code></pre><p>启用和禁用模块</p>
+<pre><code>sudo a2enmod 模块配置文件名
+sudo a2dismod  模块配置文件名
+</code></pre><p>启用用户文件夹实现文件服务器的功能</p>
+<p>1.使用如下命令启用userdir模块</p>
+<pre><code>sudo a2enmod userdir
+</code></pre><p>2.userdir.conf配置userdir模块</p>
+<pre><code>sudo vim /etc/apache2/mods-enabled/userdir.conf
+</code></pre><p>内容如下，把public_html改为你的个人文件夹名称，如果不存在则创建：</p>
+<pre><code>&lt;IfModule mod_userdir.c&gt;
+    UserDir public_html
+    UserDir disabled root
+
+    &lt;Directory /home/*/public_html&gt;
+        AllowOverride All
+        Options MultiViews Indexes SymLinksIfOwnerMatch
+        &lt;Limit GET POST OPTIONS&gt;
+            # Apache &lt;= 2.2:
+            Order allow,deny
+            Allow from all
+
+            # Apache &gt;= 2.4:
+            #Require all granted
+        &lt;/Limit&gt;
+        &lt;LimitExcept GET POST OPTIONS&gt;
+            # Apache &lt;= 2.2:
+            Order deny,allow
+            Deny from all
+
+            # Apache &gt;= 2.4:
+            #Require all denied
+        &lt;/LimitExcept&gt;
+    &lt;/Directory&gt;
+&lt;/IfModule&gt;
+</code></pre><p>3.创建个人文件夹并重启APache</p>
+<pre><code>sudo service apache2 restart #重启
+mkdir /home/$USER/public_html
+</code></pre><p>4.给你的文件添加访问权限</p>
+<p>上面的AllowOverride All改为AllowOverride AuthConfig,然后给你的服务器添加认证用户，认证用户保存在/var/www/passwd/中，需要使用htpasswd命令来添加用户，如下所示:</p>
+<pre><code>htpasswd -c /var/www/passwd/public_html lippi 
+New password: mypassword
+Re-type new password: mypassword
+Adding password for user lippi
+</code></pre><p>userdir.conf调整为：</p>
+<pre><code>&lt;IfModule mod_userdir.c&gt;
+    UserDir public_html 
+    UserDir disabled root
+
+    &lt;Directory /home/*/public_html&gt;
+        AllowOverride FileInfo AuthConfig Limit Indexes
+        Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+        &lt;Limit GET POST OPTIONS&gt;
+            #Require all granted
+            AuthType Basic
+            AuthName &quot;lippi&quot;
+            AuthUserFile /var/www/passwd/public_html
+            Require valid-user
+        &lt;/Limit&gt;
+        &lt;LimitExcept GET POST OPTIONS&gt;
+            Require all denied
+        &lt;/LimitExcept&gt;
+    &lt;/Directory&gt;
+&lt;/IfModule&gt;
+</code></pre><h3 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h3><p>问题一：</p>
+<pre><code>root@ubuntu:~# a2ensite example.com 
+ERROR:  Site example.com does not exists!
+</code></pre><p>解决方案:</p>
+<pre><code># cd /etc/apache2/sites-available/
+# mv example.com example.com.conf
+</code></pre><p>附：相关资料</p>
+<ul>
+<li><a href="http://blog.danthought.com/programming/2015/11/14/apache-configuration-files-on-ubuntu/" target="_blank" rel="external">Apache 配置文件</a></li>
+<li><a href="http://tecadmin.net/fixed-error-site-example-com-does-not-exists-apache-a2ensite/" target="_blank" rel="external">ERROR: Site example.com does not exists!</a></li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[phpstorm的Debug调试]]></title>
       <url>http://jasonhzy.github.io/2016/08/27/php-debug/</url>
       <content type="html"></content>
@@ -472,13 +617,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#115;&#x74;&#x61;&#115;&#104;&#64;&#123;&#x6e;&#x7d;">&#115;&#x74;&#x61;&#115;&#104;&#64;&#123;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#115;&#x74;&#97;&#115;&#x68;&#64;&#123;&#110;&#x7d;">&#115;&#x74;&#97;&#115;&#x68;&#64;&#123;&#110;&#x7d;</a>参数，则从该<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#115;&#116;&#97;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;">&#115;&#116;&#97;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#115;&#116;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#58;&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;">&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -1871,7 +2016,10 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
 [S=x] —— Skip(跳过): 如果满足某指定的条件，则跳过后面第x调规则
 [E=variable:value] —— Environmental Variable(环境变量): 命令服务器将值value赋给变量variable
 [T=MIME-type] —— Mime Type(MIME类型): 声明目标资源所属的MIME类型
-\- —— 命令Apache“不要”重写URL，例如“xxx.domain.com.* – [F]”
+
+# —— 位于行首时表示注释。
+- —— 命令Apache“不要”重写URL，例如“xxx.domain.com.* – [F]”
+! —— 逻辑非。例如“!string” 将会匹配除了“string”以外的所有字符串
 ^$ —— 匹配“空字符”、“空行”
 -d —— 测试字符串是否是已存在的目录，例如RewriteCond %{REQUEST_FILENAME} !-d
 -f —— 测试字符串是否是已存在的文件 例如 RewriteCond %{REQUEST_FILENAME} !-f
