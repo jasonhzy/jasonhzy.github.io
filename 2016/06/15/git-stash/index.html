@@ -92,7 +92,7 @@
 <meta property="og:description" content="背景在使用Git开发时，开发者在自己的分支上进行开发，由于需要紧急开发一个新的分支，而当前手里的完成的工作还不能合并。此时，使用git stash命令可以将当前做过的修改从工作区保存到暂存区中。">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git-stash/git-status.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git-stash/git-stash.png">
-<meta property="og:updated_time" content="2016-06-17T07:06:59.000Z">
+<meta property="og:updated_time" content="2016-09-29T07:42:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git stash用法">
 <meta name="twitter:description" content="背景在使用Git开发时，开发者在自己的分支上进行开发，由于需要紧急开发一个新的分支，而当前手里的完成的工作还不能合并。此时，使用git stash命令可以将当前做过的修改从工作区保存到暂存区中。">
@@ -332,18 +332,6 @@
 
                 
                 
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Git/Stash/" itemprop="url" rel="index">
-                    <span itemprop="name">Stash</span>
-                  </a>
-                </span>
-
-                
-                
 
               
             </span>
@@ -399,13 +387,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#116;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#x7d;">&#115;&#116;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#115;&#116;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#58;&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;">&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x73;&#x74;&#97;&#x73;&#104;&#64;&#x7b;&#110;&#125;">&#x73;&#x74;&#97;&#x73;&#104;&#64;&#x7b;&#110;&#125;</a>参数，则从该<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#x73;&#116;&#x61;&#x73;&#x68;&#64;&#123;&#x6e;&#x7d;">&#x73;&#116;&#x61;&#x73;&#x68;&#64;&#123;&#x6e;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -579,7 +567,7 @@ git stash apply --index
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -588,7 +576,7 @@ git stash apply --index
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

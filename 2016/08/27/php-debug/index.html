@@ -84,16 +84,38 @@
 
 
 
-<meta name="description" content="Share experience summary">
+<meta name="description" content="一直以来，调试PHP脚本都是直接在脚本中die或exit实现断点调试，下面介绍phpstorm+xdebug的组合来实现代码的调试
+安装&amp;amp;配置xdebug安装xdebugsudo apt-get install php5.6-xdebug #ubuntu
+sudo port install php56-xdebug  #mac
+sudo yum install php56w-pecl-xd">
 <meta property="og:type" content="article">
 <meta property="og:title" content="phpstorm的Debug调试">
 <meta property="og:url" content="http://jasonhzy.github.io/2016/08/27/php-debug/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Share experience summary">
-<meta property="og:updated_time" content="2016-08-27T14:55:31.000Z">
+<meta property="og:description" content="一直以来，调试PHP脚本都是直接在脚本中die或exit实现断点调试，下面介绍phpstorm+xdebug的组合来实现代码的调试
+安装&amp;amp;配置xdebug安装xdebugsudo apt-get install php5.6-xdebug #ubuntu
+sudo port install php56-xdebug  #mac
+sudo yum install php56w-pecl-xd">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-phpinfo.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-port.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-idekey.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-script.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-web.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/web-config-add.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/web-config-modify.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/web-config-server.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/web-config-complete.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/chrome-debug.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/firefox-debug.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/phpstorm-listen.png">
+<meta property="og:updated_time" content="2016-09-29T07:43:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="phpstorm的Debug调试">
-<meta name="twitter:description" content="Share experience summary">
+<meta name="twitter:description" content="一直以来，调试PHP脚本都是直接在脚本中die或exit实现断点调试，下面介绍phpstorm+xdebug的组合来实现代码的调试
+安装&amp;amp;配置xdebug安装xdebugsudo apt-get install php5.6-xdebug #ubuntu
+sudo port install php56-xdebug  #mac
+sudo yum install php56w-pecl-xd">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-phpinfo.png">
 
 
 
@@ -329,18 +351,6 @@
 
                 
                 
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/PHP/Debug/" itemprop="url" rel="index">
-                    <span itemprop="name">Debug</span>
-                  </a>
-                </span>
-
-                
-                
 
               
             </span>
@@ -374,7 +384,43 @@
       
 
       
-        
+        <p>一直以来，调试PHP脚本都是直接在脚本中die或exit实现断点调试，下面介绍phpstorm+xdebug的组合来实现代码的调试</p>
+<h3 id="安装-amp-配置xdebug"><a href="#安装-amp-配置xdebug" class="headerlink" title="安装&amp;配置xdebug"></a>安装&amp;配置xdebug</h3><h4 id="安装xdebug"><a href="#安装xdebug" class="headerlink" title="安装xdebug"></a>安装xdebug</h4><pre><code>sudo apt-get install php5.6-xdebug #ubuntu
+sudo port install php56-xdebug  #mac
+sudo yum install php56w-pecl-xdebug #centos
+</code></pre><a id="more"></a>        
+<h4 id="配置php-ini"><a href="#配置php-ini" class="headerlink" title="配置php.ini"></a>配置php.ini</h4><p>在php.ini文件中添加如下配置</p>
+<pre><code>[xdebug]
+zend_extension=&quot;/opt/local/lib/php56/extensions/no-debug-non-zts-20131226/xdebug.so&quot; #mac下extension路径
+xdebug.idekey=phpstorm
+xdebug.remote_enable = On
+xdebug.remote_host=localhost
+xdebug.remote_port=8888
+xdebug.remote_handler=dbgp
+xdebug.profiler_append = 0
+xdebug.profiler_enable = 1
+xdebug.profiler_enable_trigger = 0
+xdebug.profiler_output_dir = &quot;/tmp&quot;
+xdebug.profiler_output_name = &quot;cachegrind.out.%t-%s&quot;
+</code></pre><p>重启apache之后，通过phpinfo查看，截图如下：</p>
+<p><img src="/images/xdebug/xdebug-phpinfo.png" alt="xdebug-phpinfo"></p>
+<p>注意：<br>1.利用命令“php –ini”可以查看所有.ini为后缀的配置文件，如php.ini、xdebug.ini等，查看xdebug.ini文件即可看到zend_extension配置<br>2.部分参数说明:,<br>idekey：自己定义，需要与IDE里头配置一样。<br>remote_enable：远程调试是否开启。<br>remote_host：调试器所在的主机，支持本机调试，也支持远程主机调试（例如远程运行php服务将调试信息发到本地IDE）<br>remote_port：调试器启动的端口。<br>remote_hanler：运行服务器与调试器的交互协议，默认为DBGP即可。<br>profiler_enable: 开启信息存储<br>profiler_output_dir: 信息存储位置</p>
+<h3 id="配置phpstorm"><a href="#配置phpstorm" class="headerlink" title="配置phpstorm"></a>配置phpstorm</h3><p>打开PhpStorm的Setting（Mac下是Preference）</p>
+<h4 id="调试端口"><a href="#调试端口" class="headerlink" title="调试端口"></a>调试端口</h4><p>在Debug Port里配置一个端口号，可自定义，需保证未被其他进程占用，前一步的xdebug.remote_port应该与这里开启的端口保持一致，否则xdebug与调试器无法通信<br><img src="/images/xdebug/xdebug-port.png" alt="xdebug-port"></p>
+<h4 id="DBGp-Proxy"><a href="#DBGp-Proxy" class="headerlink" title="DBGp Proxy"></a>DBGp Proxy</h4><p>配置IDE key，与前面的xdebug.idekey保持一致。(Host和Port填写与xdebug.remote_host和xdebug.remote_port保持一致[貌似不一致也是可行的，一般是localhost和80])<br><img src="/images/xdebug/xdebug-idekey.png" alt="xdebug-idekey"></p>
+<h4 id="进入调试模式"><a href="#进入调试模式" class="headerlink" title="进入调试模式"></a>进入调试模式</h4><p>断点调试分3种模式：脚本调试、web application运行调试、浏览器访问自动触发调试。</p>
+<h5 id="脚本调试"><a href="#脚本调试" class="headerlink" title="脚本调试"></a>脚本调试</h5><p>该模式下允许本地脚本运行时断点调试，步骤如下：<br>1.设置断点<br>2.右键选中脚本<br>3.选择Debug即可<br><img src="/images/xdebug/xdebug-script.png" alt="xdebug-script"></p>
+<h5 id="web-application运行调试"><a href="#web-application运行调试" class="headerlink" title="web application运行调试"></a>web application运行调试</h5><p>该模式允许指定url访问web页面进行php代码调试，步骤如下：<br>1.设置断点<br>2.配置web application<br>3.开启Debug<br><img src="/images/xdebug/xdebug-web.png" alt="xdebug-web"></p>
+<p>其中配置web application的详细步骤如下：</p>
+<p>1.选择“Edit Configuration”：<br><img src="/images/xdebug/web-config-add.png" alt="xdebug-config-add"><br>2.添加“PHP Web Application”：<br><img src="/images/xdebug/web-config-modify.png" alt="xdebug-config-modify"><br>3.配置详细过程：<br><img src="/images/xdebug/web-config-server.png" alt="xdebug-config-server"><br>4.配置成功后的效果图：<br><img src="/images/xdebug/web-config-complete.png" alt="xdebug-config-complete"></p>
+<h5 id="浏览器调试"><a href="#浏览器调试" class="headerlink" title="浏览器调试"></a>浏览器调试</h5><p>该模式下，浏览器需要安装调试的插件，之后浏览器访问某个页面url，自动触发IDE进入调试模式，步骤如下：</p>
+<p>1.安装浏览器debug插件，并且需开启debug模式</p>
+<p>chrome安装插件Xdebug helper<br><img src="/images/xdebug/chrome-debug.png" alt="chrome-debug"></p>
+<p>firefox安装的插件The easiest Xdebug<br><img src="/images/xdebug/firefox-debug.png" alt="firefox-debug"></p>
+<p>注意：插件内的IDE key配置必须与xdebug.idekey保持一致</p>
+<p>2.PhpStorm开启监听连接<br><img src="/images/xdebug/phpstorm-listen.png" alt="phpstorm-listen"></p>
+<p>3.代码内设置断点<br>4.浏览器访问页面url，即可触发IDE进入调试模式</p>
+
       
     </div>
 
@@ -536,7 +582,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -545,7 +591,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -621,7 +667,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-amp-配置xdebug"><span class="nav-number">1.</span> <span class="nav-text">安装&配置xdebug</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装xdebug"><span class="nav-number">1.1.</span> <span class="nav-text">安装xdebug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置php-ini"><span class="nav-number">1.2.</span> <span class="nav-text">配置php.ini</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置phpstorm"><span class="nav-number">2.</span> <span class="nav-text">配置phpstorm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调试端口"><span class="nav-number">2.1.</span> <span class="nav-text">调试端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DBGp-Proxy"><span class="nav-number">2.2.</span> <span class="nav-text">DBGp Proxy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入调试模式"><span class="nav-number">2.3.</span> <span class="nav-text">进入调试模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#脚本调试"><span class="nav-number">2.3.1.</span> <span class="nav-text">脚本调试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#web-application运行调试"><span class="nav-number">2.3.2.</span> <span class="nav-text">web application运行调试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#浏览器调试"><span class="nav-number">2.3.3.</span> <span class="nav-text">浏览器调试</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
