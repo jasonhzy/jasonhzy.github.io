@@ -158,7 +158,7 @@ sudo yum install php56w-pecl-xdebug #centos
 </code></pre><a id="more"></a>        
 <h4 id="配置php-ini"><a href="#配置php-ini" class="headerlink" title="配置php.ini"></a>配置php.ini</h4><p>在php.ini文件中添加如下配置</p>
 <pre><code>[xdebug]
-;zend_extension=&quot;/opt/local/lib/php56/extensions/no-debug-non-zts-20131226/xdebug.so&quot; #mac下extension路径
+zend_extension=&quot;/opt/local/lib/php56/extensions/no-debug-non-zts-20131226/xdebug.so&quot; #mac下extension路径
 xdebug.idekey=phpstorm
 xdebug.remote_enable = On
 xdebug.remote_host=localhost

@@ -108,7 +108,7 @@ sudo yum install php56w-pecl-xd">
 <meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/chrome-debug.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/firefox-debug.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/phpstorm-listen.png">
-<meta property="og:updated_time" content="2016-11-03T03:54:12.000Z">
+<meta property="og:updated_time" content="2016-11-04T07:18:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="phpstorm的Debug调试">
 <meta name="twitter:description" content="一直以来，调试PHP脚本都是直接在脚本中die或exit实现断点调试，下面介绍phpstorm+xdebug的组合来实现代码的调试
@@ -391,7 +391,7 @@ sudo yum install php56w-pecl-xdebug #centos
 </code></pre><a id="more"></a>        
 <h4 id="配置php-ini"><a href="#配置php-ini" class="headerlink" title="配置php.ini"></a>配置php.ini</h4><p>在php.ini文件中添加如下配置</p>
 <pre><code>[xdebug]
-;zend_extension=&quot;/opt/local/lib/php56/extensions/no-debug-non-zts-20131226/xdebug.so&quot; #mac下extension路径
+zend_extension=&quot;/opt/local/lib/php56/extensions/no-debug-non-zts-20131226/xdebug.so&quot; #mac下extension路径
 xdebug.idekey=phpstorm
 xdebug.remote_enable = On
 xdebug.remote_host=localhost
