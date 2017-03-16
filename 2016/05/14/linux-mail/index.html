@@ -98,7 +98,7 @@ apt-get install sendmail
 apt-get install sendmail-cf">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mail/email.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mail/mailutils.png">
-<meta property="og:updated_time" content="2016-09-29T07:43:17.000Z">
+<meta property="og:updated_time" content="2017-03-16T07:36:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux mail命令发送邮件">
 <meta name="twitter:description" content="在 Debian / Ubuntu 系统：apt-get install mailutils
@@ -401,7 +401,7 @@ Local only 表示邮件只能在本机用户之间发送和接收。
 </code></pre><h2 id="从文件中读取邮件内容并发送"><a href="#从文件中读取邮件内容并发送" class="headerlink" title="从文件中读取邮件内容并发送"></a>从文件中读取邮件内容并发送</h2><pre><code>mail -s &quot;message send from file&quot; user@example.com &lt; /path/to/file
 </code></pre><h2 id="将从管道获取到的echo命令输出作为邮件内容发送"><a href="#将从管道获取到的echo命令输出作为邮件内容发送" class="headerlink" title="将从管道获取到的echo命令输出作为邮件内容发送"></a>将从管道获取到的echo命令输出作为邮件内容发送</h2><pre><code>echo &quot;This is message body&quot; | mail -s &quot;This is Subject&quot;
 user@example.com
-</code></pre><h2 id="发送带附件的邮件"><a href="#发送带附件的邮件" class="headerlink" title="发送带附件的邮件"></a>发送带附件的邮件</h2><pre><code>echo “Body with attachment &quot;| mail -a foo.tar.gz -s &quot;attached file&quot; user@example.com
+</code></pre><h2 id="发送带附件的邮件"><a href="#发送带附件的邮件" class="headerlink" title="发送带附件的邮件"></a>发送带附件的邮件</h2><pre><code>echo &quot;Body with attachment&quot;| mail -a foo.tar.gz -s &quot;attached file&quot; user@example.com
 </code></pre><h2 id="uuencode"><a href="#uuencode" class="headerlink" title="uuencode"></a>uuencode</h2><p>邮件传输系统最初是被设计来传送7位编码（类似ASCII）的内容的。这就意味这它是用来发送文本内容，而不能发会使用8位的二进制内容（如程序文件或者图片）。uuencode（“UNIX to UNIX encoding”，UNIX之间使用的编码方式）程序用来解决这个限制。使用uuencode，发送端将二进制格式的转换成文本格式来传输，接收端再转换回去。<br>我们可以简单地使用uuencode和mailx或者mutt配合，来发送二进制内容，类似这样：</p>
 <pre><code>uuencode example.jpeg example.jpeg | mail user@example.com
 </code></pre><p><strong>注意：</strong><br>1、/etc/hosts中修改为：</p>
