@@ -94,7 +94,7 @@ explain SELECT * FROM bank where id = 1;">
 explain SELECT * FROM bank where id = 1;">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-explain/explain-style.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-explain/explain-keylen.png">
-<meta property="og:updated_time" content="2017-06-14T08:40:18.000Z">
+<meta property="og:updated_time" content="2017-06-14T09:21:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql Explain使用分析">
 <meta name="twitter:description" content="简介MySQL提供了一个explain命令, 它可以对select语句进行分析, 并输出select执行的详细信息, 以供开发人员针对查询性能进行优化.explain命令用法十分简单, 在select语句前加上explain就可以了, 例如:
@@ -372,7 +372,7 @@ explain SELECT * FROM bank where id = 1;">
 <pre><code>explain SELECT * FROM bank where id = 1;
 </code></pre><a id="more"></a>
 <p>explain命令的输出内容大致如下:<br><img src="/images/mysql-explain/explain-style.png" alt="explain-style"></p>
-<p>一般12个字段(其中partitions和filtered 5.5版本普通模式下没有），会对重要的字段内容进行分析说明:</p>
+<h3 id="explain各列详解"><a href="#explain各列详解" class="headerlink" title="explain各列详解"></a>explain各列详解</h3><p>一般12个字段(其中partitions和filtered 5.5版本普通模式下没有），会对重要的字段内容进行分析说明:</p>
 <h4 id="id"><a href="#id" class="headerlink" title="id"></a>id</h4><p>表示SELECT查询标识符，用于标识执行顺序，基本是数字；执行顺序原则：id数据值大的优先执行,id值相同的从上往下顺序执行</p>
 <h4 id="select-type"><a href="#select-type" class="headerlink" title="select_type"></a>select_type</h4><p>select_type 表示了查询的类型, 它的常用取值有: </p>
 <table>
@@ -836,7 +836,7 @@ char(10)固定字段且允许NULL        : 10*(Char Set：utf8=3,gbk=2,latin1=1)
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-number">1.1.</span> <span class="nav-text">id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select-type"><span class="nav-number">1.2.</span> <span class="nav-text">select_type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#table"><span class="nav-number">1.3.</span> <span class="nav-text">table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#partitions"><span class="nav-number">1.4.</span> <span class="nav-text">partitions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type-重要"><span class="nav-number">1.5.</span> <span class="nav-text">type [重要]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#possible-keys"><span class="nav-number">1.6.</span> <span class="nav-text">possible_keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key"><span class="nav-number">1.7.</span> <span class="nav-text">key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key-len"><span class="nav-number">1.8.</span> <span class="nav-text">key_len</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rows-重要"><span class="nav-number">1.9.</span> <span class="nav-text">rows [重要]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extra-重要"><span class="nav-number">1.10.</span> <span class="nav-text">Extra [重要]</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#explain各列详解"><span class="nav-number">2.</span> <span class="nav-text">explain各列详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-number">2.1.</span> <span class="nav-text">id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select-type"><span class="nav-number">2.2.</span> <span class="nav-text">select_type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#table"><span class="nav-number">2.3.</span> <span class="nav-text">table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#partitions"><span class="nav-number">2.4.</span> <span class="nav-text">partitions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type-重要"><span class="nav-number">2.5.</span> <span class="nav-text">type [重要]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#possible-keys"><span class="nav-number">2.6.</span> <span class="nav-text">possible_keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key"><span class="nav-number">2.7.</span> <span class="nav-text">key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key-len"><span class="nav-number">2.8.</span> <span class="nav-text">key_len</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rows-重要"><span class="nav-number">2.9.</span> <span class="nav-text">rows [重要]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extra-重要"><span class="nav-number">2.10.</span> <span class="nav-text">Extra [重要]</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
