@@ -4,6 +4,239 @@
   
     
     <entry>
+      <title><![CDATA[Mysql Explain使用分析]]></title>
+      <url>http://jasonhzy.github.io/2017/06/14/mysql-explain/</url>
+      <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>MySQL提供了一个explain命令, 它可以对select语句进行分析, 并输出select执行的详细信息, 以供开发人员针对查询性能进行优化.explain命令用法十分简单, 在select语句前加上explain就可以了, 例如:</p>
+<pre><code>explain SELECT * FROM bank where id = 1;
+</code></pre><a id="more"></a>
+<p>explain命令的输出内容大致如下:<br><img src="/images/mysql-explain/explain-style.png" alt="explain-style"></p>
+<p>一般12个字段(其中partitions和filtered 5.5版本普通模式下没有），会对重要的字段内容进行分析说明:</p>
+<h4 id="id"><a href="#id" class="headerlink" title="id"></a>id</h4><p>表示SELECT查询标识符，用于标识执行顺序，基本是数字；执行顺序原则：id数据值大的优先执行,id值相同的从上往下顺序执行</p>
+<h4 id="select-type"><a href="#select-type" class="headerlink" title="select_type"></a>select_type</h4><p>select_type 表示了查询的类型, 它的常用取值有: </p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+<th>样例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SIMPLE</td>
+<td>简单查询，标识查询不包含任何子查询或者UNION语句</td>
+<td>explain select * from tabname</td>
+</tr>
+<tr>
+<td>PRIMARY</td>
+<td>复杂查询的外层查询，一般都在第一行，代表这是一个复杂查询的最外层查询</td>
+<td></td>
+</tr>
+<tr>
+<td>UNION</td>
+<td>复杂查询中，UNION子句第二个或之后的子查询（第一个被标为PRIMARY）</td>
+<td>explain select <em> from tabname union select </em> from tabname</td>
+</tr>
+<tr>
+<td>SUBQUERY</td>
+<td>复杂查询的子查询，指不在FROM子句中的那些</td>
+<td>explain select * from tabname where id=(select max(id) from tabname)</td>
+</tr>
+<tr>
+<td>DEPENDENT SUBQUERY</td>
+<td>复杂查询中，依赖外部查询的子查询</td>
+<td>explain select * from tabname where id not in(select id from tabname)</td>
+</tr>
+<tr>
+<td>DERIVED</td>
+<td>在FROM子句中的子查询</td>
+<td></td>
+</tr>
+<tr>
+<td>DEPENDENT UNION</td>
+<td>复杂查询中，依赖外部查询的UNION子句查询</td>
+<td>explain select * from tabname where id in (select id from tabname union select id from tabname)</td>
+</tr>
+<tr>
+<td>UNION RESULT</td>
+<td>复杂查询中，UNION的结果，这是一个从匿名临时表检索最终结果的查询</td>
+<td></td>
+</tr>
+<tr>
+<td>MATERIALIZED</td>
+<td>复杂查询中，物化视图子句</td>
+<td></td>
+</tr>
+<tr>
+<td>UNCACHEABLE SUBQUERY</td>
+<td>不可缓存的子查询</td>
+<td></td>
+</tr>
+<tr>
+<td>UNCACHEABLE UNION</td>
+<td>不可缓存的UNION子查询</td>
+</tr>
+</tbody>
+</table>
+<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。<derivedn>N就是id值，指该id值对应的那一步操作的结果。还有<unionm,n>这种类型，出现在UNION语句中</unionm,n></derivedn></p>
+<h4 id="partitions"><a href="#partitions" class="headerlink" title="partitions"></a>partitions</h4><p>针对MySQL内置分区表，表示当前使用了哪些子分区；用于确认查询对分区的过滤效率</p>
+<h4 id="type-重要"><a href="#type-重要" class="headerlink" title="type [重要]"></a>type [重要]</h4><p>常见以下几种类型，查询效率理论上由好到差<br><strong>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</strong><br>详细说明每种常见type表示的含义：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>system</td>
+<td>被查询表中有且只有一条数据且为系统表.这是const连接类型的特例</td>
+</tr>
+<tr>
+<td>const</td>
+<td>针对主键或唯一索引的等值查询扫描，最多只返回一行数据，eg：SELECT * FROM tbl_name WHERE primary_key = 1</td>
+</tr>
+<tr>
+<td>eq_ref(engine=myisam)</td>
+<td>当使用了主键索引，唯一索引等只会唯一地找出一条记录的情况，这种类型就会出现，这种类型的性能相当好。</td>
+</tr>
+<tr>
+<td>ref</td>
+<td>当使用除了主键索引、唯一索引以外的索引来匹配值时，或者使用了最左前缀索引（包括唯一索引和主键的），就会出现这个类型</td>
+</tr>
+<tr>
+<td>ref_or_null</td>
+<td>连接类型类似ref，只是搜索的行中包含NULL值MySQL做了额外的查找。eg: SELECT * FROM ref_table WHERE key_column IS NULL</td>
+</tr>
+<tr>
+<td>fulltext</td>
+<td>使用全文索引时出现。</td>
+</tr>
+<tr>
+<td>index_merge</td>
+<td>多个索引同时优化，本质上是每个索引单独使用，再通过某种算法来合并结果</td>
+</tr>
+<tr>
+<td>index_subquery</td>
+<td>索引替换子查询，如果有这样的语句SELECT * FROM table WHERE value IN(SELECT key_column FROM table where xxx)，IN后面的语句会被索引直接代替，来提高效率</td>
+</tr>
+<tr>
+<td>unique_subquery</td>
+<td>唯一索引替换子查询，和index_subquery类似，只不过是使用唯一索引来替换IN后面的子句</td>
+</tr>
+<tr>
+<td>range</td>
+<td>范围扫描，比index强一些，因为它是从索引的某个点开始的，用不着遍历全部索引。一些带有BETWEEN，各种比较符号的语句容易出现这种类型，但是要特别注意IN和OR，这也会显示成range，但是其性能跟index差不多</td>
+</tr>
+<tr>
+<td>index</td>
+<td>按索引顺序全表扫描，通常性能和全表扫描没什么区别，除非Extra列中有”Using index”字样，那说明使用了覆盖索引，这种情况下要快于ALL，因为直接扫描索引就能获取数据，而索引通常比表小的多</td>
+</tr>
+<tr>
+<td>ALL</td>
+<td>全表扫描。最差的一种类型，从数据表中逐行查找数据，应考虑查询优化了！</td>
+</tr>
+</tbody>
+</table>
+<h4 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h4><p>表示MySQL查询优化器发现当前查询可能被使用地索引，但不一定能会利用，如果possible_key的列举的索引越多，往往说明索引创建不合理，查询效率不是最高效；</p>
+<h4 id="key"><a href="#key" class="headerlink" title="key"></a>key</h4><p>显示MySQL实际决定使用的键（索引）。如果没有选择索引，键是NULL。注意：对于组合索引，查询可能只使用其部分字段</p>
+<h4 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h4><p>表示查询优化器使用了索引的字节数，可以评估组合索引是否完全被使用，或只有最左部分字段使用<br>key_len字节的计算规则：</p>
+<pre><code>字符串
+    char(n): n 字节长度
+    varchar(n): 如果是 utf8 编码, 则是 3 n + 2字节; 如果是 utf8mb4 编码, 则是 4 n + 2 字节.
+数值类型:
+    TINYINT: 1字节
+    SMALLINT: 2字节
+    MEDIUMINT: 3字节
+    INT: 4字节
+    BIGINT: 8字节
+时间类型
+    DATE: 3字节
+    TIMESTAMP: 4字节
+    DATETIME: 8字节
+字段属性: 
+    NULL 属性 占用一个字节. 如果一个字段是 NOT NULL 的, 则没有此属性.
+</code></pre><p>key_len的长度计算方式例如：</p>
+<pre><code>varchr(10)变长字段且允许NULL      : 10*(Char Set：utf8=3,gbk=2,latin1=1)+1(NULL)+2(变长字段)
+varchr(10)变长字段且不允许NULL    : 10*(Char Set：utf8=3,gbk=2,latin1=1)+2(变长字段)
+char(10)固定字段且允许NULL        : 10*(Char Set：utf8=3,gbk=2,latin1=1)+1(NULL)
+char(10)固定字段且允许NULL        : 10*(Char Set：utf8=3,gbk=2,latin1=1)
+</code></pre><p>实例如下:</p>
+<p>数据库bank表结构：</p>
+<pre><code>CREATE TABLE IF NOT EXISTS `bank` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bank_name` varchar(100) NOT NULL DEFAULT &apos;&apos;,
+  `bank_no` varchar(30) DEFAULT &apos;&apos;,
+  `parent_bank_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `foreignkey` (`parent_bank_id`),
+  KEY `unionkey` (`bank_name`,`bank_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+</code></pre><p>explain执行结果：</p>
+<p><img src="/images/mysql-explain/explain-keylen.png" alt="explain-keylen"></p>
+<p>计算的key_len即 100 ＊ 3 ＋ 2(如果bank_name允许null，则为100 ＊ 3 ＋ 2 ＋ 1)</p>
+<h4 id="rows-重要"><a href="#rows-重要" class="headerlink" title="rows [重要]"></a>rows [重要]</h4><p>MySQL查询优化器根据统计信息，估算SQL要查找到结果集需要扫描读取的数据行数; 这个值非常直观显示SQL的效率好坏，原则rows越少越好</p>
+<h4 id="Extra-重要"><a href="#Extra-重要" class="headerlink" title="Extra [重要]"></a>Extra [重要]</h4><p>EXplain 中的很多额外的信息会在 Extra 字段显示, 常见的有以下几种:</p>
+<table>
+<thead>
+<tr>
+<th>Extra</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>using where</td>
+<td>使用过滤条件</td>
+</tr>
+<tr>
+<td>using index</td>
+<td>查询是覆盖了索引的</td>
+</tr>
+<tr>
+<td>using temporary</td>
+<td>使用临时表存储结果集，常见于排序和分组查询</td>
+</tr>
+<tr>
+<td>using filesort</td>
+<td>有排序</td>
+</tr>
+<tr>
+<td>not exists</td>
+<td>mysql优化了left join，一旦它找到了匹配left join标准的行， 就不再搜索了</td>
+</tr>
+<tr>
+<td>distinct</td>
+<td>查找到第一个匹配的行之后，mysql则会停止对当前行的搜索</td>
+</tr>
+<tr>
+<td>impossible where</td>
+<td>where子句总数失败的查询</td>
+</tr>
+<tr>
+<td>impossible having</td>
+<td>having子句总数失败的查询</td>
+</tr>
+<tr>
+<td>using join buffer</td>
+<td>使用连接缓存</td>
+</tr>
+<tr>
+<td>select tables optimized away</td>
+<td>没有groupby情况下使用min(),max(),或者count(*)</td>
+</tr>
+<tr>
+<td>using index for group-by</td>
+<td>与using index类似，在使用group-by时可从索引中找到字段</td>
+</tr>
+</tbody>
+</table>
+<p>参考资料<br><a href="https://dev.mysql.com/doc/refman/5.6/en/explain-output.html#explain-extra-information" target="_blank" rel="external">EXPLAIN Output Format</a><br><a href="http://blog.csdn.net/kk185800961/article/details/49179619" target="_blank" rel="external">MySQL EXPLAIN 实践汇总</a><br><a href="https://zhuoroger.github.io/2016/08/11/mysql-explain/" target="_blank" rel="external">细说MySQL Explain和Optimizer Trace简介</a><br><a href="https://segmentfault.com/a/1190000008131735" target="_blank" rel="external">MySQL性能优化神器 Explain使用分析</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[PHP GD库合成图片]]></title>
       <url>http://jasonhzy.github.io/2017/01/07/php-generate-qr/</url>
       <content type="html"><![CDATA[<p>引入phpqrcode，并结合php提供的类库gd进行图片合成</p>
@@ -668,13 +901,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#115;&#116;&#97;&#115;&#104;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#97;&#115;&#104;&#x40;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#x7b;&#110;&#125;">&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#x7b;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#116;&#x61;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;">&#x73;&#116;&#x61;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x73;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;">&#x73;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#115;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;">&#115;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#115;&#116;&#x61;&#115;&#104;&#64;&#123;&#x6e;&#125;">&#115;&#116;&#x61;&#115;&#104;&#64;&#123;&#x6e;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
