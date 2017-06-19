@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jasonhzy.github.io/2016/02/03/git-tech/</loc>
+    
+    <lastmod>2017-06-19T14:03:25.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2017/06/14/mysql-explain/</loc>
     
     <lastmod>2017-06-14T09:21:41.000Z</lastmod>
@@ -124,13 +131,6 @@
     <loc>http://jasonhzy.github.io/2016/02/03/apache-htaccess/</loc>
     
     <lastmod>2016-09-27T09:18:17.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/03/git-tech/</loc>
-    
-    <lastmod>2016-09-12T04:15:31.000Z</lastmod>
     
   </url>
   
