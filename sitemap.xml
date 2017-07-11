@@ -184,7 +184,28 @@
   </url>
   
   <url>
+    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2016/01/25/selinux/</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/02/19/sort-algorithm/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
@@ -212,27 +233,6 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/19/sort-algorithm/</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/poetry-snow/</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
@@ -240,7 +240,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/01/poetry-snow/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     

@@ -5,11 +5,17 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
 
 
 
@@ -27,9 +33,12 @@
 
 
 
+
+
+
   
   
-  <link href="/libs/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -63,9 +72,9 @@
 
 
 
-<link href="/libs/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="PHP,数据结构," />
@@ -77,21 +86,20 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
 
 
 
 
 
 
-<meta name="description" content="基本概念&amp;emsp;&amp;emsp;排序(Sorting)是计算机程序设计中的一种重要操作，它的功能是将一个数据元素（或记录）的任意序列，重新排列成一个关键字有序的序列。排序有内部排序和外部排序，内部排序是数据记录在内存中进行排序，而外部排序是因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。
-&amp;emsp;&amp;emsp;排序的稳定性：假定在待排序的记录序列中，存在多个具有相同的关键">
+<meta name="description" content="基本概念&amp;emsp;&amp;emsp;排序(Sorting)是计算机程序设计中的一种重要操作，它的功能是将一个数据元素（或记录）的任意序列，重新排列成一个关键字有序的序列。排序有内部排序和外部排序，内部排序是数据记录在内存中进行排序，而外部排序是因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。 &amp;emsp;&amp;emsp;排序的稳定性：假定在待排序的记录序列中，存在多个具有相同的关键">
+<meta name="keywords" content="PHP,数据结构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="排序算法">
 <meta property="og:url" content="http://jasonhzy.github.io/2016/02/19/sort-algorithm/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="基本概念&amp;emsp;&amp;emsp;排序(Sorting)是计算机程序设计中的一种重要操作，它的功能是将一个数据元素（或记录）的任意序列，重新排列成一个关键字有序的序列。排序有内部排序和外部排序，内部排序是数据记录在内存中进行排序，而外部排序是因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。
-&amp;emsp;&amp;emsp;排序的稳定性：假定在待排序的记录序列中，存在多个具有相同的关键">
+<meta property="og:description" content="基本概念&amp;emsp;&amp;emsp;排序(Sorting)是计算机程序设计中的一种重要操作，它的功能是将一个数据元素（或记录）的任意序列，重新排列成一个关键字有序的序列。排序有内部排序和外部排序，内部排序是数据记录在内存中进行排序，而外部排序是因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。 &amp;emsp;&amp;emsp;排序的稳定性：假定在待排序的记录序列中，存在多个具有相同的关键">
 <meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/sort.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/straight_insertion.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/shell-sort.jpg">
@@ -99,43 +107,51 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/heap_sort1.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/heap_sort2.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/heap_sort3.jpg">
-<meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/bubble _sort.jpg">
+<meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/bubble%20_sort.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/quick_sort1.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/sort-algorithm/quick_sort2.jpg">
 <meta property="og:updated_time" content="2016-03-27T14:09:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="排序算法">
-<meta name="twitter:description" content="基本概念&amp;emsp;&amp;emsp;排序(Sorting)是计算机程序设计中的一种重要操作，它的功能是将一个数据元素（或记录）的任意序列，重新排列成一个关键字有序的序列。排序有内部排序和外部排序，内部排序是数据记录在内存中进行排序，而外部排序是因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。
-&amp;emsp;&amp;emsp;排序的稳定性：假定在待排序的记录序列中，存在多个具有相同的关键">
+<meta name="twitter:description" content="基本概念&amp;emsp;&amp;emsp;排序(Sorting)是计算机程序设计中的一种重要操作，它的功能是将一个数据元素（或记录）的任意序列，重新排列成一个关键字有序的序列。排序有内部排序和外部排序，内部排序是数据记录在内存中进行排序，而外部排序是因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。 &amp;emsp;&amp;emsp;排序的稳定性：假定在待排序的记录序列中，存在多个具有相同的关键">
 <meta name="twitter:image" content="http://jasonhzy.github.io/images/sort-algorithm/sort.png">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"hide"},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: 0,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
 
 
 
-
   <link rel="canonical" href="http://jasonhzy.github.io/2016/02/19/sort-algorithm/"/>
 
-  <title> 排序算法 | Jason Website </title>
-</head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
+
+
+  <title>排序算法 | Jason Website</title>
   
+
+
 
 
 
@@ -143,7 +159,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?b49d57b46e0af963911a7b562d48c40f";
+      hm.src = "https://hm.baidu.com/hm.js?b49d57b46e0af963911a7b562d48c40f";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -156,41 +172,44 @@
 
 
 
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
-	 <!-- --------- add Fork me on Github ---------- -->
-	<a href="https://github.com/jasonhzy"target="_blank" ><img style="position: absolute; top: 0;
-		right: 0; border: 0;width: 100px;"
-				src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
-				alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
-	<!----------- add Fork me on Github ------------>
-
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Jason Website</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jason Website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Personal Notes</p>
+      
   </div>
-  <p class="site-subtitle">Personal Notes</p>
-</div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
 <nav class="site-nav">
@@ -211,7 +230,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -220,18 +239,8 @@
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
+          <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -241,7 +250,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
@@ -253,7 +262,7 @@
       
         <li class="menu-item menu-item-search">
           
-            <a href="#" class="popup-trigger">
+            <a href="javascript:;" class="popup-trigger">
           
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
@@ -268,17 +277,30 @@
   
     <div class="site-search">
       
-  <div class="popup">
- <span class="search-icon fa fa-search"></span>
- <input type="text" id="local-search-input">
- <div id="local-search-result"></div>
- <span class="popup-btn-close">close</span>
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
 </div>
+
 
 
     </div>
   
 </nav>
+
+
 
  </div>
     </header>
@@ -293,49 +315,64 @@
     
 
   
-  
 
   
   
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/02/19/sort-algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jason hu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jason Website">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                排序算法
-              
-            
-          </h1>
+          <h1 class="post-title" itemprop="name headline">排序算法</h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-19T15:57:12+08:00" content="2016-02-19">
-              2016-02-19
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-19T15:57:12+08:00">
+                2016-02-19
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/PHP/" itemprop="url" rel="index">
                     <span itemprop="name">PHP</span>
                   </a>
@@ -343,7 +380,6 @@
 
                 
                 
-
               
             </span>
           
@@ -351,24 +387,30 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/19/sort-algorithm/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/19/sort-algorithm/" itemprop="commentsCount"></span>
-                </a>
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
               </span>
+              
+                <a href="/2016/02/19/sort-algorithm/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/02/19/sort-algorithm/" itemprop="commentsCount"></span>
+                </a>
+              
             
           
 
           
-
-          
           
 
           
+
+          
+
+          
+
         </div>
       </header>
     
-
 
     <div class="post-body" itemprop="articleBody">
 
@@ -382,19 +424,19 @@
 <h3 id="排序算法归纳"><a href="#排序算法归纳" class="headerlink" title="排序算法归纳"></a>排序算法归纳</h3><h4 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h4><h5 id="直接插入排序-Straight-Insertion-Sort"><a href="#直接插入排序-Straight-Insertion-Sort" class="headerlink" title="直接插入排序(Straight Insertion Sort)"></a>直接插入排序(Straight Insertion Sort)</h5><p><strong>基本思想</strong>：将一个记录插入到已排序好的有序表中，从而得到一个新，记录数增1的有序表。即：先将序列的第1个记录看成是一个有序的子序列，然后从第2个记录逐个进行插入，直至整个序列有序为止。<br>要点：设立哨兵，作为临时存储和判断数组边界之用。<br>直接插入排序示例：<br><img src="/images/sort-algorithm/straight_insertion.jpg" alt="排序示例"></p>
 <p>如果碰见一个和插入元素相等的，那么插入元素把想插入的元素放在相等元素的后面。所以，相等元素的前后顺序没有改变，从原无序序列出去的顺序就是排好序后的顺序，<font color="red">我所以插入排序是稳定的</font></p>
 <p><strong>算法的实现</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span><span class="params">($a, $num)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span>($i= <span class="number">1</span>; $i&lt;$num; $i++) &#123;  </span><br><span class="line">		<span class="keyword">if</span>($a[$i] &lt; $a[$i<span class="number">-1</span>]) &#123;               <span class="comment">//若第i个元素大于i-1元素，直接插入。小于的话，移动有序表后插入  </span></span><br><span class="line">			$j= $i<span class="number">-1</span>;   </span><br><span class="line">			$x = $a[$i];        <span class="comment">//复制为哨兵，即存储待排序元素  </span></span><br><span class="line">			$a[$i] = $a[$i<span class="number">-1</span>];           <span class="comment">//先后移一个元素  </span></span><br><span class="line">			<span class="keyword">while</span>($x &lt; $a[$j])&#123;  <span class="comment">//查找在有序表的插入位置  </span></span><br><span class="line">				$a[$j+<span class="number">1</span>] = $a[$j];  </span><br><span class="line">				$j--;         <span class="comment">//元素后移  </span></span><br><span class="line">			&#125;  </span><br><span class="line">			$a[$j+<span class="number">1</span>] = $x; <span class="comment">//插入到正确位置</span></span><br><span class="line">		&#125;  </span><br><span class="line">		<span class="keyword">echo</span> $i . <span class="string">':'</span> . implode($a, <span class="string">','</span>).PHP_EOL; <span class="comment">//打印每趟排序的结果</span></span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertion_sort</span><span class="params">(&amp;$arr)</span> </span>&#123; </span><br><span class="line">	<span class="keyword">for</span> ($i = <span class="number">1</span>; $i &lt; count($arr); $i++) &#123;</span><br><span class="line">		$temp = $arr[$i];</span><br><span class="line">		<span class="keyword">for</span> ($j = $i - <span class="number">1</span>; $j &gt;= <span class="number">0</span> &amp;&amp; $arr[$j] &gt; $temp; $j--)</span><br><span class="line">			$arr[$j + <span class="number">1</span>] = $arr[$j];</span><br><span class="line">	 	$arr[$j + <span class="number">1</span>] = $temp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">echo</span> implode($arr, <span class="string">','</span>).PHP_EOL; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span><span class="params">($a, $num)</span> </span>&#123;</div><div class="line">	<span class="keyword">for</span>($i= <span class="number">1</span>; $i&lt;$num; $i++) &#123;  </div><div class="line">		<span class="keyword">if</span>($a[$i] &lt; $a[$i<span class="number">-1</span>]) &#123;               <span class="comment">//若第i个元素大于i-1元素，直接插入。小于的话，移动有序表后插入  </span></div><div class="line">			$j= $i<span class="number">-1</span>;   </div><div class="line">			$x = $a[$i];        <span class="comment">//复制为哨兵，即存储待排序元素  </span></div><div class="line">			$a[$i] = $a[$i<span class="number">-1</span>];           <span class="comment">//先后移一个元素  </span></div><div class="line">			<span class="keyword">while</span>($x &lt; $a[$j])&#123;  <span class="comment">//查找在有序表的插入位置  </span></div><div class="line">				$a[$j+<span class="number">1</span>] = $a[$j];  </div><div class="line">				$j--;         <span class="comment">//元素后移  </span></div><div class="line">			&#125;  </div><div class="line">			$a[$j+<span class="number">1</span>] = $x; <span class="comment">//插入到正确位置</span></div><div class="line">		&#125;  </div><div class="line">		<span class="keyword">echo</span> $i . <span class="string">':'</span> . implode($a, <span class="string">','</span>).PHP_EOL; <span class="comment">//打印每趟排序的结果</span></div><div class="line">	&#125;  </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertion_sort</span><span class="params">(&amp;$arr)</span> </span>&#123; </div><div class="line">	<span class="keyword">for</span> ($i = <span class="number">1</span>; $i &lt; count($arr); $i++) &#123;</div><div class="line">		$temp = $arr[$i];</div><div class="line">		<span class="keyword">for</span> ($j = $i - <span class="number">1</span>; $j &gt;= <span class="number">0</span> &amp;&amp; $arr[$j] &gt; $temp; $j--)</div><div class="line">			$arr[$j + <span class="number">1</span>] = $arr[$j];</div><div class="line">	 	$arr[$j + <span class="number">1</span>] = $temp;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">echo</span> implode($arr, <span class="string">','</span>).PHP_EOL; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h5 id="折半插入排序"><a href="#折半插入排序" class="headerlink" title="折半插入排序"></a>折半插入排序</h5><p><strong>基本思想</strong><br>1）计算 0 ~ i-1 的中间点，用 i 索引处的元素与中间值进行比较，如果 i<br>引处的元素大，说明要插入的这个元素应该在中间值和刚加入i索引之间，反之，就是在刚开始的位置 到中间值的位置，这样很简单的完成了折半；<br>2）在相应的半个范围里面找插入的位置时，不断的用（1）步骤缩小范围，不停的折半，范围依次缩小为 1/2  1/4  1/8 …….快速的确定出第 i<br>个元素要插在什么地方；<br>3）确定位置之后，将整个序列后移，并将元素插入到相应位置。</p>
-<p><strong>算法实现</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">BInsertSort</span><span class="params">($arr, $count)</span>  </span>&#123; <span class="comment">/*对作折半插入排序。*/</span>  </span><br><span class="line">	<span class="keyword">for</span>($i=<span class="number">1</span>; $i&lt;$count; ++$i) 	&#123;  </span><br><span class="line">		$temp = $arr[$i]; <span class="comment">/* 将$arr[$i]暂存到$temp */</span>  </span><br><span class="line">		$low=<span class="number">0</span>;  </span><br><span class="line">		$high=$i<span class="number">-1</span>;  </span><br><span class="line">		<span class="keyword">while</span>($low&lt;=$high)  </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">/* 在$arr[low..high]中折半查找有序插入的位置 */</span>  </span><br><span class="line">			$mid= intval(($low+$high)/<span class="number">2</span>); <span class="comment">/* 折半 * */</span>  </span><br><span class="line">			<span class="keyword">if</span>($temp &lt; $arr[$mid])  </span><br><span class="line">				$high = $mid<span class="number">-1</span>; <span class="comment">/* 插入点在低半区* */</span>  </span><br><span class="line">			<span class="keyword">else</span>  </span><br><span class="line">				$low = $mid + <span class="number">1</span>; <span class="comment">/* 插入点在高半区* */</span>  </span><br><span class="line">		&#125;  </span><br><span class="line">		<span class="keyword">for</span>($j=$i<span class="number">-1</span>;$j&gt;=$mid;$j--)  </span><br><span class="line">			$arr[$j+<span class="number">1</span>]=$arr[$j]; <span class="comment">/* 记录后移 * */</span>  </span><br><span class="line">		$arr[$low]=$temp; <span class="comment">/* 插入 * */</span>  </span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="keyword">echo</span> implode($arr,<span class="string">','</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>算法实现</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">BInsertSort</span><span class="params">($arr, $count)</span>  </span>&#123; <span class="comment">/*对作折半插入排序。*/</span>  </div><div class="line">	<span class="keyword">for</span>($i=<span class="number">1</span>; $i&lt;$count; ++$i) 	&#123;  </div><div class="line">		$temp = $arr[$i]; <span class="comment">/* 将$arr[$i]暂存到$temp */</span>  </div><div class="line">		$low=<span class="number">0</span>;  </div><div class="line">		$high=$i<span class="number">-1</span>;  </div><div class="line">		<span class="keyword">while</span>($low&lt;=$high)  </div><div class="line">		&#123;</div><div class="line">			<span class="comment">/* 在$arr[low..high]中折半查找有序插入的位置 */</span>  </div><div class="line">			$mid= intval(($low+$high)/<span class="number">2</span>); <span class="comment">/* 折半 * */</span>  </div><div class="line">			<span class="keyword">if</span>($temp &lt; $arr[$mid])  </div><div class="line">				$high = $mid<span class="number">-1</span>; <span class="comment">/* 插入点在低半区* */</span>  </div><div class="line">			<span class="keyword">else</span>  </div><div class="line">				$low = $mid + <span class="number">1</span>; <span class="comment">/* 插入点在高半区* */</span>  </div><div class="line">		&#125;  </div><div class="line">		<span class="keyword">for</span>($j=$i<span class="number">-1</span>;$j&gt;=$mid;$j--)  </div><div class="line">			$arr[$j+<span class="number">1</span>]=$arr[$j]; <span class="comment">/* 记录后移 * */</span>  </div><div class="line">		$arr[$low]=$temp; <span class="comment">/* 插入 * */</span>  </div><div class="line">	&#125;  </div><div class="line">	<span class="keyword">echo</span> implode($arr,<span class="string">','</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h5 id="希尔排序（Shell-s-Sort）"><a href="#希尔排序（Shell-s-Sort）" class="headerlink" title="希尔排序（Shell`s Sort）"></a>希尔排序（Shell`s Sort）</h5><p>希尔排序是1959 年由D.L.Shell 提出来的，相对直接排序有较大的改进。希尔排序又叫缩小增量排序</p>
 <p><strong>基本思想</strong><br>先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，待整个序列中的记录“基本有序”时，再对全体记录进行依次直接插入排序。操作方法：<br>1、选择一个增量序列t1，t2，…，tk，其中ti&gt;tj，tk=1；<br>2、按增量序列个数k，对序列进行k 趟排序；<br>3、每趟排序，根据对应的增量ti，将待排序列分割成若干长度为m<br>的子序列，分别对各子表进行直接插入排序。仅增量因子为1时，整个序列作为一个表来处理，表长度即为整个序列的长度。<br>希尔排序的示例：<br><img src="/images/sort-algorithm/shell-sort.jpg" alt="希尔排序"></p>
 <p><strong>算法实现</strong></p>
 <p>简单处理增量序列：增量序列d = {n/2 ,n/4, n/8 …..1} n为要排序数的个数<br>即：先将要排序的一组记录按某个增量d（n/2,n为要排序数的个数）分成若干组子序列，每组中记录的下标相差d.对每组中全部元素进行直接插入排序，然后再用一个较小的增量（d/2）对它进行分组，在每组中再进行直接插入排序。继续不断缩小增量直至为1，最后使用直接插入排序完成排序。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shellSort</span><span class="params">($a)</span> </span>&#123;</span><br><span class="line">	$l = count($a);</span><br><span class="line">	$d = floor($l/<span class="number">2</span>);</span><br><span class="line">	<span class="keyword">while</span>($d&gt;=<span class="number">1</span>) &#123;</span><br><span class="line">		<span class="keyword">for</span>($i=$d; $i&lt;$l; $i++) &#123;</span><br><span class="line">			$t = $a[$i];</span><br><span class="line">			$j = $i-$d;<span class="comment">// 获取组内上一个数据 , 然后不断往前与当前数据比较</span></span><br><span class="line">			<span class="keyword">while</span>($j&gt;=<span class="number">0</span> &amp;&amp; $a[$j]&gt;$t)&#123;</span><br><span class="line">				$a[$j+$d] = $a[$j];</span><br><span class="line">				$j -= $d;</span><br><span class="line">			&#125;</span><br><span class="line">			$a[$j+$d] = $t;</span><br><span class="line">		&#125;</span><br><span class="line">		$d = floor($d/<span class="number">2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> $a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">shellSort</span><span class="params">($a)</span> </span>&#123;</div><div class="line">	$l = count($a);</div><div class="line">	$d = floor($l/<span class="number">2</span>);</div><div class="line">	<span class="keyword">while</span>($d&gt;=<span class="number">1</span>) &#123;</div><div class="line">		<span class="keyword">for</span>($i=$d; $i&lt;$l; $i++) &#123;</div><div class="line">			$t = $a[$i];</div><div class="line">			$j = $i-$d;<span class="comment">// 获取组内上一个数据 , 然后不断往前与当前数据比较</span></div><div class="line">			<span class="keyword">while</span>($j&gt;=<span class="number">0</span> &amp;&amp; $a[$j]&gt;$t)&#123;</div><div class="line">				$a[$j+$d] = $a[$j];</div><div class="line">				$j -= $d;</div><div class="line">			&#125;</div><div class="line">			$a[$j+$d] = $t;</div><div class="line">		&#125;</div><div class="line">		$d = floor($d/<span class="number">2</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> $a;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h4><h5 id="简单选择排序（Simple-Selection-Sort）"><a href="#简单选择排序（Simple-Selection-Sort）" class="headerlink" title="简单选择排序（Simple Selection Sort）"></a>简单选择排序（Simple Selection Sort）</h5><p><strong>基本思想</strong>：在要排序的一组数中，选出最小（或者最大）的一个数与第1个位置的数交换；然后在剩下的数当中再找最小（或者最大）的与第2个位置的数交换，依次类推，直到第n-1个元素（倒数第二个数）和第n个元素（最后一个数）比较为止。<br>第一趟，从n 个记录中找出关键码最小的记录与第一个记录交换；<br>第二趟，从第二个记录开始的n-1 个记录中再选出关键码最小的记录与第二个记录交换；<br>以此类推…..<br>第i 趟，则从第i个记录开始的n-i+1 个记录中选出关键码最小的记录与第i 个记录交换，直到整个序列按关键码有序。</p>
 <p><strong>算法实现</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectSort</span><span class="params">($arr)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//双重循环完成，外层控制轮数，内层控制比较次数</span></span><br><span class="line">	$len=count($arr);</span><br><span class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>; $i&lt;$len<span class="number">-1</span>; $i++) &#123;</span><br><span class="line">        <span class="comment">//先假设最小的值的位置</span></span><br><span class="line">        $p = $i;</span><br><span class="line">        <span class="keyword">for</span>($j=$i+<span class="number">1</span>; $j&lt;$len; $j++) &#123;</span><br><span class="line">            <span class="comment">//$arr[$p] 是当前已知的最小值</span></span><br><span class="line">            <span class="keyword">if</span>($arr[$p] &gt; $arr[$j]) &#123;</span><br><span class="line">				<span class="comment">//比较，发现更小的,记录下最小值的位置；并且在下次比较时采用已知的最小值进行比较。</span></span><br><span class="line">                $p = $j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//已经确定了当前的最小值的位置，保存到$p中。如果发现最小值的位置与当前假设的位置$i不同，</span></span><br><span class="line">		<span class="comment">//则位置互换即可。</span></span><br><span class="line">        <span class="keyword">if</span>($p != $i) &#123;</span><br><span class="line">            $tmp = $arr[$p];</span><br><span class="line">            $arr[$p] = $arr[$i];</span><br><span class="line">            $arr[$i] = $tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//返回最终结果</span></span><br><span class="line">    <span class="keyword">return</span> $arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectSort</span><span class="params">($arr)</span> </span>&#123;</div><div class="line">	<span class="comment">//双重循环完成，外层控制轮数，内层控制比较次数</span></div><div class="line">	$len=count($arr);</div><div class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>; $i&lt;$len<span class="number">-1</span>; $i++) &#123;</div><div class="line">        <span class="comment">//先假设最小的值的位置</span></div><div class="line">        $p = $i;</div><div class="line">        <span class="keyword">for</span>($j=$i+<span class="number">1</span>; $j&lt;$len; $j++) &#123;</div><div class="line">            <span class="comment">//$arr[$p] 是当前已知的最小值</span></div><div class="line">            <span class="keyword">if</span>($arr[$p] &gt; $arr[$j]) &#123;</div><div class="line">				<span class="comment">//比较，发现更小的,记录下最小值的位置；并且在下次比较时采用已知的最小值进行比较。</span></div><div class="line">                $p = $j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//已经确定了当前的最小值的位置，保存到$p中。如果发现最小值的位置与当前假设的位置$i不同，</span></div><div class="line">		<span class="comment">//则位置互换即可。</span></div><div class="line">        <span class="keyword">if</span>($p != $i) &#123;</div><div class="line">            $tmp = $arr[$p];</div><div class="line">            $arr[$p] = $arr[$i];</div><div class="line">            $arr[$i] = $tmp;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//返回最终结果</span></div><div class="line">    <span class="keyword">return</span> $arr;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h5 id="二元选择排序-简单选择排序的改进"><a href="#二元选择排序-简单选择排序的改进" class="headerlink" title="二元选择排序(简单选择排序的改进)"></a>二元选择排序(简单选择排序的改进)</h5><p>简单选择排序，每趟循环只能确定一个元素排序后的定位。我们可以考虑改进为每趟循环确定两个元素（当前趟最大和最小记录）的位置,从而减少排序所需的循环次数。改进后对n个数据进行排序，最多只需进行[n/2]趟循环即可。具体实现如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">improve_selectSort</span><span class="params">(&amp;$arr, $n)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span>($i=<span class="number">1</span>; $i &lt;= $n/<span class="number">2</span>; $i++) &#123;    </span><br><span class="line">		<span class="comment">// 做不超过n/2趟选择排序   </span></span><br><span class="line">		$min = $i; </span><br><span class="line">		$max = $i ; <span class="comment">//分别记录最大和最小关键字记录位置  </span></span><br><span class="line">		<span class="keyword">for</span> ($j= $i+<span class="number">1</span>; $j&lt;= $n-$i; $j++) &#123;  </span><br><span class="line">			<span class="keyword">if</span> ($arr[$j] &gt; $arr[$max]) &#123;   </span><br><span class="line">				$max = $j ; <span class="keyword">continue</span> ;   </span><br><span class="line">			&#125;    </span><br><span class="line">			<span class="keyword">if</span> ($arr[$j]&lt; $arr[$min]) &#123;   </span><br><span class="line">				$min = $j ;   </span><br><span class="line">			&#125;     </span><br><span class="line">		&#125;    </span><br><span class="line">		<span class="comment">//该交换操作还可分情况讨论以提高效率  </span></span><br><span class="line">		$tmp = $arr[$i<span class="number">-1</span>]; $arr[$i<span class="number">-1</span>] = $arr[$min]; $arr[$min] = $tmp;  </span><br><span class="line">		$tmp = $arr[$n-$i]; $arr[$n-$i] = $arr[$max]; $arr[$max] = $tmp;   </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">improve_selectSort</span><span class="params">(&amp;$arr, $n)</span> </span>&#123;</div><div class="line">	<span class="keyword">for</span>($i=<span class="number">1</span>; $i &lt;= $n/<span class="number">2</span>; $i++) &#123;    </div><div class="line">		<span class="comment">// 做不超过n/2趟选择排序   </span></div><div class="line">		$min = $i; </div><div class="line">		$max = $i ; <span class="comment">//分别记录最大和最小关键字记录位置  </span></div><div class="line">		<span class="keyword">for</span> ($j= $i+<span class="number">1</span>; $j&lt;= $n-$i; $j++) &#123;  </div><div class="line">			<span class="keyword">if</span> ($arr[$j] &gt; $arr[$max]) &#123;   </div><div class="line">				$max = $j ; <span class="keyword">continue</span> ;   </div><div class="line">			&#125;    </div><div class="line">			<span class="keyword">if</span> ($arr[$j]&lt; $arr[$min]) &#123;   </div><div class="line">				$min = $j ;   </div><div class="line">			&#125;     </div><div class="line">		&#125;    </div><div class="line">		<span class="comment">//该交换操作还可分情况讨论以提高效率  </span></div><div class="line">		$tmp = $arr[$i<span class="number">-1</span>]; $arr[$i<span class="number">-1</span>] = $arr[$min]; $arr[$min] = $tmp;  </div><div class="line">		$tmp = $arr[$n-$i]; $arr[$n-$i] = $arr[$max]; $arr[$max] = $tmp;   </div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h5 id="堆排序（Heap-Sort）"><a href="#堆排序（Heap-Sort）" class="headerlink" title="堆排序（Heap Sort）"></a>堆排序（Heap Sort）</h5><p>堆排序是一种树形选择排序，是对直接选择排序的有效改进</p>
 <p><strong>基本思想</strong>：堆的定义如下：具有n个元素的序列（k1,k2,…,kn),当且仅当满足<br><img src="/images/sort-algorithm/heap_sort0.jpg" alt="堆排序"></p>
 <p>时称之为堆。由堆的定义可以看出，堆顶元素（即第一个元素）必为最小项（小顶堆）。<br>若以一维数组存储一个堆，则堆对应一棵完全二叉树，且所有非叶结点的值均不大于(或不小于)其子女的值，根结点（堆顶元素）的值是最小(或最大)的。如：</p>
@@ -417,14 +459,14 @@
 <p>2）筛选从第个结点为根的子树开始，该子树成为堆。</p>
 <p>3）之后向前依次对各结点为根的子树进行筛选，使之成为堆，直到根结点。</p>
 <p>如图建堆初始过程：无序序列：（49，38，65，97，76，13，27，49）<br><img src="/images/sort-algorithm/heap_sort3.jpg" alt="堆排序"></p>
-<p><strong>算法的实现</strong><br>从算法描述来看，堆排序需要两个过程，一是建立堆，二是堆顶与堆的最后一个元素交换位置。所以堆排序有两个函数组成。一是建堆的渗透函数，二是反复调用渗透函数实现排序的函数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span><br><span class="line"> *   已知$arr[s…m]除了$arr[s] 外均满足堆的定义 </span><br><span class="line"> *   调整$arr[s],使其成为大顶堆.即将对第s个结点为根的子树筛选,  </span><br><span class="line"> *   </span><br><span class="line"> *   <span class="doctag">@param</span> $arr是待调整的堆数组 </span><br><span class="line"> *   <span class="doctag">@param</span> $s是待调整的数组元素的位置 </span><br><span class="line"> *   <span class="doctag">@param</span> $length是数组的长度 </span><br><span class="line"> *  */</span>  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapAdjust</span><span class="params">(&amp;$arr, $s, $length)</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">	$tmp  = $arr[$s];  </span><br><span class="line">	$child = <span class="number">2</span>*$s+<span class="number">1</span>; <span class="comment">//左孩子结点的位置。($i+1 为当前调整结点的右孩子结点的位置)  </span></span><br><span class="line">	<span class="keyword">while</span> ($child &lt; $length) &#123;  </span><br><span class="line">		<span class="keyword">if</span>($child+<span class="number">1</span> &lt; $length &amp;&amp; $arr[$child] &lt; $arr[$child+<span class="number">1</span>]) &#123; <span class="comment">// 如果右孩子大于左孩子(找到比当前待调整结点大的孩子结点)  </span></span><br><span class="line">			++$child ;  </span><br><span class="line">		&#125;  </span><br><span class="line">		<span class="keyword">if</span>($arr[$s]&lt;$arr[$child]) &#123;  <span class="comment">// 如果较大的子结点大于父结点  </span></span><br><span class="line">			$arr[$s] = $arr[$child]; <span class="comment">// 那么把较大的子结点往上移动，替换它的父结点  </span></span><br><span class="line">			$s = $child;       <span class="comment">// 重新设置$s ,即待调整的下一个结点的位置 $i </span></span><br><span class="line">			$child = <span class="number">2</span>*$s+<span class="number">1</span>;  </span><br><span class="line">		&#125;  <span class="keyword">else</span> &#123;            <span class="comment">// 如果当前待调整结点大于它的左右孩子，则不需要调整，直接退出  </span></span><br><span class="line">			<span class="keyword">break</span>;  </span><br><span class="line">		&#125;  </span><br><span class="line">		$arr[$s] = $tmp;         <span class="comment">// 当前待调整的结点放到比其大的孩子结点位置上  </span></span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="keyword">echo</span> implode(<span class="string">','</span>, $arr).PHP_EOL;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">/** </span><br><span class="line"> *  * 初始堆进行调整 </span><br><span class="line"> *   * 将$arr[0..length-1]建成堆 </span><br><span class="line"> *    * 调整完之后第一个元素是序列的最小的元素 </span><br><span class="line"> *     */</span>  </span><br><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">buildingHeap</span><span class="params">( &amp;$arr , $length)</span>  </span><br><span class="line"></span>&#123;   </span><br><span class="line">	<span class="comment">//最后一个有孩子的节点的位置 $i=  ($length -1) / 2  </span></span><br><span class="line">	<span class="keyword">for</span> ($i = ($length <span class="number">-1</span>) / <span class="number">2</span> ; $i &gt;= <span class="number">0</span>; --$i)  </span><br><span class="line">		heapAdjust($arr, $i, $length);  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">/** </span><br><span class="line"> * 堆排序算法 </span><br><span class="line"> */</span>  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapSort</span><span class="params">( &amp;$arr, $length)</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">	<span class="comment">//初始堆  </span></span><br><span class="line">	buildingHeap($arr, $length);  </span><br><span class="line">	<span class="comment">//从最后一个元素开始对序列进行调整  </span></span><br><span class="line">	<span class="keyword">for</span> ($i = $length - <span class="number">1</span>; $i &gt; <span class="number">0</span>; --$i)  </span><br><span class="line">	&#123;  </span><br><span class="line">		<span class="comment">//交换堆顶元素H[0]和堆中最后一个元素  </span></span><br><span class="line">		$temp = $arr[$i]; $arr[$i] = $arr[<span class="number">0</span>]; $arr[<span class="number">0</span>] = $temp;  </span><br><span class="line">		<span class="comment">//每次交换堆顶元素和堆中最后一个元素之后，都要对堆进行调整  </span></span><br><span class="line">		heapAdjust($arr,<span class="number">0</span>,$i);  </span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>算法的实现</strong><br>从算法描述来看，堆排序需要两个过程，一是建立堆，二是堆顶与堆的最后一个元素交换位置。所以堆排序有两个函数组成。一是建堆的渗透函数，二是反复调用渗透函数实现排序的函数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** </span></div><div class="line"> *   已知$arr[s…m]除了$arr[s] 外均满足堆的定义 </div><div class="line"> *   调整$arr[s],使其成为大顶堆.即将对第s个结点为根的子树筛选,  </div><div class="line"> *   </div><div class="line"> *   <span class="doctag">@param</span> $arr是待调整的堆数组 </div><div class="line"> *   <span class="doctag">@param</span> $s是待调整的数组元素的位置 </div><div class="line"> *   <span class="doctag">@param</span> $length是数组的长度 </div><div class="line"> *  */  </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapAdjust</span><span class="params">(&amp;$arr, $s, $length)</span>  </span></div><div class="line">&#123;  </div><div class="line">	$tmp  = $arr[$s];  </div><div class="line">	$child = <span class="number">2</span>*$s+<span class="number">1</span>; <span class="comment">//左孩子结点的位置。($i+1 为当前调整结点的右孩子结点的位置)  </span></div><div class="line">	<span class="keyword">while</span> ($child &lt; $length) &#123;  </div><div class="line">		<span class="keyword">if</span>($child+<span class="number">1</span> &lt; $length &amp;&amp; $arr[$child] &lt; $arr[$child+<span class="number">1</span>]) &#123; <span class="comment">// 如果右孩子大于左孩子(找到比当前待调整结点大的孩子结点)  </span></div><div class="line">			++$child ;  </div><div class="line">		&#125;  </div><div class="line">		<span class="keyword">if</span>($arr[$s]&lt;$arr[$child]) &#123;  <span class="comment">// 如果较大的子结点大于父结点  </span></div><div class="line">			$arr[$s] = $arr[$child]; <span class="comment">// 那么把较大的子结点往上移动，替换它的父结点  </span></div><div class="line">			$s = $child;       <span class="comment">// 重新设置$s ,即待调整的下一个结点的位置 $i </span></div><div class="line">			$child = <span class="number">2</span>*$s+<span class="number">1</span>;  </div><div class="line">		&#125;  <span class="keyword">else</span> &#123;            <span class="comment">// 如果当前待调整结点大于它的左右孩子，则不需要调整，直接退出  </span></div><div class="line">			<span class="keyword">break</span>;  </div><div class="line">		&#125;  </div><div class="line">		$arr[$s] = $tmp;         <span class="comment">// 当前待调整的结点放到比其大的孩子结点位置上  </span></div><div class="line">	&#125;  </div><div class="line">	<span class="keyword">echo</span> implode(<span class="string">','</span>, $arr).PHP_EOL;</div><div class="line">&#125;  </div><div class="line"></div><div class="line"><span class="comment">/** </span></div><div class="line"> *  * 初始堆进行调整 </div><div class="line"> *   * 将$arr[0..length-1]建成堆 </div><div class="line"> *    * 调整完之后第一个元素是序列的最小的元素 </div><div class="line"> *     */  </div><div class="line"><span class="function"><span class="keyword">function</span>  <span class="title">buildingHeap</span><span class="params">( &amp;$arr , $length)</span>  </span></div><div class="line">&#123;   </div><div class="line">	<span class="comment">//最后一个有孩子的节点的位置 $i=  ($length -1) / 2  </span></div><div class="line">	<span class="keyword">for</span> ($i = ($length <span class="number">-1</span>) / <span class="number">2</span> ; $i &gt;= <span class="number">0</span>; --$i)  </div><div class="line">		heapAdjust($arr, $i, $length);  </div><div class="line">&#125;  </div><div class="line"><span class="comment">/** </span></div><div class="line"> * 堆排序算法 </div><div class="line"> */  </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapSort</span><span class="params">( &amp;$arr, $length)</span>  </span></div><div class="line">&#123;  </div><div class="line">	<span class="comment">//初始堆  </span></div><div class="line">	buildingHeap($arr, $length);  </div><div class="line">	<span class="comment">//从最后一个元素开始对序列进行调整  </span></div><div class="line">	<span class="keyword">for</span> ($i = $length - <span class="number">1</span>; $i &gt; <span class="number">0</span>; --$i)  </div><div class="line">	&#123;  </div><div class="line">		<span class="comment">//交换堆顶元素H[0]和堆中最后一个元素  </span></div><div class="line">		$temp = $arr[$i]; $arr[$i] = $arr[<span class="number">0</span>]; $arr[<span class="number">0</span>] = $temp;  </div><div class="line">		<span class="comment">//每次交换堆顶元素和堆中最后一个元素之后，都要对堆进行调整  </span></div><div class="line">		heapAdjust($arr,<span class="number">0</span>,$i);  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h4 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h4><h5 id="冒泡排序（Bubble-Sort）"><a href="#冒泡排序（Bubble-Sort）" class="headerlink" title="冒泡排序（Bubble Sort）"></a>冒泡排序（Bubble Sort）</h5><p><strong>基本思想</strong>：在要排序的一组数中，对当前还未排好序的范围内的全部数，自上而下对相邻的两个数依次进行比较和调整，让较大的数往下沉，较小的往上冒。即：每当两相邻的数比较后发现它们的排序与排序要求相反时，就将它们互换。<br>冒泡排序的示例：<br><img src="/images/sort-algorithm/bubble _sort.jpg" alt="冒泡排序"></p>
-<p><strong>算法的实现</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span><span class="params">(&amp;$arr, $n)</span></span>&#123;  </span><br><span class="line">	<span class="keyword">for</span>($i =<span class="number">0</span> ; $i&lt; $n<span class="number">-1</span>; ++$i) &#123;  </span><br><span class="line">		<span class="keyword">for</span>($j = <span class="number">0</span>; $j &lt; $n-$i<span class="number">-1</span>; ++$j) &#123;  </span><br><span class="line">			<span class="keyword">if</span>($arr[$j] &gt; $arr[$j+<span class="number">1</span>])  </span><br><span class="line">			&#123;  </span><br><span class="line">				$tmp = $arr[$j]; </span><br><span class="line">				$arr[$j] = $arr[$j+<span class="number">1</span>] ;</span><br><span class="line">				$arr[$j+<span class="number">1</span>] = $tmp;  </span><br><span class="line">			&#125;  </span><br><span class="line">		&#125;  </span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>冒泡排序算法的改进</strong><br>对冒泡排序常见的改进方法是加入一标志性变量exchange，用于标志某一趟排序过程中是否有数据交换，如果进行某一趟排序时并没有进行数据交换，则说明数据已经按要求排列好，可立即结束排序，避免不必要的比较过程。本文再提供以下两种改进算法：<br>1．设置一标志性变量$bFlag ,用于记录每趟排序中是否有位置交换，如果没有则直接结束外层循环，否则进行交换。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span><span class="params">($arr)</span></span>&#123;<span class="comment">//$arr(1...n)是待排序的文件，采用自下向上扫描，对$arr做冒泡排序</span></span><br><span class="line">    $bFlag = <span class="keyword">true</span>; <span class="comment">//交换标志</span></span><br><span class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>; $i&lt;count($arr); $i++)&#123; <span class="comment">//最多做n-1趟排序</span></span><br><span class="line">        $bFlag = <span class="keyword">false</span>; <span class="comment">//本趟排序开始前，交换标志应为假</span></span><br><span class="line">        <span class="keyword">for</span>($j = count($arr)<span class="number">-2</span>; $j &gt;= $i; $j--)&#123; <span class="comment">//对当前无序区$arr[i..n]自下向上扫描</span></span><br><span class="line">            <span class="keyword">if</span>( $arr[$j+<span class="number">1</span>] &lt; $arr[$j] )&#123;<span class="comment">//交换记录</span></span><br><span class="line">                $temp = $arr[$j+<span class="number">1</span>]; <span class="comment">//$temp不是哨兵，仅做暂存单元</span></span><br><span class="line">                $arr[$j+<span class="number">1</span>] = $arr[$j];</span><br><span class="line">                $arr[$j] = $temp;</span><br><span class="line">                $bFlag = <span class="keyword">true</span>; <span class="comment">//发生了交换，故将交换标志置为真</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!$bFlag)&#123; <span class="comment">//本趟排序未发生交换，提前终止算法</span></span><br><span class="line">             <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="comment">//endfor(外循环)</span></span><br><span class="line">    print_r($arr);</span><br><span class="line">&#125; <span class="comment">//BubbleSort</span></span><br></pre></td></tr></table></figure></p>
-<p>2.传统冒泡排序中每一趟排序操作只能找到一个最大值或最小值,我们考虑利用在每趟排序中进行正向和反向两遍冒泡的方法一次可以得到两个最终值(最大者和最小者), 从而使排序趟数几乎减少了一半。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubble</span> <span class="params">( $arr, $n)</span></span>&#123;  </span><br><span class="line">	$low = <span class="number">0</span>;   </span><br><span class="line">	$high = $n <span class="number">-1</span>; <span class="comment">//设置变量的初始值  </span></span><br><span class="line">	<span class="keyword">while</span> ($low &lt; $high) &#123;  </span><br><span class="line">		<span class="keyword">for</span> ($j = $low; $j&lt; $high; ++$j) <span class="comment">//正向冒泡,找到最大者  </span></span><br><span class="line">			<span class="keyword">if</span> ($arr[$j]&gt; $arr[$j+<span class="number">1</span>]) &#123;  </span><br><span class="line">				$tmp = $arr[$j]; </span><br><span class="line">				$arr[$j]=$arr[$j+<span class="number">1</span>];</span><br><span class="line">				$arr[$j+<span class="number">1</span>]=$tmp;  </span><br><span class="line">			&#125;   </span><br><span class="line">		--$high;                 <span class="comment">//修改high值, 前移一位  </span></span><br><span class="line">		<span class="keyword">for</span> ( $j=$high; $j&gt;$low; --$j) <span class="comment">//反向冒泡,找到最小者  </span></span><br><span class="line">			<span class="keyword">if</span> ($arr[$j]&lt;$arr[$j<span class="number">-1</span>]) &#123;  </span><br><span class="line">				$tmp = $arr[$j]; </span><br><span class="line">				$arr[$j]=$arr[$j<span class="number">-1</span>];</span><br><span class="line">				$arr[$j<span class="number">-1</span>]=$tmp;  </span><br><span class="line">			&#125;  </span><br><span class="line">		++$low;                  <span class="comment">//修改low值,后移一位  </span></span><br><span class="line">	&#125;   </span><br><span class="line">	<span class="keyword">echo</span> implode(<span class="string">','</span>, $arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>算法的实现</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span><span class="params">(&amp;$arr, $n)</span></span>&#123;  </div><div class="line">	<span class="keyword">for</span>($i =<span class="number">0</span> ; $i&lt; $n<span class="number">-1</span>; ++$i) &#123;  </div><div class="line">		<span class="keyword">for</span>($j = <span class="number">0</span>; $j &lt; $n-$i<span class="number">-1</span>; ++$j) &#123;  </div><div class="line">			<span class="keyword">if</span>($arr[$j] &gt; $arr[$j+<span class="number">1</span>])  </div><div class="line">			&#123;  </div><div class="line">				$tmp = $arr[$j]; </div><div class="line">				$arr[$j] = $arr[$j+<span class="number">1</span>] ;</div><div class="line">				$arr[$j+<span class="number">1</span>] = $tmp;  </div><div class="line">			&#125;  </div><div class="line">		&#125;  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>冒泡排序算法的改进</strong><br>对冒泡排序常见的改进方法是加入一标志性变量exchange，用于标志某一趟排序过程中是否有数据交换，如果进行某一趟排序时并没有进行数据交换，则说明数据已经按要求排列好，可立即结束排序，避免不必要的比较过程。本文再提供以下两种改进算法：<br>1．设置一标志性变量$bFlag ,用于记录每趟排序中是否有位置交换，如果没有则直接结束外层循环，否则进行交换。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span><span class="params">($arr)</span></span>&#123;<span class="comment">//$arr(1...n)是待排序的文件，采用自下向上扫描，对$arr做冒泡排序</span></div><div class="line">    $bFlag = <span class="keyword">true</span>; <span class="comment">//交换标志</span></div><div class="line">    <span class="keyword">for</span>($i=<span class="number">0</span>; $i&lt;count($arr); $i++)&#123; <span class="comment">//最多做n-1趟排序</span></div><div class="line">        $bFlag = <span class="keyword">false</span>; <span class="comment">//本趟排序开始前，交换标志应为假</span></div><div class="line">        <span class="keyword">for</span>($j = count($arr)<span class="number">-2</span>; $j &gt;= $i; $j--)&#123; <span class="comment">//对当前无序区$arr[i..n]自下向上扫描</span></div><div class="line">            <span class="keyword">if</span>( $arr[$j+<span class="number">1</span>] &lt; $arr[$j] )&#123;<span class="comment">//交换记录</span></div><div class="line">                $temp = $arr[$j+<span class="number">1</span>]; <span class="comment">//$temp不是哨兵，仅做暂存单元</span></div><div class="line">                $arr[$j+<span class="number">1</span>] = $arr[$j];</div><div class="line">                $arr[$j] = $temp;</div><div class="line">                $bFlag = <span class="keyword">true</span>; <span class="comment">//发生了交换，故将交换标志置为真</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(!$bFlag)&#123; <span class="comment">//本趟排序未发生交换，提前终止算法</span></div><div class="line">             <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="comment">//endfor(外循环)</span></div><div class="line">    print_r($arr);</div><div class="line">&#125; <span class="comment">//BubbleSort</span></div></pre></td></tr></table></figure></p>
+<p>2.传统冒泡排序中每一趟排序操作只能找到一个最大值或最小值,我们考虑利用在每趟排序中进行正向和反向两遍冒泡的方法一次可以得到两个最终值(最大者和最小者), 从而使排序趟数几乎减少了一半。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubble</span> <span class="params">( $arr, $n)</span></span>&#123;  </div><div class="line">	$low = <span class="number">0</span>;   </div><div class="line">	$high = $n <span class="number">-1</span>; <span class="comment">//设置变量的初始值  </span></div><div class="line">	<span class="keyword">while</span> ($low &lt; $high) &#123;  </div><div class="line">		<span class="keyword">for</span> ($j = $low; $j&lt; $high; ++$j) <span class="comment">//正向冒泡,找到最大者  </span></div><div class="line">			<span class="keyword">if</span> ($arr[$j]&gt; $arr[$j+<span class="number">1</span>]) &#123;  </div><div class="line">				$tmp = $arr[$j]; </div><div class="line">				$arr[$j]=$arr[$j+<span class="number">1</span>];</div><div class="line">				$arr[$j+<span class="number">1</span>]=$tmp;  </div><div class="line">			&#125;   </div><div class="line">		--$high;                 <span class="comment">//修改high值, 前移一位  </span></div><div class="line">		<span class="keyword">for</span> ( $j=$high; $j&gt;$low; --$j) <span class="comment">//反向冒泡,找到最小者  </span></div><div class="line">			<span class="keyword">if</span> ($arr[$j]&lt;$arr[$j<span class="number">-1</span>]) &#123;  </div><div class="line">				$tmp = $arr[$j]; </div><div class="line">				$arr[$j]=$arr[$j<span class="number">-1</span>];</div><div class="line">				$arr[$j<span class="number">-1</span>]=$tmp;  </div><div class="line">			&#125;  </div><div class="line">		++$low;                  <span class="comment">//修改low值,后移一位  </span></div><div class="line">	&#125;   </div><div class="line">	<span class="keyword">echo</span> implode(<span class="string">','</span>, $arr);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h4 id="交换排序-1"><a href="#交换排序-1" class="headerlink" title="交换排序"></a>交换排序</h4><h5 id="快速排序（Quick-Sort）"><a href="#快速排序（Quick-Sort）" class="headerlink" title="快速排序（Quick Sort）"></a>快速排序（Quick Sort）</h5><p><strong>基本思想</strong>：<br>1）选择一个基准元素,通常选择第一个元素或者最后一个元素,<br>2）通过一趟排序讲待排序的记录分割成独立的两部分，其中一部分记录的元素值均比基准元素值小。另一部分记录的<br>元素值比基准值大。<br>3）此时基准元素在其排好序后的正确位置<br>4）然后分别对这两部分记录用同样的方法继续进行排序，直到整个序列有序。</p>
 <p>快速排序的示例：<br>（a）一趟排序的过程：<br><img src="/images/sort-algorithm/quick_sort1.jpg" alt="first quick sort"><br>（b）排序的全过程：<br><img src="/images/sort-algorithm/quick_sort2.jpg" alt="quick sort"></p>
-<p><strong>算法的实现</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quick_sort</span><span class="params">($array)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (count( $array ) &lt;= <span class="number">1</span>) <span class="keyword">return</span> $array;</span><br><span class="line">    $key = $array [<span class="number">0</span>];</span><br><span class="line">    $left_arr = <span class="keyword">array</span> ();</span><br><span class="line">    $right_arr = <span class="keyword">array</span> ();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>($i = <span class="number">1</span>; $i &lt; count( $array ); $i ++) &#123;</span><br><span class="line">        <span class="keyword">if</span> ($array [$i] &lt;= $key)</span><br><span class="line">            $left_arr [] = $array [$i];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            $right_arr [] = $array [$i];</span><br><span class="line">    &#125;</span><br><span class="line">    $left_arr = quick_sort ( $left_arr );</span><br><span class="line">    $right_arr = quick_sort ( $right_arr );</span><br><span class="line">    <span class="keyword">return</span> array_merge ( $left_arr, <span class="keyword">array</span> ($key ), $right_arr );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>算法的实现</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">quick_sort</span><span class="params">($array)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (count( $array ) &lt;= <span class="number">1</span>) <span class="keyword">return</span> $array;</div><div class="line">    $key = $array [<span class="number">0</span>];</div><div class="line">    $left_arr = <span class="keyword">array</span> ();</div><div class="line">    $right_arr = <span class="keyword">array</span> ();</div><div class="line">    </div><div class="line">    <span class="keyword">for</span>($i = <span class="number">1</span>; $i &lt; count( $array ); $i ++) &#123;</div><div class="line">        <span class="keyword">if</span> ($array [$i] &lt;= $key)</div><div class="line">            $left_arr [] = $array [$i];</div><div class="line">        <span class="keyword">else</span></div><div class="line">            $right_arr [] = $array [$i];</div><div class="line">    &#125;</div><div class="line">    $left_arr = quick_sort ( $left_arr );</div><div class="line">    $right_arr = quick_sort ( $right_arr );</div><div class="line">    <span class="keyword">return</span> array_merge ( $left_arr, <span class="keyword">array</span> ($key ), $right_arr );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>附：相关资料<br><a href="http://blog.csdn.net/hguisu/article/details/7776068" target="_blank" rel="external">八大排序算法</a></p>
 
       
@@ -433,6 +475,7 @@
     <div>
       
         
+
       
     </div>
 
@@ -464,15 +507,41 @@
       
     </div>
 
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Jason hu
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jasonhzy.github.io/2016/02/19/sort-algorithm/" title="排序算法">http://jasonhzy.github.io/2016/02/19/sort-algorithm/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/PHP/" rel="tag">#PHP</a>
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
           
-            <a href="/tags/数据结构/" rel="tag">#数据结构</a>
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -484,6 +553,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -504,25 +575,6 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/02/19/sort-algorithm/"
-     data-title="排序算法"
-     data-content=""
-     data-url="http://jasonhzy.github.io/2016/02/19/sort-algorithm/">
-  <div class="ds-share-inline">
-    <ul  class="ds-share-icons-16">
-
-      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-
-    </ul>
-    <div class="ds-share-icons-more">
-    </div>
-  </div>
-</div>
-      
     </div>
   </div>
 
@@ -534,9 +586,7 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/02/19/sort-algorithm/"
-           data-title="排序算法" data-url="http://jasonhzy.github.io/2016/02/19/sort-algorithm/">
-      </div>
+      <div id="SOHUCS"></div>
     
   </div>
 
@@ -554,6 +604,7 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    <div id="sidebar-dimmer"></div>
     <div class="sidebar-inner">
 
       
@@ -569,25 +620,32 @@
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
                alt="Jason hu" />
           <p class="site-author-name" itemprop="name">Jason hu</p>
-          <p class="site-description motion-element" itemprop="description">Share experience summary</p>
+           
+              <p class="site-description motion-element" itemprop="description">Share experience summary</p>
+          
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">35</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
 
           
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
             <div class="site-state-item site-state-categories">
-              <a href="/categories">
+              <a href="/categories/index.html">
                 <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">分类</span>
               </a>
@@ -595,8 +653,10 @@
           
 
           
+            
+            
             <div class="site-state-item site-state-tags">
-              <a href="/tags">
+              <a href="/tags/index.html">
                 <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
@@ -609,53 +669,6 @@
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/jasonhzy" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/lotushzy" target="_blank" title="Weibo">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  Weibo
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/lotushzy?trk=hp-identity-name" target="_blank" title="Linkedin">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Linkedin
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://twitter.com/lotushzy" target="_blank" title="Twitter">
-                  
-                    <i class="fa fa-fw fa-twitter"></i>
-                  
-                  Twitter
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://segmentfault.com/u/jasonhu" target="_blank" title="Segmentfault">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Segmentfault
-                </a>
-              </span>
-            
-          
         </div>
 
         
@@ -664,19 +677,29 @@
         
         
 
+        
+
+
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排序算法归纳"><span class="nav-number">2.</span> <span class="nav-text">排序算法归纳</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#插入排序"><span class="nav-number">2.1.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#直接插入排序-Straight-Insertion-Sort"><span class="nav-number">2.1.1.</span> <span class="nav-text">直接插入排序(Straight Insertion Sort)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#折半插入排序"><span class="nav-number">2.1.2.</span> <span class="nav-text">折半插入排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#希尔排序（Shell-s-Sort）"><span class="nav-number">2.1.3.</span> <span class="nav-text">希尔排序（Shell`s Sort）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择排序"><span class="nav-number">2.2.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#简单选择排序（Simple-Selection-Sort）"><span class="nav-number">2.2.1.</span> <span class="nav-text">简单选择排序（Simple Selection Sort）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二元选择排序-简单选择排序的改进"><span class="nav-number">2.2.2.</span> <span class="nav-text">二元选择排序(简单选择排序的改进)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#堆排序（Heap-Sort）"><span class="nav-number">2.2.3.</span> <span class="nav-text">堆排序（Heap Sort）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交换排序"><span class="nav-number">2.3.</span> <span class="nav-text">交换排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#冒泡排序（Bubble-Sort）"><span class="nav-number">2.3.1.</span> <span class="nav-text">冒泡排序（Bubble Sort）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交换排序-1"><span class="nav-number">2.4.</span> <span class="nav-text">交换排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#快速排序（Quick-Sort）"><span class="nav-number">2.4.1.</span> <span class="nav-text">快速排序（Quick Sort）</span></a></li></ol></li></ol></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
+      
+
       
 
     </div>
@@ -699,8 +722,9 @@
   <span class="author" itemprop="copyrightHolder">Jason hu</span>
 </div>
 
+
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
@@ -710,15 +734,20 @@
   </a>
 </div>
 
+
         
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
   </div>
 
   
@@ -741,208 +770,429 @@
 
 
 
-  
-  <script type="text/javascript" src="/libs/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/libs/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/libs/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/libs/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/libs/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/libs/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
 
 
 
   
-  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
 
 
   
 
-  
-    
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
   
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"jasonhzy"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt6FWAqe';
+      var conf = 'a3f1a81a87af686f9102096eda438454';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
     })();
-  </script>
-
-  
-    
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
   
 
 
 
-
-
-
   
-  
+
   <script type="text/javascript">
     // Popup Window;
     var isfetched = false;
+    var isXml = true;
     // Search DB path;
     var search_path = "search.xml";
-    if (search_path.length == 0) {
-       search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
     }
     var path = "/" + search_path;
     // monitor main search box;
 
-    function proceedsearch() {
-      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
-      $('.popup').toggle();
-
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
     }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
     // search function;
     var searchFunc = function(path, search_id, content_id) {
-    'use strict';
-    $.ajax({
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
         url: path,
-        dataType: "xml",
+        dataType: isXml ? "xml" : "json",
         async: true,
-        success: function( xmlResponse ) {
-            // get the contents from search data
-            isfetched = true;
-            $('.popup').detach().appendTo('.header-inner');
-            var datas = $( "entry", xmlResponse ).map(function() {
-                return {
-                    title: $( "title", this ).text(),
-                    content: $("content",this).text(),
-                    url: $( "url" , this).text()
-                };
-            }).get();
-            var $input = document.getElementById(search_id);
-            var $resultContent = document.getElementById(content_id);
-            $input.addEventListener('input', function(){
-                var matchcounts = 0;
-                var str='<ul class=\"search-result-list\">';                
-                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-                $resultContent.innerHTML = "";
-                if (this.value.trim().length > 1) {
-                // perform local searching
-                datas.forEach(function(data) {
-                    var isMatch = true;
-                    var content_index = [];
-                    var data_title = data.title.trim().toLowerCase();
-                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
-                    var data_url = data.url;
-                    var index_title = -1;
-                    var index_content = -1;
-                    var first_occur = -1;
-                    // only match artiles with not empty titles and contents
-                    if(data_title != '' && data_content != '') {
-                        keywords.forEach(function(keyword, i) {
-                            index_title = data_title.indexOf(keyword);
-                            index_content = data_content.indexOf(keyword);
-                            if( index_title < 0 && index_content < 0 ){
-                                isMatch = false;
-                            } else {
-                                if (index_content < 0) {
-                                    index_content = 0;
-                                }
-                                if (i == 0) {
-                                    first_occur = index_content;
-                                }
-                            }
-                        });
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
                     }
-                    // show search results
-                    if (isMatch) {
-                        matchcounts += 1;
-                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
-                        var content = data.content.trim().replace(/<[^>]+>/g,"");
-                        if (first_occur >= 0) {
-                            // cut out 100 characters
-                            var start = first_occur - 20;
-                            var end = first_occur + 80;
-                            if(start < 0){
-                                start = 0;
-                            }
-                            if(start == 0){
-                                end = 50;
-                            }
-                            if(end > content.length){
-                                end = content.length;
-                            }
-                            var match_content = content.substring(start, end);
-                            // highlight all keywords
-                            keywords.forEach(function(keyword){
-                                var regS = new RegExp(keyword, "gi");
-                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
-                            });
-                            
-                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
                         }
-                        str += "</li>";
+                      }
                     }
-                })};
-                str += "</ul>";
-                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
-                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
-                $resultContent.innerHTML = str;
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
             });
-            proceedsearch();
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
         }
-    });}
+      });
+    }
 
     // handle and trigger popup window;
-    $('.popup-trigger').mousedown(function(e) {
+    $('.popup-trigger').click(function(e) {
       e.stopPropagation();
-      if (isfetched == false) {
+      if (isfetched === false) {
         searchFunc(path, 'local-search-input', 'local-search-result');
       } else {
         proceedsearch();
       };
-
     });
 
-    $('.popup-btn-close').click(function(e){
-      $('.popup').hide();
-      $(".popoverlay").remove();
-      $('body').css('overflow', '');
-    });
+    $('.popup-btn-close').click(onPopupClose);
     $('.popup').click(function(e){
       e.stopPropagation();
     });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
   </script>
+
+
+
+
+
+  
+
+  
+
+  
 
   
 
