@@ -102,7 +102,7 @@
 <meta property="og:description" content="Git 常用命令">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git-diff.jpg">
-<meta property="og:updated_time" content="2017-07-24T07:34:17.000Z">
+<meta property="og:updated_time" content="2017-07-24T07:40:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基本命令">
 <meta name="twitter:description" content="Git 常用命令">
@@ -472,7 +472,7 @@ git reset --hard HEAD^/commit id
 <pre><code>git reset --hard &lt;commit id&gt;
 git revert &lt;commit id&gt;
 </code></pre><h3 id="忽略已跟踪文件的改动"><a href="#忽略已跟踪文件的改动" class="headerlink" title="忽略已跟踪文件的改动"></a>忽略已跟踪文件的改动</h3><p>有时需让git忽略某个文件的更新，比如配置文件</p>
-<pre><code>git update-index --assume-unchanged /path/to/file #忽略跟踪
+<pre><code>git update-index --assume-unchanged /path/to/filgit old-branchese #忽略跟踪
 git update-index --no-assume-unchanged /path/to/file  #恢复跟踪
 </code></pre><h3 id="Git补丁管理-方便在多台机器上开发同步时用"><a href="#Git补丁管理-方便在多台机器上开发同步时用" class="headerlink" title="Git补丁管理(方便在多台机器上开发同步时用)"></a>Git补丁管理(方便在多台机器上开发同步时用)</h3><p>生成补丁:</p>
 <pre><code>git diff &gt; ../sync.patch

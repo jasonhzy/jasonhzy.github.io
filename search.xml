@@ -78,7 +78,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。<derivedn>N就是id值，指该id值对应的那一步操作的结果。还有<unionm,n>这种类型，出现在UNION语句中</unionm,n></derivedn></p>
+<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。\<derivedn\>N就是id值，指该id值对应的那一步操作的结果。还有\<unionm,n\>这种类型，出现在UNION语句中</unionm,n\></derivedn\></p>
 <h4 id="partitions"><a href="#partitions" class="headerlink" title="partitions"></a>partitions</h4><p>针对MySQL内置分区表，表示当前使用了哪些子分区；用于确认查询对分区的过滤效率</p>
 <h4 id="type-重要"><a href="#type-重要" class="headerlink" title="type [重要]"></a>type [重要]</h4><p>常见以下几种类型，查询效率理论上由好到差<br><strong>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</strong><br>详细说明每种常见type表示的含义：</p>
 <table>
@@ -1009,13 +1009,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x73;&#x74;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;">&#x73;&#x74;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x73;&#x74;&#x61;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;">&#x73;&#x74;&#x61;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#115;&#x74;&#x61;&#115;&#104;&#x40;&#123;&#x6e;&#125;">&#115;&#x74;&#x61;&#115;&#104;&#x40;&#123;&#x6e;&#125;</a>参数，则从该<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x73;&#116;&#x61;&#x73;&#104;&#x40;&#123;&#x6e;&#125;">&#x73;&#116;&#x61;&#x73;&#104;&#x40;&#123;&#x6e;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#116;&#97;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;">&#x73;&#116;&#97;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#115;&#116;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;">&#115;&#116;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -2554,7 +2554,7 @@ git reset --hard HEAD^/commit id
 <pre><code>git reset --hard &lt;commit id&gt;
 git revert &lt;commit id&gt;
 </code></pre><h3 id="忽略已跟踪文件的改动"><a href="#忽略已跟踪文件的改动" class="headerlink" title="忽略已跟踪文件的改动"></a>忽略已跟踪文件的改动</h3><p>有时需让git忽略某个文件的更新，比如配置文件</p>
-<pre><code>git update-index --assume-unchanged /path/to/file #忽略跟踪
+<pre><code>git update-index --assume-unchanged /path/to/filgit old-branchese #忽略跟踪
 git update-index --no-assume-unchanged /path/to/file  #恢复跟踪
 </code></pre><h3 id="Git补丁管理-方便在多台机器上开发同步时用"><a href="#Git补丁管理-方便在多台机器上开发同步时用" class="headerlink" title="Git补丁管理(方便在多台机器上开发同步时用)"></a>Git补丁管理(方便在多台机器上开发同步时用)</h3><p>生成补丁:</p>
 <pre><code>git diff &gt; ../sync.patch

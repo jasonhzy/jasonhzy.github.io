@@ -102,7 +102,7 @@
 <meta property="og:description" content="简介MySQL提供了一个explain命令, 它可以对select语句进行分析, 并输出select执行的详细信息, 以供开发人员针对查询性能进行优化.explain命令用法十分简单, 在select语句前加上explain就可以了, 例如: explain SELECT * FROM bank where id = 1;">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-explain/explain-style.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-explain/explain-keylen.png">
-<meta property="og:updated_time" content="2017-06-14T09:21:41.000Z">
+<meta property="og:updated_time" content="2017-07-28T09:37:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql Explain使用分析">
 <meta name="twitter:description" content="简介MySQL提供了一个explain命令, 它可以对select语句进行分析, 并输出select执行的详细信息, 以供开发人员针对查询性能进行优化.explain命令用法十分简单, 在select语句前加上explain就可以了, 例如: explain SELECT * FROM bank where id = 1;">
@@ -488,7 +488,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。<derivedn>N就是id值，指该id值对应的那一步操作的结果。还有<unionm,n>这种类型，出现在UNION语句中</unionm,n></derivedn></p>
+<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。\<derivedn\>N就是id值，指该id值对应的那一步操作的结果。还有\<unionm,n\>这种类型，出现在UNION语句中</unionm,n\></derivedn\></p>
 <h4 id="partitions"><a href="#partitions" class="headerlink" title="partitions"></a>partitions</h4><p>针对MySQL内置分区表，表示当前使用了哪些子分区；用于确认查询对分区的过滤效率</p>
 <h4 id="type-重要"><a href="#type-重要" class="headerlink" title="type [重要]"></a>type [重要]</h4><p>常见以下几种类型，查询效率理论上由好到差<br><strong>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</strong><br>详细说明每种常见type表示的含义：</p>
 <table>
