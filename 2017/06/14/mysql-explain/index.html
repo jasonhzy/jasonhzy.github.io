@@ -102,7 +102,7 @@
 <meta property="og:description" content="简介MySQL提供了一个explain命令, 它可以对select语句进行分析, 并输出select执行的详细信息, 以供开发人员针对查询性能进行优化.explain命令用法十分简单, 在select语句前加上explain就可以了, 例如: explain SELECT * FROM bank where id = 1;">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-explain/explain-style.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-explain/explain-keylen.png">
-<meta property="og:updated_time" content="2017-07-28T09:37:50.000Z">
+<meta property="og:updated_time" content="2017-07-31T07:29:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql Explain使用分析">
 <meta name="twitter:description" content="简介MySQL提供了一个explain命令, 它可以对select语句进行分析, 并输出select执行的详细信息, 以供开发人员针对查询性能进行优化.explain命令用法十分简单, 在select语句前加上explain就可以了, 例如: explain SELECT * FROM bank where id = 1;">
@@ -485,10 +485,13 @@
 <tr>
 <td>UNCACHEABLE UNION</td>
 <td>不可缓存的UNION子查询</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
-<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。\<derivedn\>N就是id值，指该id值对应的那一步操作的结果。还有\<unionm,n\>这种类型，出现在UNION语句中</unionm,n\></derivedn\></p>
+<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。&lt;derivedN&gt;N就是id值，指该id值对应的那一步操作的结果。还有&lt;unionM,N&gt;这种类型，出现在UNION语句中</p>
+<p>eg:<br>&lt;derivedN&gt;类型, eg:<br>explain select *  from (select 1) b;</p>
+<p>&lt;unionM,N&gt;类型, eg:<br>explain select * from bank where id in  (select id from bank where id = 1 union select id from bank where id = 2);</p>
 <h4 id="partitions"><a href="#partitions" class="headerlink" title="partitions"></a>partitions</h4><p>针对MySQL内置分区表，表示当前使用了哪些子分区；用于确认查询对分区的过滤效率</p>
 <h4 id="type-重要"><a href="#type-重要" class="headerlink" title="type [重要]"></a>type [重要]</h4><p>常见以下几种类型，查询效率理论上由好到差<br><strong>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</strong><br>详细说明每种常见type表示的含义：</p>
 <table>
@@ -508,7 +511,7 @@
 <td>针对主键或唯一索引的等值查询扫描，最多只返回一行数据，eg：SELECT * FROM tbl_name WHERE primary_key = 1</td>
 </tr>
 <tr>
-<td>eq_ref(engine=myisam)</td>
+<td>eq_ref</td>
 <td>当使用了主键索引，唯一索引等只会唯一地找出一条记录的情况，这种类型就会出现，这种类型的性能相当好。</td>
 </tr>
 <tr>
@@ -517,7 +520,7 @@
 </tr>
 <tr>
 <td>ref_or_null</td>
-<td>连接类型类似ref，只是搜索的行中包含NULL值MySQL做了额外的查找。eg: SELECT * FROM ref_table WHERE key_column IS NULL</td>
+<td>连接类型类似ref，只是搜索的行中包含NULL值MySQL做了额外的查找。eg: SELECT * FROM ref_table WHERE key_column = ‘1’ or key_column IS NULL</td>
 </tr>
 <tr>
 <td>fulltext</td>
@@ -586,8 +589,8 @@ char(10)固定字段且允许NULL        : 10*(Char Set：utf8=3,gbk=2,latin1=1)
 </code></pre><p>explain执行结果：</p>
 <p><img src="/images/mysql-explain/explain-keylen.png" alt="explain-keylen"></p>
 <p>计算的key_len即 100 ＊ 3 ＋ 2(如果bank_name允许null，则为100 ＊ 3 ＋ 2 ＋ 1)</p>
-<h4 id="rows-重要"><a href="#rows-重要" class="headerlink" title="rows [重要]"></a>rows [重要]</h4><p>MySQL查询优化器根据统计信息，估算SQL要查找到结果集需要扫描读取的数据行数; 这个值非常直观显示SQL的效率好坏，原则rows越少越好</p>
-<h4 id="Extra-重要"><a href="#Extra-重要" class="headerlink" title="Extra [重要]"></a>Extra [重要]</h4><p>EXplain 中的很多额外的信息会在 Extra 字段显示, 常见的有以下几种:</p>
+<h4 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h4><p>MySQL查询优化器根据统计信息，估算SQL要查找到结果集需要扫描读取的数据行数; 这个值非常直观显示SQL的效率好坏，原则rows越少越好</p>
+<h4 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h4><p>EXplain 中的很多额外的信息会在 Extra 字段显示, 常见的有以下几种:</p>
 <table>
 <thead>
 <tr>
@@ -908,7 +911,7 @@ char(10)固定字段且允许NULL        : 10*(Char Set：utf8=3,gbk=2,latin1=1)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#explain各列详解"><span class="nav-number">2.</span> <span class="nav-text">explain各列详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-number">2.1.</span> <span class="nav-text">id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select-type"><span class="nav-number">2.2.</span> <span class="nav-text">select_type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#table"><span class="nav-number">2.3.</span> <span class="nav-text">table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#partitions"><span class="nav-number">2.4.</span> <span class="nav-text">partitions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type-重要"><span class="nav-number">2.5.</span> <span class="nav-text">type [重要]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#possible-keys"><span class="nav-number">2.6.</span> <span class="nav-text">possible_keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key"><span class="nav-number">2.7.</span> <span class="nav-text">key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key-len"><span class="nav-number">2.8.</span> <span class="nav-text">key_len</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rows-重要"><span class="nav-number">2.9.</span> <span class="nav-text">rows [重要]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extra-重要"><span class="nav-number">2.10.</span> <span class="nav-text">Extra [重要]</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#explain各列详解"><span class="nav-number">2.</span> <span class="nav-text">explain各列详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-number">2.1.</span> <span class="nav-text">id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select-type"><span class="nav-number">2.2.</span> <span class="nav-text">select_type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#table"><span class="nav-number">2.3.</span> <span class="nav-text">table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#partitions"><span class="nav-number">2.4.</span> <span class="nav-text">partitions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type-重要"><span class="nav-number">2.5.</span> <span class="nav-text">type [重要]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#possible-keys"><span class="nav-number">2.6.</span> <span class="nav-text">possible_keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key"><span class="nav-number">2.7.</span> <span class="nav-text">key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key-len"><span class="nav-number">2.8.</span> <span class="nav-text">key_len</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rows"><span class="nav-number">2.9.</span> <span class="nav-text">rows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extra"><span class="nav-number">2.10.</span> <span class="nav-text">Extra</span></a></li></ol></li></ol></div>
             
 
           </div>

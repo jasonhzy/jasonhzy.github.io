@@ -75,10 +75,13 @@
 <tr>
 <td>UNCACHEABLE UNION</td>
 <td>不可缓存的UNION子查询</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
-<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。\<derivedn\>N就是id值，指该id值对应的那一步操作的结果。还有\<unionm,n\>这种类型，出现在UNION语句中</unionm,n\></derivedn\></p>
+<h4 id="table"><a href="#table" class="headerlink" title="table"></a>table</h4><p>表示查询涉及的表或衍生表,如果指定了别名就显示的别名。&lt;derivedN&gt;N就是id值，指该id值对应的那一步操作的结果。还有&lt;unionM,N&gt;这种类型，出现在UNION语句中</p>
+<p>eg:<br>&lt;derivedN&gt;类型, eg:<br>explain select *  from (select 1) b;</p>
+<p>&lt;unionM,N&gt;类型, eg:<br>explain select * from bank where id in  (select id from bank where id = 1 union select id from bank where id = 2);</p>
 <h4 id="partitions"><a href="#partitions" class="headerlink" title="partitions"></a>partitions</h4><p>针对MySQL内置分区表，表示当前使用了哪些子分区；用于确认查询对分区的过滤效率</p>
 <h4 id="type-重要"><a href="#type-重要" class="headerlink" title="type [重要]"></a>type [重要]</h4><p>常见以下几种类型，查询效率理论上由好到差<br><strong>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</strong><br>详细说明每种常见type表示的含义：</p>
 <table>
@@ -98,7 +101,7 @@
 <td>针对主键或唯一索引的等值查询扫描，最多只返回一行数据，eg：SELECT * FROM tbl_name WHERE primary_key = 1</td>
 </tr>
 <tr>
-<td>eq_ref(engine=myisam)</td>
+<td>eq_ref</td>
 <td>当使用了主键索引，唯一索引等只会唯一地找出一条记录的情况，这种类型就会出现，这种类型的性能相当好。</td>
 </tr>
 <tr>
@@ -107,7 +110,7 @@
 </tr>
 <tr>
 <td>ref_or_null</td>
-<td>连接类型类似ref，只是搜索的行中包含NULL值MySQL做了额外的查找。eg: SELECT * FROM ref_table WHERE key_column IS NULL</td>
+<td>连接类型类似ref，只是搜索的行中包含NULL值MySQL做了额外的查找。eg: SELECT * FROM ref_table WHERE key_column = ‘1’ or key_column IS NULL</td>
 </tr>
 <tr>
 <td>fulltext</td>
@@ -176,8 +179,8 @@ char(10)固定字段且允许NULL        : 10*(Char Set：utf8=3,gbk=2,latin1=1)
 </code></pre><p>explain执行结果：</p>
 <p><img src="/images/mysql-explain/explain-keylen.png" alt="explain-keylen"></p>
 <p>计算的key_len即 100 ＊ 3 ＋ 2(如果bank_name允许null，则为100 ＊ 3 ＋ 2 ＋ 1)</p>
-<h4 id="rows-重要"><a href="#rows-重要" class="headerlink" title="rows [重要]"></a>rows [重要]</h4><p>MySQL查询优化器根据统计信息，估算SQL要查找到结果集需要扫描读取的数据行数; 这个值非常直观显示SQL的效率好坏，原则rows越少越好</p>
-<h4 id="Extra-重要"><a href="#Extra-重要" class="headerlink" title="Extra [重要]"></a>Extra [重要]</h4><p>EXplain 中的很多额外的信息会在 Extra 字段显示, 常见的有以下几种:</p>
+<h4 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h4><p>MySQL查询优化器根据统计信息，估算SQL要查找到结果集需要扫描读取的数据行数; 这个值非常直观显示SQL的效率好坏，原则rows越少越好</p>
+<h4 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h4><p>EXplain 中的很多额外的信息会在 Extra 字段显示, 常见的有以下几种:</p>
 <table>
 <thead>
 <tr>
@@ -1009,13 +1012,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x73;&#x74;&#x61;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;">&#x73;&#x74;&#x61;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#x74;&#x61;&#x73;&#x68;&#x40;&#123;&#x6e;&#125;">&#x73;&#x74;&#x61;&#x73;&#x68;&#x40;&#123;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#116;&#97;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;">&#x73;&#116;&#97;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#115;&#116;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;">&#115;&#116;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#115;&#116;&#97;&#115;&#x68;&#64;&#123;&#110;&#x7d;">&#115;&#116;&#97;&#115;&#x68;&#64;&#123;&#110;&#x7d;</a>参数，则从该<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#115;&#116;&#97;&#115;&#104;&#x40;&#123;&#110;&#125;">&#115;&#116;&#97;&#115;&#104;&#x40;&#123;&#110;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
