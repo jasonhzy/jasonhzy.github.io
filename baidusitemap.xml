@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2016/08/25/nginx-alias-root/</loc>
+    <lastmod>2017-08-25T07:18:05.000Z</lastmod>
+    <data>
+        <display>
+        <title>nginx 文件路径配置alias&root</title>
+        <pubTime>2016-08-25T14:32:48.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+        <tag>root&amp;alias</tag>
+         
+         
+           
+             
+              <breadCrumb title="nginx" url="http://jasonhzy.github.io/categories/nginx/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2017/06/14/mysql-explain/</loc>
     <lastmod>2017-08-01T08:25:35.000Z</lastmod>
     <data>
@@ -166,28 +188,6 @@
            
              
               <breadCrumb title="Vim" url="http://jasonhzy.github.io/categories/Vim/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/08/25/nginx-alias-root/</loc>
-    <lastmod>2016-09-29T11:42:12.000Z</lastmod>
-    <data>
-        <display>
-        <title>nginx 文件路径配置alias&root</title>
-        <pubTime>2016-08-25T14:32:48.000Z</pubTime>
-        
-        <tag>nginx</tag>
-         
-        <tag>root&amp;alias</tag>
-         
-         
-           
-             
-              <breadCrumb title="nginx" url="http://jasonhzy.github.io/categories/nginx/"/>
           
         </display>
     </data>
@@ -533,27 +533,24 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
+    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>CentOS7.x 配置LAMP环境</title>
-        <pubTime>2016-01-25T13:48:18.000Z</pubTime>
+        <title>Markdown</title>
+        <pubTime>2016-01-22T12:04:33.000Z</pubTime>
         
-        <tag>Linux</tag>
-         
-        <tag>CentOS</tag>
+        <tag>Markdown</tag>
          
          
            
              
-              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+              <breadCrumb title="Markdown" url="http://jasonhzy.github.io/categories/Markdown/"/>
           
         </display>
     </data>
     </url>
 
-    
     
   <url>
     <loc>http://jasonhzy.github.io/2016/01/25/selinux/</loc>
@@ -578,26 +575,6 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>Mysql 数据库主从同步(Master-Slave)</title>
-        <pubTime>2016-02-05T02:03:25.000Z</pubTime>
-        
-        <tag>Mysql</tag>
-         
-         
-           
-             
-              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jasonhzy.github.io/2016/01/31/php-fun/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
@@ -611,26 +588,6 @@
            
              
               <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>Markdown</title>
-        <pubTime>2016-01-22T12:04:33.000Z</pubTime>
-        
-        <tag>Markdown</tag>
-         
-         
-           
-             
-              <breadCrumb title="Markdown" url="http://jasonhzy.github.io/categories/Markdown/"/>
           
         </display>
     </data>
@@ -680,6 +637,68 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>Mysql 数据库主从同步(Master-Slave)</title>
+        <pubTime>2016-02-05T02:03:25.000Z</pubTime>
+        
+        <tag>Mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>HTTP状态码</title>
+        <pubTime>2016-02-01T08:36:19.000Z</pubTime>
+        
+        <tag>HTTP</tag>
+         
+         
+           
+             
+              <breadCrumb title="HTTP(s)" url="http://jasonhzy.github.io/categories/HTTP-s/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS7.x 配置LAMP环境</title>
+        <pubTime>2016-01-25T13:48:18.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>CentOS</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
@@ -722,23 +741,4 @@
 
     
     
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>HTTP状态码</title>
-        <pubTime>2016-02-01T08:36:19.000Z</pubTime>
-        
-        <tag>HTTP</tag>
-         
-         
-           
-             
-              <breadCrumb title="HTTP(s)" url="http://jasonhzy.github.io/categories/HTTP-s/"/>
-          
-        </display>
-    </data>
-    </url>
-
 </urlset>
