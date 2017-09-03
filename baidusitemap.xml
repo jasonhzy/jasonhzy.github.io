@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2017/09/03/nginx/</loc>
+    <lastmod>2017-09-03T09:30:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>nginx基本信息</title>
+        <pubTime>2017-09-03T05:19:13.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2016/08/25/nginx-alias-root/</loc>
     <lastmod>2017-08-25T07:18:05.000Z</lastmod>
     <data>
@@ -533,19 +550,19 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>Markdown</title>
-        <pubTime>2016-01-22T12:04:33.000Z</pubTime>
+        <title>Mysql 数据库主从同步(Master-Slave)</title>
+        <pubTime>2016-02-05T02:03:25.000Z</pubTime>
         
-        <tag>Markdown</tag>
+        <tag>Mysql</tag>
          
          
            
              
-              <breadCrumb title="Markdown" url="http://jasonhzy.github.io/categories/Markdown/"/>
+              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
           
         </display>
     </data>
@@ -575,26 +592,6 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/31/php-fun/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>PHP 函数图</title>
-        <pubTime>2016-01-31T04:14:10.000Z</pubTime>
-        
-        <tag>PHP</tag>
-         
-         
-           
-             
-              <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jasonhzy.github.io/2016/02/19/sort-algorithm/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
@@ -610,66 +607,6 @@
            
              
               <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/poetry-snow/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>沁园春·雪</title>
-        <pubTime>2016-02-01T06:47:40.000Z</pubTime>
-        
-        <tag>诗歌</tag>
-         
-         
-           
-             
-              <breadCrumb title="诗歌" url="http://jasonhzy.github.io/categories/%E8%AF%97%E6%AD%8C/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>Mysql 数据库主从同步(Master-Slave)</title>
-        <pubTime>2016-02-05T02:03:25.000Z</pubTime>
-        
-        <tag>Mysql</tag>
-         
-         
-           
-             
-              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>HTTP状态码</title>
-        <pubTime>2016-02-01T08:36:19.000Z</pubTime>
-        
-        <tag>HTTP</tag>
-         
-         
-           
-             
-              <breadCrumb title="HTTP(s)" url="http://jasonhzy.github.io/categories/HTTP-s/"/>
           
         </display>
     </data>
@@ -699,6 +636,86 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>Markdown</title>
+        <pubTime>2016-01-22T12:04:33.000Z</pubTime>
+        
+        <tag>Markdown</tag>
+         
+         
+           
+             
+              <breadCrumb title="Markdown" url="http://jasonhzy.github.io/categories/Markdown/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/31/php-fun/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>PHP 函数图</title>
+        <pubTime>2016-01-31T04:14:10.000Z</pubTime>
+        
+        <tag>PHP</tag>
+         
+         
+           
+             
+              <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>HTTP状态码</title>
+        <pubTime>2016-02-01T08:36:19.000Z</pubTime>
+        
+        <tag>HTTP</tag>
+         
+         
+           
+             
+              <breadCrumb title="HTTP(s)" url="http://jasonhzy.github.io/categories/HTTP-s/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/02/01/poetry-snow/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>沁园春·雪</title>
+        <pubTime>2016-02-01T06:47:40.000Z</pubTime>
+        
+        <tag>诗歌</tag>
+         
+         
+           
+             
+              <breadCrumb title="诗歌" url="http://jasonhzy.github.io/categories/%E8%AF%97%E6%AD%8C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
@@ -720,6 +737,7 @@
     </url>
 
     
+    
   <url>
     <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
@@ -739,6 +757,5 @@
     </data>
     </url>
 
-    
     
 </urlset>

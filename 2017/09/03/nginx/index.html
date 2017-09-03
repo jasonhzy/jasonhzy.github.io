@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="tmux," />
+  <meta name="keywords" content="nginx," />
 
 
 
@@ -93,19 +93,17 @@
 
 
 
-<meta name="description" content="tmux简介 tmux是一个优秀的终端复用软件，类似GNU screen，但来源于OpenBSD，采用BSD授权。使用它最直观的好处就是通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“浪费”多余的终端来连接这台远程主机；当然其功能远不止于此。">
-<meta name="keywords" content="tmux">
+<meta name="description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
+<meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tmux配置">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/08/24/tmux-config/index.html">
+<meta property="og:title" content="nginx基本信息">
+<meta property="og:url" content="http://jasonhzy.github.io/2017/09/03/nginx/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="tmux简介 tmux是一个优秀的终端复用软件，类似GNU screen，但来源于OpenBSD，采用BSD授权。使用它最直观的好处就是通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“浪费”多余的终端来连接这台远程主机；当然其功能远不止于此。">
-<meta property="og:image" content="http://jasonhzy.github.io/images/tmux-config.png">
-<meta property="og:updated_time" content="2017-05-26T06:31:01.000Z">
+<meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
+<meta property="og:updated_time" content="2017-09-03T09:30:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tmux配置">
-<meta name="twitter:description" content="tmux简介 tmux是一个优秀的终端复用软件，类似GNU screen，但来源于OpenBSD，采用BSD授权。使用它最直观的好处就是通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“浪费”多余的终端来连接这台远程主机；当然其功能远不止于此。">
-<meta name="twitter:image" content="http://jasonhzy.github.io/images/tmux-config.png">
+<meta name="twitter:title" content="nginx基本信息">
+<meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
 
 
 
@@ -133,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/2016/08/24/tmux-config/"/>
+  <link rel="canonical" href="http://jasonhzy.github.io/2017/09/03/nginx/"/>
 
 
 
 
 
-  <title>tmux配置 | Jason Website</title>
+  <title>nginx基本信息 | Jason Website</title>
   
 
 
@@ -318,7 +316,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/08/24/tmux-config/">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2017/09/03/nginx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jason hu">
@@ -335,7 +333,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">tmux配置</h1>
+          <h1 class="post-title" itemprop="name headline">nginx基本信息</h1>
         
 
         <div class="post-meta">
@@ -347,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-24T12:01:14+08:00">
-                2016-08-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T13:19:13+08:00">
+                2017-09-03
               </time>
             
 
@@ -357,28 +355,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tmux/" itemprop="url" rel="index">
-                    <span itemprop="name">tmux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -389,8 +365,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2016/08/24/tmux-config/#SOHUCS" itemprop="discussionUrl">
-                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2016/08/24/tmux-config/" itemprop="commentsCount"></span>
+                <a href="/2017/09/03/nginx/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/09/03/nginx/" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -415,227 +391,323 @@
       
 
       
-        <h2 id="tmux简介"><a href="#tmux简介" class="headerlink" title="tmux简介"></a>tmux简介</h2><blockquote>
-<p>tmux是一个优秀的终端复用软件，类似GNU screen，但来源于OpenBSD，采用BSD授权。使用它最直观的好处就是通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“浪费”多余的终端来连接这台远程主机；当然其功能远不止于此。</p>
-</blockquote>
-<p><img src="/images/tmux-config.png" alt="tmux ide"></p>
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。</p>
 <a id="more"></a>
-<p>tmux使用C/S模型构建，主要包括以下单元模块：</p>
-<table>
-<thead>
-<tr>
-<th>-</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>server</td>
-<td>服务器，输入tmux命令时就开启一个服务器</td>
-</tr>
-<tr>
-<td>session</td>
-<td>会话，一个会话可以包含多个窗口</td>
-</tr>
-<tr>
-<td>window</td>
-<td>窗口，一个会话可以包含多个窗口</td>
-</tr>
-<tr>
-<td>pane</td>
-<td>面板，一个窗口可以包含多个面板</td>
-</tr>
-</tbody>
-</table>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><pre><code>tmux new-session -t session #进入某个会话
-tmux ls #列出会话 
-tmux attach-session -t session #进入某个会话
-tmux kill-session -t &quot;session&quot;   //删除指定会话
-</code></pre><p>  Ctrl+b    激活控制台；此时以下按键生效</p>
-<h3 id="session常用命令"><a href="#session常用命令" class="headerlink" title="session常用命令"></a>session常用命令</h3><table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">$</td>
-<td style="text-align:left">重命名当前session</td>
-</tr>
-<tr>
-<td style="text-align:left">?</td>
-<td style="text-align:left">列出所有快捷键；按q返回</td>
-</tr>
-<tr>
-<td style="text-align:left">d</td>
-<td style="text-align:left">脱离当前会话；这样可以暂时返回Shell界面，输入tmux attach能够重新进入之前的会话</td>
-</tr>
-<tr>
-<td style="text-align:left">D</td>
-<td style="text-align:left">选择要脱离的会话；在同时开启了多个会话时使用</td>
-</tr>
-<tr>
-<td style="text-align:left">Ctrl+z</td>
-<td style="text-align:left">挂起当前会话</td>
-</tr>
-<tr>
-<td style="text-align:left">r</td>
-<td style="text-align:left">强制重绘未脱离的会话</td>
-</tr>
-<tr>
-<td style="text-align:left">s</td>
-<td style="text-align:left">选择并切换会话；在同时开启了多个会话时使用</td>
-</tr>
-<tr>
-<td style="text-align:left">:</td>
-<td style="text-align:left">进入命令行模式；此时可以输入支持的命令，例如kill-server可以关闭服务器</td>
-</tr>
-<tr>
-<td style="text-align:left">[</td>
-<td style="text-align:left">进入复制模式；此时的操作与vi/emacs相同，按q/Esc退出</td>
-</tr>
-<tr>
-<td style="text-align:left">~</td>
-<td style="text-align:left">列出提示信息缓存；其中包含了之前tmux返回的各种提示信息</td>
-</tr>
-<tr>
-<td style="text-align:left">t</td>
-<td style="text-align:left">显示时间</td>
-</tr>
-<tr>
-<td style="text-align:left">(</td>
-<td style="text-align:left">切换session 切换到上一个session</td>
-</tr>
-<tr>
-<td style="text-align:left">)</td>
-<td style="text-align:left">切换session 切换到下一个session</td>
-</tr>
-<tr>
-<td style="text-align:left">L</td>
-<td style="text-align:left">切换session 到前一个活跃的session</td>
-</tr>
-</tbody>
-</table>
-<h3 id="window常用命令"><a href="#window常用命令" class="headerlink" title="window常用命令"></a>window常用命令</h3><table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">c</td>
-<td style="text-align:left">创建新窗口</td>
-</tr>
-<tr>
-<td style="text-align:left">&amp;</td>
-<td style="text-align:left">关闭当前窗口</td>
-</tr>
-<tr>
-<td style="text-align:left">数字键</td>
-<td style="text-align:left">切换至指定窗口</td>
-</tr>
-<tr>
-<td style="text-align:left">p</td>
-<td style="text-align:left">切换至上一窗口</td>
-</tr>
-<tr>
-<td style="text-align:left">n</td>
-<td style="text-align:left">切换至下一窗口</td>
-</tr>
-<tr>
-<td style="text-align:left">l</td>
-<td style="text-align:left">在前后两个窗口间互相切换</td>
-</tr>
-<tr>
-<td style="text-align:left">w</td>
-<td style="text-align:left">通过窗口列表切换窗口</td>
-</tr>
-<tr>
-<td style="text-align:left">,</td>
-<td style="text-align:left">重命名当前窗口；这样便于识别</td>
-</tr>
-<tr>
-<td style="text-align:left">.</td>
-<td style="text-align:left">修改当前窗口编号；相当于窗口重新排序</td>
-</tr>
-<tr>
-<td style="text-align:left">f</td>
-<td style="text-align:left">在所有窗口中查找指定文本</td>
-</tr>
-</tbody>
-</table>
-<h3 id="pane常用命令"><a href="#pane常用命令" class="headerlink" title="pane常用命令"></a>pane常用命令</h3><table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">”</td>
-<td style="text-align:left">将当前面板平分为上下两块</td>
-</tr>
-<tr>
-<td style="text-align:left">%</td>
-<td style="text-align:left">将当前面板平分为左右两块</td>
-</tr>
-<tr>
-<td style="text-align:left">x</td>
-<td style="text-align:left">关闭当前面板</td>
-</tr>
-<tr>
-<td style="text-align:left">!</td>
-<td style="text-align:left">将当前面板置于新窗口；即新建一个窗口，其中仅包含当前面板</td>
-</tr>
-<tr>
-<td style="text-align:left">Ctrl+方向键</td>
-<td style="text-align:left">以1个单元格为单位移动边缘以调整当前面板大小</td>
-</tr>
-<tr>
-<td style="text-align:left">Alt+方向键</td>
-<td style="text-align:left">以5个单元格为单位移动边缘以调整当前面板大小</td>
-</tr>
-<tr>
-<td style="text-align:left">Space</td>
-<td style="text-align:left">在预置的面板布局中循环切换；依次包括even-horizontal、even-vertical、main-horizontal、main-vertical、tiled</td>
-</tr>
-<tr>
-<td style="text-align:left">q</td>
-<td style="text-align:left">显示面板编号</td>
-</tr>
-<tr>
-<td style="text-align:left">o</td>
-<td style="text-align:left">在当前窗口中选择下一面板</td>
-</tr>
-<tr>
-<td style="text-align:left">方向键</td>
-<td style="text-align:left">移动光标以选择面板</td>
-</tr>
-<tr>
-<td style="text-align:left">{</td>
-<td style="text-align:left">向前置换当前面板</td>
-</tr>
-<tr>
-<td style="text-align:left">}</td>
-<td style="text-align:left">向后置换当前面板</td>
-</tr>
-<tr>
-<td style="text-align:left">Alt+o</td>
-<td style="text-align:left">逆时针旋转当前窗口的面板</td>
-</tr>
-<tr>
-<td style="text-align:left">Ctrl+o</td>
-<td style="text-align:left">顺时针旋转当前窗口的面板</td>
-</tr>
-</tbody>
-</table>
-<h2 id="tmux配置文件-tmux-conf"><a href="#tmux配置文件-tmux-conf" class="headerlink" title="tmux配置文件 ~/.tmux.conf"></a>tmux配置文件 ~/.tmux.conf</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">setw -g mode-mouse on</div><div class="line"><span class="keyword">set</span> -g mouse-<span class="keyword">select</span>-pane <span class="keyword">on</span></div><div class="line"><span class="keyword">set</span> -g mouse-<span class="keyword">resize</span>-pane <span class="keyword">on</span></div><div class="line"><span class="keyword">set</span> -g mouse-<span class="keyword">select</span>-window <span class="keyword">on</span></div><div class="line">#从 <span class="number">2.1</span> 版本开始（发布于 <span class="number">2015.10</span><span class="number">.18</span>），上述 <span class="number">4</span> 个选项就不可用了。统一使用下面的配置：</div><div class="line"><span class="keyword">set</span>-<span class="keyword">option</span> -g mouse <span class="keyword">on</span>         # 开启鼠标控制</div><div class="line"></div><div class="line"># window</div><div class="line">setw -g window-<span class="keyword">status</span>-<span class="keyword">current</span>-bg red  # 当前选中窗口背景色为红色</div><div class="line"></div><div class="line">#<span class="keyword">fixed</span> window <span class="keyword">name</span> <span class="keyword">after</span> <span class="keyword">rename</span></div><div class="line">setw -g <span class="keyword">allow</span>-<span class="keyword">rename</span> <span class="keyword">off</span></div><div class="line">setw -g <span class="keyword">automatic</span>-<span class="keyword">rename</span> <span class="keyword">off</span></div><div class="line"></div><div class="line">setw -g aggressive-<span class="keyword">resize</span> <span class="keyword">off</span></div></pre></td></tr></table></figure>
+<h3 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h3><pre><code># 运行Nginx进程的用户以及用户组
+user  www www;
 
+# Nginx开启的进程数，通常设置成和cpu的数量相等
+worker_processes  1;
+# worker_processes auto;
+# 也可以指定哪个cpu分配给哪个进程（不常用）。
+# 如果一定要设的话，用0和1指定分配方式。
+# 下面的例子是给4个进程分配单独的核来运行，出现第5个进程是就随机分配了。
+#worker_processes 4     # 4核CPU 
+#worker_cpu_affinity 0001 0010 0100 1000
+
+# 定义存储某类型的全局错误的日志位置
+# nginx日志分为很多级别 [debug | info | notice | warn | error | crit | alert | emerg]
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+
+# 指定进程ID（pid）存放的路径 
+#pid        logs/nginx.pid;
+
+#定义白名单ip列表变量
+geo $whiteip_list {     
+    default 1;
+    127.0.0.1 0;
+    192.168.0.167 0;
+    192.168.0.48 0;
+}
+
+#用map指令映射将白名单列表中客户端请求ip为空串 
+map $whiteip_list $limit {
+    1 $binary_remote_addr;
+    0 &quot;&quot;;
+}
+
+#当某个IP访问example.com这个域名时，此IP得并发连接超过10，则会报503（Service Temporarily Unavailable），
+#表示服务暂时不可用，此时会返回给用户我们事先定义好错误页面。由“limit_conn conn_ip 10;”实现。
+limit_conn_zone $limit zone=conn_ip:10m;
+#当访问example.com这个域名的连接总数超过1000时，同样会报503，返回定义好的错误页面。
+#由“limit_conn conn_server 1000;”实现
+limit_conn_zone $limit zone=conn_server:10m;
+#当达到最大限制连接数后，记录日志的等级
+limit_conn_log_level info;  #[info | notice | warn | error(默认)]
+#当超过限制时，返回的状态码（默认是503），code值只能设置在400到599之间
+limit_conn_status 503;
+
+#利用令牌桶原理，来限制用户的连接频率
+#rate每个IP平均处理的请求频率为每秒一次，此值可以设置成每秒处理请求数或者每分钟处理请求数，但必须是整数。
+#所以如果你需要指定每秒处理少于1个的请求，2秒处理一个请求，可以使用 “30r/m”。
+limit_req_zone  $limit zone=req_ip:10m rate=10r/s;
+
+events {
+    #use [ kqueue | rtsig | epoll | /dev/poll | select | poll ];
+    #epoll模型是Linux 2.6以上版本内核中的高性能网络I/O模型，如果跑在FreeBSD上面，就用kqueue模型。
+    use epoll;
+    #每个进程可以处理的最大连接数，理论上每台nginx服务器的最大连接数为worker_processes*worker_connections。
+    #理论值：worker_rlimit_nofile/worker_processes
+    #注意：最大客户数也由系统的可用socket连接数限制（~ 64K），所以设置不切实际的高没什么好处
+    worker_connections  1024;
+}
+
+http {
+    # 引入文件 mime.types，是一个文件扩展名与文件类型的映射表
+    include       mime.types;
+    # 指定默认MIME类型为二进制字节流  
+    default_type  application/octet-stream;
+
+    # 定义输出日志的格式
+    # 1.$remote_addr 与$http_x_forwarded_for 用以记录客户端的ip地址；
+    # 2.$remote_user ：用来记录客户端用户名称；
+    # 3.$time_local ：用来记录访问时间与时区；
+    # 4.$request  ：用来记录请求的url与http协议；
+    # 5.$status ：用来记录请求状态； 
+    # 6.$body_bytes_sent ：记录发送给客户端文件主体内容大小；
+    # 7.$http_referer ：用来记录从那个页面链接访问过来的；
+    # 8.$http_user_agent ：记录客户端浏览器的相关信息
+    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
+    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
+    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
+
+    # 指定access_log的存放路径、格式和缓存大小
+    #access_log  logs/access.log  main;
+
+    # sendfile 指令用于指定 Nginx 是否调用Linux 的 sendfile 函数（zero copy 方式）来输出文件，提高文件传输效率 
+    sendfile        on;
+
+    # 是否允许使用socket的TCP_NOPUSH或TCP_CORK选项  
+    #tcp_nopush     on;
+
+    # 指定客户端连接保持活动的超时时间（单位：秒），超过时间，服务器会关闭连接  
+    keepalive_timeout  65;
+
+    #客户端请求单个文件的最大字节数
+    client_max_body_size 8m;
+    #指定来自客户端请求头的hearerbuffer大小
+    client_header_buffer_size 32k;
+    #指定客户端请求中较大的消息头的缓存最大数量和大小。
+    large_client_header_buffers 4 64k;
+
+    #FastCGI相关参数是为了改善网站的性能：减少资源占用，提高访问速度。
+    fastcgi_connect_timeout 300;
+    fastcgi_send_timeout 300;
+    fastcgi_read_timeout 300;
+    fastcgi_buffer_size 64k;
+    fastcgi_buffers 4 64k;
+    fastcgi_busy_buffers_size 128k;
+    fastcgi_temp_file_write_size 128k;
+
+    #开启gzip压缩输出
+    gzip on; 
+    #最小压缩文件大小
+    gzip_min_length 1k; 
+    #压缩缓冲区
+    gzip_buffers 4 16k;
+    #压缩版本（默认1.1，前端如果是squid2.5请使用1.0）
+    gzip_http_version 1.0;
+    #压缩等级 1-9 等级越高，压缩效果越好，节约宽带，但CPU消耗大
+    gzip_comp_level 2;
+    #压缩类型，默认就已经包含text/html，所以下面就不用再写了，写上去也不会有问题，但是会有一个warn。
+    gzip_types text/plain application/x-javascript text/css application/xml;
+    #前端缓存服务器缓存经过压缩的页面
+    gzip_vary on;
+
+    #反向代理
+    #nginx跟后端服务器连接超时时间(代理连接超时)
+    proxy_connect_timeout      5;
+    #后端服务器数据回传时间(代理发送超时)
+    proxy_send_timeout         5;
+    #连接成功后，后端服务器响应时间(代理接收超时)
+    proxy_read_timeout         60;
+    #设置代理服务器（nginx）保存用户头信息的缓冲区大小
+    proxy_buffer_size          16k;
+    #proxy_buffers缓冲区，网页平均在32k以下的话，这样设置
+    proxy_buffers              4 32k;
+    #高负荷下缓冲大小（proxy_buffers*2）
+    proxy_busy_buffers_size    64k;
+    #设定缓存文件夹大小，大于这个值，将从upstream服务器传
+    proxy_temp_file_write_size 64k;
+    #反向代理缓存目录
+    proxy_cache_path /data/proxy/cache levels=1:2 keys_zone=cache_one:500m inactive=1d max_size=1g;
+    #levels=1:2 设置目录深度，第一层目录是1个字符，第2层是2个字符
+    #keys_zone:设置web缓存名称和内存缓存空间大小
+    #inactive:自动清除缓存文件时间。
+    #max_size:硬盘空间最大可使用值。
+    #指定临时缓存文件的存储路径(路径需和上面路径在同一分区)
+    proxy_temp_path /data/proxy/temp
+
+    #负载均衡服务器池
+    upstream my_server_pool {
+        #调度算法
+        #1.轮循（默认）（weight轮循权值）
+        #2.ip_hash：根据每个请求访问IP的hash结果分配。（会话保持）
+        #3.fair:根据后端服务器响应时间最短请求。（upstream_fair模块）
+        #4.url_hash:根据访问的url的hash结果分配。（需hash软件包）
+        #参数：
+        #down：表示不参与负载均衡
+        #backup:备份服务器
+        #max_fails:允许最大请求错误次数
+        #fail_timeout:请求失败后暂停服务时间。
+        server 192.168.1.109:80 weight=1 max_fails=2 fail_timeout=30;
+        server 192.168.1.108:80 weight=2 max_fails=2 fail_timeout=30;
+    }
+
+    # 虚拟主机定义
+    server {
+        # 监听端口
+        listen       80; 
+        #listen     443;
+        # 访问域名
+        server_name  example.com;
+
+        # 编码格式，若网页格式与此不同，将被自动转码
+        #charset utf-8;
+
+        # 虚拟主机访问日志定义
+        #access_log  logs/host.access.log  main;
+
+        ssl on;  
+        #虚拟主机的证书文件  
+        ssl_certificate      /var/www/xxx.crt;   
+        #虚拟主机私钥文件  
+        ssl_certificate_key  /var/www/xxx.key;
+
+        # 匹配URL
+        location / {
+            # 定义默认网站根目录位置
+            root   html;
+            # 定义首页索引文件的名称，按以下顺序匹配
+            index  index.html index.htm index.php;
+
+            #反向代理缓存设置命令(proxy_cache zone|off,默认关闭所以要设置)
+            proxy_cache cache_one;
+            #对不同的状态码缓存不同时间
+            proxy_cache_valid 200 304 12h;
+            #设置以什么样参数获取缓存文件名
+            proxy_cache_key $host$uri$is_args$args;
+            #后7端的Web服务器可以通过X-Forwarded-For获取用户真实IP
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr; 
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;   
+            #代理设置
+            proxy_pass   http://my_server_pool; 
+            #文件过期时间控制
+            expires    1d;
+
+            #限制某个IP来源的连接并发数，此处为10个
+            limit_conn conn_ip 10;
+            #限制某个虚拟服务器的总连接数，此处为1000个
+            limit_conn conn_server 1000;
+            #限制带宽, 每个连接只允许最大5kb/s的速度进行下载
+            limit_rate 5k;
+
+            #burst=5这个配置的意思是设置一个大小为5的缓冲区，当有大量请求（爆发）过来时，
+            #超过了访问频次限制的请求可以先放到这个缓冲区内，如果此还存区也满了则会返回503
+            #nodelay 如果设置此参数，超过访问频次而且缓冲区也满了的时候就会直接返回503，如果没有设置，则所有请求会等待排队
+            limit_req zone=req_ip burst=5;
+            #limit_req zone=req_ip burst=5 nodelay;
+        }
+
+        location /download {
+            #限制IP访问
+            deny 192.168.0.2；
+            allow 192.168.0.0/24;
+            allow 192.168.1.1;
+            deny all;
+        }
+
+        #静态文件，nginx自己处理
+        location ~ ^/(images|javascript|js|css|flash|media|static)/ {
+            #过期30天，静态文件不怎么更新，过期可以设大一点，
+            #如果频繁更新，则可以设置得小一点。
+            expires 30d;
+        }
+
+        # 发生 404 错误时返回 404.html页面
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        # 发生 50x 错误时使用 50x.html
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # 将 PHP 脚本请求全部转发给 FastCGI（127.0.0.1:9000）处理
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        location ~ \.php$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            # 引入文件，fastcgi的默认配置参数
+            include        fastcgi_params;
+        }
+
+        # 禁止访问 .ht 页面
+        # deny access to .htaccess files, if Apache&apos;s document root
+        # concurs with nginx&apos;s one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+}
+</code></pre><h3 id="Location模块"><a href="#Location模块" class="headerlink" title="Location模块"></a>Location模块</h3><p>匹配模式及顺序</p>
+<pre><code>location = /uri 　　　=开头表示精确匹配，只有完全匹配上才能生效。
+location ^~ /uri 　　^~ 开头对URL路径进行前缀匹配，并且在正则之前。
+location ~ pattern 　~开头表示区分大小写的正则匹配。
+location ~* pattern 　~*开头表示不区分大小写的正则匹配。
+location /uri 　　　　不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。
+location / 　　　　　通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。
+</code></pre><p>优先级：<br>    (location =) &gt; (location 完整路径) &gt; (location ^~ 路径) &gt; (location ~,~* 正则顺序) &gt; (location 部分起始路径) &gt; (/)</p>
+<h3 id="rewrite指令"><a href="#rewrite指令" class="headerlink" title="rewrite指令"></a>rewrite指令</h3><p>rewrite功能就是，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实现url重写以及重定向。<br>rewrite只能放在server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用，<br>例如 <a href="http://seanlook.com/a/we/index.php?id=1&amp;u=str" target="_blank" rel="external">http://seanlook.com/a/we/index.php?id=1&amp;u=str</a> 只对/a/we/index.php重写。<br>语法rewrite regex replacement [flag] 。执行顺序是：</p>
+<pre><code>1.执行server块的rewrite指令
+2.执行location匹配
+3.执行选定的location中的rewrite指令
+</code></pre><p>rewrite指令的最后一项参数为flag标记，支持flag标记有：</p>
+<pre><code>1.last相当于apache里面的[L]标记，表示完成rewrite，不再匹配后面的规则
+2.break本条规则匹配完成后，终止匹配，不再匹配后面的规则。
+3.redirect  返回302临时重定向，浏览器地址会显示跳转后的URL地址。
+4.permanent  返回301永久重定向， 浏览器地址会显示跳转后的URL地址。
+</code></pre><p>因为301和302不能简单的只返回状态码，还必须有重定向的URL，这就是return指令无法返回301, 302的原因了。<br>这里last和break区别有点难以理解：</p>
+<pre><code>last 一般写在server和if中，而break一般使用在location中
+last 不终止重写后的url匹配，即新的url会再从server走一遍匹配流程，而break终止重写后的匹配
+break和last 都能组织继续执行后面的rewrite指令
+</code></pre><h3 id="if判断指令"><a href="#if判断指令" class="headerlink" title="if判断指令"></a>if判断指令</h3><p>语法为 if(condition) {…}，对给定的条件 condition 进行判断。如果为真，大括号内的 rewrite 指令将被执行，<br>if 条件(conditon)可以是如下任何内容：</p>
+<pre><code>当表达式只是一个变量时，如果值为空或任何以 0 开头的字符串都会当做 false
+直接比较变量和内容时，使用 = 或 !=
+~ 正则表达式匹配，~* 不区分大小写的匹配，!~ 区分大小写的不匹配
+-f 和 !-f 用来判断是否存在文件
+-d 和 !-d 用来判断是否存在目录
+-e 和 !-e 用来判断是否存在文件或目录
+-x 和 !-x 用来判断文件是否可执行
+</code></pre><h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><pre><code>$args ： #这个变量等于请求行中的参数，同$query_string
+$content_length ： 请求头中的Content-length字段。
+$content_type ： 请求头中的Content-Type字段。
+$document_root ： 当前请求在root指令中指定的值。
+$host ： 请求主机头字段，否则为服务器名称。
+$http_user_agent ： 客户端agent信息
+$http_cookie ： 客户端cookie信息
+$limit_rate ： 这个变量可以限制连接速率。
+$request_method ： 客户端请求的动作，通常为GET或POST。
+$remote_addr ： 客户端的IP地址。
+$remote_port ： 客户端的端口。
+$remote_user ： 已经经过Auth Basic Module验证的用户名。
+$request_filename ： 当前请求的文件路径，由root或alias指令与URI请求生成。
+$scheme ： HTTP方法（如http，https）。
+$server_protocol ： 请求使用的协议，通常是HTTP/1.0或HTTP/1.1。
+$server_addr ： 服务器地址，在完成一次系统调用后可以确定这个值。
+$server_name ： 服务器名称。
+$server_port ： 请求到达服务器的端口号。
+$request_uri ： 包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。
+$uri ： 不带请求参数的当前URI，$uri不包含主机名，如”/foo/bar.html”。
+$document_uri ： 与$uri相同。
+</code></pre>
       
     </div>
 
@@ -684,7 +756,7 @@ tmux kill-session -t &quot;session&quot;   //删除指定会话
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2016/08/24/tmux-config/" title="tmux配置">http://jasonhzy.github.io/2016/08/24/tmux-config/</a>
+      <a href="http://jasonhzy.github.io/2017/09/03/nginx/" title="nginx基本信息">http://jasonhzy.github.io/2017/09/03/nginx/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -700,7 +772,7 @@ tmux kill-session -t &quot;session&quot;   //删除指定会话
       
         <div class="post-tags">
           
-            <a href="/tags/tmux/" rel="tag"># tmux</a>
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
           
         </div>
       
@@ -713,8 +785,8 @@ tmux kill-session -t &quot;session&quot;   //删除指定会话
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/31/php-cookie/" rel="next" title="PHP中cookie的 path/domain参数">
-                <i class="fa fa-chevron-left"></i> PHP中cookie的 path/domain参数
+              <a href="/2017/06/14/mysql-explain/" rel="next" title="Mysql Explain使用分析">
+                <i class="fa fa-chevron-left"></i> Mysql Explain使用分析
               </a>
             
           </div>
@@ -722,10 +794,6 @@ tmux kill-session -t &quot;session&quot;   //删除指定会话
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/25/nginx-alias-root/" rel="prev" title="nginx 文件路径配置alias&root">
-                nginx 文件路径配置alias&root <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -904,7 +972,7 @@ tmux kill-session -t &quot;session&quot;   //删除指定会话
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tmux简介"><span class="nav-number">1.</span> <span class="nav-text">tmux简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">2.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#session常用命令"><span class="nav-number">2.1.</span> <span class="nav-text">session常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window常用命令"><span class="nav-number">2.2.</span> <span class="nav-text">window常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pane常用命令"><span class="nav-number">2.3.</span> <span class="nav-text">pane常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tmux配置文件-tmux-conf"><span class="nav-number">3.</span> <span class="nav-text">tmux配置文件 ~/.tmux.conf</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件详解"><span class="nav-number">2.</span> <span class="nav-text">配置文件详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Location模块"><span class="nav-number">3.</span> <span class="nav-text">Location模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rewrite指令"><span class="nav-number">4.</span> <span class="nav-text">rewrite指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if判断指令"><span class="nav-number">5.</span> <span class="nav-text">if判断指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量"><span class="nav-number">6.</span> <span class="nav-text">全局变量</span></a></li></ol></div>
             
 
           </div>
