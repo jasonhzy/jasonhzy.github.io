@@ -324,6 +324,12 @@ $uri ： 不带请求参数的当前URI，$uri不包含主机名，如”/foo/ba
 $document_uri ： 与$uri相同。
 </code></pre>]]></content>
       
+        <categories>
+            
+            <category> nginx </category>
+            
+        </categories>
+        
         
         <tags>
             
