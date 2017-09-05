@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2017/09/03/nginx/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
-<meta property="og:updated_time" content="2017-09-03T09:36:47.000Z">
+<meta property="og:updated_time" content="2017-09-05T12:04:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -478,8 +478,9 @@ events {
 http {
     # 引入文件 mime.types，是一个文件扩展名与文件类型的映射表
     include       mime.types;
-    # 指定默认MIME类型为二进制字节流  
+    # 指定默认MIME类型为二进制字节流(即下载文件)  
     default_type  application/octet-stream;
+    #default_type  text/html;
 
     # 定义输出日志的格式
     # 1.$remote_addr 与$http_x_forwarded_for 用以记录客户端的ip地址；
@@ -679,7 +680,7 @@ http {
         #}
     }
 }
-</code></pre><h3 id="Location模块"><a href="#Location模块" class="headerlink" title="Location模块"></a>Location模块</h3><p>匹配模式及顺序</p>
+</code></pre><h3 id="location模块"><a href="#location模块" class="headerlink" title="location模块"></a>location模块</h3><p>匹配模式及顺序</p>
 <pre><code>location = /uri 　　　=开头表示精确匹配，只有完全匹配上才能生效。
 location ^~ /uri 　　^~ 开头对URL路径进行前缀匹配，并且在正则之前。
 location ~ pattern 　~开头表示区分大小写的正则匹配。
@@ -692,8 +693,8 @@ location / 　　　　　通用匹配，任何未匹配到其它location的请�
 2.执行location匹配
 3.执行选定的location中的rewrite指令
 </code></pre><p>rewrite指令的最后一项参数为flag标记，支持flag标记有：</p>
-<pre><code>1.last相当于apache里面的[L]标记，表示完成rewrite，不再匹配后面的规则
-2.break本条规则匹配完成后，终止匹配，不再匹配后面的规则。
+<pre><code>1.last相当于apache里面的[L]标记，表示完成rewrite，浏览器地址栏URL地址不变
+2.break本条规则匹配完成后，终止匹配，不再匹配后面的规则，浏览器地址栏URL地址不变
 3.redirect  返回302临时重定向，浏览器地址会显示跳转后的URL地址。
 4.permanent  返回301永久重定向， 浏览器地址会显示跳转后的URL地址。
 </code></pre><p>因为301和302不能简单的只返回状态码，还必须有重定向的URL，这就是return指令无法返回301, 302的原因了。<br>这里last和break区别有点难以理解：</p>
@@ -994,7 +995,7 @@ $document_uri ： 与$uri相同。
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件详解"><span class="nav-number">2.</span> <span class="nav-text">配置文件详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Location模块"><span class="nav-number">3.</span> <span class="nav-text">Location模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rewrite指令"><span class="nav-number">4.</span> <span class="nav-text">rewrite指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if判断指令"><span class="nav-number">5.</span> <span class="nav-text">if判断指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量"><span class="nav-number">6.</span> <span class="nav-text">全局变量</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件详解"><span class="nav-number">2.</span> <span class="nav-text">配置文件详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#location模块"><span class="nav-number">3.</span> <span class="nav-text">location模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rewrite指令"><span class="nav-number">4.</span> <span class="nav-text">rewrite指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if判断指令"><span class="nav-number">5.</span> <span class="nav-text">if判断指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量"><span class="nav-number">6.</span> <span class="nav-text">全局变量</span></a></li></ol></div>
             
 
           </div>
