@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2017/09/03/nginx/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
-<meta property="og:updated_time" content="2017-09-05T12:04:03.000Z">
+<meta property="og:updated_time" content="2017-09-12T02:27:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -415,7 +415,12 @@
       
         <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。</p>
 <a id="more"></a>
-<h3 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h3><pre><code># 运行Nginx进程的用户以及用户组
+<h3 id="nginx-conf配置文件"><a href="#nginx-conf配置文件" class="headerlink" title="nginx.conf配置文件"></a>nginx.conf配置文件</h3><p>Nginx配置文件主要分成四部分：main（全局设置）、server（主机设置）、upstream（上游服务器设置，主要为反向代理、负载均衡相关配置）和 location（URL匹配特定位置后的设置）。<br>每部分包含若干个指令。他们之间的关系式：server继承main，location继承server；upstream既不会继承指令也不会被继承</p>
+<pre><code>main部分设置的指令将影响其它所有部分的设置；
+server部分的指令主要用于指定虚拟主机域名、IP和端口；
+upstream的指令用于设置一系列的后端服务器，设置反向代理及后端服务器的负载均衡；
+location部分用于匹配网页位置（比如，根目录“/”,“/images”,等等）。
+</code></pre><h3 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h3><pre><code># 运行Nginx进程的用户以及用户组
 user  www www;
 
 # Nginx开启的进程数，通常设置成和cpu的数量相等
@@ -818,6 +823,10 @@ $document_uri ： 与$uri相同。
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/09/11/nginx-install/" rel="prev" title="nginx编译安装">
+                nginx编译安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -891,7 +900,7 @@ $document_uri ： 与$uri相同。
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -995,7 +1004,7 @@ $document_uri ： 与$uri相同。
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件详解"><span class="nav-number">2.</span> <span class="nav-text">配置文件详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#location模块"><span class="nav-number">3.</span> <span class="nav-text">location模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rewrite指令"><span class="nav-number">4.</span> <span class="nav-text">rewrite指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if判断指令"><span class="nav-number">5.</span> <span class="nav-text">if判断指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量"><span class="nav-number">6.</span> <span class="nav-text">全局变量</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-conf配置文件"><span class="nav-number">2.</span> <span class="nav-text">nginx.conf配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件详解"><span class="nav-number">3.</span> <span class="nav-text">配置文件详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#location模块"><span class="nav-number">4.</span> <span class="nav-text">location模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rewrite指令"><span class="nav-number">5.</span> <span class="nav-text">rewrite指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if判断指令"><span class="nav-number">6.</span> <span class="nav-text">if判断指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量"><span class="nav-number">7.</span> <span class="nav-text">全局变量</span></a></li></ol></div>
             
 
           </div>
