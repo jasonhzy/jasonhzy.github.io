@@ -198,14 +198,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/selinux/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/19/sort-algorithm/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
@@ -219,7 +212,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/19/sort-algorithm/</loc>
+    <loc>http://jasonhzy.github.io/2016/01/25/selinux/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
@@ -233,21 +226,14 @@
   </url>
   
   <url>
+    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2016/01/31/php-fun/</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/poetry-snow/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
@@ -261,7 +247,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/01/poetry-snow/</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
@@ -276,6 +269,13 @@
   
   <url>
     <loc>http://jasonhzy.github.io/categories/index.html</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
