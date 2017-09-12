@@ -6,7 +6,7 @@
     <entry>
       <title><![CDATA[nginx编译安装]]></title>
       <url>http://jasonhzy.github.io/2017/09/11/nginx-install/</url>
-      <content type="html"><![CDATA[<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>1、下载<a href="http://nginx.org/en/download.html" target="_blank" rel="external">nginx</a>的安装包，解压</p>
+      <content type="html"><![CDATA[<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>下载<a href="http://nginx.org/en/download.html" target="_blank" rel="external">nginx</a>的安装包，解压</p>
 <a id="more"></a>
 <h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><pre><code>./configure 
 --prefix=/opt/local/var/run/nginx 
