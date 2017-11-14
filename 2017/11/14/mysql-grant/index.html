@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Mysql," />
 
 
 
@@ -93,15 +93,17 @@
 
 
 
-<meta name="description" content="Share experience summary">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jason Website">
-<meta property="og:url" content="http://jasonhzy.github.io/index.html">
+<meta name="description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
+<meta name="keywords" content="Mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql Grant／Revoke">
+<meta property="og:url" content="http://jasonhzy.github.io/2017/11/14/mysql-grant/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Share experience summary">
+<meta property="og:description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
+<meta property="og:updated_time" content="2017-11-14T03:45:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jason Website">
-<meta name="twitter:description" content="Share experience summary">
+<meta name="twitter:title" content="Mysql Grant／Revoke">
+<meta name="twitter:description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
 
 
 
@@ -129,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/"/>
+  <link rel="canonical" href="http://jasonhzy.github.io/2017/11/14/mysql-grant/"/>
 
 
 
 
 
-  <title>Jason Website</title>
+  <title>Mysql Grant／Revoke | Jason Website</title>
   
 
 
@@ -170,9 +172,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <!-- --------- add Fork me on Github ---------- -->
@@ -305,9 +305,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -333,9 +333,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/14/mysql-grant/" itemprop="url">Mysql Grant／Revoke</a></h1>
+          <h1 class="post-title" itemprop="name headline">Mysql Grant／Revoke</h1>
         
 
         <div class="post-meta">
@@ -390,7 +388,7 @@
               </span>
               
                 <a href="/2017/11/14/mysql-grant/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://jasonhzy.github.io/2017/11/14/mysql-grant/" class="cy_cmt_count" data-xid="2017/11/14/mysql-grant/" itemprop="commentsCount" ></span>
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/11/14/mysql-grant/" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -415,659 +413,145 @@
       
 
       
-        
-          <h3 id="mysql权限控制"><a href="#mysql权限控制" class="headerlink" title="mysql权限控制"></a>mysql权限控制</h3><p>mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如：</p>
+        <h3 id="mysql权限控制"><a href="#mysql权限控制" class="headerlink" title="mysql权限控制"></a>mysql权限控制</h3><p>mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如：</p>
 <pre><code>GRANT ALL PRIVILEGES ON databasename.tablename TO &apos;username&apos;@&apos;host&apos; IDENTIFIED BY &apos;mypassword&apos;
 # privileges 权限，可选值为：SELECT, UPDATE, INSERT, DELETE, DROP, CREATE, ALL等。
 # databasename 数据库名，对所有数据库给予权限用 ‘*’ 来表示。
 # tablename 表名，对所有的表给予权限用 ‘*’ 来表示。
 # host，可以是‘%’为任意主机，也可以是制定ip或者主机名
 # mypassword，授权用户在远程访问时使用的密码
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/14/mysql-grant/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+</code></pre><a id="more"></a>
+<h3 id="常用关于授权命令介绍"><a href="#常用关于授权命令介绍" class="headerlink" title="常用关于授权命令介绍"></a>常用关于授权命令介绍</h3><p>1、赋予用户指定数据库增删改查权限</p>
+<pre><code>grant select on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+grant insert on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+grant update on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+
+备注：用户名和密码保持一致时，表示增加权限，如果密码不一致则添加失败
+</code></pre><p>或者合并为一条语句：    </p>
+<pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+
+备注：数据库的权限存储于mysql-&gt;db，如果是为所有数据库赋予权限信息存储于mysql-&gt;user
+</code></pre><p>2、为数据库指定的表的列赋予权限</p>
+<pre><code>grant select(`id`, `num`), insert, update, delete on test.user to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+
+备注：列权限信息存储于mysql-&gt;columns_priv, 表权限信息存储于mysql-&gt;table_priv
+</code></pre><p>3、如果想让授权的用户(如：jason)，也可以将这些权限grant给其他用户，需要选项“grant option”</p>
+<pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos; with grant option;
+</code></pre><p>4、撤销授权</p>
+<pre><code>revoke update,delete on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除drop权限
+revoke all on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除除with grant option之外的所有权限
+revoke grant option on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除with grant option权限
+</code></pre><p>5、查看当前用户（自己）权限：</p>
+<pre><code>show grants;
+</code></pre><p>6、查看其他MySQL用户权限</p>
+<pre><code>show grants for &apos;jason&apos;@&apos;%&apos;;
+</code></pre><p>7、授权立即生效（重点）</p>
+<pre><code>flush privileges;
+</code></pre><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>1、with admin option和with grant option<br>（1）with admin option 只能在赋予 system privilege 的时使用 - with grant option 只能在赋予 object privilege 的时使用<br>（2）撤消带有admin option 的system privileges 时，连带的权限将保留，即撤销上级的权限时，下级已经赋予的权限则会保留<br>（3）撤消带有grant option 的object privileges 时，连带的权限也将撤消，即撤销上级的权限时，下级已经赋予的权限也会撤销</p>
+
       
     </div>
 
     <div>
       
+        
+
+      
     </div>
 
     <div>
       
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2017/09/11/nginx-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jason hu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jason Website">
-    </span>
-
-    
-      <header class="post-header">
-
         
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/11/nginx-install/" itemprop="url">nginx编译安装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-11T17:58:09+08:00">
-                2017-09-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/09/11/nginx-install/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://jasonhzy.github.io/2017/09/11/nginx-install/" class="cy_cmt_count" data-xid="2017/09/11/nginx-install/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>轻轻的我走了，正如我轻轻的来</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wxpay.jpg" alt="Jason hu WeChat Pay"/>
+          <p>微信打赏</p>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
       
       
-
-      
-        
-          <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>下载<a href="http://nginx.org/en/download.html" target="_blank" rel="external">nginx</a>的安装包，解压</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/11/nginx-install/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2017/09/03/nginx/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jason hu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jason Website">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/03/nginx/" itemprop="url">nginx基本信息</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T13:19:13+08:00">
-                2017-09-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/09/03/nginx/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://jasonhzy.github.io/2017/09/03/nginx/" class="cy_cmt_count" data-xid="2017/09/03/nginx/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="Jason hu Alipay"/>
+          <p>支付宝打赏</p>
         </div>
-      </header>
-    
+      
+    </div>
+  </div>
 
-    <div class="post-body" itemprop="articleBody">
 
       
-      
+    </div>
 
+    <div>
       
         
-          <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/03/nginx/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Jason hu
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jasonhzy.github.io/2017/11/14/mysql-grant/" title="Mysql Grant／Revoke">http://jasonhzy.github.io/2017/11/14/mysql-grant/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
 
-    <div>
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2017/06/14/mysql-explain/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jason hu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jason Website">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/14/mysql-explain/" itemprop="url">Mysql Explain使用分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T12:00:00+08:00">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">Mysql</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
           
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/06/14/mysql-explain/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://jasonhzy.github.io/2017/06/14/mysql-explain/" class="cy_cmt_count" data-xid="2017/06/14/mysql-explain/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>MySQL提供了一个explain命令, 它可以对select语句进行分析, 并输出select执行的详细信息, 以供开发人员针对查询性能进行优化.explain命令用法十分简单, 在select语句前加上explain就可以了, 例如:</p>
-<pre><code>explain SELECT * FROM bank where id = 1;
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/14/mysql-explain/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/11/nginx-install/" rel="next" title="nginx编译安装">
+                <i class="fa fa-chevron-left"></i> nginx编译安装
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2017/01/07/php-generate-qr/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jason hu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jason Website">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/01/07/php-generate-qr/" itemprop="url">PHP GD库合成图片</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-07T11:02:20+08:00">
-                2017-01-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/01/07/php-generate-qr/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://jasonhzy.github.io/2017/01/07/php-generate-qr/" class="cy_cmt_count" data-xid="2017/01/07/php-generate-qr/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>引入phpqrcode，并结合php提供的类库gd进行图片合成</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/07/php-generate-qr/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -1075,6 +559,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
 
         </div>
         
@@ -1095,8 +585,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -1205,6 +704,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql权限控制"><span class="nav-number">1.</span> <span class="nav-text">mysql权限控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用关于授权命令介绍"><span class="nav-number">2.</span> <span class="nav-text">常用关于授权命令介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">3.</span> <span class="nav-text">其他</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1318,10 +833,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
@@ -1356,7 +871,18 @@
 
 
   
-    <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyt6FWAqe"></script>
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt6FWAqe';
+      var conf = 'a3f1a81a87af686f9102096eda438454';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
   
 
 

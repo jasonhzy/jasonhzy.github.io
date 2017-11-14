@@ -4,6 +4,62 @@
   
     
     <entry>
+      <title><![CDATA[Mysql Grant／Revoke]]></title>
+      <url>http://jasonhzy.github.io/2017/11/14/mysql-grant/</url>
+      <content type="html"><![CDATA[<h3 id="mysql权限控制"><a href="#mysql权限控制" class="headerlink" title="mysql权限控制"></a>mysql权限控制</h3><p>mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如：</p>
+<pre><code>GRANT ALL PRIVILEGES ON databasename.tablename TO &apos;username&apos;@&apos;host&apos; IDENTIFIED BY &apos;mypassword&apos;
+# privileges 权限，可选值为：SELECT, UPDATE, INSERT, DELETE, DROP, CREATE, ALL等。
+# databasename 数据库名，对所有数据库给予权限用 ‘*’ 来表示。
+# tablename 表名，对所有的表给予权限用 ‘*’ 来表示。
+# host，可以是‘%’为任意主机，也可以是制定ip或者主机名
+# mypassword，授权用户在远程访问时使用的密码
+</code></pre><a id="more"></a>
+<h3 id="常用关于授权命令介绍"><a href="#常用关于授权命令介绍" class="headerlink" title="常用关于授权命令介绍"></a>常用关于授权命令介绍</h3><p>1、赋予用户指定数据库增删改查权限</p>
+<pre><code>grant select on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+grant insert on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+grant update on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+
+备注：用户名和密码保持一致时，表示增加权限，如果密码不一致则添加失败
+</code></pre><p>或者合并为一条语句：    </p>
+<pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+
+备注：数据库的权限存储于mysql-&gt;db，如果是为所有数据库赋予权限信息存储于mysql-&gt;user
+</code></pre><p>2、为数据库指定的表的列赋予权限</p>
+<pre><code>grant select(`id`, `num`), insert, update, delete on test.user to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+
+备注：列权限信息存储于mysql-&gt;columns_priv, 表权限信息存储于mysql-&gt;table_priv
+</code></pre><p>3、如果想让授权的用户(如：jason)，也可以将这些权限grant给其他用户，需要选项“grant option”</p>
+<pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos; with grant option;
+</code></pre><p>4、撤销授权</p>
+<pre><code>revoke update,delete on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除drop权限
+revoke all on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除除with grant option之外的所有权限
+revoke grant option on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除with grant option权限
+</code></pre><p>5、查看当前用户（自己）权限：</p>
+<pre><code>show grants;
+</code></pre><p>6、查看其他MySQL用户权限</p>
+<pre><code>show grants for &apos;jason&apos;@&apos;%&apos;;
+</code></pre><p>7、授权立即生效（重点）</p>
+<pre><code>flush privileges;
+</code></pre><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>1、with admin option和with grant option<br>（1）with admin option 只能在赋予 system privilege 的时使用 - with grant option 只能在赋予 object privilege 的时使用<br>（2）撤消带有admin option 的system privileges 时，连带的权限将保留，即撤销上级的权限时，下级已经赋予的权限则会保留<br>（3）撤消带有grant option 的object privileges 时，连带的权限也将撤消，即撤销上级的权限时，下级已经赋予的权限也会撤销</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[nginx编译安装]]></title>
       <url>http://jasonhzy.github.io/2017/09/11/nginx-install/</url>
       <content type="html"><![CDATA[<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>下载<a href="http://nginx.org/en/download.html" target="_blank" rel="external">nginx</a>的安装包，解压</p>
@@ -1493,13 +1549,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#x74;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;">&#x73;&#x74;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x73;&#116;&#x61;&#x73;&#104;&#x40;&#x7b;&#110;&#125;">&#x73;&#116;&#x61;&#x73;&#104;&#x40;&#x7b;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#58;&#x73;&#116;&#x61;&#115;&#104;&#64;&#123;&#110;&#x7d;">&#x73;&#116;&#x61;&#115;&#104;&#64;&#123;&#110;&#x7d;</a>参数，则从该<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#116;&#x61;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#x61;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#x73;&#116;&#97;&#x73;&#x68;&#64;&#123;&#110;&#125;">&#x73;&#116;&#97;&#x73;&#x68;&#64;&#123;&#110;&#125;</a>参数，则从该<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#115;&#116;&#x61;&#x73;&#104;&#64;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#x61;&#x73;&#104;&#64;&#x7b;&#x6e;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -1679,7 +1735,7 @@ pip/easy_install install html5lib
 <li>添加隐藏的iframe，name属性值与form的target必须保持一致</li>
 <li>添加js代码实现信息提示</li>
 </ul>
-<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$jsoncallback = $_POST[<span class="string">'callback'</span>];</div><div class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</div><div class="line">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response_post</span><span class="params">($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)</span></span>&#123;</div><div class="line">	$output=<span class="string">""</span>;</div><div class="line">	$output .= <span class="string">'&lt;script&gt;'</span>;</div><div class="line">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></div><div class="line">		.json_encode(<span class="keyword">array</span>(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</div><div class="line">		.<span class="string">');'</span>);</div><div class="line">	$output .= <span class="string">'&lt;/script&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> $output;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?php</span></span></div><div class="line">$jsoncallback = $_POST[<span class="string">'callback'</span>];</div><div class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</div><div class="line">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response_post</span><span class="params">($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)</span></span>&#123;</div><div class="line">	$output=<span class="string">""</span>;</div><div class="line">	$output .= <span class="string">'&lt;script&gt;'</span>;</div><div class="line">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></div><div class="line">		.json_encode(<span class="keyword">array</span>(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</div><div class="line">		.<span class="string">');'</span>);</div><div class="line">	$output .= <span class="string">'&lt;/script&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> $output;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 ]]></content>
       
         <categories>
@@ -2632,9 +2688,9 @@ download_enable=YES/NO（YES）
         
         <tags>
             
-            <tag> Codeigniter </tag>
-            
             <tag> PHP </tag>
+            
+            <tag> Codeigniter </tag>
             
         </tags>
         
