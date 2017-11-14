@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2017/11/14/mysql-grant/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
-<meta property="og:updated_time" content="2017-11-14T03:45:08.000Z">
+<meta property="og:updated_time" content="2017-11-14T07:08:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql Grant／Revoke">
 <meta name="twitter:description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
@@ -421,7 +421,8 @@
 # host，可以是‘%’为任意主机，也可以是制定ip或者主机名
 # mypassword，授权用户在远程访问时使用的密码
 </code></pre><a id="more"></a>
-<h3 id="常用关于授权命令介绍"><a href="#常用关于授权命令介绍" class="headerlink" title="常用关于授权命令介绍"></a>常用关于授权命令介绍</h3><p>1、赋予用户指定数据库增删改查权限</p>
+<h3 id="常用关于授权命令介绍"><a href="#常用关于授权命令介绍" class="headerlink" title="常用关于授权命令介绍"></a>常用关于授权命令介绍</h3><p>1、用户授权</p>
+<p>（1）赋予用户指定数据库增删改查权限</p>
 <pre><code>grant select on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 grant insert on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 grant update on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
@@ -432,23 +433,26 @@ grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;12
 <pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 
 备注：数据库的权限存储于mysql-&gt;db，如果是为所有数据库赋予权限信息存储于mysql-&gt;user
-</code></pre><p>2、为数据库指定的表的列赋予权限</p>
+</code></pre><p>（2）为数据库指定的表的列赋予权限</p>
 <pre><code>grant select(`id`, `num`), insert, update, delete on test.user to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 
 备注：列权限信息存储于mysql-&gt;columns_priv, 表权限信息存储于mysql-&gt;table_priv
-</code></pre><p>3、如果想让授权的用户(如：jason)，也可以将这些权限grant给其他用户，需要选项“grant option”</p>
+</code></pre><p>（3）如果想让授权的用户(如：jason)，也可以将这些权限grant给其他用户，需要选项“grant option”</p>
 <pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos; with grant option;
-</code></pre><p>4、撤销授权</p>
+</code></pre><p>2、撤销授权</p>
 <pre><code>revoke update,delete on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除drop权限
 revoke all on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除除with grant option之外的所有权限
 revoke grant option on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除with grant option权限
-</code></pre><p>5、查看当前用户（自己）权限：</p>
-<pre><code>show grants;
-</code></pre><p>6、查看其他MySQL用户权限</p>
-<pre><code>show grants for &apos;jason&apos;@&apos;%&apos;;
-</code></pre><p>7、授权立即生效（重点）</p>
+</code></pre><p>3、查看用户权限：</p>
+<pre><code>show grants; --查看当前用户（自己）权限
+show grants for &apos;jason&apos;@&apos;%&apos;; --查看其他MySQL用户权限
+</code></pre><p>4、授权立即生效（重点）</p>
 <pre><code>flush privileges;
-</code></pre><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>1、with admin option和with grant option<br>（1）with admin option 只能在赋予 system privilege 的时使用 - with grant option 只能在赋予 object privilege 的时使用<br>（2）撤消带有admin option 的system privileges 时，连带的权限将保留，即撤销上级的权限时，下级已经赋予的权限则会保留<br>（3）撤消带有grant option 的object privileges 时，连带的权限也将撤消，即撤销上级的权限时，下级已经赋予的权限也会撤销</p>
+</code></pre><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>1、MySQL用户权限表<br>存储用户权限信息表主要有：user,db,tables_priv,columns_priv,procs_priv这五张表（5.6之前还有host表），授权可以分为多个层次：</p>
+<blockquote>
+<p>全局层级：全局权限适用于一个给定服务器中的所有数据库，这些权限存储在mysql.user表中。<br>数据库层级：数据库权限适用于一个给定数据库中的所有目标，这些权限存储在mysql.db表中。<br>表层级：表权限适用于一个给定表中的所有列，这些权限存储在mysql.tables_priv表中。<br>列层级：列权限使用于一个给定表中的单一列，这些权限存储在mysql.columns_priv表中。<br>子程序层级：CREATE ROUTINE、ALTER ROUTINE、EXECUTE和GRANT权限适用于已存储的子程序。这些权限可以被授予为全局层级和数据库层级。而且，除了CREATE ROUTINE外，这些权限可以被授予子程序层级，并存储在mysql.procs_priv表中。</p>
+</blockquote>
+<p>2、with admin option和with grant option<br>（1）with admin option 只能在赋予 system privilege 的时使用 - with grant option 只能在赋予 object privilege 的时使用<br>（2）撤消带有admin option 的system privileges 时，连带的权限将保留，即撤销上级的权限时，下级已经赋予的权限则会保留<br>（3）撤消带有grant option 的object privileges 时，连带的权限也将撤消，即撤销上级的权限时，下级已经赋予的权限也会撤销</p>
 
       
     </div>
