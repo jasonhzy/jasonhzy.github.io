@@ -426,7 +426,7 @@ http {
             limit_rate 5k;
 
             #burst=5这个配置的意思是设置一个大小为5的缓冲区，当有大量请求（爆发）过来时，
-            #超过了访问频次限制的请求可以先放到这个缓冲区内，如果此还存区也满了则会返回503
+            #超过了访问频次限制的请求可以先放到这个缓冲区内，如果此缓冲区也满了则会返回503
             #nodelay 如果设置此参数，超过访问频次而且缓冲区也满了的时候就会直接返回503，如果没有设置，则所有请求会等待排队
             limit_req zone=req_ip burst=5;
             #limit_req zone=req_ip burst=5 nodelay;
@@ -1553,13 +1553,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#115;&#116;&#97;&#115;&#104;&#64;&#123;&#110;&#x7d;">&#115;&#116;&#97;&#115;&#104;&#64;&#123;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#115;&#116;&#97;&#115;&#104;&#64;&#x7b;&#110;&#x7d;">&#115;&#116;&#97;&#115;&#104;&#64;&#x7b;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#115;&#x74;&#x61;&#x73;&#104;&#x40;&#123;&#110;&#125;">&#115;&#x74;&#x61;&#x73;&#104;&#x40;&#123;&#110;&#125;</a>参数，则从该<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#115;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;">&#115;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x73;&#x74;&#x61;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;">&#x73;&#x74;&#x61;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#x73;&#x74;&#97;&#115;&#x68;&#x40;&#123;&#110;&#x7d;">&#x73;&#x74;&#97;&#115;&#x68;&#x40;&#123;&#110;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -1637,9 +1637,9 @@ class email.mime.text.MIMEText(_text[, _subtype[, _charset]])：MIME文本对象
         
         <tags>
             
-            <tag> Mail </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Mail </tag>
             
         </tags>
         
@@ -1739,7 +1739,7 @@ pip/easy_install install html5lib
 <li>添加隐藏的iframe，name属性值与form的target必须保持一致</li>
 <li>添加js代码实现信息提示</li>
 </ul>
-<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?php</span></span></div><div class="line">$jsoncallback = $_POST[<span class="string">'callback'</span>];</div><div class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</div><div class="line">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response_post</span><span class="params">($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)</span></span>&#123;</div><div class="line">	$output=<span class="string">""</span>;</div><div class="line">	$output .= <span class="string">'&lt;script&gt;'</span>;</div><div class="line">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></div><div class="line">		.json_encode(<span class="keyword">array</span>(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</div><div class="line">		.<span class="string">');'</span>);</div><div class="line">	$output .= <span class="string">'&lt;/script&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> $output;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$jsoncallback = $_POST[<span class="string">'callback'</span>];</div><div class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</div><div class="line">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response_post</span><span class="params">($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)</span></span>&#123;</div><div class="line">	$output=<span class="string">""</span>;</div><div class="line">	$output .= <span class="string">'&lt;script&gt;'</span>;</div><div class="line">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></div><div class="line">		.json_encode(<span class="keyword">array</span>(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</div><div class="line">		.<span class="string">');'</span>);</div><div class="line">	$output .= <span class="string">'&lt;/script&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> $output;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 ]]></content>
       
         <categories>
@@ -2692,9 +2692,9 @@ download_enable=YES/NO（YES）
         
         <tags>
             
-            <tag> PHP </tag>
-            
             <tag> Codeigniter </tag>
+            
+            <tag> PHP </tag>
             
         </tags>
         

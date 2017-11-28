@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2017/09/03/nginx/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
-<meta property="og:updated_time" content="2017-09-12T02:27:20.000Z">
+<meta property="og:updated_time" content="2017-11-16T03:04:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -633,7 +633,7 @@ http {
             limit_rate 5k;
 
             #burst=5这个配置的意思是设置一个大小为5的缓冲区，当有大量请求（爆发）过来时，
-            #超过了访问频次限制的请求可以先放到这个缓冲区内，如果此还存区也满了则会返回503
+            #超过了访问频次限制的请求可以先放到这个缓冲区内，如果此缓冲区也满了则会返回503
             #nodelay 如果设置此参数，超过访问频次而且缓冲区也满了的时候就会直接返回503，如果没有设置，则所有请求会等待排队
             limit_req zone=req_ip burst=5;
             #limit_req zone=req_ip burst=5 nodelay;
