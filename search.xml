@@ -3734,7 +3734,7 @@ Policy from config file:        targeted
 comm=&quot;redis-server&quot; src=5000 scontext=system_u:system_r:redis_t:s0 
 tcontext=system_u:object_r:commplex_main_port_t:s0 tclass=tcp_socket
 </code></pre><p>audit2allow -w -a 查看详细的信息</p>
-<p><img src="/images/selinux/audit2allow.png" alt="audit2allow">    </p>
+<p><img src="/images/selinux/audit2allow.png" alt="audit2allow"><br><img src="/images/selinux/ausearch.png" alt="ausearch">    </p>
 <h3 id="4-利用-audit2allow-创建自定-SELinux-政策模块"><a href="#4-利用-audit2allow-创建自定-SELinux-政策模块" class="headerlink" title="4.利用 audit2allow 创建自定 SELinux 政策模块"></a>4.利用 audit2allow 创建自定 SELinux 政策模块</h3><pre><code>grep redis /var/log/audit/audit.log | audit2allow -M redis
 或者
 ausearch -m AVC | audit2allow -a -M redis(名称自定义)

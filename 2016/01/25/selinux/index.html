@@ -101,9 +101,10 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="SELinux 模式 SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中 targeted是较宽松的级别。  Enforcing： 这个缺省模式会在系统上启用并实施 SELinux 的安全性政策，拒绝访问及记录行动 Permissive： 在 Permissive">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/audit2allow.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/selinux/ausearch.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/ausearch-audit2allow.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/sealert.png">
-<meta property="og:updated_time" content="2017-11-30T02:51:32.000Z">
+<meta property="og:updated_time" content="2017-11-30T03:12:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SELinux">
 <meta name="twitter:description" content="SELinux 模式 SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中 targeted是较宽松的级别。  Enforcing： 这个缺省模式会在系统上启用并实施 SELinux 的安全性政策，拒绝访问及记录行动 Permissive： 在 Permissive">
@@ -445,7 +446,7 @@ Policy from config file:        targeted
 comm=&quot;redis-server&quot; src=5000 scontext=system_u:system_r:redis_t:s0 
 tcontext=system_u:object_r:commplex_main_port_t:s0 tclass=tcp_socket
 </code></pre><p>audit2allow -w -a 查看详细的信息</p>
-<p><img src="/images/selinux/audit2allow.png" alt="audit2allow">    </p>
+<p><img src="/images/selinux/audit2allow.png" alt="audit2allow"><br><img src="/images/selinux/ausearch.png" alt="ausearch">    </p>
 <h3 id="4-利用-audit2allow-创建自定-SELinux-政策模块"><a href="#4-利用-audit2allow-创建自定-SELinux-政策模块" class="headerlink" title="4.利用 audit2allow 创建自定 SELinux 政策模块"></a>4.利用 audit2allow 创建自定 SELinux 政策模块</h3><pre><code>grep redis /var/log/audit/audit.log | audit2allow -M redis
 或者
 ausearch -m AVC | audit2allow -a -M redis(名称自定义)
