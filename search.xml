@@ -1553,13 +1553,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#115;&#x74;&#x61;&#x73;&#104;&#64;&#x7b;&#x6e;&#125;">&#115;&#x74;&#x61;&#x73;&#104;&#64;&#x7b;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#115;&#x74;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;">&#115;&#x74;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#115;&#x74;&#97;&#115;&#104;&#x40;&#123;&#x6e;&#125;">&#115;&#x74;&#97;&#115;&#104;&#x40;&#123;&#x6e;&#125;</a>参数，则从该<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x73;&#x74;&#x61;&#x73;&#104;&#x40;&#x7b;&#x6e;&#125;">&#x73;&#x74;&#x61;&#x73;&#104;&#x40;&#x7b;&#x6e;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#115;&#x74;&#x61;&#x73;&#104;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#x74;&#x61;&#x73;&#104;&#x40;&#x7b;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#116;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;">&#x73;&#116;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -3729,8 +3729,24 @@ Policy from config file:        targeted
 </code></pre><p>如果SELinux status参数为enabled即为开启状态<br>临时关闭（不用重启机器）：<br>setenforce 0  #设置SELinux 成为permissive模式， setenforce 1 设置SELinux 成为enforcing模式</p>
 <h3 id="2-修改配置文件需要重启机器"><a href="#2-修改配置文件需要重启机器" class="headerlink" title="2.修改配置文件需要重启机器"></a>2.修改配置文件需要重启机器</h3><p>修改/etc/selinux/config 文件<br>将SELINUX=enforcing改为SELINUX=disabled<br>重启机器即可</p>
 <h3 id="3-日志文件"><a href="#3-日志文件" class="headerlink" title="3.日志文件"></a>3.日志文件</h3><p>默认情况下，SELinux的日志信息是由Linux审计系统auditd写在 /var/log/audit/audit.log里<br>autitd守护进程未启动，则写在/var/log/messages里</p>
-<h3 id="4-利用-audit2allow-创建自定-SELinux-政策模块"><a href="#4-利用-audit2allow-创建自定-SELinux-政策模块" class="headerlink" title="4.利用 audit2allow 创建自定 SELinux 政策模块"></a>4.利用 audit2allow 创建自定 SELinux 政策模块</h3><pre><code>grep httpd /var/log/audit/audit.log | audit2allow -M httpd
-</code></pre><h3 id="5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><a href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内" class="headerlink" title="5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内"></a>5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</h3><pre><code>semodule -i httpd.pp
+<p>例如：配置redis，修改默认端口为5000，启动时日志文件/var/log/messages出现的信息：</p>
+<pre><code>type=AVC msg=audit(1511937910.858:596): avc:  denied  { name_bind } for pid=17835 
+comm=&quot;redis-server&quot; src=5000 scontext=system_u:system_r:redis_t:s0 
+tcontext=system_u:object_r:commplex_main_port_t:s0 tclass=tcp_socket
+</code></pre><p>audit2allow -w -a 查看详细的信息</p>
+<p><img src="/images/selinux/audit2allow.png" alt="audit2allow">    </p>
+<h3 id="4-利用-audit2allow-创建自定-SELinux-政策模块"><a href="#4-利用-audit2allow-创建自定-SELinux-政策模块" class="headerlink" title="4.利用 audit2allow 创建自定 SELinux 政策模块"></a>4.利用 audit2allow 创建自定 SELinux 政策模块</h3><pre><code>grep redis /var/log/audit/audit.log | audit2allow -M redis
+或者
+ausearch -m AVC | audit2allow -a -M redis(名称自定义)
+</code></pre><p><img src="/images/selinux/ausearch-audit2allow.png" alt="ausearch-audit2allow">    </p>
+<h3 id="5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><a href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内" class="headerlink" title="5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内"></a>5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</h3><pre><code>semodule -i redis.pp
+</code></pre><p>也可以使用sealert    来解决问题</p>
+<p><img src="/images/selinux/sealert.png" alt="sealert">        </p>
+<h3 id="6-查看支持的端口"><a href="#6-查看支持的端口" class="headerlink" title="6.查看支持的端口"></a>6.查看支持的端口</h3><pre><code>semanage port -l | grep redis        
+
+例如：
+[root@localhost ~]# semanage port -l | grep redis
+redis_port_t           tcp      6379, 16379, 26379
 </code></pre>]]></content>
       
         <categories>

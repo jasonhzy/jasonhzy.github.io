@@ -100,10 +100,14 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2016/01/25/selinux/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="SELinux 模式 SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中 targeted是较宽松的级别。  Enforcing： 这个缺省模式会在系统上启用并实施 SELinux 的安全性政策，拒绝访问及记录行动 Permissive： 在 Permissive">
-<meta property="og:updated_time" content="2016-03-27T14:09:24.000Z">
+<meta property="og:image" content="http://jasonhzy.github.io/images/selinux/audit2allow.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/selinux/ausearch-audit2allow.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/selinux/sealert.png">
+<meta property="og:updated_time" content="2017-11-30T02:51:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SELinux">
 <meta name="twitter:description" content="SELinux 模式 SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中 targeted是较宽松的级别。  Enforcing： 这个缺省模式会在系统上启用并实施 SELinux 的安全性政策，拒绝访问及记录行动 Permissive： 在 Permissive">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/selinux/audit2allow.png">
 
 
 
@@ -436,8 +440,24 @@ Policy from config file:        targeted
 </code></pre><p>如果SELinux status参数为enabled即为开启状态<br>临时关闭（不用重启机器）：<br>setenforce 0  #设置SELinux 成为permissive模式， setenforce 1 设置SELinux 成为enforcing模式</p>
 <h3 id="2-修改配置文件需要重启机器"><a href="#2-修改配置文件需要重启机器" class="headerlink" title="2.修改配置文件需要重启机器"></a>2.修改配置文件需要重启机器</h3><p>修改/etc/selinux/config 文件<br>将SELINUX=enforcing改为SELINUX=disabled<br>重启机器即可</p>
 <h3 id="3-日志文件"><a href="#3-日志文件" class="headerlink" title="3.日志文件"></a>3.日志文件</h3><p>默认情况下，SELinux的日志信息是由Linux审计系统auditd写在 /var/log/audit/audit.log里<br>autitd守护进程未启动，则写在/var/log/messages里</p>
-<h3 id="4-利用-audit2allow-创建自定-SELinux-政策模块"><a href="#4-利用-audit2allow-创建自定-SELinux-政策模块" class="headerlink" title="4.利用 audit2allow 创建自定 SELinux 政策模块"></a>4.利用 audit2allow 创建自定 SELinux 政策模块</h3><pre><code>grep httpd /var/log/audit/audit.log | audit2allow -M httpd
-</code></pre><h3 id="5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><a href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内" class="headerlink" title="5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内"></a>5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</h3><pre><code>semodule -i httpd.pp
+<p>例如：配置redis，修改默认端口为5000，启动时日志文件/var/log/messages出现的信息：</p>
+<pre><code>type=AVC msg=audit(1511937910.858:596): avc:  denied  { name_bind } for pid=17835 
+comm=&quot;redis-server&quot; src=5000 scontext=system_u:system_r:redis_t:s0 
+tcontext=system_u:object_r:commplex_main_port_t:s0 tclass=tcp_socket
+</code></pre><p>audit2allow -w -a 查看详细的信息</p>
+<p><img src="/images/selinux/audit2allow.png" alt="audit2allow">    </p>
+<h3 id="4-利用-audit2allow-创建自定-SELinux-政策模块"><a href="#4-利用-audit2allow-创建自定-SELinux-政策模块" class="headerlink" title="4.利用 audit2allow 创建自定 SELinux 政策模块"></a>4.利用 audit2allow 创建自定 SELinux 政策模块</h3><pre><code>grep redis /var/log/audit/audit.log | audit2allow -M redis
+或者
+ausearch -m AVC | audit2allow -a -M redis(名称自定义)
+</code></pre><p><img src="/images/selinux/ausearch-audit2allow.png" alt="ausearch-audit2allow">    </p>
+<h3 id="5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><a href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内" class="headerlink" title="5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内"></a>5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</h3><pre><code>semodule -i redis.pp
+</code></pre><p>也可以使用sealert    来解决问题</p>
+<p><img src="/images/selinux/sealert.png" alt="sealert">        </p>
+<h3 id="6-查看支持的端口"><a href="#6-查看支持的端口" class="headerlink" title="6.查看支持的端口"></a>6.查看支持的端口</h3><pre><code>semanage port -l | grep redis        
+
+例如：
+[root@localhost ~]# semanage port -l | grep redis
+redis_port_t           tcp      6379, 16379, 26379
 </code></pre>
       
     </div>
@@ -709,7 +729,7 @@ Policy from config file:        targeted
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-sestatus-v"><span class="nav-number">1.</span> <span class="nav-text">1.sestatus -v</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改配置文件需要重启机器"><span class="nav-number">2.</span> <span class="nav-text">2.修改配置文件需要重启机器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-日志文件"><span class="nav-number">3.</span> <span class="nav-text">3.日志文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-利用-audit2allow-创建自定-SELinux-政策模块"><span class="nav-number">4.</span> <span class="nav-text">4.利用 audit2allow 创建自定 SELinux 政策模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><span class="nav-number">5.</span> <span class="nav-text">5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-sestatus-v"><span class="nav-number">1.</span> <span class="nav-text">1.sestatus -v</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改配置文件需要重启机器"><span class="nav-number">2.</span> <span class="nav-text">2.修改配置文件需要重启机器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-日志文件"><span class="nav-number">3.</span> <span class="nav-text">3.日志文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-利用-audit2allow-创建自定-SELinux-政策模块"><span class="nav-number">4.</span> <span class="nav-text">4.利用 audit2allow 创建自定 SELinux 政策模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><span class="nav-number">5.</span> <span class="nav-text">5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-查看支持的端口"><span class="nav-number">6.</span> <span class="nav-text">6.查看支持的端口</span></a></li></ol></div>
             
 
           </div>
