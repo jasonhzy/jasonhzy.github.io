@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;MAMP 这个名字来源于 Macintosh Apache MySQL PHP，显然专门用来在 Mac环境下搭建Apache、MySQL、PHP平台。OSX中已经预装了Apache和PHP环境，但是启用、配置并安装整合MySQL仍然是一件极其复杂的工作。">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mac-mysql.png">
-<meta property="og:updated_time" content="2016-09-29T07:41:49.000Z">
+<meta property="og:updated_time" content="2017-12-05T11:13:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MAC下php环境的搭建">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;MAMP 这个名字来源于 Macintosh Apache MySQL PHP，显然专门用来在 Mac环境下搭建Apache、MySQL、PHP平台。OSX中已经预装了Apache和PHP环境，但是启用、配置并安装整合MySQL仍然是一件极其复杂的工作。">
@@ -466,7 +466,7 @@ mysqli.default_socket = /opt/local/var/run/mysql55/mysqld.sock
 <pre><code>$ echo $(/opt/local/lib/mysql55/bin/mysql_config --socket)
 $ /opt/local/var/run/mysql55/mysqld.sock
 </code></pre><h3 id="安装PHP、Apache"><a href="#安装PHP、Apache" class="headerlink" title="安装PHP、Apache"></a>安装PHP、Apache</h3><pre><code>$ sudo port install php56 php56-curl php56-gd php56-mysqli
-php56-mbstring php56-mcrypt php56-imagic php56-apache2handlerk
+php56-mbstring php56-mcrypt php56-imagic php56-apache2handler
 </code></pre><p>如果是首次安装，需要启用<strong>php56-apache2handler</strong></p>
 <pre><code>$ cd /opt/local/apache2/modules
 $ sudo /opt/local/apache2/bin/apxs -a -e -n php5 mod_php56.so
