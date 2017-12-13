@@ -10,8 +10,10 @@
 <p>redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>   192.168.1.49 master 6379 sentinel1 26379<br>   192.168.1.63 slave1 6380 sentinel2 26380<br>   192.168.1.144 slave2 6381 sentinel3 26381</p>
-<h2 id="主从同步-master-slave"><a href="#主从同步-master-slave" class="headerlink" title="主从同步(master-slave)"></a>主从同步(master-slave)</h2><p>   Redis 支持简单且易用的主从复制（master-slave replication）功能</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><pre><code>192.168.1.49 master 6379 sentinel1 26379
+192.168.1.63 slave1 6380 sentinel2 26380
+192.168.1.144 slave2 6381 sentinel3 26381
+</code></pre><h2 id="主从同步-master-slave"><a href="#主从同步-master-slave" class="headerlink" title="主从同步(master-slave)"></a>主从同步(master-slave)</h2><p>   Redis 支持简单且易用的主从复制（master-slave replication）功能</p>
 <h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>   Redis 复制功能的几个重要方面：</p>
 <blockquote>
 <p>1、一个主服务器可以有多个从服务器。<br>2、不仅主服务器可以有从服务器， 从服务器也可以有自己的从服务器， 多个从服务器之间可以构成一个图状结构。<br>3、复制功能不会阻塞主服务器： 即使有一个或多个从服务器正在进行初次同步， 主服务器也可以继续处理命令请求。<br>4、复制功能也不会阻塞从服务器： 只要在 redis.conf 文件中进行了相应的设置， 即使从服务器正在进行初次同步， 服务器也可以使用旧版本的数据集来处理命令查询。<br>不过， 在从服务器删除旧版本数据集并载入新版本数据集的那段时间内， 连接请求会被阻塞。<br>你还可以配置从服务器， 让它在与主服务器之间的连接断开时， 向客户端发送一个错误。<br>5、复制功能可以单纯地用于数据冗余（data redundancy）， 也可以通过让多个从服务器处理只读命令请求来提升扩展性（scalability）： 比如说， 繁重的 SORT 命令可以交给附属节点去运行。<br>6、可以通过复制功能来让主服务器免于执行持久化操作： 只要关闭主服务器的持久化功能， 然后由从服务器去执行持久化操作即可。   </p>
