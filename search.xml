@@ -16,22 +16,21 @@
 <blockquote>
 <p>1、一个主服务器可以有多个从服务器。<br>2、不仅主服务器可以有从服务器， 从服务器也可以有自己的从服务器， 多个从服务器之间可以构成一个图状结构。<br>3、复制功能不会阻塞主服务器： 即使有一个或多个从服务器正在进行初次同步， 主服务器也可以继续处理命令请求。<br>4、复制功能也不会阻塞从服务器： 只要在 redis.conf 文件中进行了相应的设置， 即使从服务器正在进行初次同步， 服务器也可以使用旧版本的数据集来处理命令查询。<br>不过， 在从服务器删除旧版本数据集并载入新版本数据集的那段时间内， 连接请求会被阻塞。<br>你还可以配置从服务器， 让它在与主服务器之间的连接断开时， 向客户端发送一个错误。<br>5、复制功能可以单纯地用于数据冗余（data redundancy）， 也可以通过让多个从服务器处理只读命令请求来提升扩展性（scalability）： 比如说， 繁重的 SORT 命令可以交给附属节点去运行。<br>6、可以通过复制功能来让主服务器免于执行持久化操作： 只要关闭主服务器的持久化功能， 然后由从服务器去执行持久化操作即可。   </p>
 </blockquote>
-<h3 id="简单搭建"><a href="#简单搭建" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置redis.conf   </p>
-<ul>
-<li><p>master配置  </p>
-<p> protected-mode no<br> port 6379</p>
-<p>启动master如下图所示：<br> <img src="/images/redis/redis-master-noslave.png" alt="master">    </p>
-</li>
-<li><p>slave1配置  </p>
-<p> protected-mode no<br> port 6380<br> slaveof 192.168.1.49</p>
-<p>启动slave1如下图所示：<br> <img src="/images/redis/redis-slave1.png" alt="slave1">       </p>
-</li>
-<li><p>slave2配置  </p>
-<p> protected-mode no<br> port 6381<br> slaveof 192.168.1.49</p>
-<p>启动slave1如下图所示：<br> <img src="/images/redis/redis-slave2.png" alt="slave2"></p>
-<p>从服务器均启动后，在此查看主服务器：<br> <img src="/images/redis/redis-master.png" alt="master-slave"> </p>
-</li>
-</ul>
+<h3 id="简单搭建"><a href="#简单搭建" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置redis.conf<br> 1) master配置  </p>
+<pre><code>protected-mode no
+port 6379
+</code></pre><p> 启动master如下图所示：<br>    <img src="/images/redis/redis-master-noslave.png" alt="master">    </p>
+<p> 2) slave1配置  </p>
+<pre><code>protected-mode no
+port 6380
+slaveof 192.168.1.49
+</code></pre><p>  启动slave1如下图所示：<br>    <img src="/images/redis/redis-slave1.png" alt="slave1">       </p>
+<p> 3) slave2配置  </p>
+<pre><code>protected-mode no
+port 6381
+slaveof 192.168.1.49
+</code></pre><p> 启动slave1如下图所示：<br>    <img src="/images/redis/redis-slave2.png" alt="slave2"></p>
+<p> 从服务器均启动后，在此查看主服务器：<br>    <img src="/images/redis/redis-master.png" alt="master-slave"> </p>
 <p>2、客户端连接测试<br>1)master服务器：<br>    <img src="/images/redis/redis-master-test.png" alt="master-test"><br>2)slave1服务器：<br>    <img src="/images/redis/redis-slave1-test.png" alt="slave1-test"><br>3)slave2服务器：<br>    <img src="/images/redis/redis-slave2-test.png" alt="slave2-test"> </p>
 <h2 id="哨兵-sentinel"><a href="#哨兵-sentinel" class="headerlink" title="哨兵(sentinel)"></a>哨兵(sentinel)</h2><p>Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：<br><strong>监控（Monitoring）</strong>： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。<br><strong>提醒（Notification）</strong>： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。<br><strong>自动故障迁移（Automatic failover）</strong>： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>
 <h3 id="简单搭建-1"><a href="#简单搭建-1" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置sentinel.conf<br> sentinel1、sentinel2、sentinel3配置的不同之处在于端口号的不同  </p>
