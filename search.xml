@@ -4,6 +4,95 @@
   
     
     <entry>
+      <title><![CDATA[Redis主从同步，哨兵]]></title>
+      <url>http://jasonhzy.github.io/2017/12/12/redis/</url>
+      <content type="html"><![CDATA[<h2 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h2><blockquote>
+<p>redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>   192.168.1.49 master 6379 sentinel1 26379<br>   192.168.1.63 slave1 6380 sentinel2 26380<br>   192.168.1.144 slave2 6381 sentinel3 26381</p>
+<h2 id="主从同步-master-slave"><a href="#主从同步-master-slave" class="headerlink" title="主从同步(master-slave)"></a>主从同步(master-slave)</h2><p>   Redis 支持简单且易用的主从复制（master-slave replication）功能</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>   Redis 复制功能的几个重要方面：</p>
+<blockquote>
+<p>1、一个主服务器可以有多个从服务器。<br>2、不仅主服务器可以有从服务器， 从服务器也可以有自己的从服务器， 多个从服务器之间可以构成一个图状结构。<br>3、复制功能不会阻塞主服务器： 即使有一个或多个从服务器正在进行初次同步， 主服务器也可以继续处理命令请求。<br>4、复制功能也不会阻塞从服务器： 只要在 redis.conf 文件中进行了相应的设置， 即使从服务器正在进行初次同步， 服务器也可以使用旧版本的数据集来处理命令查询。<br>不过， 在从服务器删除旧版本数据集并载入新版本数据集的那段时间内， 连接请求会被阻塞。<br>你还可以配置从服务器， 让它在与主服务器之间的连接断开时， 向客户端发送一个错误。<br>5、复制功能可以单纯地用于数据冗余（data redundancy）， 也可以通过让多个从服务器处理只读命令请求来提升扩展性（scalability）： 比如说， 繁重的 SORT 命令可以交给附属节点去运行。<br>6、可以通过复制功能来让主服务器免于执行持久化操作： 只要关闭主服务器的持久化功能， 然后由从服务器去执行持久化操作即可。   </p>
+</blockquote>
+<h3 id="简单搭建"><a href="#简单搭建" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置redis.conf   </p>
+<ul>
+<li><p>master配置  </p>
+<p> protected-mode no<br> port 6379</p>
+<p>启动master如下图所示：<br> <img src="/images/redis/redis-master-noslave.png" alt="master">    </p>
+</li>
+<li><p>slave1配置  </p>
+<p> protected-mode no<br> port 6380<br> slaveof 192.168.1.49</p>
+<p>启动slave1如下图所示：<br> <img src="/images/redis/redis-slave1.png" alt="slave1">       </p>
+</li>
+<li><p>slave2配置  </p>
+<p> protected-mode no<br> port 6381<br> slaveof 192.168.1.49</p>
+<p>启动slave1如下图所示：<br> <img src="/images/redis/redis-slave2.png" alt="slave2"></p>
+<p>从服务器均启动后，在此查看主服务器：<br> <img src="/images/redis/redis-master.png" alt="master-slave"> </p>
+</li>
+</ul>
+<p>2、客户端连接测试<br>1)master服务器：<br>    <img src="/images/redis/redis-master-test.png" alt="master-test"><br>2)slave1服务器：<br>    <img src="/images/redis/redis-slave1-test.png" alt="slave1-test"><br>3)slave2服务器：<br>    <img src="/images/redis/redis-slave2-test.png" alt="slave2-test"> </p>
+<h2 id="哨兵-sentinel"><a href="#哨兵-sentinel" class="headerlink" title="哨兵(sentinel)"></a>哨兵(sentinel)</h2><p>Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：<br><strong>监控（Monitoring）</strong>： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。<br><strong>提醒（Notification）</strong>： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。<br><strong>自动故障迁移（Automatic failover）</strong>： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>
+<h3 id="简单搭建-1"><a href="#简单搭建-1" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置sentinel.conf<br> sentinel1、sentinel2、sentinel3配置的不同之处在于端口号的不同  </p>
+<pre><code>port 26379
+#port 26380
+#port 26381
+logfile &quot;/var/log/sentinel.log&quot;
+dir &quot;/tmp&quot;
+protected-mode no
+sentinel monitor mymaster 192.168.1.49 6379 2 #每个master设置有个不同的名字，后面的数字2,是指当有两个及以上的sentinel服务检测到master宕机，才会去执行主从切换的功能
+sentinel down-after-milliseconds mymaster 10000 #在10s这个时间范围内不能接收响应，master将会被标记为故障。
+sentinel failover-timeout mymaster 20000 #执行故障转移的timeout超时时长，当前即判定超过20s即为超时
+</code></pre><p> 启动sentinel1、sentinel2、sentinel3，其中sentinel1如下图所示：<br>    <img src="/images/redis/redis-sentinel-info.png" alt="sentinel1">    </p>
+<p> 查看日志：</p>
+<pre><code>3811:X 08 Dec 11:21:40.014 # +monitor master mymaster 192.168.1.49 6379 quorum 2
+3811:X 08 Dec 11:21:40.016 * +slave slave 192.168.1.63:6380 192.168.1.63 6380 @ mymaster 192.168.1.49 6379
+3811:X 08 Dec 11:21:40.018 * +slave slave 192.168.1.144:6381 192.168.1.144 6381 @ mymaster 192.168.1.49 6379   
+</code></pre><p> 从对应的日志观察到，一个master服务，两个slave服务。我们现在来kill master服务的进程，再次查看日志：</p>
+<pre><code>3811:X 08 Dec 11:36:58.678 # +sdown master mymaster 192.168.1.49 6379
+3811:X 08 Dec 11:36:58.761 # +odown master mymaster 192.168.1.49 6379 #quorum 2/2
+3811:X 08 Dec 11:36:58.761 # +new-epoch 1
+3811:X 08 Dec 11:36:58.762 # +try-failover master mymaster 192.168.1.49 6379
+3811:X 08 Dec 11:36:58.767 # +vote-for-leader 76c7f7a57920c33cdf4d8139270569f79b6c304c 1
+3811:X 08 Dec 11:36:58.768 # cf5188ad057e38bdc3f33b138528adf44fe84779 voted for 3dbd90731d504fec0b4e667f9034f07b120e7932 1
+3811:X 08 Dec 11:36:59.892 # +config-update-from sentinel 3dbd90731d504fec0b4e667f9034f07b120e7932 192.168.1.144 26381 @ mymaster 192.168.1.49 6379
+3811:X 08 Dec 11:36:59.893 # +switch-master mymaster 192.168.1.49 6379 192.168.1.63 6380 
+</code></pre><p>  此时slave1服务的状态(切换为新的master)：<br>   <img src="/images/redis/sentinel-slave1-to-master.png" alt="sentinel-slave1-to-master">    </p>
+<p>  此时slave2服务的状态：<br>    <img src="/images/redis/sentinel-slave2.png" alt="sentinel-slave2"></p>
+<p>  我们重启下原来主服务之后，已经切换为slave服务了，状态如下：<br>    <img src="/images/redis/sentinel-master-to-slave.png" alt="sentinel-master-to-slave"></p>
+<p>  再次查看新的主服务(slave1切换为新服务)状态如下：<br>    <img src="/images/redis/sentinel-new-master.png" alt="sentinel-master-to-slave">  </p>
+<p>  查看日志：<br>    <img src="/images/redis/sentinel-log.png" alt="sentinel-log">     </p>
+<p>注意事项：</p>
+<p>1.如果停掉master 后，sentinel 显示足够数量的 sdown 后，没有出现odown或try-failover，则检查密码等配置是否正确<br>2.如果停掉master后，试图切换的时候出现failover-abort-not-elected<br>  1）如果redis实例没有配置</p>
+<pre><code>protected-mode yes
+bind 192.168.1.49
+</code></pre><p>  则在sentinel 配置文件加上</p>
+<pre><code>protected-mode no 
+</code></pre><p>  2）如果redis实例有配置</p>
+<pre><code>protected-mode yes
+bind 192.168.1.49
+</code></pre><p>  则在sentinel配置文件加上</p>
+<pre><code>protected-mode yes
+bind 192.168.1.49
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Redis </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Redis </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Mysql Grant／Revoke]]></title>
       <url>http://jasonhzy.github.io/2017/11/14/mysql-grant/</url>
       <content type="html"><![CDATA[<h3 id="mysql权限控制"><a href="#mysql权限控制" class="headerlink" title="mysql权限控制"></a>mysql权限控制</h3><p>mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如：</p>
@@ -1553,13 +1642,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#115;&#116;&#x61;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;">&#115;&#116;&#x61;&#115;&#104;&#x40;&#x7b;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#115;&#116;&#97;&#115;&#x68;&#64;&#x7b;&#x6e;&#125;">&#115;&#116;&#97;&#115;&#x68;&#64;&#x7b;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x73;&#x74;&#97;&#x73;&#104;&#64;&#123;&#x6e;&#x7d;">&#x73;&#x74;&#97;&#x73;&#104;&#64;&#123;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#115;&#116;&#97;&#x73;&#x68;&#64;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#97;&#x73;&#x68;&#64;&#x7b;&#x6e;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x73;&#x74;&#x61;&#115;&#104;&#64;&#123;&#x6e;&#x7d;">&#x73;&#x74;&#x61;&#115;&#104;&#64;&#123;&#x6e;&#x7d;</a>参数，则从该<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#115;&#116;&#97;&#115;&#104;&#64;&#123;&#x6e;&#125;">&#115;&#116;&#97;&#115;&#104;&#64;&#123;&#x6e;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
