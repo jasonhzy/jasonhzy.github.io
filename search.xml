@@ -4,6 +4,192 @@
   
     
     <entry>
+      <title><![CDATA[MySQL Proxy]]></title>
+      <url>http://jasonhzy.github.io/2017/12/20/mysql-proxy/</url>
+      <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mysql-proxy是处在mysql数据库client和mysql server之间的程序，可以用来分析、监控和变换（transform）通信数据。支持嵌入性脚本语言Lua，支持广泛的使用场景：负载平衡，故障、查询分析，查询过滤和修改等。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mysql-proxy更强大的一项功能是实现”读写分离（Read/Write Splitting)”。基本的原理是让主数据库处理事务性查询，而从数据库处理SELECT查询。数据库复制被用来把事务性查询导致的变更同步到集群中的从数据库。    </p>
+<a id="more"></a>
+<h3 id="基本环境"><a href="#基本环境" class="headerlink" title="基本环境"></a>基本环境</h3><p>192.168.1.60 master<br>192.168.1.144 slave<br>192.168.1.63 proxy</p>
+<h3 id="主从同步"><a href="#主从同步" class="headerlink" title="主从同步"></a>主从同步</h3><p>请参考文章<a href="https://jasonhzy.github.io/2016/02/05/master-slave/">Mysql 数据库主从同步(Master-Slave)</a></p>
+<h3 id="mysql-proxy配置"><a href="#mysql-proxy配置" class="headerlink" title="mysql-proxy配置"></a>mysql-proxy配置</h3><p>mysql-proxy命令介绍，使用mysql-proxy –help-all可以查看命令全部帮助，以下为一些常用参数介绍：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>–proxy-address</td>
+<td>指定代理服务监听的地址和端口（默认是4040），简写为-P</td>
+</tr>
+<tr>
+<td>–admin-address</td>
+<td>指定管理主机地址和端口（默认是4041）</td>
+</tr>
+<tr>
+<td>–proxy-backend-addresses</td>
+<td>指定后端mysql服务器的地址和端口（master），简写为-b</td>
+</tr>
+<tr>
+<td>–proxy-read-only-backend-addresses</td>
+<td>指定后端只读mysql服务器的地址和端口（slave），缩为-r</td>
+</tr>
+<tr>
+<td>–proxy-lua-script</td>
+<td>指定mysql代理功能的Lua脚本文件</td>
+</tr>
+<tr>
+<td>–daemon</td>
+<td>以守护进程模式启动mysql-proxy</td>
+</tr>
+<tr>
+<td>–defaults-file</td>
+<td>指定配置文件路径</td>
+</tr>
+<tr>
+<td>–log-file</td>
+<td>指定日志文件路径</td>
+</tr>
+<tr>
+<td>–log-level</td>
+<td>指定日志级别有error,warning,info,message,debug</td>
+</tr>
+<tr>
+<td>–user</td>
+<td>指定运行mysql-proxy进程的用户</td>
+</tr>
+<tr>
+<td>–admin-username</td>
+<td>指定登录到mysql-proxy管理界面的用户名</td>
+</tr>
+<tr>
+<td>–admin-password</td>
+<td>指定登录到mysql-proxy管理界面的用户密码</td>
+</tr>
+<tr>
+<td>–admin-lua-script=script-file</td>
+<td>管理模块的lua脚本文件路径（创建管理接口）</td>
+</tr>
+<tr>
+<td>–plugins</td>
+<td>加载插件（admin,proxy）</td>
+</tr>
+<tr>
+<td>–proxy-lua-script</td>
+<td>指定读写分离脚本位置</td>
+</tr>
+<tr>
+<td>–admin-lua-script</td>
+<td>指定管理界面脚本位置</td>
+</tr>
+</tbody>
+</table>
+<p>创建mysql-proxy的配置文件，如/etc/mysql-proxy.conf，配置内容如下：</p>
+<pre><code>[mysql-proxy]
+#以守护进程方式运行
+daemon=true
+#mysql-proxy崩溃时，尝试重启
+keepalive=true
+#定义log日志级别，由高到低分别有(error|warning|info|message|debug)
+log-level=debug
+pid-file=/var/run/mysql-proxy.pid
+log-file=/var/log/mysql-proxy.log
+#指定mysql-proxy的监听地址，不加端口，默认4040
+#proxy-address=0.0.0.0:4000
+#设置后台主服务器
+proxy-backend-addresses=192.168.1.60:3306
+#设置后台从服务器
+proxy-read-only-backend-addresses=192.168.1.144:3306
+#设置读写分离脚本路径
+proxy-lua-script=/usr/lib/mysql-proxy/lua/rw-splitting.lua
+#设置mysql-proxy管理地址，需要admin插件
+#admin-address=0.0.0.0:4001
+#设置登录管理地址用户
+admin-username=root
+#设置管理用户密码
+admin-password=admin
+#设置管理后台lua脚本路径，改脚本默认没有要自动定义
+admin-lua-script=/usr/lib/mysql-proxy/lua/admin.lua
+</code></pre><p> rw-splitting.lua配置：</p>
+<pre><code>--- config
+--
+-- connection pool
+if not proxy.global.config.rwsplit then
+        proxy.global.config.rwsplit = {
+                min_idle_connections = 1, -- 默认4
+                max_idle_connections = 1, -- 默认8
+
+                is_debug = false
+        }
+end
+</code></pre><p>启动mysql-proxy，执行：</p>
+<pre><code>mysql-proxy --default-file=/etc/mysql-proxy.cnf
+</code></pre><p>查看监听的端口：<br><img src="/images/mysql-proxy/proxy-config.png" alt="proxy-config"></p>
+<p>显示日志：<br><img src="/images/mysql-proxy/proxy-log.png" alt="proxy-log"></p>
+<p>在主服务器上创建连接用户proxy（因主从同步，从服务器也创建了此用户）：</p>
+<pre><code>grant all privileges on test.* to &apos;proxy&apos;@&apos;192.168.1.%&apos; identified by &apos;123456&apos;;
+</code></pre><p>登录管理地址查看当前状态：</p>
+<pre><code>mysql -uproxy -p -h192.168.1.63 -P4000   
+</code></pre><p>显示结果如下：<br><img src="/images/mysql-proxy/proxy-client-conn.png" alt="proxy-client-conn"><br>若没有用户通过mysql-proxy连接到后端，则状态为unknown，尝试几次后，可以看到两个服务器状态都是up,</p>
+<h3 id="测试读写分离"><a href="#测试读写分离" class="headerlink" title="测试读写分离"></a>测试读写分离</h3><p>测试登陆账号proxy@192.168.1.%进行添加数据，即在客户端执行：</p>
+<pre><code>mysql -h192.168.1.63  -uproxy -p123456 -P4000
+</code></pre><p>1、正常情况下，插入数据</p>
+<pre><code>mysql&gt; use test;
+mysql&gt; insert into user (`id`, `name`, `age`) values(2, &apos;jack&apos;, 20);
+</code></pre><p>登录主从服务器mysql客户端查看对应的表中均可看到插入相同的数据信息</p>
+<p>2、关闭从服务，即stop slave</p>
+<p><img src="/images/mysql-proxy/proxy-stop-slave.png" alt="proxy-stop-slave">    </p>
+<p>1）证明写分离</p>
+<pre><code>mysql&gt; use test;
+mysql&gt; insert into user (`id`, `name`, `age`) values(3, &apos;joey&apos;, 20);
+</code></pre><p>此时登录主从mysql客户端：</p>
+<p>主服务器显示：<br><img src="/images/mysql-proxy/proxy-master.png" alt="proxy-master"></p>
+<p>从服务器显示：<br><img src="/images/mysql-proxy/proxy-slave.png" alt="proxy-slave">    </p>
+<p>上述可以看出通过mysql-proxy插入的数据只写入到配置的主服务器mysql中</p>
+<p>2）证明读分离</p>
+<p>插入数据后再次查看，此时看到的仅仅是从库的信息：</p>
+<p><img src="/images/mysql-proxy/proxy-read.png" alt="proxy-read"></p>
+<p>上述可以看出实现了读分离</p>
+<p><strong>注意</strong><br>如果日志中提示 (debug) [network-mysqld.c:1134]: error on a connection (fd: -1 event: 0). closing client connection.<br>可以修改 rw-splitting.lua中的min_idle_connections和max_idle_connections的值，将其调大</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Mysql分区]]></title>
+      <url>http://jasonhzy.github.io/2017/12/15/mysql-partition/</url>
+      <content type="html"></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Redis主从同步，哨兵]]></title>
       <url>http://jasonhzy.github.io/2017/12/12/redis/</url>
       <content type="html"><![CDATA[<h2 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h2><blockquote>
@@ -136,7 +322,9 @@ show grants for &apos;jason&apos;@&apos;%&apos;; --查看其他MySQL用户权限
 <p>全局层级：全局权限适用于一个给定服务器中的所有数据库，这些权限存储在mysql.user表中。<br>数据库层级：数据库权限适用于一个给定数据库中的所有目标，这些权限存储在mysql.db表中。<br>表层级：表权限适用于一个给定表中的所有列，这些权限存储在mysql.tables_priv表中。<br>列层级：列权限使用于一个给定表中的单一列，这些权限存储在mysql.columns_priv表中。<br>子程序层级：CREATE ROUTINE、ALTER ROUTINE、EXECUTE和GRANT权限适用于已存储的子程序。这些权限可以被授予为全局层级和数据库层级。而且，除了CREATE ROUTINE外，这些权限可以被授予子程序层级，并存储在mysql.procs_priv表中。</p>
 </blockquote>
 <p>2、with admin option和with grant option<br>（1）with admin option 只能在赋予 system privilege 的时使用 - with grant option 只能在赋予 object privilege 的时使用<br>（2）撤消带有admin option 的system privileges 时，连带的权限将保留，即撤销上级的权限时，下级已经赋予的权限则会保留<br>（3）撤消带有grant option 的object privileges 时，连带的权限也将撤消，即撤销上级的权限时，下级已经赋予的权限也会撤销</p>
-]]></content>
+<p>3、删除用户<br>drop user命令会删除用户以及对应的权限，例如：</p>
+<pre><code>drop user &apos;jason&apos;@&apos;%&apos;;
+</code></pre>]]></content>
       
         <categories>
             
@@ -1643,13 +1831,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#x74;&#97;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;">&#115;&#x74;&#97;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#x73;&#116;&#x61;&#115;&#104;&#x40;&#x7b;&#x6e;&#125;">&#x73;&#116;&#x61;&#115;&#104;&#x40;&#x7b;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#123;&#110;&#x7d;">&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#123;&#110;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#115;&#116;&#97;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#97;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#123;&#x6e;&#x7d;">&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#123;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x73;&#116;&#97;&#x73;&#104;&#x40;&#123;&#110;&#x7d;">&#x73;&#116;&#97;&#x73;&#104;&#x40;&#123;&#110;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
