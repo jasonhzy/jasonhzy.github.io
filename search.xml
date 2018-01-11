@@ -4,6 +4,215 @@
   
     
     <entry>
+      <title><![CDATA[Linux I/O重定向]]></title>
+      <url>http://jasonhzy.github.io/2018/01/09/linux-stdinout/</url>
+      <content type="html"><![CDATA[<h3 id="文件描述符-File-Descriptor"><a href="#文件描述符-File-Descriptor" class="headerlink" title="文件描述符(File Descriptor)"></a>文件描述符(File Descriptor)</h3><blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6" target="_blank" rel="external">维基百科</a>:文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的程序编写往往会围绕着文件描述符展开。</p>
+</blockquote>
+<p>Linux 的shell命令，可以通过文件描述符来引用一些文件，通常使用到的文件描述符为0,1,2，即：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>文件描述符</th>
+<th>操作符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>输入文件—标准输入(stdin)</td>
+<td>0（默认是键盘，为0时是文件或者其他命令的输出）</td>
+<td>&lt; 或 &lt;&lt;</td>
+</tr>
+<tr>
+<td>输出文件—标准输出    (stdout)</td>
+<td>1（默认是屏幕，为1时是文件）</td>
+<td>&gt;, &gt;&gt;, 1&gt; 或 1&gt;&gt;</td>
+</tr>
+<tr>
+<td>错误输出文件—标准错误(stderr)</td>
+<td>2（默认是屏幕，为2时是文件）</td>
+<td>2&gt; 或 2&gt;&gt;</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h3 id="输出重定向"><a href="#输出重定向" class="headerlink" title="输出重定向"></a>输出重定向</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Command  &gt;  filename</td>
+<td>把标准输出重定向到一个新文件中</td>
+</tr>
+<tr>
+<td>Command  &gt;&gt;  filename</td>
+<td>把标准输出重定向到一个文件(<strong>追加</strong>)</td>
+</tr>
+<tr>
+<td>Command  &gt;  filename  2&gt;&amp;1</td>
+<td>把标准输出和错误一起重定向到一个文件中</td>
+</tr>
+<tr>
+<td>Command &amp;&gt; filename</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Command  &gt;&gt;  filename  2&gt;&amp;1</td>
+<td>把标准输出和错误一起重定向到一个文件中(<strong>追加</strong>)</td>
+</tr>
+<tr>
+<td>Command &amp;&gt;&gt; filename</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Command  2&gt;  filename</td>
+<td>把标准错误重定向到一个文件中</td>
+</tr>
+<tr>
+<td>Command  2&gt;&gt;  filename</td>
+<td>把标准错误重定向到一个文件中(<strong>追加</strong>)</td>
+</tr>
+<tr>
+<td>Command 1&gt; filename 2&gt; filename1</td>
+<td>把标准输出和标准错误分别重定向到两个不同新的文件中</td>
+</tr>
+<tr>
+<td>Command 1&gt;&gt; filename 2&gt;&gt; filename1</td>
+<td>把标准输出和标准错误分别重定向到两个不同的文件中(<strong>追加</strong>)</td>
+</tr>
+<tr>
+<td>Command tee filename</td>
+<td>让标准输出在屏幕显示，同时重定向一个新的文件</td>
+</tr>
+<tr>
+<td>Command &#124; tee -i filename</td>
+<td>同上，但是不接受中断信号，只能Ctrl+D结束，不能用Ctrl+C</td>
+</tr>
+<tr>
+<td>Command &#124; tee -a filename</td>
+<td>让标准输出在屏幕显示，同时重定向一个文件(追加)</td>
+</tr>
+<tr>
+<td>Command 2&gt;&amp;1 &#124; tee filename</td>
+<td>让标准输出和标准错误在屏幕显示，重定向到一个新的文件中</td>
+</tr>
+<tr>
+<td>Command 2&gt;&amp;1 &#124; tee -a filename</td>
+<td>让标准输出和标准错误在屏幕显示，重定向到一个文件中(<strong>追加</strong>)</td>
+</tr>
+</tbody>
+</table>
+<p>1、Linux下还有一个特殊的文件/dev/null，它就像一个无底洞，所有重定向到它的信息都会消失得无影无踪。这一点非常有用，当我们不需要回显程序的所有信息时，就可以将输出重定向到/dev/null，例如：</p>
+<pre><code>ls xxx 1&gt;/dev/null 2&gt;/dev/null 或 ls &gt;/dev/null 2&gt;&amp;1
+</code></pre><p>2、使用操作符 &gt; 或 &gt;&gt; 时，默认为标准输出1重定向, 所以 &gt;filename 就是 1&gt;filename 的省写，1与&gt;之间不能有空格<br>3、&gt;操作符，判断右边文件是否存在，若存在先删除，再创建新文件。不存则创建。 无论左边命令执行是否成功。右边文件都会变为空。<br>4、&gt;&gt;操作符，判断右边文件是否存在，若不存在，则先创建。以添加方式打开文件，会分配一个文件描述符[不特别指定，默认为1]然后，与左边对应的输出绑定。<br>5、管道 (“|”, pipe line)，把上一个命令的 stdout 接到下一个命令的 stdin;<br>6、tee 命令的作用是在不影响原本 I/O 的情况下，将 stdout 复制一份到档案去;</p>
+<p>例如：执行 who 命令，将命令的完整的输出重定向在文件中(/tmps/users)，即:</p>
+<pre><code>who &gt; /tmp/users
+</code></pre><p>使用 cat 命令查看文件内容：    </p>
+<pre><code>$ cat users
+jason    console  Jan 11 09:05 
+jason    ttys000  Jan 11 09:06 
+jason    ttys001  Jan 11 09:06 
+jason    ttys006  Jan 11 09:45
+</code></pre><h3 id="输入重定向"><a href="#输入重定向" class="headerlink" title="输入重定向"></a>输入重定向</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Command &lt; filename</td>
+<td>Command 命令以 filename 文件作为标准输入</td>
+</tr>
+<tr>
+<td>Command &lt; filename &gt; filename1</td>
+<td>Command以 filename 文件作为标准输入，以 filename1 作为标准输出</td>
+</tr>
+<tr>
+<td>Command &lt;&lt; delimiter</td>
+<td>从标准输入中读入，直到遇到 delimiter 分界符（以 delimiter 为开始／结束符）</td>
+</tr>
+</tbody>
+</table>
+<p>以上述who命令为例：<br>1、输入重定向到 users 文件，即：</p>
+<pre><code>$ wc -l &lt; users
+4  
+</code></pre><p>2、Here Document 是 Shell 中的一种特殊的重定向方式，用来将输入重定向到一个交互式 Shell 脚本或程序。 它的基本的形式如下：</p>
+<pre><code>command &lt;&lt; delimiter
+    document
+delimiter
+</code></pre><p>它的作用是将两个 delimiter 之间的内容(document) 作为输入传递给 command。</p>
+<pre><code>注意：
+结尾的delimiter 一定要顶格写，前面不能有任何字符，后面也不能有任何字符，包括空格和 tab 缩进。
+开始的delimiter前后的空格会被忽略掉。
+</code></pre><p>例如：</p>
+<pre><code>$ wc -l &lt;&lt; EOF
+    jason
+    jake
+    jacky
+EOF
+3 # 输出结果为 3 行            
+</code></pre><h3 id="绑定重定向"><a href="#绑定重定向" class="headerlink" title="绑定重定向"></a>绑定重定向</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Command m&gt;&amp;n</td>
+<td>把输出到文件描述符m的信息重定向到文件描述符n上。如 exec 6&gt;&amp;1</td>
+</tr>
+<tr>
+<td>Command m&lt;&amp;n</td>
+<td>把文件描述符n的信息输入到文件描述符m上。如 exec 6&lt;&amp;0</td>
+</tr>
+<tr>
+<td>Command n&lt;&amp;-</td>
+<td>关闭输入文件描述符n。如 0&lt;&amp;-, &lt;&amp;- 关闭标准输入</td>
+</tr>
+<tr>
+<td>Command n&gt;&amp;-</td>
+<td>关闭输出文件描述符n。如 1&gt;&amp;-, &gt;&amp;- 关闭标准输出，2&gt;&amp;- 关闭标准错误输出</td>
+</tr>
+</tbody>
+</table>
+<p>0、1、2为shell保留文件描述符，可以自定义文件描述符，对其进行读写，用户自定义文件描述符用exec命令进行创建。用户可以自定义文件描述符围是：3~MAX，<br>这个最大数字，跟用户的：ulimit –n 定义数字有关系，不能超过最大值。</p>
+<p>附：Mac下文件描述符的链接关系：</p>
+<pre><code>$ ls -al /dev/std* /dev/fd/*
+crw--w----  1 jason  tty     16,   7 Jan 11 15:18 /dev/fd/0
+crw--w----  1 jason  tty     16,   7 Jan 11 15:18 /dev/fd/1
+crw--w----  1 jason  tty     16,   7 Jan 11 15:18 /dev/fd/2
+lr-xr-xr-x  1 root   wheel         0 Jan 11 09:05 /dev/stderr -&gt; fd/2
+lr-xr-xr-x  1 root   wheel         0 Jan 11 09:05 /dev/stdin -&gt; fd/0
+lr-xr-xr-x  1 root   wheel         0 Jan 11 09:05 /dev/stdout -&gt; fd/1
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> I/O </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[MySQL Proxy]]></title>
       <url>http://jasonhzy.github.io/2017/12/20/mysql-proxy/</url>
       <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mysql-proxy是处在mysql数据库client和mysql server之间的程序，可以用来分析、监控和变换（transform）通信数据。支持嵌入性脚本语言Lua，支持广泛的使用场景：负载平衡，故障、查询分析，查询过滤和修改等。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mysql-proxy更强大的一项功能是实现”读写分离(Read/Write Splitting)”。基本的原理是让主数据库处理事务性查询，而从数据库处理SELECT查询。数据库复制被用来把事务性查询导致的变更同步到集群中的从数据库。    </p>
@@ -172,7 +381,8 @@ mysql&gt; insert into user (`id`, `name`, `age`) values(3, &apos;joey&apos;, 20)
     <entry>
       <title><![CDATA[Mysql分区]]></title>
       <url>http://jasonhzy.github.io/2017/12/15/mysql-partition/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<a id="more"></a>
+<h2 id="分库"><a href="#分库" class="headerlink" title="分库"></a>分库</h2>]]></content>
       
         <categories>
             
@@ -1831,13 +2041,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#115;&#116;&#97;&#x73;&#104;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#97;&#x73;&#104;&#x40;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x73;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;">&#x73;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#115;&#x74;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;">&#115;&#x74;&#97;&#x73;&#x68;&#x40;&#123;&#x6e;&#x7d;</a>参数，则从该<a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#115;&#x74;&#97;&#115;&#x68;&#64;&#123;&#110;&#125;">&#115;&#x74;&#97;&#115;&#x68;&#64;&#123;&#110;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#115;&#x74;&#97;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;">&#115;&#x74;&#97;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#115;&#116;&#97;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;">&#115;&#116;&#97;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
