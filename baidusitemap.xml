@@ -697,19 +697,21 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
+    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>Mysql 数据库主从同步(Master-Slave)</title>
-        <pubTime>2016-02-05T02:03:25.000Z</pubTime>
+        <title>CentOS7.x 配置LAMP环境</title>
+        <pubTime>2016-01-25T13:48:18.000Z</pubTime>
         
-        <tag>Mysql</tag>
+        <tag>Linux</tag>
+         
+        <tag>CentOS</tag>
          
          
            
              
-              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
+              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
           
         </display>
     </data>
@@ -717,39 +719,19 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>HTTP状态码</title>
-        <pubTime>2016-02-01T08:36:19.000Z</pubTime>
+        <title>SVN 服务器搭建</title>
+        <pubTime>2016-02-26T09:55:31.000Z</pubTime>
         
-        <tag>HTTP</tag>
+        <tag>SVN</tag>
          
          
            
              
-              <breadCrumb title="HTTP(s)" url="http://jasonhzy.github.io/categories/HTTP-s/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/poetry-snow/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>沁园春·雪</title>
-        <pubTime>2016-02-01T06:47:40.000Z</pubTime>
-        
-        <tag>诗歌</tag>
-         
-         
-           
-             
-              <breadCrumb title="诗歌" url="http://jasonhzy.github.io/categories/%E8%AF%97%E6%AD%8C/"/>
+              <breadCrumb title="SVN" url="http://jasonhzy.github.io/categories/SVN/"/>
           
         </display>
     </data>
@@ -799,21 +781,59 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     <data>
         <display>
-        <title>CentOS7.x 配置LAMP环境</title>
-        <pubTime>2016-01-25T13:48:18.000Z</pubTime>
+        <title>HTTP状态码</title>
+        <pubTime>2016-02-01T08:36:19.000Z</pubTime>
         
-        <tag>Linux</tag>
-         
-        <tag>CentOS</tag>
+        <tag>HTTP</tag>
          
          
            
              
-              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+              <breadCrumb title="HTTP(s)" url="http://jasonhzy.github.io/categories/HTTP-s/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>Mysql 数据库主从同步(Master-Slave)</title>
+        <pubTime>2016-02-05T02:03:25.000Z</pubTime>
+        
+        <tag>Mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/02/01/poetry-snow/</loc>
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>沁园春·雪</title>
+        <pubTime>2016-02-01T06:47:40.000Z</pubTime>
+        
+        <tag>诗歌</tag>
+         
+         
+           
+             
+              <breadCrumb title="诗歌" url="http://jasonhzy.github.io/categories/%E8%AF%97%E6%AD%8C/"/>
           
         </display>
     </data>
@@ -856,26 +876,6 @@
            
              
               <breadCrumb title="Markdown" url="http://jasonhzy.github.io/categories/Markdown/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>SVN 服务器搭建</title>
-        <pubTime>2016-02-26T09:55:31.000Z</pubTime>
-        
-        <tag>SVN</tag>
-         
-         
-           
-             
-              <breadCrumb title="SVN" url="http://jasonhzy.github.io/categories/SVN/"/>
           
         </display>
     </data>
