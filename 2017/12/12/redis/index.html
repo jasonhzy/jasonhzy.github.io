@@ -113,7 +113,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-master-to-slave.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-new-master.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-log.png">
-<meta property="og:updated_time" content="2017-12-13T06:48:03.000Z">
+<meta property="og:updated_time" content="2018-03-06T11:15:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis主从同步，哨兵">
 <meta name="twitter:description" content="Redis简介 redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不">
@@ -446,31 +446,74 @@
 </blockquote>
 <h3 id="简单搭建"><a href="#简单搭建" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置redis.conf<br> 1) master配置  </p>
 <pre><code>protected-mode no
+#允许远程访问
+#bind 0.0.0.0
+#protected-mode yes
 port 6379
+
+#设置密码
+requirepass 123456
+#哨兵监控主从切换时使用，否则无需配置
+masterauth 123456
 </code></pre><p> 启动master如下图所示：<br>    <img src="/images/redis/redis-master-noslave.png" alt="master">    </p>
 <p> 2) slave1配置  </p>
 <pre><code>protected-mode no
+#允许远程访问
+#bind 0.0.0.0
+#protected-mode yes
+
 port 6380
 slaveof 192.168.1.49
+
+#master设置了密码，slave必须一致
+masterauth 123456
+#哨兵监控主从切换时使用，否则无需配置
+requirepass 123456
 </code></pre><p>  启动slave1如下图所示：<br>    <img src="/images/redis/redis-slave1.png" alt="slave1">       </p>
 <p> 3) slave2配置  </p>
 <pre><code>protected-mode no
+#允许远程访问
+#bind 0.0.0.0
+#protected-mode yes
+
 port 6381
 slaveof 192.168.1.49
+
+#master设置了密码，slave必须一致
+masterauth 123456
+#哨兵监控主从切换时使用，否则无需配置
+requirepass 123456
 </code></pre><p> 启动slave1如下图所示：<br>    <img src="/images/redis/redis-slave2.png" alt="slave2"></p>
 <p> 从服务器均启动后，在此查看主服务器：<br>    <img src="/images/redis/redis-master.png" alt="master-slave"> </p>
 <p>2、客户端连接测试<br>1)master服务器：<br>    <img src="/images/redis/redis-master-test.png" alt="master-test"><br>2)slave1服务器：<br>    <img src="/images/redis/redis-slave1-test.png" alt="slave1-test"><br>3)slave2服务器：<br>    <img src="/images/redis/redis-slave2-test.png" alt="slave2-test"> </p>
-<h2 id="哨兵-sentinel"><a href="#哨兵-sentinel" class="headerlink" title="哨兵(sentinel)"></a>哨兵(sentinel)</h2><p>Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：<br><strong>监控（Monitoring）</strong>： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。<br><strong>提醒（Notification）</strong>： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。<br><strong>自动故障迁移（Automatic failover）</strong>： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>
+<h2 id="哨兵-sentinel"><a href="#哨兵-sentinel" class="headerlink" title="哨兵(sentinel)"></a>哨兵(sentinel)</h2><p>Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：</p>
+<blockquote>
+<p><strong>监控（Monitoring）</strong>： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。<br><strong>提醒（Notification）</strong>： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。<br><strong>自动故障迁移（Automatic failover）</strong>： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>
+</blockquote>
 <h3 id="简单搭建-1"><a href="#简单搭建-1" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置sentinel.conf<br> sentinel1、sentinel2、sentinel3配置的不同之处在于端口号的不同  </p>
 <pre><code>port 26379
 #port 26380
 #port 26381
 logfile &quot;/var/log/sentinel.log&quot;
 dir &quot;/tmp&quot;
+
 protected-mode no
-sentinel monitor mymaster 192.168.1.49 6379 2 #每个master设置有个不同的名字，后面的数字2,是指当有两个及以上的sentinel服务检测到master宕机，才会去执行主从切换的功能
-sentinel down-after-milliseconds mymaster 10000 #在10s这个时间范围内不能接收响应，master将会被标记为故障。
-sentinel failover-timeout mymaster 20000 #执行故障转移的timeout超时时长，当前即判定超过20s即为超时
+#允许远程访问
+#bind 0.0.0.0
+#protected-mode yes
+
+#每个master设置有个不同的名字，后面的数字2,是指当有两个及以上的sentinel服务检测到master宕机，才会去执行主从切换的功能
+#sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt;
+#&lt;master-name&gt; ：redis主服务名称，可以自行命名，但是在一个sentinel网络中，一个redis主服务只能有一个名称；
+#&lt;quorum&gt;的大小即: floor(N/2) + 1 &lt;= quorum &lt;= N (N为sentinel总数)
+# 备注：允许远程访问时&lt;ip&gt;必须是外网（非内网）IP
+sentinel monitor mymaster 192.168.1.49 6379 2
+#设置监控的master和访问密码
+sentinel auth-pass mymaster 123456
+#在10s这个时间范围内不能接收响应，master将会被标记为故障。
+sentinel down-after-milliseconds mymaster 10000
+#执行故障转移的timeout超时时长，当前即判定超过20s即为超时
+sentinel failover-timeout mymaster 20000
 </code></pre><p> 启动sentinel1、sentinel2、sentinel3，其中sentinel1如下图所示：<br>    <img src="/images/redis/redis-sentinel-info.png" alt="sentinel1">    </p>
 <p> 查看日志：</p>
 <pre><code>3811:X 08 Dec 11:21:40.014 # +monitor master mymaster 192.168.1.49 6379 quorum 2
@@ -493,16 +536,25 @@ sentinel failover-timeout mymaster 20000 #执行故障转移的timeout超时时�
 <p>注意事项：</p>
 <p>1.如果停掉master 后，sentinel 显示足够数量的 sdown 后，没有出现odown或try-failover，则检查密码等配置是否正确<br>2.如果停掉master后，试图切换的时候出现failover-abort-not-elected<br>  1）如果redis实例没有配置</p>
 <pre><code>protected-mode yes
+#bind 0.0.0.0
 bind 192.168.1.49
 </code></pre><p>  则在sentinel 配置文件加上</p>
 <pre><code>protected-mode no 
 </code></pre><p>  2）如果redis实例有配置</p>
 <pre><code>protected-mode yes
+#bind 0.0.0.0
 bind 192.168.1.49
 </code></pre><p>  则在sentinel配置文件加上</p>
 <pre><code>protected-mode yes
+#bind 0.0.0.0
 bind 192.168.1.49
-</code></pre>
+</code></pre><p>3.开启redis安全模式，即设置protected-mode为yes，它启用的条件，需满足：</p>
+<pre><code>1） 没有bind IP
+2） 没有设置访问密码
+</code></pre><p>远程调用时，若出现如下error：</p>
+<pre><code>protocol error, got &apos;p&apos; as reply type byte
+</code></pre><p>则需注意：<br>    1）是否设置bind 127.0.0.1<br>    2）开启之后protected-mode，是否设置bind 0.0.0.0</p>
+
       
     </div>
 
@@ -667,7 +719,7 @@ bind 192.168.1.49
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -678,7 +730,7 @@ bind 192.168.1.49
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -689,7 +741,7 @@ bind 192.168.1.49
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -4,6 +4,541 @@
   
     
     <entry>
+      <title><![CDATA[Docker搭建LNMP环境]]></title>
+      <url>http://jasonhzy.github.io/2018/03/27/docker-lnmp/</url>
+      <content type="html"><![CDATA[<p>为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像</p>
+<pre><code>docker pull nginx:1.12.2
+docker pull php:5.6.34-fpm
+docker pull mysql
+</code></pre><a id="more"></a>
+<h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><ol>
+<li><p>创建mysql容器</p>
+<pre><code>docker run --name mysql \
+    -p 3306:3306 \
+    -v /Users/jason/Desktop/mysql:/var/lib/mysql \  #数据库数据挂载
+    -e MYSQL_ROOT_PASSWORD=123456 -d mysql  #初始化mysql的root密码
+</code></pre></li>
+<li><p>创建php的fpm容器</p>
+<pre><code>docker run --name fpm \    -p 9000:9000 \
+    --link mysql:mysql \
+    -v /Users/jason/Sites:/Users/jason/Sites \  #运行项目代码目录挂载
+    -d php:5.6.34-fpm
+</code></pre></li>
+<li><p>创建nginx容器</p>
+<pre><code>docker run --name nginx \
+    -p 80:80 \
+    -p 443:443 \
+    -v /Users/jason/Source/conf.d:/etc/nginx/conf.d \
+    --link fpm:fpm \ 
+    --volumes-from fpm \
+    -d nginx:1.12.2
+</code></pre></li>
+</ol>
+<p>查看创建的各容器：<br><img src="/images/docker/case-lnmp/containers-list.png" alt="containers ps"></p>
+<h2 id="Nginx配置"><a href="#Nginx配置" class="headerlink" title="Nginx配置"></a>Nginx配置</h2><pre><code>server {
+        listen       80 default_server;
+        server_name  localhost;
+
+        charset utf-8;
+        error_log /var/log/nginx/error_log;
+        #access_log  /var/log/nginx/access_log  main;
+
+        root   /var/www/web;
+        index  index.php index.html index.htm;
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        location ~ \.php$ {
+            include        fastcgi.conf;
+            fastcgi_pass   fpm:9000;  #fpm创建的容器名称／docker-compose服务名称
+            fastcgi_index  index.php;
+        }
+}
+</code></pre><h2 id="php连接Mysql"><a href="#php连接Mysql" class="headerlink" title="php连接Mysql"></a>php连接Mysql</h2><pre><code>&lt;?php
+    $conf = array(
+        &apos;host&apos;  =&gt; &apos;mysql&apos;, //容器名称／docker-compose服务名称
+        &apos;db&apos;    =&gt; &apos;beecloud&apos;,
+        &apos;user&apos;  =&gt; &apos;root&apos;,
+        &apos;pwd&apos;   =&gt; &apos;123456&apos;,
+        &apos;port&apos;  =&gt; 3306
+    );
+
+    try{
+        $conn = new mysqli( $conf[&apos;host&apos;], $conf[&apos;user&apos;], $conf[&apos;pwd&apos;], $conf[&apos;db&apos;], $conf[&apos;port&apos;]);
+        if(mysqli_connect_errno()){
+            exit(mysqli_connect_error());
+        }
+
+        mysqli_query($conn,&quot;set names utf8&quot;);
+        $sql = &quot;SELECT * FROM bank&quot;;
+        $rs = $conn-&gt;query($sql);
+
+        $data = array();
+        while ($row = $rs-&gt;fetch_assoc()){
+            $data[] = $row;
+        }
+        echo &apos;&lt;pre&gt;&apos;;
+        print_r($data);die;
+    }catch(Exception $e){
+        echo $e-&gt;getMessage();
+    }
+</code></pre><p>在使用进行数据库连接时，提示缺少mysqli模块，即：</p>
+<pre><code>Fatal error: Class &apos;mysqli&apos; not found in /var/www/web/mysql.php on line 12
+</code></pre><p>进入容器php -m查看确实没有。PHP官方镜像提供了几个工具命令来帮助安装扩展，只是安装扩展前需要手动安装相应的依赖。<br>用docker-php-ext-install 安装PHP内核提供的扩展，安装可用php扩展名的选项:</p>
+<p><img src="/images/docker/case-lnmp/docker-php-ext.png" alt="docker php ext"></p>
+<p>如：安装扩展mysql</p>
+<pre><code>docker-php-ext-install mysql
+</code></pre><p><img src="/images/docker/case-lnmp/docker-install-mysql.png" alt="docker php ext-mysql"></p>
+<p>用docker-php-ext-configure 自定义配置安装扩展时的配置参数，如：</p>
+<pre><code>docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+</code></pre><p>用docker-php-ext-enable 可以将 extension=xxxxx.so加入php配置文件中如：<br>安装redis，但是发现docker-php-ext-install不包含redis，先使用pecl install redis 下载编译并安装</p>
+<p><img src="/images/docker/case-lnmp/pecl-redis.png" alt="docker pecl redis"><br>(省略中间过程。。。)<br><img src="/images/docker/case-lnmp/enable-redis.png" alt="docker enbale redis"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Docker </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Docker私有仓库]]></title>
+      <url>http://jasonhzy.github.io/2018/03/20/docker-registry/</url>
+      <content type="html"><![CDATA[<p>官方的Docker Hub是一个用于管理公共镜像的，我们可以找到想要的镜像，也可以把我们自己的镜像推送上去。但有时候，<br>我们的使用场景需要拥有一个私有的镜像仓库来管理我们自己的镜像。这个可以通过开源软件Registry搭建私有仓库。<br>搭建私有仓库的优点：</p>
+<ol>
+<li>部署快捷，镜像不必从Docker Hub下载，只需从私有仓库下载即可</li>
+<li>私有镜像，包含敏感信息，不方便公开对外，可在公司内部使用</li>
+</ol>
+<a id="more"></a>
+<h2 id="搭建私有仓库"><a href="#搭建私有仓库" class="headerlink" title="搭建私有仓库"></a>搭建私有仓库</h2><p>下载镜像registry</p>
+<pre><code>docker pull registry
+</code></pre><p>创建用户密码文件，用于docker的登陆</p>
+<pre><code>docker run --entrypoint htpasswd registry -Bbn testuser testpassword &gt; /etc/ssl/docker/registry.htpasswd
+</code></pre><p>启动容器</p>
+<pre><code>docker run -p 127.0.0.1:5000:5000 --restart=always --name=registry  \ #--restart：docker服务重启后重启此容器
+    -v /etc/ssl/docker:/etc/ssl/docker \
+    -e &quot;REGISTRY_AUTH=htpasswd&quot; \
+    -e &quot;REGISTRY_AUTH_HTPASSWD_REALM=Docker Registry&quot; \
+    -e &quot;REGISTRY_AUTH_HTPASSWD_PATH=/etc/ssl/docker/registry.htpasswd&quot; \
+    -e &quot;REGISTRY_STORAGE_DELETE_ENABLED=true&quot; \ #上传的镜像是否允许删除
+    -v /var/docker/registry:/var/lib/registry \
+    -d registry
+
+-d：后台运行
+-p：将容器的5000端口映射到宿主机的5000端口
+--restart：docker服务重启后重启此容器
+--name：容器名称
+-e: 设置环境变量
+-v：将容器内的/var/docker/registry映射到宿主机的/var/lib/registry目录
+</code></pre><h2 id="上传镜像到私有仓库"><a href="#上传镜像到私有仓库" class="headerlink" title="上传镜像到私有仓库"></a>上传镜像到私有仓库</h2><p>登陆私有仓库</p>
+<pre><code>docker login www.example.com
+</code></pre><p>例如将本地的registry上传到仓库</p>
+<pre><code>REPOSITORY           TAG      IMAGE ID       CREATED             SIZE
+docker.io/registry   latest   d1fd7d86a825   2 months ago        33.3 MB 
+</code></pre><p>修改镜像tag    </p>
+<pre><code>docker tag docker.io/registry www.example.com/registry
+</code></pre><p>查看</p>
+<pre><code>$ docker ps -a    
+REPOSITORY                  TAG      IMAGE ID       CREATED             SIZE
+docker.io/registry          latest   d1fd7d86a825   2 months ago        33.3 MB 
+www.example.com/registry    latest   d1fd7d86a825   2 months ago        33.3 MB
+</code></pre><p>上传镜像</p>
+<pre><code>docker push  www.example.com/registry
+</code></pre><h2 id="获取私有仓库镜像"><a href="#获取私有仓库镜像" class="headerlink" title="获取私有仓库镜像"></a>获取私有仓库镜像</h2><pre><code>docker pull  www.example.com/registry
+</code></pre><p>如果出现</p>
+<pre><code>docker pull www.example.com/registry
+Trying to pull repository www.example.com/registry ... 
+Pulling repository d www.example.com/registry
+Error: image registry not found    
+</code></pre><p>则需要先登陆到私有仓库，即： docker login www.example.com   </p>
+<h2 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h2><p>获取上传镜像的digest</p>
+<pre><code>$ curl -H &quot;Accept: application/vnd.docker.distribution.manifest.v2+json&quot; -I -X HEAD -u&lt;user:password&gt; https://www.example.com/v2/&lt;image name&gt;/manifests/&lt;image tag&gt;        
+HTTP/1.1 200 OK
+Server: nginx/1.13.10
+Date: Thu, 22 Mar 2018 06:33:38 GMT
+Content-Type: application/vnd.docker.distribution.manifest.v2+json
+Content-Length: 948
+Connection: keep-alive
+Docker-Content-Digest: sha256:28507809a90c80fa49c05ef87227835d569a0f84dd76f4be655394c8d1ca230e  #即为当前镜像的digest
+Docker-Distribution-Api-Version: registry/2.0
+Etag: &quot;sha256:28507809a90c80fa49c05ef87227835d569a0f84dd76f4be655394c8d1ca230e&quot;
+X-Content-Type-Options: nosniff
+Docker-Distribution-Api-Version: registry/2.0
+</code></pre><p>获取镜像tag    </p>
+<pre><code>$ curl -u&lt;user:password&gt;  https://www.example.com/v2/&lt;image name&gt;/tags/list
+</code></pre><p>获取镜像列表 </p>
+<pre><code>$ curl -u&lt;user:password&gt;  https://www.example.com/v2/_catalog 
+</code></pre><p>删除镜像</p>
+<pre><code>curl -X DELETE -u&lt;user:password&gt; https://www.example.com/v2/&lt;image name&gt;/manifests/&lt;digest&gt;    
+</code></pre><p>执行grabage-collect并且重启(垃圾回收, 释放本地空间)</p>
+<pre><code>docker exec registry /bin/registry garbage-collect /etc/docker/registry/config.yml #registry即容器名，也可以是容器ID
+docker restart registry
+</code></pre><p>垃圾回收之后, /v2/_catalog查看仍然存在，直接删除/var/docker/registry/docker/registry/v2/repositories/registry即可    </p>
+]]></content>
+      
+        <categories>
+            
+            <category> Docker </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[k8s集群环境部署]]></title>
+      <url>http://jasonhzy.github.io/2018/03/15/k8s/</url>
+      <content type="html"><![CDATA[<h2 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h2><p>三台虚拟机，系统环境均为Centos7，对应节点名称及IP地址如下</p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP</th>
+<th>组件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k8s-master</td>
+<td>192.168.1.34</td>
+<td>etcd <br> kube-apiserver <br> kube-controller-manager <br> kube-scheduler</td>
+</tr>
+<tr>
+<td>k8s-node1</td>
+<td>192.168.1.33</td>
+<td>kubelet <br> kube-proxy <br> docker</td>
+</tr>
+<tr>
+<td>k8s-node2</td>
+<td>192.168.1.32</td>
+<td>kubelet <br> kube-proxy <br> docker</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h3 id="master节点"><a href="#master节点" class="headerlink" title="master节点"></a>master节点</h3><p>安装etcd：<br>etcd作为一个持久化的配置中心和存储服务中心，k8s运行依赖etcd，需要先部署etcd<br>修改/etc/etcd/etcd.conf文件：</p>
+<pre><code>#[Member]
+#ETCD_CORS=&quot;&quot;
+#数据存放位置
+ETCD_DATA_DIR=&quot;/var/lib/etcd/default.etcd&quot;
+#ETCD_WAL_DIR=&quot;&quot;
+#ETCD_LISTEN_PEER_URLS=&quot;http://localhost:2380&quot;
+#监听客户端地址
+ETCD_LISTEN_CLIENT_URLS=&quot;http://0.0.0.0:2379&quot;
+#ETCD_MAX_SNAPSHOTS=&quot;5&quot;
+#ETCD_MAX_WALS=&quot;5&quot;
+#节点名称
+ETCD_NAME=&quot;master&quot;
+#ETCD_SNAPSHOT_COUNT=&quot;100000&quot;
+#ETCD_HEARTBEAT_INTERVAL=&quot;100&quot;
+#ETCD_ELECTION_TIMEOUT=&quot;1000&quot;
+#ETCD_QUOTA_BACKEND_BYTES=&quot;0&quot;
+#ETCD_MAX_REQUEST_BYTES=&quot;1572864&quot;
+#ETCD_GRPC_KEEPALIVE_MIN_TIME=&quot;5s&quot;
+#ETCD_GRPC_KEEPALIVE_INTERVAL=&quot;2h0m0s&quot;
+#ETCD_GRPC_KEEPALIVE_TIMEOUT=&quot;20s&quot;
+#
+#[Clustering]
+#ETCD_INITIAL_ADVERTISE_PEER_URLS=&quot;http://localhost:2380&quot;
+#通知客户端地址
+ETCD_ADVERTISE_CLIENT_URLS=&quot;http://etcd:2379&quot;
+</code></pre><p>配置kubernetes:<br>在/etc/kubernetes 目录中有以下几个文件:</p>
+<pre><code>apiserver: api配置文件,提供和外部交互的接口
+config: 主配置文件
+controller-manager: 集群管理配置文件, 承担了master的主要功能，如管理node，pod，replication，service，namespace等
+scheduler: scheduler配置文件,调度器，监听etcd中的pod目录变更，然后通过调度算法分配node
+</code></pre><p>apiserver配置:</p>
+<pre><code># The address on the local server to listen to.
+KUBE_API_ADDRESS=&quot;--insecure-bind-address=0.0.0.0&quot; # kube启动时绑定的地址
+
+# The port on the local server to listen on.
+KUBE_API_PORT=&quot;--port=8080&quot;
+
+# Port minions listen on
+#KUBELET_PORT=&quot;--kubelet-port=10250&quot;
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS=&quot;--etcd-servers=http://192.168.1.34:2379&quot; # kube调用etcd的url
+
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES=&quot;--service-cluster-ip-range=172.17.0.0/16&quot; # 此地址是docker容器的地址段
+
+# default admission control policies
+#KUBE_ADMISSION_CONTROL=&quot;--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota&quot;
+KUBE_ADMISSION_CONTROL=&quot;--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota&quot;
+
+# Add your own!
+KUBE_API_ARGS=&quot;&quot;
+</code></pre><p>config配置：</p>
+<pre><code># logging to stderr means we get it in the systemd journal
+KUBE_LOGTOSTDERR=&quot;--logtostderr=true&quot;
+
+# journal message level, 0 is debug
+KUBE_LOG_LEVEL=&quot;--v=0&quot;
+
+# Should this cluster be allowed to run privileged docker containers
+KUBE_ALLOW_PRIV=&quot;--allow-privileged=false&quot;
+
+# How the controller-manager, scheduler, and proxy find the apiserver
+KUBE_MASTER=&quot;--master=http://192.168.1.34:8080&quot;    
+</code></pre><p>controller-manager scheduler 两个文件采用默认配置即可.</p>
+<p>启动：</p>
+<pre><code>[root@k8s-master ~]# systemctl start flanneld.service
+[root@k8s-master ~]# systemctl start kube-apiserver.service
+[root@k8s-master ~]# systemctl start kube-controller-manager.service
+[root@k8s-master ~]# systemctl start kube-scheduler.service
+</code></pre><h3 id="node节点"><a href="#node节点" class="headerlink" title="node节点"></a>node节点</h3><p>配置kubernetes node:</p>
+<p>在/etc/kubernetes目录下出现以下文件:</p>
+<pre><code>config: kubernetes 主配置文件
+kubelet: kubelet node配置文件
+proxy: kubernetes proxy 配置文件
+</code></pre><p>kubelet配置：   </p>
+<pre><code># The address for the info server to serve on (set to 0.0.0.0 or &quot;&quot; for all interfaces)
+KUBELET_ADDRESS=&quot;--address=0.0.0.0&quot;
+
+# The port for the info server to serve on
+# KUBELET_PORT=&quot;--port=10250&quot;
+
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME=&quot;--hostname-override=192.168.1.33&quot; #特别注意这个，在另一个node2节点上，要改为192.168.1.32
+
+# location of the api-server
+KUBELET_API_SERVER=&quot;--api-servers=http://192.168.1.34:8080&quot;
+
+# pod infrastructure container
+KUBELET_POD_INFRA_CONTAINER=&quot;--pod-infra-container-image=registry.access.redhat.com/rhel7/pod-infrastructure:latest&quot;
+
+# Add your own!
+KUBELET_ARGS=&quot;&quot;
+</code></pre><p>config配置：</p>
+<pre><code># logging to stderr means we get it in the systemd journal
+KUBE_LOGTOSTDERR=&quot;--logtostderr=true&quot;
+
+# journal message level, 0 is debug
+KUBE_LOG_LEVEL=&quot;--v=0&quot;
+
+# Should this cluster be allowed to run privileged docker containers
+KUBE_ALLOW_PRIV=&quot;--allow-privileged=false&quot;
+
+# How the controller-manager, scheduler, and proxy find the apiserver
+KUBE_MASTER=&quot;--master=http://192.168.1.34:8080&quot;
+</code></pre><p>proxy 配置默认即可</p>
+<p>启动：</p>
+<pre><code>[root@k8s-node-1 ~]# systemctl start flanneld.service
+[root@k8s-node-1 ~]# systemctl start kubelet.service
+[root@k8s-node-1 ~]# systemctl start kube-proxy.service
+</code></pre><h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>master和node均安装flannel</p>
+<p>配置Flannel（在master、node上均编辑/etc/sysconfig/flanneld）</p>
+<pre><code># etcd url location.  Point this to the server where etcd runs
+FLANNEL_ETCD_ENDPOINTS=&quot;http://192.168.1.34:2379&quot;
+
+# etcd config key.  This is the configuration key that flannel queries
+# For address range assignment
+FLANNEL_ETCD_PREFIX=&quot;/flannel/network&quot;
+
+# Any additional options that you want to pass
+#FLANNEL_OPTIONS=&quot;&quot;
+</code></pre><p>配置etcd中关于flannel的key（仅在master上操作）    </p>
+<p>Flannel使用Etcd进行配置，来保证多个Flannel实例之间的配置一致性，所以需要在etcd上进行如下配置：</p>
+<pre><code>[root@k8s-master ~]# etcdctl mk /flannel/network/config &apos;{ &quot;Network&quot;: &quot;172.17.0.0/16&quot; }&apos;
+{ &quot;Network&quot;: &quot;172.17.0.0/16&quot; }
+</code></pre><p>备注：</p>
+<ol>
+<li>注意防火墙iptables，INPUT／OUPUT／FORWARD是否为ACCEPT     </li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> Kubernetes </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Docker常用命令]]></title>
+      <url>http://jasonhzy.github.io/2018/03/06/docker-command/</url>
+      <content type="html"><![CDATA[<h2 id="docker简介"><a href="#docker简介" class="headerlink" title="docker简介"></a>docker简介</h2><p>Docker是由PaaS提供商dotCloud在2013年创建的一款开源应用引擎，Docker可以自动将任何应用打包成轻量、可移植、自包涵的容器引擎。开发者构建的应用可以一次构建全平台运行，包括本地开发机器、生产环境、虚拟机和云等。<br>Docker一个基于LinuX Container（LXC）技术之上构建的Container容器引擎，源代码托管在GitHub上，基于Go语言并遵从Apache2.0协议开源。它提供了一种在安全、可重复的环境中自动部署软件的方式。<br>Docker在容器的基础上，进行了进一步的封装，从文件系统、网络互联到进程隔离等等，极大的简化了容器的创建和维护。使得 Docker 技术比虚拟机技术更为轻便、快捷。</p>
+<a id="more"></a>
+<h2 id="docker优势"><a href="#docker优势" class="headerlink" title="docker优势"></a>docker优势</h2><p>对比传统虚拟机总结</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>容器</th>
+<th>虚拟机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启动</td>
+<td>秒级</td>
+<td>分钟级</td>
+</tr>
+<tr>
+<td>硬盘使用    一般为</td>
+<td>MB</td>
+<td>一般为 GB</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>接近原生</td>
+<td>弱于</td>
+</tr>
+<tr>
+<td>系统支持量</td>
+<td>单机支持上千个容器</td>
+<td>一般几十个</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/images/docker/docker-virtual.png" alt="docker virtual"></p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>三个基本组件：镜像、容器、仓库</p>
+<p>1.镜像<br>Docker镜像（Image）就是一个只读的模版。镜像可以用来创建Docker容器</p>
+<p>2.容器<br>Docker利用容器（Container）来运行应用<br>容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台<br>可以把容器看做是一个简易版的Linux环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</p>
+<p>3.仓库<br>仓库（Repository）是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。<br>    实际上，仓库注册服务器上往往存放着多个仓库，每个仓库又包含了多个镜像，每个镜像有不同的标签（tag）<br>仓库分为公有（Public）/私有仓库（Private）两种形式</p>
+<h2 id="搭建docker"><a href="#搭建docker" class="headerlink" title="搭建docker"></a>搭建docker</h2><h3 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h3><p>ubuntu安装docker</p>
+<pre><code>wget -qO- https://get.docker.com/ | sh 或者 curl -sSL https://get.docker.com/ | sh
+</code></pre><p>centos安装docker    </p>
+<pre><code>yum install docker -y
+</code></pre><p>mac下安装docker: 可以下载安装包安装</p>
+<h3 id="启用／停止／重启docker"><a href="#启用／停止／重启docker" class="headerlink" title="启用／停止／重启docker"></a>启用／停止／重启docker</h3><pre><code>service docker start/stop/reload
+或者
+systemctl start/stop/reload  docker.service 
+</code></pre><!-- more -->    
+<h2 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h2><pre><code>docker search [IMAGE NAME]
+</code></pre><h3 id="查询镜像"><a href="#查询镜像" class="headerlink" title="查询镜像"></a>查询镜像</h3><h3 id="下载镜像-以安装centos7为例"><a href="#下载镜像-以安装centos7为例" class="headerlink" title="下载镜像(以安装centos7为例)"></a>下载镜像(以安装centos7为例)</h3><pre><code>docker pull centos:latest
+</code></pre><p>下载完毕，利用docker images查看:</p>
+<pre><code>REPOSITORY          TAG     IMAGE ID      CREATED      SIZE
+docker.io/centos    latest  2d194b392dd1  2 hours ago  195.4 MB
+</code></pre><p>备注：镜像版本<strong><a href="https://hub.docker.com/" target="_blank" rel="external">下载来源</a></strong>, 可以查看支持的镜像，例如：</p>
+<p><img src="/images/docker/docker-iso.png" alt="docker-iso"></p>
+<h3 id="修改镜像REPOSITORY／TAG"><a href="#修改镜像REPOSITORY／TAG" class="headerlink" title="修改镜像REPOSITORY／TAG"></a>修改镜像REPOSITORY／TAG</h3><pre><code>docker tag 原REPOSITORY:TAG 自义定名:自定义TAG名  #实际上是新建了镜像
+docker tag IMAGE ID(镜像id) REPOSITORY:TAG  #实际上是新建了镜像
+</code></pre><h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h3><pre><code>docker rmi REPOSITORY #删除的即：REPOSITORY名称:latest（lastest是默认TAG）
+docker rmi REPOSITORY:TAG
+docker rmi [IMAGE ID]
+
+#清理所有悬挂（&lt;none&gt;）镜像：
+docker image prune  #docker image prune -a 清理所有无用镜（慎用)
+docker rmi $(docker images -qf &quot;dangling=true&quot;)
+</code></pre><p>例如：当存在IMAGE ID相同的多个镜像，删除某一个时：</p>
+<pre><code>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+centos/lnmp         v1.0.0              1b5426efccfe        35 minutes ago      536 MB
+jasonhzy/lnmp       v1.0.0              1b5426efccfe        35 minutes ago      536 MB
+</code></pre><p> 删除其中一个即： </p>
+<pre><code>docker rmi  centos/lnmp:v1.0.0 
+</code></pre><h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>查看运行的容器</p>
+<pre><code>docker ps
+</code></pre><p>例如：</p>
+<pre><code>CONTAINER ID  IMAGE         COMMAND      CREATED         STATUS        PORTS  NAMES
+86d91c2b5295  2d194b392dd1  &quot;/bin/bash&quot;  2 minutes ago   Up 2 minutes         goofy_jennings    
+</code></pre><p>查看所有容器（包括停止的）</p>
+<pre><code>docker ps -a
+</code></pre><p>例如：</p>
+<pre><code>CONTAINER ID  IMAGE         COMMAND      CREATED         STATUS                     PORTS  NAMES
+b2273f60a8ff  2d194b392dd1  &quot;/bin/bash&quot;  4 seconds ago   Up 4 seconds                      gigantic_wilson
+86d91c2b5295  2d194b392dd1  &quot;/bin/bash&quot;  2 minutes ago   Exited (0) 10 seconds ago         goofy_jennings
+</code></pre><p>进入容器（前提是容器必须是启动状态）</p>
+<pre><code>docker exec -it 86d91c2b5295 /bin/bash #其中字符串为容器ID
+#退出命令行，exit或者ctrl + p、ctrl + q来退出容器。
+</code></pre><p>启用容器</p>
+<pre><code>docker stop [NAME]/[CONTAINER ID]
+</code></pre><p>停用运行中的容器:</p>
+<pre><code>docker stop [NAME]/[CONTAINER ID] #停用某一个容器
+docker stop $(docker ps -q) #停用全部运行中的容器
+</code></pre><p>删除容器：</p>
+<pre><code>docker rm [NAME]/[CONTAINER ID] #不能删除一个正在运行的容器，会报错。需要先停止容器。
+docker rm $(docker ps -aq) #删除全部容器， 或者docker container prune
+</code></pre><p>一条命令实现停用并删除容器：</p>
+<pre><code>docker stop $(docker ps -q) &amp; docker rm $(docker ps -aq)
+</code></pre><p>其他</p>
+<pre><code># Docker提供了docker system prune，可以用于清理dangling镜像(参考What are Docker &lt;none&gt;:&lt;none&gt; images?)和容器，以及失效的数据卷和网络。
+docker system prune
+
+# 这个命令将清理整个系统，并且只会保留真正在使用的镜像，容器，数据卷以及网络
+docker system prune -a
+
+清理所有无用数据卷
+docker volume prune   #docker volume ls查看数据卷 
+</code></pre><h3 id="提交镜像-【将容器提交成镜像】"><a href="#提交镜像-【将容器提交成镜像】" class="headerlink" title="提交镜像 【将容器提交成镜像】"></a>提交镜像 【将容器提交成镜像】</h3><pre><code>docker commit [选项] &lt;容器ID或容器名&gt; [&lt;仓库名&gt;[:&lt;标签&gt;]]   
+</code></pre><p>例如：<br>    docker commit -a “jasonhzy” -m “centos php nginx” b2273f60a8ff centos/lnmp:v1.0.0<br>    sha256:1b5426efccfe07977227edbe13e48c68e2beefbe4dd8a89ae6081d7c2a0cc40d</p>
+<p>各个参数说明：</p>
+<pre><code>-m 提交的描述信息
+-a 指定镜像作者
+b2273f60a8ff 容器ID
+centos/lnmp:v1.0.0 指定要创建的目标镜像名
+</code></pre><h3 id="获取完整的容器ID"><a href="#获取完整的容器ID" class="headerlink" title="获取完整的容器ID"></a>获取完整的容器ID</h3><pre><code>docker inspect -f   &apos;{{.Id}}&apos; [ID/NAME] 
+</code></pre><p>例如：</p>
+<pre><code>CONTAINER ID  IMAGE                COMMAND    CREATED       STATUS       PORTS                                    NAMES
+de07f0a1f26a  jasonhzy/php5.6-fpm  &quot;php-fpm&quot;  11 hours ago  Up 4 minutes 22/tcp, 80/tcp, 0.0.0.0:9100-&gt;9000/tcp   phpfpm
+
+docker inspect -f   &apos;{{.Id}}&apos; de07f0a1f26a(或者phpfpm)
+de07f0a1f26af3d3a2bae5546f8b05106fec20bb6293a2e1893a54dd443697b1 #完整的容器ID    
+</code></pre><h3 id="容器与主机之间的数据拷贝"><a href="#容器与主机之间的数据拷贝" class="headerlink" title="容器与主机之间的数据拷贝"></a>容器与主机之间的数据拷贝</h3><p>1.从主机往容器中拷贝</p>
+<p>   docker cp &lt;主机文件／文件夹路径&gt; <container id="">:&lt;容器内文件／文件夹路径&gt;</container></p>
+<p>例如：复制容器/var/www/html下的文件夹test到主机根目录文件夹tmp下</p>
+<pre><code>docker cp de07f0a1f26a:/var/www/html/test /tmp/   
+</code></pre><p>2.将容器中文件拷往主机</p>
+<pre><code>docker cp &lt;CONTAINER ID&gt;:&lt;容器内文件／文件夹路径&gt;  &lt;主机文件／文件夹路径&gt;
+</code></pre><p>例如：复制主机/var/www/html目录下的文件夹test到容器的根目录文件夹tmp下</p>
+<pre><code>docker cp /var/www/html/test  de07f0a1f26a:/tmp/
+docker cp /var/www/html/test  de07f0a1f26a:/tmp/xxx #文件夹test复制并重命名为xxx
+</code></pre><h3 id="资源限制与监控"><a href="#资源限制与监控" class="headerlink" title="资源限制与监控"></a>资源限制与监控</h3><ol>
+<li><p>可用于查询镜像（Images）、容器（Containers）和本地卷（Local Volumes）等空间占用情况        </p>
+<p> docker system df #可以进一步通过-v参数查看空间占用细节    </p>
+</li>
+<li><p>设置CPU、内存之后，动态修改</p>
+<p> docker update -m 100m [容器ID／NAME]</p>
+</li>
+<li><p>查看docker容器使用的资源</p>
+<p> docker stats</p>
+</li>
+</ol>
+<p>可实时地显示容器的资源使用(内存, CPU, 网络等)，默认情况下，stats 命令会每隔 1 秒钟刷新一次输出的内容直到你按下 ctrl + c</p>
+<p>参考资料</p>
+<p>1.<a href="http://www.docker.org.cn/dockerppt/106.html" target="_blank" rel="external">Docker中文</a>    </p>
+]]></content>
+      
+        <categories>
+            
+            <category> Docker </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Linux I/O重定向]]></title>
       <url>http://jasonhzy.github.io/2018/01/09/linux-stdinout/</url>
       <content type="html"><![CDATA[<h3 id="文件描述符-File-Descriptor"><a href="#文件描述符-File-Descriptor" class="headerlink" title="文件描述符(File Descriptor)"></a>文件描述符(File Descriptor)</h3><blockquote>
@@ -416,31 +951,74 @@ mysql&gt; insert into user (`id`, `name`, `age`) values(3, &apos;joey&apos;, 20)
 </blockquote>
 <h3 id="简单搭建"><a href="#简单搭建" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置redis.conf<br> 1) master配置  </p>
 <pre><code>protected-mode no
+#允许远程访问
+#bind 0.0.0.0
+#protected-mode yes
 port 6379
+
+#设置密码
+requirepass 123456
+#哨兵监控主从切换时使用，否则无需配置
+masterauth 123456
 </code></pre><p> 启动master如下图所示：<br>    <img src="/images/redis/redis-master-noslave.png" alt="master">    </p>
 <p> 2) slave1配置  </p>
 <pre><code>protected-mode no
+#允许远程访问
+#bind 0.0.0.0
+#protected-mode yes
+
 port 6380
 slaveof 192.168.1.49
+
+#master设置了密码，slave必须一致
+masterauth 123456
+#哨兵监控主从切换时使用，否则无需配置
+requirepass 123456
 </code></pre><p>  启动slave1如下图所示：<br>    <img src="/images/redis/redis-slave1.png" alt="slave1">       </p>
 <p> 3) slave2配置  </p>
 <pre><code>protected-mode no
+#允许远程访问
+#bind 0.0.0.0
+#protected-mode yes
+
 port 6381
 slaveof 192.168.1.49
+
+#master设置了密码，slave必须一致
+masterauth 123456
+#哨兵监控主从切换时使用，否则无需配置
+requirepass 123456
 </code></pre><p> 启动slave1如下图所示：<br>    <img src="/images/redis/redis-slave2.png" alt="slave2"></p>
 <p> 从服务器均启动后，在此查看主服务器：<br>    <img src="/images/redis/redis-master.png" alt="master-slave"> </p>
 <p>2、客户端连接测试<br>1)master服务器：<br>    <img src="/images/redis/redis-master-test.png" alt="master-test"><br>2)slave1服务器：<br>    <img src="/images/redis/redis-slave1-test.png" alt="slave1-test"><br>3)slave2服务器：<br>    <img src="/images/redis/redis-slave2-test.png" alt="slave2-test"> </p>
-<h2 id="哨兵-sentinel"><a href="#哨兵-sentinel" class="headerlink" title="哨兵(sentinel)"></a>哨兵(sentinel)</h2><p>Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：<br><strong>监控（Monitoring）</strong>： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。<br><strong>提醒（Notification）</strong>： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。<br><strong>自动故障迁移（Automatic failover）</strong>： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>
+<h2 id="哨兵-sentinel"><a href="#哨兵-sentinel" class="headerlink" title="哨兵(sentinel)"></a>哨兵(sentinel)</h2><p>Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：</p>
+<blockquote>
+<p><strong>监控（Monitoring）</strong>： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。<br><strong>提醒（Notification）</strong>： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。<br><strong>自动故障迁移（Automatic failover）</strong>： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>
+</blockquote>
 <h3 id="简单搭建-1"><a href="#简单搭建-1" class="headerlink" title="简单搭建"></a>简单搭建</h3><p>1、修改配置sentinel.conf<br> sentinel1、sentinel2、sentinel3配置的不同之处在于端口号的不同  </p>
 <pre><code>port 26379
 #port 26380
 #port 26381
 logfile &quot;/var/log/sentinel.log&quot;
 dir &quot;/tmp&quot;
+
 protected-mode no
-sentinel monitor mymaster 192.168.1.49 6379 2 #每个master设置有个不同的名字，后面的数字2,是指当有两个及以上的sentinel服务检测到master宕机，才会去执行主从切换的功能
-sentinel down-after-milliseconds mymaster 10000 #在10s这个时间范围内不能接收响应，master将会被标记为故障。
-sentinel failover-timeout mymaster 20000 #执行故障转移的timeout超时时长，当前即判定超过20s即为超时
+#允许远程访问
+#bind 0.0.0.0
+#protected-mode yes
+
+#每个master设置有个不同的名字，后面的数字2,是指当有两个及以上的sentinel服务检测到master宕机，才会去执行主从切换的功能
+#sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt;
+#&lt;master-name&gt; ：redis主服务名称，可以自行命名，但是在一个sentinel网络中，一个redis主服务只能有一个名称；
+#&lt;quorum&gt;的大小即: floor(N/2) + 1 &lt;= quorum &lt;= N (N为sentinel总数)
+# 备注：允许远程访问时&lt;ip&gt;必须是外网（非内网）IP
+sentinel monitor mymaster 192.168.1.49 6379 2
+#设置监控的master和访问密码
+sentinel auth-pass mymaster 123456
+#在10s这个时间范围内不能接收响应，master将会被标记为故障。
+sentinel down-after-milliseconds mymaster 10000
+#执行故障转移的timeout超时时长，当前即判定超过20s即为超时
+sentinel failover-timeout mymaster 20000
 </code></pre><p> 启动sentinel1、sentinel2、sentinel3，其中sentinel1如下图所示：<br>    <img src="/images/redis/redis-sentinel-info.png" alt="sentinel1">    </p>
 <p> 查看日志：</p>
 <pre><code>3811:X 08 Dec 11:21:40.014 # +monitor master mymaster 192.168.1.49 6379 quorum 2
@@ -463,16 +1041,25 @@ sentinel failover-timeout mymaster 20000 #执行故障转移的timeout超时时�
 <p>注意事项：</p>
 <p>1.如果停掉master 后，sentinel 显示足够数量的 sdown 后，没有出现odown或try-failover，则检查密码等配置是否正确<br>2.如果停掉master后，试图切换的时候出现failover-abort-not-elected<br>  1）如果redis实例没有配置</p>
 <pre><code>protected-mode yes
+#bind 0.0.0.0
 bind 192.168.1.49
 </code></pre><p>  则在sentinel 配置文件加上</p>
 <pre><code>protected-mode no 
 </code></pre><p>  2）如果redis实例有配置</p>
 <pre><code>protected-mode yes
+#bind 0.0.0.0
 bind 192.168.1.49
 </code></pre><p>  则在sentinel配置文件加上</p>
 <pre><code>protected-mode yes
+#bind 0.0.0.0
 bind 192.168.1.49
-</code></pre>]]></content>
+</code></pre><p>3.开启redis安全模式，即设置protected-mode为yes，它启用的条件，需满足：</p>
+<pre><code>1） 没有bind IP
+2） 没有设置访问密码
+</code></pre><p>远程调用时，若出现如下error：</p>
+<pre><code>protocol error, got &apos;p&apos; as reply type byte
+</code></pre><p>则需注意：<br>    1）是否设置bind 127.0.0.1<br>    2）开启之后protected-mode，是否设置bind 0.0.0.0</p>
+]]></content>
       
         <categories>
             
@@ -1604,7 +2191,7 @@ xdebug.profiler_output_name = &quot;cachegrind.out.%t-%s&quot;
 </tr>
 </tbody>
 </table>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><pre><code>tmux new-session -t session #进入某个会话
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><pre><code>tmux new-session -s session #创建某个会话
 tmux ls #列出会话 
 tmux attach-session -t session #进入某个会话
 tmux kill-session -t &quot;session&quot;   //删除指定会话
@@ -2041,13 +2628,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#115;&#x74;&#97;&#115;&#x68;&#64;&#123;&#110;&#125;">&#115;&#x74;&#97;&#115;&#x68;&#64;&#123;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#123;&#110;&#x7d;">&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#123;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#115;&#x74;&#97;&#x73;&#x68;&#x40;&#x7b;&#110;&#x7d;">&#115;&#x74;&#97;&#x73;&#x68;&#x40;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x73;&#x74;&#x61;&#x73;&#104;&#x40;&#x7b;&#110;&#x7d;">&#x73;&#x74;&#x61;&#x73;&#104;&#x40;&#x7b;&#110;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#115;&#x74;&#x61;&#x73;&#104;&#x40;&#x7b;&#110;&#x7d;">&#115;&#x74;&#x61;&#x73;&#104;&#x40;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#115;&#x74;&#97;&#x73;&#x68;&#64;&#123;&#110;&#x7d;">&#115;&#x74;&#97;&#x73;&#x68;&#64;&#123;&#110;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -2430,8 +3017,7 @@ git config --global color.interactive auto
 </code></pre><p>把上面命令设置一个别名lg:</p>
 <pre><code>git config --global alias.lg &quot;log --color --graph --pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&apos; --abbrev-commit&quot;
 </code></pre><p>设置之后git lg即可查看log，而且显示的更加友好：</p>
-<p><img src="/images/git-log/git-log-change.png" alt="git log
-change"></p>
+<p><img src="/images/git-log/git-log-change.png" alt="git log change"></p>
 <p>如果要查看更详细的log，即：git lg/log -p    </p>
 <h2 id="Git-log-输出格式化"><a href="#Git-log-输出格式化" class="headerlink" title="Git log 输出格式化:"></a>Git log 输出格式化:</h2><table>
 <thead>
