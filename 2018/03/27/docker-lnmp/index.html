@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/docker-install-mysql.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/pecl-redis.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/enable-redis.png">
-<meta property="og:updated_time" content="2018-04-03T11:23:28.000Z">
+<meta property="og:updated_time" content="2018-04-03T11:25:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker搭建LNMP环境">
 <meta name="twitter:description" content="为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。 准备工作下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像 docker pull nginx:1.12.2docker pull php:5.6.34-fpmdocker pull mysql">
@@ -430,24 +430,26 @@
 <a id="more"></a>
 <h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><ol>
 <li><p>创建mysql容器</p>
-<pre><code>docker run --name mysql \
-    -p 3306:3306 \
-    -v /Users/jason/Desktop/mysql:/var/lib/mysql \  #数据库数据挂载
-    -e MYSQL_ROOT_PASSWORD=123456 -d mysql  #初始化mysql的root密码
+<pre><code>docker run --name mysql
+    -p 3306:3306
+    -v /Users/jason/Desktop/mysql:/var/lib/mysql  #数据库数据挂载
+    -e MYSQL_ROOT_PASSWORD=123456 #初始化mysql的root密码
+    -d mysql  
 </code></pre></li>
 <li><p>创建php的fpm容器</p>
-<pre><code>docker run --name fpm \    -p 9000:9000 \
-    --link mysql:mysql \
-    -v /Users/jason/Sites:/Users/jason/Sites \  #运行项目代码目录挂载
+<pre><code>docker run --name fpm 
+    -p 9000:9000
+    --link mysql:mysql
+    -v /Users/jason/Sites:/Users/jason/Sites  #运行项目代码目录挂载
     -d php:5.6.34-fpm
 </code></pre></li>
 <li><p>创建nginx容器</p>
-<pre><code>docker run --name nginx \
-    -p 80:80 \
-    -p 443:443 \
-    -v /Users/jason/Source/conf.d:/etc/nginx/conf.d \
-    --link fpm:fpm \ 
-    --volumes-from fpm \
+<pre><code>docker run --name nginx
+    -p 80:80
+    -p 443:443
+    -v /Users/jason/Source/conf.d:/etc/nginx/conf.d
+    --link fpm:fpm
+    --volumes-from fpm
     -d nginx:1.12.2
 </code></pre></li>
 </ol>
