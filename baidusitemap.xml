@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
+    <lastmod>2018-04-03T11:36:48.000Z</lastmod>
+    <data>
+        <display>
+        <title>Docker私有仓库</title>
+        <pubTime>2018-03-20T08:08:03.000Z</pubTime>
+        
+        <tag>Docker</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker" url="http://jasonhzy.github.io/categories/Docker/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2018/03/27/docker-lnmp/</loc>
-    <lastmod>2018-04-03T11:35:18.000Z</lastmod>
+    <lastmod>2018-04-03T11:35:44.000Z</lastmod>
     <data>
         <display>
         <title>Docker搭建LNMP环境</title>
@@ -72,26 +92,6 @@
            
              
               <breadCrumb title="Kubernetes" url="http://jasonhzy.github.io/categories/Kubernetes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
-    <lastmod>2018-03-30T07:39:07.000Z</lastmod>
-    <data>
-        <display>
-        <title>Docker私有仓库</title>
-        <pubTime>2018-03-20T08:08:03.000Z</pubTime>
-        
-        <tag>Docker</tag>
-         
-         
-           
-             
-              <breadCrumb title="Docker" url="http://jasonhzy.github.io/categories/Docker/"/>
           
         </display>
     </data>

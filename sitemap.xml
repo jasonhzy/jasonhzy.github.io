@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
+    
+    <lastmod>2018-04-03T11:36:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2018/03/27/docker-lnmp/</loc>
     
-    <lastmod>2018-04-03T11:35:18.000Z</lastmod>
+    <lastmod>2018-04-03T11:35:44.000Z</lastmod>
     
   </url>
   
@@ -26,13 +33,6 @@
     <loc>http://jasonhzy.github.io/2018/03/15/k8s/</loc>
     
     <lastmod>2018-03-30T07:42:07.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
-    
-    <lastmod>2018-03-30T07:39:07.000Z</lastmod>
     
   </url>
   
