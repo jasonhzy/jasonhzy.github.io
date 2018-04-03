@@ -4,7 +4,7 @@
   <url>
     <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
     
-    <lastmod>2018-04-03T12:09:43.000Z</lastmod>
+    <lastmod>2018-04-03T12:11:48.000Z</lastmod>
     
   </url>
   
@@ -282,13 +282,6 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/31/php-fun/</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
@@ -296,7 +289,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
@@ -324,14 +324,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/01/http-status/</loc>
+    <loc>http://jasonhzy.github.io/2016/01/31/php-fun/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
+    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
