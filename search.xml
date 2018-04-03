@@ -6,7 +6,8 @@
     <entry>
       <title><![CDATA[基于OpenSSL颁发SSL证书]]></title>
       <url>http://jasonhzy.github.io/2018/04/03/ssl-cert/</url>
-      <content type="html"><![CDATA[<h2 id="创建服务器端私钥-private-key"><a href="#创建服务器端私钥-private-key" class="headerlink" title="创建服务器端私钥(private key)"></a>创建服务器端私钥(private key)</h2><pre><code>openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法
+      <content type="html"><![CDATA[<a id="more"></a>
+<h2 id="创建服务器端私钥-private-key"><a href="#创建服务器端私钥-private-key" class="headerlink" title="创建服务器端私钥(private key)"></a>创建服务器端私钥(private key)</h2><pre><code>openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法
 </code></pre><p><img src="/images/ssl/ssl-private-key.png" alt="ssl private key">    </p>
 <h2 id="生成证书签署请求Certificate-Signing-Request（CSR）"><a href="#生成证书签署请求Certificate-Signing-Request（CSR）" class="headerlink" title="生成证书签署请求Certificate Signing Request（CSR）"></a>生成证书签署请求Certificate Signing Request（CSR）</h2><p>用于向CA机构申请证书    </p>
 <pre><code>openssl req -new -key server.key -out server.csr
