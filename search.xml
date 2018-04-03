@@ -123,7 +123,9 @@ docker pull mysql
     <entry>
       <title><![CDATA[Docker私有仓库]]></title>
       <url>http://jasonhzy.github.io/2018/03/20/docker-registry/</url>
-      <content type="html"><![CDATA[<h2 id="搭建私有仓库"><a href="#搭建私有仓库" class="headerlink" title="搭建私有仓库"></a>搭建私有仓库</h2><p>下载镜像registry</p>
+      <content type="html"><![CDATA[<p>官方的Docker Hub是一个用于管理公共镜像的，我们可以找到想要的镜像，也可以把我们自己的镜像推送上去。但有时候，我们的使用场景需要拥有一个私有的镜像仓库来管理我们自己的镜像。这个可以通过开源软件Registry搭建私有仓库。搭建私有仓库的优点：<br>1、部署快捷，镜像不必从Docker Hub下载，只需从私有仓库下载即可<br>2、私有镜像，包含敏感信息，不方便公开对外，可在公司内部使用</p>
+<a id="more"></a>
+<h2 id="搭建私有仓库"><a href="#搭建私有仓库" class="headerlink" title="搭建私有仓库"></a>搭建私有仓库</h2><p>下载镜像registry</p>
 <pre><code>docker pull registry
 </code></pre><p>创建用户密码文件，用于docker的登陆</p>
 <pre><code>docker run --entrypoint htpasswd registry -Bbn testuser testpassword &gt; /etc/ssl/docker/registry.htpasswd
@@ -2632,13 +2634,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#115;&#x74;&#97;&#x73;&#104;&#64;&#x7b;&#x6e;&#125;">&#115;&#x74;&#97;&#x73;&#104;&#64;&#x7b;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#115;&#116;&#x61;&#115;&#104;&#x40;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#x61;&#115;&#104;&#x40;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#115;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#110;&#125;">&#115;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#110;&#125;</a>参数，则从该<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#115;&#116;&#x61;&#115;&#104;&#64;&#123;&#110;&#x7d;">&#115;&#116;&#x61;&#115;&#104;&#64;&#123;&#110;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#115;&#x74;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#125;">&#115;&#x74;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#125;</a>参数，则从该<a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#x7d;">&#x73;&#x74;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
