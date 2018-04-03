@@ -93,22 +93,22 @@
 
 
 
-<meta name="description" content="为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。 准备工作下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像 docker pull nginx:1.12.2docker pull php:5.6.34-fpmdocker pull mysql">
+<meta name="description" content="为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。 准备工作下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像">
 <meta name="keywords" content="Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker搭建LNMP环境">
 <meta property="og:url" content="http://jasonhzy.github.io/2018/03/27/docker-lnmp/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。 准备工作下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像 docker pull nginx:1.12.2docker pull php:5.6.34-fpmdocker pull mysql">
+<meta property="og:description" content="为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。 准备工作下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/containers-list.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/docker-php-ext.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/docker-install-mysql.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/pecl-redis.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/enable-redis.png">
-<meta property="og:updated_time" content="2018-04-03T11:25:53.000Z">
+<meta property="og:updated_time" content="2018-04-03T11:27:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker搭建LNMP环境">
-<meta name="twitter:description" content="为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。 准备工作下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像 docker pull nginx:1.12.2docker pull php:5.6.34-fpmdocker pull mysql">
+<meta name="twitter:description" content="为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。 准备工作下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像">
 <meta name="twitter:image" content="http://jasonhzy.github.io/images/docker/case-lnmp/containers-list.png">
 
 
@@ -426,24 +426,23 @@
       
         <p>为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>下载需要的nginx(v1.12.2)，mysql(latest)，php(5.6.34-fpm)镜像</p>
-<p>docker pull nginx:1.12.2<br>docker pull php:5.6.34-fpm<br>docker pull mysql</p>
 <a id="more"></a>
-<h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><ol>
-<li><p>创建mysql容器</p>
+<pre><code>docker pull nginx:1.12.2
+docker pull php:5.6.34-fpm
+docker pull mysql
+</code></pre><h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><p>创建mysql容器</p>
 <pre><code>docker run --name mysql
     -p 3306:3306
     -v /Users/jason/Desktop/mysql:/var/lib/mysql  #数据库数据挂载
     -e MYSQL_ROOT_PASSWORD=123456 #初始化mysql的root密码
     -d mysql  
-</code></pre></li>
-<li><p>创建php的fpm容器</p>
+</code></pre><p>创建php的fpm容器</p>
 <pre><code>docker run --name fpm 
     -p 9000:9000
     --link mysql:mysql
     -v /Users/jason/Sites:/Users/jason/Sites  #运行项目代码目录挂载
     -d php:5.6.34-fpm
-</code></pre></li>
-<li><p>创建nginx容器</p>
+</code></pre><p>创建nginx容器</p>
 <pre><code>docker run --name nginx
     -p 80:80
     -p 443:443
@@ -451,9 +450,7 @@
     --link fpm:fpm
     --volumes-from fpm
     -d nginx:1.12.2
-</code></pre></li>
-</ol>
-<p>查看创建的各容器：<br><img src="/images/docker/case-lnmp/containers-list.png" alt="containers ps"></p>
+</code></pre><p>查看创建的各容器：<br><img src="/images/docker/case-lnmp/containers-list.png" alt="containers ps"></p>
 <h2 id="Nginx配置"><a href="#Nginx配置" class="headerlink" title="Nginx配置"></a>Nginx配置</h2><pre><code>server {
         listen       80 default_server;
         server_name  localhost;
