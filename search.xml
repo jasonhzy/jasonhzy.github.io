@@ -4,19 +4,6 @@
   
     
     <entry>
-      <title><![CDATA[基于OpenSSL颁发SSL证书]]></title>
-      <url>http://jasonhzy.github.io/2018/04/03/ssl-cert/</url>
-      <content type="html"><![CDATA[<a id="more"></a>
-<h2 id="创建服务器端私钥-private-key"><a href="#创建服务器端私钥-private-key" class="headerlink" title="创建服务器端私钥(private key)"></a>创建服务器端私钥(private key)</h2><pre><code>openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法
-</code></pre><p><img src="/images/ssl/ssl-private-key.png" alt="ssl private key">    </p>
-<h2 id="生成证书签署请求Certificate-Signing-Request（CSR）"><a href="#生成证书签署请求Certificate-Signing-Request（CSR）" class="headerlink" title="生成证书签署请求Certificate Signing Request（CSR）"></a>生成证书签署请求Certificate Signing Request（CSR）</h2><p>用于向CA机构申请证书    </p>
-<pre><code>openssl req -new -key server.key -out server.csr
-</code></pre>]]></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Docker搭建LNMP环境]]></title>
       <url>http://jasonhzy.github.io/2018/03/27/docker-lnmp/</url>
       <content type="html"><![CDATA[<p>为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。</p>
@@ -541,6 +528,48 @@ docker cp /var/www/html/test  de07f0a1f26a:/tmp/xxx #文件夹test复制并重�
             <tag> Docker </tag>
             
         </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[基于OpenSSL颁发SSL证书]]></title>
+      <url>http://jasonhzy.github.io/2018/02/01/ssl-cert/</url>
+      <content type="html"><![CDATA[<a id="more"></a>
+<h2 id="服务器端证书"><a href="#服务器端证书" class="headerlink" title="服务器端证书"></a>服务器端证书</h2><h3 id="创建服务器端私钥-private-key"><a href="#创建服务器端私钥-private-key" class="headerlink" title="创建服务器端私钥(private key)"></a>创建服务器端私钥(private key)</h3><pre><code>openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法
+</code></pre><p>去除key文件口令的命令:</p>
+<pre><code>mv server.key server_org.key
+openssl rsa -in server_org.key -out server.key    
+</code></pre><p><img src="/images/ssl/ssl-private-key.png" alt="ssl private key">    </p>
+<h3 id="生成证书签署请求Certificate-Signing-Request（CSR）"><a href="#生成证书签署请求Certificate-Signing-Request（CSR）" class="headerlink" title="生成证书签署请求Certificate Signing Request（CSR）"></a>生成证书签署请求Certificate Signing Request（CSR）</h3><p>用于向CA机构申请证书    </p>
+<pre><code>openssl req -new -days 3650 -key server.key -out server.csr
+</code></pre><h2 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h2><h3 id="创建根证书的私匙"><a href="#创建根证书的私匙" class="headerlink" title="创建根证书的私匙"></a>创建根证书的私匙</h3><pre><code>openssl genrsa -des3 -out ca.key 2048
+</code></pre><h3 id="利用私钥创建根证书"><a href="#利用私钥创建根证书" class="headerlink" title="利用私钥创建根证书"></a>利用私钥创建根证书</h3><pre><code>openssl req -new -x509 -key ca.key -out ca.crt 
+</code></pre><p>两步骤合并即</p>
+<pre><code>$ openssl req -new -x509 -days 3650 -keyout ca.key -out ca.crt 
+req              //使用openssl的req子命令  
+-new             //生成新的证书请求  
+-x509            //生成自签名证书  
+-days 5480       //自签名证书的有效期5480天（15年）【仅当使用了 -x509 选项后有效】  
+-keyout CA.key   //私钥文件名指定为CA.key【此选项的一般作用是新生成文件命名；但若同时使用了-key选项，则此选项用于原私钥文件的更名】  
+-out CA.crt      //指定输出所生成自签名证书的信息到文件，且文件名为CA.crt【建议不要省略】 
+</code></pre><p>运行中会提示输入一些 Distinguished Name fields，即证书的识别名信息字段，简称为DN字段<br>|DN字段名 | 缩写    |说明    | 填写要求|<br>|——|—–|—–|—-|<br>|Country Name|    C |    证书持有者所在国家    |要求填写国家代码，用2个字母表示|<br>|State or Province Name |    ST |    证书持有者所在州或省份|    填写全称，可省略不填|<br>|Locality Name    |L|    证书持有者所在城市|    可省略不填|<br>|Organization Name    |O    |证书持有者所属组织或公司    |最好还是填一下|<br>|Organizational Unit Name|    OU|    证书持有者所属部门|    可省略不填|<br>|Common Name    |CN    |证书持有者的通用名|必填。 对于非应用证书，它应该在一定程度上具有惟一性； 对于应用证书，一般填写服务器域名或通配符样式的域名。|<br>|Email Address    |     |    证书持有者的通信邮箱|    可省略不填 |   </p>
+<p>如果不想在运行过程中逐个输入这些DN字段的值，则可以使用 -subj 选项在命令中直接指定。选项 -subj 的使用形式为：</p>
+<pre><code>-subj arg
+</code></pre><p>其中，arg是选项 -subj 的参数，其格式类似于：/key0=value0/key1=value1/key2=… 形式。每一个 /key=value 形式的单元，都对应了一个完整的DN字段。其中，<br>/：是每一个DN字段的开始标志；<br>key0、key1等等：就是上述表中提到的DN字段名的缩写；<br>=：DN字段的名和值之间的间隔符；<br>value0、value1等等：就是原本你要在运行过程中逐个输入的DN字段的值。<br>对于您要将值置为空的DN字段，您可以略去不写</p>
+<pre><code>openssl req -new -x509 -days 2048 -subj /C=CN/ST=JiangSu/O=beecloud/CN=example.com -keyout ca.key -out ca.crt
+</code></pre><p>指定自签名证书的密钥长度和类型:</p>
+<pre><code>openssl req -newkey rsa:2048 -x509 -days 3650 -keyout ca.key -out ca.crt
+</code></pre><h3 id="CA签署证书，并将证书颁发给请求者"><a href="#CA签署证书，并将证书颁发给请求者" class="headerlink" title="CA签署证书，并将证书颁发给请求者"></a>CA签署证书，并将证书颁发给请求者</h3><pre><code>openssl ca -in server.csr -cert ca.crt -keyfile ca.key -out server.crt  -days 3650
+</code></pre><h3 id="查看证书中的信息"><a href="#查看证书中的信息" class="headerlink" title="查看证书中的信息"></a>查看证书中的信息</h3><pre><code>#查看证书的全部信息
+openssl x509 -in server.crt -noout -text
+#查看证书中的信息：-serial 查看序列号 -subject 查看主体信息
+openssl x509 -in server.crt -noout -serial -subject    
+</code></pre><h3 id="吊销证书"><a href="#吊销证书" class="headerlink" title="吊销证书"></a>吊销证书</h3><p>在客户端获取要吊销的证书的serial:</p>
+<p>把证书格式转换成pkcs12格式</p>
+<pre><code>openssl pkcs12 -export -in ca.crt -inkey ca.key -out ca.pfx
+</code></pre><h2 id="不使用CA，创建自签名证书"><a href="#不使用CA，创建自签名证书" class="headerlink" title="不使用CA，创建自签名证书"></a>不使用CA，创建自签名证书</h2><pre><code>openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt    
+</code></pre>]]></content>
+      
         
     </entry>
     
@@ -2634,13 +2663,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#115;&#116;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#125;">&#115;&#116;&#x61;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#125;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;">&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#115;&#x74;&#x61;&#115;&#104;&#x40;&#123;&#x6e;&#x7d;">&#115;&#x74;&#x61;&#115;&#104;&#x40;&#123;&#x6e;&#x7d;</a>参数，则从该<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;">&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#115;&#116;&#x61;&#115;&#x68;&#64;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#x61;&#115;&#x68;&#64;&#x7b;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#115;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#110;&#125;">&#115;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#110;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>

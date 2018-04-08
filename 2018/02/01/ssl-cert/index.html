@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法      生成证书签署请求Certificate Signing Request（CSR）用于向CA机构申请证书     openssl req -new -key server.key -out s">
+<meta name="description" content="服务器端证书创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法 去除key文件口令的命令: mv server.key server_org.key openssl rsa -in server_org.key -out server.key">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于OpenSSL颁发SSL证书">
-<meta property="og:url" content="http://jasonhzy.github.io/2018/04/03/ssl-cert/index.html">
+<meta property="og:url" content="http://jasonhzy.github.io/2018/02/01/ssl-cert/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法      生成证书签署请求Certificate Signing Request（CSR）用于向CA机构申请证书     openssl req -new -key server.key -out s">
+<meta property="og:description" content="服务器端证书创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法 去除key文件口令的命令: mv server.key server_org.key openssl rsa -in server_org.key -out server.key">
 <meta property="og:image" content="http://jasonhzy.github.io/images/ssl/ssl-private-key.png">
-<meta property="og:updated_time" content="2018-04-03T11:37:15.000Z">
+<meta property="og:updated_time" content="2018-04-08T03:03:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于OpenSSL颁发SSL证书">
-<meta name="twitter:description" content="创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法      生成证书签署请求Certificate Signing Request（CSR）用于向CA机构申请证书     openssl req -new -key server.key -out s">
+<meta name="twitter:description" content="服务器端证书创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法 去除key文件口令的命令: mv server.key server_org.key openssl rsa -in server_org.key -out server.key">
 <meta name="twitter:image" content="http://jasonhzy.github.io/images/ssl/ssl-private-key.png">
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/2018/04/03/ssl-cert/"/>
+  <link rel="canonical" href="http://jasonhzy.github.io/2018/02/01/ssl-cert/"/>
 
 
 
@@ -317,7 +317,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2018/04/03/ssl-cert/">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2018/02/01/ssl-cert/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jason hu">
@@ -346,8 +346,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T11:06:44+08:00">
-                2018-04-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T11:06:44+08:00">
+                2018-02-01
               </time>
             
 
@@ -366,8 +366,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2018/04/03/ssl-cert/#SOHUCS" itemprop="discussionUrl">
-                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/04/03/ssl-cert/" itemprop="commentsCount"></span>
+                <a href="/2018/02/01/ssl-cert/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/02/01/ssl-cert/" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -398,10 +398,39 @@
 
       
         <a id="more"></a>
-<h2 id="创建服务器端私钥-private-key"><a href="#创建服务器端私钥-private-key" class="headerlink" title="创建服务器端私钥(private key)"></a>创建服务器端私钥(private key)</h2><pre><code>openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法
+<h2 id="服务器端证书"><a href="#服务器端证书" class="headerlink" title="服务器端证书"></a>服务器端证书</h2><h3 id="创建服务器端私钥-private-key"><a href="#创建服务器端私钥-private-key" class="headerlink" title="创建服务器端私钥(private key)"></a>创建服务器端私钥(private key)</h3><pre><code>openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法
+</code></pre><p>去除key文件口令的命令:</p>
+<pre><code>mv server.key server_org.key
+openssl rsa -in server_org.key -out server.key    
 </code></pre><p><img src="/images/ssl/ssl-private-key.png" alt="ssl private key">    </p>
-<h2 id="生成证书签署请求Certificate-Signing-Request（CSR）"><a href="#生成证书签署请求Certificate-Signing-Request（CSR）" class="headerlink" title="生成证书签署请求Certificate Signing Request（CSR）"></a>生成证书签署请求Certificate Signing Request（CSR）</h2><p>用于向CA机构申请证书    </p>
-<pre><code>openssl req -new -key server.key -out server.csr
+<h3 id="生成证书签署请求Certificate-Signing-Request（CSR）"><a href="#生成证书签署请求Certificate-Signing-Request（CSR）" class="headerlink" title="生成证书签署请求Certificate Signing Request（CSR）"></a>生成证书签署请求Certificate Signing Request（CSR）</h3><p>用于向CA机构申请证书    </p>
+<pre><code>openssl req -new -days 3650 -key server.key -out server.csr
+</code></pre><h2 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h2><h3 id="创建根证书的私匙"><a href="#创建根证书的私匙" class="headerlink" title="创建根证书的私匙"></a>创建根证书的私匙</h3><pre><code>openssl genrsa -des3 -out ca.key 2048
+</code></pre><h3 id="利用私钥创建根证书"><a href="#利用私钥创建根证书" class="headerlink" title="利用私钥创建根证书"></a>利用私钥创建根证书</h3><pre><code>openssl req -new -x509 -key ca.key -out ca.crt 
+</code></pre><p>两步骤合并即</p>
+<pre><code>$ openssl req -new -x509 -days 3650 -keyout ca.key -out ca.crt 
+req              //使用openssl的req子命令  
+-new             //生成新的证书请求  
+-x509            //生成自签名证书  
+-days 5480       //自签名证书的有效期5480天（15年）【仅当使用了 -x509 选项后有效】  
+-keyout CA.key   //私钥文件名指定为CA.key【此选项的一般作用是新生成文件命名；但若同时使用了-key选项，则此选项用于原私钥文件的更名】  
+-out CA.crt      //指定输出所生成自签名证书的信息到文件，且文件名为CA.crt【建议不要省略】 
+</code></pre><p>运行中会提示输入一些 Distinguished Name fields，即证书的识别名信息字段，简称为DN字段<br>|DN字段名 | 缩写    |说明    | 填写要求|<br>|——|—–|—–|—-|<br>|Country Name|    C |    证书持有者所在国家    |要求填写国家代码，用2个字母表示|<br>|State or Province Name |    ST |    证书持有者所在州或省份|    填写全称，可省略不填|<br>|Locality Name    |L|    证书持有者所在城市|    可省略不填|<br>|Organization Name    |O    |证书持有者所属组织或公司    |最好还是填一下|<br>|Organizational Unit Name|    OU|    证书持有者所属部门|    可省略不填|<br>|Common Name    |CN    |证书持有者的通用名|必填。 对于非应用证书，它应该在一定程度上具有惟一性； 对于应用证书，一般填写服务器域名或通配符样式的域名。|<br>|Email Address    |     |    证书持有者的通信邮箱|    可省略不填 |   </p>
+<p>如果不想在运行过程中逐个输入这些DN字段的值，则可以使用 -subj 选项在命令中直接指定。选项 -subj 的使用形式为：</p>
+<pre><code>-subj arg
+</code></pre><p>其中，arg是选项 -subj 的参数，其格式类似于：/key0=value0/key1=value1/key2=… 形式。每一个 /key=value 形式的单元，都对应了一个完整的DN字段。其中，<br>/：是每一个DN字段的开始标志；<br>key0、key1等等：就是上述表中提到的DN字段名的缩写；<br>=：DN字段的名和值之间的间隔符；<br>value0、value1等等：就是原本你要在运行过程中逐个输入的DN字段的值。<br>对于您要将值置为空的DN字段，您可以略去不写</p>
+<pre><code>openssl req -new -x509 -days 2048 -subj /C=CN/ST=JiangSu/O=beecloud/CN=example.com -keyout ca.key -out ca.crt
+</code></pre><p>指定自签名证书的密钥长度和类型:</p>
+<pre><code>openssl req -newkey rsa:2048 -x509 -days 3650 -keyout ca.key -out ca.crt
+</code></pre><h3 id="CA签署证书，并将证书颁发给请求者"><a href="#CA签署证书，并将证书颁发给请求者" class="headerlink" title="CA签署证书，并将证书颁发给请求者"></a>CA签署证书，并将证书颁发给请求者</h3><pre><code>openssl ca -in server.csr -cert ca.crt -keyfile ca.key -out server.crt  -days 3650
+</code></pre><h3 id="查看证书中的信息"><a href="#查看证书中的信息" class="headerlink" title="查看证书中的信息"></a>查看证书中的信息</h3><pre><code>#查看证书的全部信息
+openssl x509 -in server.crt -noout -text
+#查看证书中的信息：-serial 查看序列号 -subject 查看主体信息
+openssl x509 -in server.crt -noout -serial -subject    
+</code></pre><h3 id="吊销证书"><a href="#吊销证书" class="headerlink" title="吊销证书"></a>吊销证书</h3><p>在客户端获取要吊销的证书的serial:</p>
+<p>把证书格式转换成pkcs12格式</p>
+<pre><code>openssl pkcs12 -export -in ca.crt -inkey ca.key -out ca.pfx
+</code></pre><h2 id="不使用CA，创建自签名证书"><a href="#不使用CA，创建自签名证书" class="headerlink" title="不使用CA，创建自签名证书"></a>不使用CA，创建自签名证书</h2><pre><code>openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt    
 </code></pre>
       
     </div>
@@ -451,7 +480,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2018/04/03/ssl-cert/" title="基于OpenSSL颁发SSL证书">http://jasonhzy.github.io/2018/04/03/ssl-cert/</a>
+      <a href="http://jasonhzy.github.io/2018/02/01/ssl-cert/" title="基于OpenSSL颁发SSL证书">http://jasonhzy.github.io/2018/02/01/ssl-cert/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -474,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/27/docker-lnmp/" rel="next" title="Docker搭建LNMP环境">
-                <i class="fa fa-chevron-left"></i> Docker搭建LNMP环境
+              <a href="/2018/01/09/linux-stdinout/" rel="next" title="Linux I/O重定向">
+                <i class="fa fa-chevron-left"></i> Linux I/O重定向
               </a>
             
           </div>
@@ -483,6 +512,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/06/docker-command/" rel="prev" title="Docker常用命令">
+                Docker常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -661,7 +694,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建服务器端私钥-private-key"><span class="nav-number">1.</span> <span class="nav-text">创建服务器端私钥(private key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成证书签署请求Certificate-Signing-Request（CSR）"><span class="nav-number">2.</span> <span class="nav-text">生成证书签署请求Certificate Signing Request（CSR）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器端证书"><span class="nav-number">1.</span> <span class="nav-text">服务器端证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建服务器端私钥-private-key"><span class="nav-number">1.1.</span> <span class="nav-text">创建服务器端私钥(private key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成证书签署请求Certificate-Signing-Request（CSR）"><span class="nav-number">1.2.</span> <span class="nav-text">生成证书签署请求Certificate Signing Request（CSR）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建CA证书"><span class="nav-number">2.</span> <span class="nav-text">创建CA证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建根证书的私匙"><span class="nav-number">2.1.</span> <span class="nav-text">创建根证书的私匙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用私钥创建根证书"><span class="nav-number">2.2.</span> <span class="nav-text">利用私钥创建根证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CA签署证书，并将证书颁发给请求者"><span class="nav-number">2.3.</span> <span class="nav-text">CA签署证书，并将证书颁发给请求者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看证书中的信息"><span class="nav-number">2.4.</span> <span class="nav-text">查看证书中的信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#吊销证书"><span class="nav-number">2.5.</span> <span class="nav-text">吊销证书</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不使用CA，创建自签名证书"><span class="nav-number">3.</span> <span class="nav-text">不使用CA，创建自签名证书</span></a></li></ol></div>
             
 
           </div>
