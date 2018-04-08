@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="服务器端证书创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法 去除key文件口令的命令: mv server.key server_org.key openssl rsa -in server_org.key -out server.key">
+<meta name="description" content="HTTPS(安全超文本传输协议，Hypertext Transfer Protocol over Secure Socket Layer）)：是一个安全通信通道，它基于HTTP开发用于在客户计算机和服务器之间交换信息SSL(安全套接字层，Secure Socket Layer)：是在客户端和服务器之间建立一条SSL安全通道的安全协议；TLS(传输层安全协议，Transport Layer Secu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于OpenSSL颁发SSL证书">
 <meta property="og:url" content="http://jasonhzy.github.io/2018/02/01/ssl-cert/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="服务器端证书创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法 去除key文件口令的命令: mv server.key server_org.key openssl rsa -in server_org.key -out server.key">
+<meta property="og:description" content="HTTPS(安全超文本传输协议，Hypertext Transfer Protocol over Secure Socket Layer）)：是一个安全通信通道，它基于HTTP开发用于在客户计算机和服务器之间交换信息SSL(安全套接字层，Secure Socket Layer)：是在客户端和服务器之间建立一条SSL安全通道的安全协议；TLS(传输层安全协议，Transport Layer Secu">
 <meta property="og:image" content="http://jasonhzy.github.io/images/ssl/ssl-private-key.png">
-<meta property="og:updated_time" content="2018-04-08T03:03:30.000Z">
+<meta property="og:updated_time" content="2018-04-08T03:26:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于OpenSSL颁发SSL证书">
-<meta name="twitter:description" content="服务器端证书创建服务器端私钥(private key)openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法 去除key文件口令的命令: mv server.key server_org.key openssl rsa -in server_org.key -out server.key">
+<meta name="twitter:description" content="HTTPS(安全超文本传输协议，Hypertext Transfer Protocol over Secure Socket Layer）)：是一个安全通信通道，它基于HTTP开发用于在客户计算机和服务器之间交换信息SSL(安全套接字层，Secure Socket Layer)：是在客户端和服务器之间建立一条SSL安全通道的安全协议；TLS(传输层安全协议，Transport Layer Secu">
 <meta name="twitter:image" content="http://jasonhzy.github.io/images/ssl/ssl-private-key.png">
 
 
@@ -397,7 +397,8 @@
       
 
       
-        <a id="more"></a>
+        <p>HTTPS(安全超文本传输协议，Hypertext Transfer Protocol over Secure Socket Layer）)：是一个安全通信通道，它基于HTTP开发用于在客户计算机和服务器之间交换信息<br>SSL(安全套接字层，Secure Socket Layer)：是在客户端和服务器之间建立一条SSL安全通道的安全协议；<br>TLS(传输层安全协议，Transport Layer Security)：用于两个应用程序之间提供保密性和数据完整性；TLS的前身是SSL；<br>OpenSSL是TLS/SSL协议的开源实现，提供开发库和命令行程序；</p>
+<a id="more"></a>
 <h2 id="服务器端证书"><a href="#服务器端证书" class="headerlink" title="服务器端证书"></a>服务器端证书</h2><h3 id="创建服务器端私钥-private-key"><a href="#创建服务器端私钥-private-key" class="headerlink" title="创建服务器端私钥(private key)"></a>创建服务器端私钥(private key)</h3><pre><code>openssl genrsa -des3 -out server.key 2048 #运行时会提示输入密码,此密码用于加密key文件， des3即加密算法
 </code></pre><p>去除key文件口令的命令:</p>
 <pre><code>mv server.key server_org.key
@@ -405,7 +406,12 @@ openssl rsa -in server_org.key -out server.key
 </code></pre><p><img src="/images/ssl/ssl-private-key.png" alt="ssl private key">    </p>
 <h3 id="生成证书签署请求Certificate-Signing-Request（CSR）"><a href="#生成证书签署请求Certificate-Signing-Request（CSR）" class="headerlink" title="生成证书签署请求Certificate Signing Request（CSR）"></a>生成证书签署请求Certificate Signing Request（CSR）</h3><p>用于向CA机构申请证书    </p>
 <pre><code>openssl req -new -days 3650 -key server.key -out server.csr
-</code></pre><h2 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h2><h3 id="创建根证书的私匙"><a href="#创建根证书的私匙" class="headerlink" title="创建根证书的私匙"></a>创建根证书的私匙</h3><pre><code>openssl genrsa -des3 -out ca.key 2048
+</code></pre><h2 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h2><p>准备工作</p>
+<pre><code>mkdir -p ./demoCA/newcerts
+touch ./demoCA/index.txt
+touch ./demoCA/serial
+echo 01 &gt; ./demoCA/serial
+</code></pre><h3 id="创建根证书的私匙"><a href="#创建根证书的私匙" class="headerlink" title="创建根证书的私匙"></a>创建根证书的私匙</h3><pre><code>openssl genrsa -des3 -out ca.key 2048
 </code></pre><h3 id="利用私钥创建根证书"><a href="#利用私钥创建根证书" class="headerlink" title="利用私钥创建根证书"></a>利用私钥创建根证书</h3><pre><code>openssl req -new -x509 -key ca.key -out ca.crt 
 </code></pre><p>两步骤合并即</p>
 <pre><code>$ openssl req -new -x509 -days 3650 -keyout ca.key -out ca.crt 
