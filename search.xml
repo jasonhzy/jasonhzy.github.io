@@ -512,8 +512,16 @@ docker cp /var/www/html/test  de07f0a1f26a:/tmp/xxx #文件夹test复制并重�
 </li>
 </ol>
 <p>可实时地显示容器的资源使用(内存, CPU, 网络等)，默认情况下，stats 命令会每隔 1 秒钟刷新一次输出的内容直到你按下 ctrl + c</p>
+<h3 id="Docker-on-MacOS"><a href="#Docker-on-MacOS" class="headerlink" title="Docker on MacOS"></a>Docker on MacOS</h3><p>macOS中docker架构与在其它Linux系统中略有不同，在Linux系统中，操作系统本身即是docker容器的宿主机，docker镜像都是直接存储在宿主机本身的文件系统中，<br>比如我们通过docker info命令可以看到docker的根目录是：</p>
+<pre><code>$ docker info | grep &quot;Root Dir&quot;
+Docker Root Dir: /var/lib/docker
+</code></pre><p>但是在macOS下，我们直接查看这个目录，其实是根本不存在的。在macOS中安装docker并启动，其实就是启动了一个虚拟机，这个虚拟机的整个内容全部都在一个文件里即：</p>
+<pre><code>/Users/Kamus/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/Docker.qcow2
+</code></pre><p>macOS下的screen命令可以进入该台虚拟机：</p>
+<pre><code>screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty      
+</code></pre><p>备注：1、断开当前会话，会话在后台运行：ctrl+a, d(先按control+a，再按d)<br>2、重新打开窗口：screen r<br>3、查看所有后台运行会话：screen ls<br>4、关闭当前会话，并退出：ctrl+a, k(先按control+a，再按k)      </p>
 <p>参考资料</p>
-<p>1.<a href="http://www.docker.org.cn/dockerppt/106.html" target="_blank" rel="external">Docker中文</a>    </p>
+<p>1.<a href="http://www.docker.org.cn/dockerppt/106.html" target="_blank" rel="external">Docker中文</a><br>2.<a href="http://www.enmotech.com/web/detail/1/171/2.html" target="_blank" rel="external">Docker on MacOS</a>      </p>
 ]]></content>
       
         <categories>
