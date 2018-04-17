@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jasonhzy.github.io/2016/01/25/selinux/</loc>
+    
+    <lastmod>2018-04-17T06:42:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2018/03/06/docker-command/</loc>
     
     <lastmod>2018-04-10T12:11:26.000Z</lastmod>
@@ -96,13 +103,6 @@
     <loc>http://jasonhzy.github.io/2016/03/28/mamp-config/</loc>
     
     <lastmod>2017-12-05T11:13:52.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/selinux/</loc>
-    
-    <lastmod>2017-11-30T03:12:44.000Z</lastmod>
     
   </url>
   

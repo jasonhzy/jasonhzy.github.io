@@ -4863,7 +4863,7 @@ tcontext=system_u:object_r:commplex_main_port_t:s0 tclass=tcp_socket
 ausearch -m AVC | audit2allow -a -M redis(名称自定义)
 </code></pre><p><img src="/images/selinux/ausearch-audit2allow.png" alt="ausearch-audit2allow">    </p>
 <h3 id="5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><a href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内" class="headerlink" title="5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内"></a>5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</h3><pre><code>semodule -i redis.pp
-</code></pre><p>也可以使用sealert    来解决问题</p>
+</code></pre><p>也可以使用sealert    来解决问题(需要安装yum install setroubleshoot)</p>
 <p><img src="/images/selinux/sealert.png" alt="sealert">        </p>
 <h3 id="6-查看支持的端口"><a href="#6-查看支持的端口" class="headerlink" title="6.查看支持的端口"></a>6.查看支持的端口</h3><pre><code>semanage port -l | grep redis        
 
