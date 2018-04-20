@@ -113,7 +113,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-master-to-slave.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-new-master.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-log.png">
-<meta property="og:updated_time" content="2018-04-20T07:19:49.000Z">
+<meta property="og:updated_time" content="2018-04-20T07:59:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis主从同步，哨兵">
 <meta name="twitter:description" content="Redis简介 redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不">
@@ -487,6 +487,25 @@ requirepass 123456
 <p> 从服务器均启动后，在此查看主服务器：<br>    <img src="/images/redis/redis-master.png" alt="master-slave"> </p>
 <p>2、客户端连接测试<br>1)master服务器：<br>    <img src="/images/redis/redis-master-test.png" alt="master-test"><br>2)slave1服务器：<br>    <img src="/images/redis/redis-slave1-test.png" alt="slave1-test"><br>3)slave2服务器：<br>    <img src="/images/redis/redis-slave2-test.png" alt="slave2-test"> </p>
 <h3 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h3><p>redis支持两种方式的持久化，可以单独使用或者结合起来使用。<br>1、第一种：RDB方式redis默认的持久化方式（快照）<br>2、第二种：AOF方式（日志追加）</p>
+<p>RDB快照模式(snapshot):</p>
+<pre><code>save 900 1  //900秒内如果超过1个key被修改，则发起快照保存
+save 300 10 //300秒内容如超过10个key被修改，则发起快照保存
+save 60 10000  //(这3个选项都屏蔽,则rdb禁用)
+
+stop-writes-on-bgsave-error yes  // 后台备份进程出错时,主进程停不停止写入
+rdbcompression yes      // 导出的rdb文件是否压缩
+Rdbchecksum   yes       //导入rbd恢复时数据时,要不要检验rdb的完整性
+dbfilename dump.rdb     //导出来的rdb文件名
+dir /var/lib/redis/     //rdb的放置路径
+</code></pre><p>AOF日志模式:</p>
+<pre><code>appendonly yes              //启用aof持久化方式
+# appendfsync always        //每收到写命令就立即强制写入磁盘，最慢的，但是保证完全的持久化，不推荐使用
+appendfsync everysec        //每秒钟强制写入磁盘一次，在性能和持久化方面做了很好的折中，推荐
+# appendfsync no            //完全依赖os，性能最好,持久化没保证（操作系统自身的同步）
+no-appendfsync-on-rewrite  yes   //正在导出rdb快照的过程中,要不要停止同步aof
+auto-aof-rewrite-percentage 100  //aof文件大小比起上次重写时的大小,增长率100%时,重写
+auto-aof-rewrite-min-size 64mb   //aof文件,至少超过64M时,重写
+</code></pre><p>注意：<br>1、AOF和RDB同时存在的时候，优先使用AOF恢复数据，因为AOF保存的数据集更完整；<br>2、AOF和RDB恢复的时候，RDB更快，直接拷贝数据，AOF还要执行语句；<br>3、建议同时使用AOF和RDB</p>
 <h2 id="哨兵-sentinel"><a href="#哨兵-sentinel" class="headerlink" title="哨兵(sentinel)"></a>哨兵(sentinel)</h2><p>Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：</p>
 <blockquote>
 <p><strong>监控（Monitoring）</strong>： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。<br><strong>提醒（Notification）</strong>： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。<br><strong>自动故障迁移（Automatic failover）</strong>： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>

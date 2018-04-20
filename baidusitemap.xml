@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2017/12/12/redis/</loc>
+    <lastmod>2018-04-20T07:59:34.000Z</lastmod>
+    <data>
+        <display>
+        <title>Redis主从同步，哨兵</title>
+        <pubTime>2017-12-12T03:27:32.000Z</pubTime>
+        
+        <tag>Redis</tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="http://jasonhzy.github.io/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2018/04/19/zabbix-percona-mysql/</loc>
     <lastmod>2018-04-20T07:21:52.000Z</lastmod>
     <data>
@@ -17,26 +37,6 @@
            
              
               <breadCrumb title="zabbix" url="http://jasonhzy.github.io/categories/zabbix/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2017/12/12/redis/</loc>
-    <lastmod>2018-04-20T07:19:49.000Z</lastmod>
-    <data>
-        <display>
-        <title>Redis主从同步，哨兵</title>
-        <pubTime>2017-12-12T03:27:32.000Z</pubTime>
-        
-        <tag>Redis</tag>
-         
-         
-           
-             
-              <breadCrumb title="Redis" url="http://jasonhzy.github.io/categories/Redis/"/>
           
         </display>
     </data>
