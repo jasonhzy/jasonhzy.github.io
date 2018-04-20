@@ -4,6 +4,65 @@
   
     
     <entry>
+      <title><![CDATA[zabbix采用percona监控mysql主从]]></title>
+      <url>http://jasonhzy.github.io/2018/04/19/zabbix-percona-mysql/</url>
+      <content type="html"><![CDATA[<h2 id="安装zabbix-agent"><a href="#安装zabbix-agent" class="headerlink" title="安装zabbix-agent"></a>安装zabbix-agent</h2><pre><code>#centos7 mysql zabbix3.4
+rpm -i http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm 
+yum install zabbix-agent
+</code></pre><p>下载地址：<img src="https://www.zabbix.com/download" alt="zabbix download"></p>
+<h2 id="安装percona-zabbix-templates"><a href="#安装percona-zabbix-templates" class="headerlink" title="安装percona-zabbix-templates"></a>安装percona-zabbix-templates</h2><pre><code>yum install https://www.percona.com/downloads/percona-monitoring-plugins/percona-monitoring-plugins-1.1.8/binary/redhat/7/x86_64/percona-zabbix-templates-1.1.8-1.noarch.rpm
+</code></pre><p>下载地址：<img src="https://www.percona.com/downloads/percona-monitoring-plugins/" alt="percona-monitoring-plugins">   </p>
+<p>复制配置文件至zabbix_agent相关目录下</p>
+<pre><code>cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf /etc/zabbix/zabbix_agentd.d/
+</code></pre><p>重启生效</p>
+<pre><code>service zabbix-agent restart
+</code></pre><p>数据库添加只读账户</p>
+<pre><code>grant process,super,replication client on *.* to &apos;zabbixmoniter&apos;@&apos;%&apos; identified by &apos;zabbix&apos;;
+</code></pre><p>由于监控mysql需要使用show processlist 及主从相关命令，因此需要给zabbix权限以process,super,replication client等权限。修改脚本参数:</p>
+<pre><code>$ vim  /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php
+&lt;?php
+...
+$mysql_user = &apos;zabbixmoniter&apos;;
+$mysql_pass = &apos;zabbix&apos;;
+$mysql_port = 3306;
+$mysql_flags = 0;
+</code></pre><p>在mysql slave的agent里面测试脚本是否生效（输出1即表示成功）：</p>
+<pre><code>sh /var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh running-slave
+</code></pre><p>问题：ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: NO)<br>方案1：在my.cnf配置用户名密码、sock路径                                                                                                                                                                                                                        </p>
+<pre><code>vim /usr/local/mysql/etc/my.cnf
+[mysql]
+user=zabbixmoniter
+password=zabbix
+socket=/var/lib/mysql/mysql.sock
+</code></pre><p>方案2：修改/var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh文件</p>
+<pre><code>RES=`HOME=~zabbix mysql -e &apos;SHOW SLAVE STATUS\G&apos; | egrep &apos;(Slave_IO_Running|Slave_SQL_Running):&apos; | awk -F: &apos;{print $2}&apos; | tr &apos;\n&apos; &apos;,&apos;`
+改为
+RES=`HOME=~zabbix mysql -uzabbixmoniter -pzabbix  -e &apos;SHOW SLAVE STATUS\G&apos; | egrep &apos;(Slave_IO_Running|Slave_SQL_Running):&apos; | awk -F: &apos;{print $2}&apos; | tr &apos;\n&apos; &apos;,&apos;`
+</code></pre><p>在zabbix server上测试</p>
+<pre><code>zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.Threads-connected
+zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
+</code></pre><p>问题1：rm: cannot remove ‘/tmp/localhost-mysql_cacti_stats.txt’: Operation not permitted<br>修改日志权限：</p>
+<pre><code>chown zabbix.zabbix /tmp/localhost-mysql_cacti_stats.txt 
+</code></pre><p>问题2：zabbix_get: command not found<br>安装zabbix-get：</p>
+<pre><code>yum install zabbix-get
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> zabbix </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> zabbix </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Docker搭建LNMP环境]]></title>
       <url>http://jasonhzy.github.io/2018/03/27/docker-lnmp/</url>
       <content type="html"><![CDATA[<p>为了学习docker多容器的使用，以搭建Linux+Nginx+Mysql+PHP为例，讲述docker的详细搭建过程。</p>
@@ -1040,6 +1099,7 @@ requirepass 123456
 </code></pre><p> 启动slave1如下图所示：<br>    <img src="/images/redis/redis-slave2.png" alt="slave2"></p>
 <p> 从服务器均启动后，在此查看主服务器：<br>    <img src="/images/redis/redis-master.png" alt="master-slave"> </p>
 <p>2、客户端连接测试<br>1)master服务器：<br>    <img src="/images/redis/redis-master-test.png" alt="master-test"><br>2)slave1服务器：<br>    <img src="/images/redis/redis-slave1-test.png" alt="slave1-test"><br>3)slave2服务器：<br>    <img src="/images/redis/redis-slave2-test.png" alt="slave2-test"> </p>
+<h3 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h3><p>redis支持两种方式的持久化，可以单独使用或者结合起来使用。<br>1、第一种：RDB方式redis默认的持久化方式（快照）<br>2、第二种：AOF方式（日志追加）</p>
 <h2 id="哨兵-sentinel"><a href="#哨兵-sentinel" class="headerlink" title="哨兵(sentinel)"></a>哨兵(sentinel)</h2><p>Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：</p>
 <blockquote>
 <p><strong>监控（Monitoring）</strong>： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。<br><strong>提醒（Notification）</strong>： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。<br><strong>自动故障迁移（Automatic failover）</strong>： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</p>
@@ -2677,13 +2737,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;">&#115;&#x74;&#x61;&#x73;&#x68;&#x40;&#x7b;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#115;&#x74;&#97;&#115;&#104;&#x40;&#123;&#110;&#x7d;">&#115;&#x74;&#97;&#115;&#104;&#x40;&#123;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#115;&#116;&#x61;&#115;&#x68;&#64;&#x7b;&#x6e;&#x7d;">&#115;&#116;&#x61;&#115;&#x68;&#64;&#x7b;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#115;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#110;&#125;">&#115;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#110;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x73;&#x74;&#x61;&#x73;&#x68;&#x40;&#123;&#110;&#x7d;">&#x73;&#x74;&#x61;&#x73;&#x68;&#x40;&#123;&#110;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#115;&#116;&#97;&#x73;&#x68;&#x40;&#123;&#110;&#x7d;">&#115;&#116;&#97;&#x73;&#x68;&#x40;&#123;&#110;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -2863,7 +2923,7 @@ pip/easy_install install html5lib
 <li>添加隐藏的iframe，name属性值与form的target必须保持一致</li>
 <li>添加js代码实现信息提示</li>
 </ul>
-<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$jsoncallback = $_POST[<span class="string">'callback'</span>];</div><div class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</div><div class="line">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response_post</span><span class="params">($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)</span></span>&#123;</div><div class="line">	$output=<span class="string">""</span>;</div><div class="line">	$output .= <span class="string">'&lt;script&gt;'</span>;</div><div class="line">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></div><div class="line">		.json_encode(<span class="keyword">array</span>(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</div><div class="line">		.<span class="string">');'</span>);</div><div class="line">	$output .= <span class="string">'&lt;/script&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> $output;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?php</span></span></div><div class="line">$jsoncallback = $_POST[<span class="string">'callback'</span>];</div><div class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</div><div class="line">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">	<span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">response_post</span><span class="params">($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)</span></span>&#123;</div><div class="line">	$output=<span class="string">""</span>;</div><div class="line">	$output .= <span class="string">'&lt;script&gt;'</span>;</div><div class="line">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></div><div class="line">		.json_encode(<span class="keyword">array</span>(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</div><div class="line">		.<span class="string">');'</span>);</div><div class="line">	$output .= <span class="string">'&lt;/script&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> $output;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 ]]></content>
       
         <categories>
