@@ -416,48 +416,14 @@
 
       
         
-          
-            <h2 id="安装zabbix-agent"><a href="#安装zabbix-agent" class="headerlink" title="安装zabbix-agent"></a>安装zabbix-agent</h2><pre><code>#centos7 mysql zabbix3.4
-rpm -i http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm 
-yum install zabbix-agent
-</code></pre><p>下载地址：<img src="https://www.zabbix.com/download" alt="zabbix download"></p>
-<h2 id="安装percona-zabbix-templates"><a href="#安装percona-zabbix-templates" class="headerlink" title="安装percona-zabbix-templates"></a>安装percona-zabbix-templates</h2><pre><code>yum install https://www.percona.com/downloads/percona-monitoring-plugins/percona-monitoring-plugins-1.1.8/binary/redhat/7/x86_64/percona-zabbix-templates-1.1.8-1.noarch.rpm
-</code></pre><p>下载地址：<img src="https://www.percona.com/downloads/percona-monitoring-plugins/" alt="percona-monitoring-plugins">   </p>
-<p>复制配置文件至zabbix_agent相关目录下</p>
-<pre><code>cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf /etc/zabbix/zabbix_agentd.d/
-</code></pre><p>重启生效</p>
-<pre><code>service zabbix-agent restart
-</code></pre><p>数据库添加只读账户</p>
-<pre><code>grant process,super,replication client on *.* to &apos;zabbixmoniter&apos;@&apos;%&apos; identified by &apos;zabbix&apos;;
-</code></pre><p>由于监控mysql需要使用show processlist 及主从相关命令，因此需要给zabbix权限以process,super,replication client等权限。修改脚本参数:</p>
-<pre><code>$ vim  /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php
-&lt;?php
-...
-$mysql_user = &apos;zabbixmoniter&apos;;
-$mysql_pass = &apos;zabbix&apos;;
-$mysql_port = 3306;
-$mysql_flags = 0;
-</code></pre><p>在mysql slave的agent里面测试脚本是否生效（输出1即表示成功）：</p>
-<pre><code>sh /var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh running-slave
-</code></pre><p>问题：ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: NO)<br>方案1：在my.cnf配置用户名密码、sock路径                                                                                                                                                                                                                        </p>
-<pre><code>vim /usr/local/mysql/etc/my.cnf
-[mysql]
-user=zabbixmoniter
-password=zabbix
-socket=/var/lib/mysql/mysql.sock
-</code></pre><p>方案2：修改/var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh文件</p>
-<pre><code>RES=`HOME=~zabbix mysql -e &apos;SHOW SLAVE STATUS\G&apos; | egrep &apos;(Slave_IO_Running|Slave_SQL_Running):&apos; | awk -F: &apos;{print $2}&apos; | tr &apos;\n&apos; &apos;,&apos;`
-改为
-RES=`HOME=~zabbix mysql -uzabbixmoniter -pzabbix  -e &apos;SHOW SLAVE STATUS\G&apos; | egrep &apos;(Slave_IO_Running|Slave_SQL_Running):&apos; | awk -F: &apos;{print $2}&apos; | tr &apos;\n&apos; &apos;,&apos;`
-</code></pre><p>在zabbix server上测试</p>
-<pre><code>zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.Threads-connected
-zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
-</code></pre><p>问题1：rm: cannot remove ‘/tmp/localhost-mysql_cacti_stats.txt’: Operation not permitted<br>修改日志权限：</p>
-<pre><code>chown zabbix.zabbix /tmp/localhost-mysql_cacti_stats.txt 
-</code></pre><p>问题2：zabbix_get: command not found<br>安装zabbix-get：</p>
-<pre><code>yum install zabbix-get
-</code></pre>
-          
+          <p>zabbix自带的默认模板template db mysql对mysql的监控相当简单，而percona监控插件对mysql的监控比较全面，但由于是php开发，因此要在agent安装php环境，<br>本文主要介绍使用percona-monitoring-plugins监控mysql。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/19/zabbix-percona-mysql/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
