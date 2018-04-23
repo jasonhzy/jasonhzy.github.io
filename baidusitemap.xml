@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://jasonhzy.github.io/2018/04/19/zabbix-percona-mysql/</loc>
-    <lastmod>2018-04-23T08:11:48.000Z</lastmod>
+    <lastmod>2018-04-23T08:13:20.000Z</lastmod>
     <data>
         <display>
         <title>zabbix采用percona监控mysql主从</title>
