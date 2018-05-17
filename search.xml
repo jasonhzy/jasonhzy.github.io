@@ -69,10 +69,23 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
       <url>http://jasonhzy.github.io/2018/05/03/jenkins/</url>
       <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Jenkins前身是Hudson(Sun开发)，2010年从Hudson分支出来。由于Sun被Oracle收购，并拥有Hudson的商标所有权。2011年1月11日，“Hudson”改名为“Jenkins”，分支出来的Jenkins免费且开源，而Hudson用于商业用途，二者都在继续开发中。<br>Jenkins是一款流行的开源持续集成(Continuous Integration)工具，广泛用于项目开发，具有自动化构建、测试和部署等功能。无需人工干预，减少重复过程以节省时间、费用和工作量。具有易安装、易配置、跨平台、支持安装多种第三方插件等特点。</p>
 <a id="more"></a>
-<h2 id="持续集成-Continuous-Integration"><a href="#持续集成-Continuous-Integration" class="headerlink" title="持续集成(Continuous Integration)"></a>持续集成(Continuous Integration)</h2><p>持续集成是一种软件开发实践，即团队开发成员经常集成他们的工作，团队每个成员每天集成一次或多次，也就意味着每天可能会发生多次集成。每次集成都通过自动化的构建（包括编译，发布，自动化测试）来验证，从而尽早地发现集成错误。保证产品快速迭代，同时还能保持高质量</p>
-<p>优点：<br>快速发现问题，并作出响应；<br>最大限度地减少风险，降低修复错误代码的成本；<br>将重复性的手工流程自动化，让工程师更加专注于代码；<br>保持频繁部署，快速生成可部署的软件；<br>提高项目的能见度，方便团队成员了解项目的进度和成熟度；<br>增强开发人员对软件产品的信心，帮助建立更好的工程师文化</p>
-<h2 id="持续交付-Continuous-Delivery"><a href="#持续交付-Continuous-Delivery" class="headerlink" title="持续交付 (Continuous Delivery)"></a>持续交付 (Continuous Delivery)</h2><p>持续交付在持续集成的基础上，将集成后的代码部署到更贴近真实运行环境的「类生产环境」（production-like environments）中。持续交付优先于整个产品生命周期的软件部署，建立在高水平自动化持续集成之上。</p>
-<p>优点：<br>快速发布。能够应对业务需求，并更快地实现软件价值。<br>编码-&gt;测试-&gt;上线-&gt;交付的频繁迭代周期缩短，同时获得迅速反馈；<br>高质量的软件发布标准。整个交付过程标准化、可重复、可靠，<br>整个交付过程进度可视化，方便团队人员了解项目成熟度；<br>更先进的团队协作方式。从需求分析、产品的用户体验到交互 设计、开发、测试、运维等角色密切协作，相比于传统的瀑布式软件团队，更少浪费。</p>
+<h2 id="持续集成-Continuous-Integration"><a href="#持续集成-Continuous-Integration" class="headerlink" title="持续集成(Continuous Integration)"></a>持续集成(Continuous Integration)</h2><p>持续集成是一种软件开发实践，即团队开发成员经常集成他们的工作，团队每个成员每天集成一次或多次，也就意味着每天可能会发生多次集成。每次集成都通过自动化的构建（包括编译，发布，自动化测试）来验证，从而尽早地发现集成错误。保证产品快速迭代，同时还能保持高质量<br>优点：</p>
+<ul>
+<li>快速发现问题，并作出响应； </li>
+<li>最大限度地减少风险，降低修复错误代码的成本； </li>
+<li>将重复性的手工流程自动化，让工程师更加专注于代码； </li>
+<li>保持频繁部署，快速生成可部署的软件； </li>
+<li>提高项目的能见度，方便团队成员了解项目的进度和成熟度； </li>
+<li>增强开发人员对软件产品的信心，帮助建立更好的工程师文化</li>
+</ul>
+<h2 id="持续交付-Continuous-Delivery"><a href="#持续交付-Continuous-Delivery" class="headerlink" title="持续交付 (Continuous Delivery)"></a>持续交付 (Continuous Delivery)</h2><p>持续交付在持续集成的基础上，将集成后的代码部署到更贴近真实运行环境的「类生产环境」（production-like environments）中。持续交付优先于整个产品生命周期的软件部署，建立在高水平自动化持续集成之上。<br>优点：</p>
+<ul>
+<li>快速发布。能够应对业务需求，并更快地实现软件价值。</li>
+<li>编码-&gt;测试-&gt;上线-&gt;交付的频繁迭代周期缩短，同时获得迅速反馈；</li>
+<li>高质量的软件发布标准。整个交付过程标准化、可重复、可靠，</li>
+<li>整个交付过程进度可视化，方便团队人员了解项目成熟度；</li>
+<li>更先进的团队协作方式。从需求分析、产品的用户体验到交互 设计、开发、测试、运维等角色密切协作，相比于传统的瀑布式软件团队，更少浪费。</li>
+</ul>
 <h2 id="持续集成-Continuous-Integration-1"><a href="#持续集成-Continuous-Integration-1" class="headerlink" title="持续集成(Continuous Integration)"></a>持续集成(Continuous Integration)</h2><p>持续部署是指当交付的代码通过评审之后，自动部署到生产环境中。持续部署是持续交付的最高阶段。这意味着，所有通过了一系列的自动化测试的改动都将自动部署到生产环境。它也可以被称为“Continuous Release”<br>实际上，产品在从需求到部署的过程中，会经历若干种不同的环境，例如QA环境、各种自动化测试运行环境、生产环境等。这些环境的搭建、配置、管理，产品在不同环境中的具体部署，状况是比较非常复杂的，从头到尾地全自动持续部署的确困难。那么，如果能做到持续交付，保证代码在模拟环境没问题，也就基本成功完成了</p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Red Hat/Fedora/CentOS:</p>
 <pre><code>wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo 
@@ -2940,13 +2953,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x73;&#x74;&#x61;&#115;&#104;&#x40;&#123;&#110;&#x7d;">&#x73;&#x74;&#x61;&#115;&#104;&#x40;&#123;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#115;&#116;&#97;&#115;&#x68;&#x40;&#123;&#110;&#125;">&#115;&#116;&#97;&#115;&#x68;&#x40;&#123;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x73;&#x74;&#x61;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;">&#x73;&#x74;&#x61;&#x73;&#104;&#64;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x73;&#x74;&#97;&#115;&#x68;&#64;&#x7b;&#110;&#x7d;">&#x73;&#x74;&#97;&#115;&#x68;&#64;&#x7b;&#110;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#115;&#x74;&#x61;&#115;&#x68;&#x40;&#123;&#x6e;&#125;">&#115;&#x74;&#x61;&#115;&#x68;&#x40;&#123;&#x6e;&#125;</a>参数，则从该<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x73;&#x74;&#x61;&#x73;&#104;&#x40;&#123;&#110;&#125;">&#x73;&#x74;&#x61;&#x73;&#104;&#x40;&#123;&#110;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -5098,9 +5111,9 @@ SELINUX=disabled #增加
         
         <tags>
             
-            <tag> Linux </tag>
-            
             <tag> CentOS </tag>
+            
+            <tag> Linux </tag>
             
         </tags>
         
@@ -5228,9 +5241,9 @@ rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
         
         <tags>
             
-            <tag> Linux </tag>
-            
             <tag> CentOS </tag>
+            
+            <tag> Linux </tag>
             
         </tags>
         
