@@ -102,7 +102,7 @@
 <meta property="og:description" content="Git多颜色输出git默认的输出是单一颜色的，不仅不够美观，也不容易阅读。实际上，git本身就支持用多种颜色来显示其输出的信息，只需在命令行中运行以下命令来修改git的设置，即可开启多颜色输出： git config --global color.status auto git config --global color.diff auto git config --global color.br">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git-log/git-log.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git-log/git-log-change.png">
-<meta property="og:updated_time" content="2018-03-30T03:41:15.000Z">
+<meta property="og:updated_time" content="2018-05-17T01:23:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git日志格式、颜色设置">
 <meta name="twitter:description" content="Git多颜色输出git默认的输出是单一颜色的，不仅不够美观，也不容易阅读。实际上，git本身就支持用多种颜色来显示其输出的信息，只需在命令行中运行以下命令来修改git的设置，即可开启多颜色输出： git config --global color.status auto git config --global color.diff auto git config --global color.br">
@@ -436,7 +436,13 @@ git config --global color.interactive auto
 </code></pre><p>设置之后git lg即可查看log，而且显示的更加友好：</p>
 <p><img src="/images/git-log/git-log-change.png" alt="git log change"></p>
 <p>如果要查看更详细的log，即：git lg/log -p    </p>
-<h2 id="Git-log-输出格式化"><a href="#Git-log-输出格式化" class="headerlink" title="Git log 输出格式化:"></a>Git log 输出格式化:</h2><table>
+<h2 id="Git-log-输出格式化"><a href="#Git-log-输出格式化" class="headerlink" title="Git log 输出格式化:"></a>Git log 输出格式化:</h2><style>
+    table th:first-of-type {
+        width: 20%;
+    }
+</style>
+
+<table>
 <thead>
 <tr>
 <th>参数</th>
@@ -786,7 +792,7 @@ git config --global color.interactive auto
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -797,7 +803,7 @@ git config --global color.interactive auto
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -808,7 +814,7 @@ git config --global color.interactive auto
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

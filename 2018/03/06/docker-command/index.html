@@ -102,7 +102,7 @@
 <meta property="og:description" content="docker简介Docker是由PaaS提供商dotCloud在2013年创建的一款开源应用引擎，Docker可以自动将任何应用打包成轻量、可移植、自包涵的容器引擎。开发者构建的应用可以一次构建全平台运行，包括本地开发机器、生产环境、虚拟机和云等。Docker一个基于LinuX Container（LXC）技术之上构建的Container容器引擎，源代码托管在GitHub上，基于Go语言并遵从Ap">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/docker-virtual.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/docker-iso.png">
-<meta property="og:updated_time" content="2018-04-10T12:11:26.000Z">
+<meta property="og:updated_time" content="2018-05-11T01:32:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker常用命令">
 <meta name="twitter:description" content="docker简介Docker是由PaaS提供商dotCloud在2013年创建的一款开源应用引擎，Docker可以自动将任何应用打包成轻量、可移植、自包涵的容器引擎。开发者构建的应用可以一次构建全平台运行，包括本地开发机器、生产环境、虚拟机和云等。Docker一个基于LinuX Container（LXC）技术之上构建的Container容器引擎，源代码托管在GitHub上，基于Go语言并遵从Ap">
@@ -525,8 +525,10 @@ docker system prune -a
 清理所有无用数据卷
 docker volume prune   #docker volume ls查看数据卷 
 </code></pre><h3 id="提交镜像-【将容器提交成镜像】"><a href="#提交镜像-【将容器提交成镜像】" class="headerlink" title="提交镜像 【将容器提交成镜像】"></a>提交镜像 【将容器提交成镜像】</h3><pre><code>docker commit [选项] &lt;容器ID或容器名&gt; [&lt;仓库名&gt;[:&lt;标签&gt;]]   
-</code></pre><p>例如：<br>    docker commit -a “jasonhzy” -m “centos php nginx” b2273f60a8ff centos/lnmp:v1.0.0<br>    sha256:1b5426efccfe07977227edbe13e48c68e2beefbe4dd8a89ae6081d7c2a0cc40d</p>
-<p>各个参数说明：</p>
+</code></pre><p>例如：    </p>
+<pre><code># docker commit -a &quot;jasonhzy&quot; -m &quot;centos php nginx&quot; b2273f60a8ff centos/lnmp:v1.0.0
+sha256:1b5426efccfe07977227edbe13e48c68e2beefbe4dd8a89ae6081d7c2a0cc40d
+</code></pre><p>各个参数说明：</p>
 <pre><code>-m 提交的描述信息
 -a 指定镜像作者
 b2273f60a8ff 容器ID
@@ -734,7 +736,7 @@ Docker Root Dir: /var/lib/docker
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -745,7 +747,7 @@ Docker Root Dir: /var/lib/docker
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -756,7 +758,7 @@ Docker Root Dir: /var/lib/docker
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

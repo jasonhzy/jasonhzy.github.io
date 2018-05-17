@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="zabbix," />
+  <meta name="keywords" content="ifconfig," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="zabbix自带的默认模板template db mysql对mysql的监控相当简单，而percona监控插件对mysql的监控比较全面，但由于是php开发，因此要在agent安装php环境，本文主要介绍使用percona-monitoring-plugins监控mysql。">
-<meta name="keywords" content="zabbix">
+<meta name="description" content="简介ifconfig， 全称是network interfaces configuring。是linux中用于显示或配置网络设备（网络接口卡）的命令">
+<meta name="keywords" content="ifconfig">
 <meta property="og:type" content="article">
-<meta property="og:title" content="zabbix采用percona监控mysql主从">
-<meta property="og:url" content="http://jasonhzy.github.io/2018/04/19/zabbix-percona-mysql/index.html">
+<meta property="og:title" content="ifconfig">
+<meta property="og:url" content="http://jasonhzy.github.io/2018/04/12/ifconfig/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="zabbix自带的默认模板template db mysql对mysql的监控相当简单，而percona监控插件对mysql的监控比较全面，但由于是php开发，因此要在agent安装php环境，本文主要介绍使用percona-monitoring-plugins监控mysql。">
-<meta property="og:updated_time" content="2018-04-23T08:14:54.000Z">
+<meta property="og:description" content="简介ifconfig， 全称是network interfaces configuring。是linux中用于显示或配置网络设备（网络接口卡）的命令">
+<meta property="og:updated_time" content="2018-05-15T09:51:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zabbix采用percona监控mysql主从">
-<meta name="twitter:description" content="zabbix自带的默认模板template db mysql对mysql的监控相当简单，而percona监控插件对mysql的监控比较全面，但由于是php开发，因此要在agent安装php环境，本文主要介绍使用percona-monitoring-plugins监控mysql。">
+<meta name="twitter:title" content="ifconfig">
+<meta name="twitter:description" content="简介ifconfig， 全称是network interfaces configuring。是linux中用于显示或配置网络设备（网络接口卡）的命令">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/2018/04/19/zabbix-percona-mysql/"/>
+  <link rel="canonical" href="http://jasonhzy.github.io/2018/04/12/ifconfig/"/>
 
 
 
 
 
-  <title>zabbix采用percona监控mysql主从 | Jason Website</title>
+  <title>ifconfig | Jason Website</title>
   
 
 
@@ -316,7 +316,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2018/04/19/zabbix-percona-mysql/">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2018/04/12/ifconfig/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jason hu">
@@ -333,7 +333,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">zabbix采用percona监控mysql主从</h1>
+          <h1 class="post-title" itemprop="name headline">ifconfig</h1>
         
 
         <div class="post-meta">
@@ -345,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-19T20:04:01+08:00">
-                2018-04-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-12T15:54:51+08:00">
+                2018-04-12
               </time>
             
 
@@ -368,8 +368,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/zabbix/" itemprop="url" rel="index">
-                    <span itemprop="name">zabbix</span>
+                  <a href="/categories/ifconfig/" itemprop="url" rel="index">
+                    <span itemprop="name">ifconfig</span>
                   </a>
                 </span>
 
@@ -387,8 +387,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2018/04/19/zabbix-percona-mysql/#SOHUCS" itemprop="discussionUrl">
-                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/04/19/zabbix-percona-mysql/" itemprop="commentsCount"></span>
+                <a href="/2018/04/12/ifconfig/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/04/12/ifconfig/" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -418,47 +418,51 @@
       
 
       
-        <p>zabbix自带的默认模板template db mysql对mysql的监控相当简单，而percona监控插件对mysql的监控比较全面，但由于是php开发，因此要在agent安装php环境，本文主要介绍使用percona-monitoring-plugins监控mysql。<br><a id="more"></a></p>
-<h2 id="安装zabbix-agent"><a href="#安装zabbix-agent" class="headerlink" title="安装zabbix-agent"></a>安装zabbix-agent</h2><pre><code>#centos7 mysql zabbix3.4
-rpm -i http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm 
-yum install zabbix-agent
-</code></pre><p>下载地址：<a href="https://www.zabbix.com/download" target="_blank" rel="external">zabbix download</a></p>
-<h2 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h2><pre><code>yum install php php-mysql -y
-</code></pre><h2 id="安装percona-zabbix-templates"><a href="#安装percona-zabbix-templates" class="headerlink" title="安装percona-zabbix-templates"></a>安装percona-zabbix-templates</h2><pre><code>yum install https://www.percona.com/downloads/percona-monitoring-plugins/percona-monitoring-plugins-1.1.8/binary/redhat/7/x86_64/percona-zabbix-templates-1.1.8-1.noarch.rpm
-</code></pre><p>下载地址：<a href="https://www.percona.com/downloads/percona-monitoring-plugins/" target="_blank" rel="external">percona-monitoring-plugins</a>   </p>
-<p>复制配置文件至zabbix_agent相关目录下</p>
-<pre><code>cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf /etc/zabbix/zabbix_agentd.d/
-</code></pre><p>重启生效</p>
-<pre><code>service zabbix-agent restart
-</code></pre><p>数据库添加只读账户</p>
-<pre><code>grant process,super,replication client on *.* to &apos;zabbixmoniter&apos;@&apos;%&apos; identified by &apos;zabbix&apos;;
-</code></pre><p>由于监控mysql需要使用show processlist 及主从相关命令，因此需要给zabbix权限以process,super,replication client等权限。修改脚本参数:</p>
-<pre><code>$ vim  /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php
-&lt;?php
-...
-$mysql_user = &apos;zabbixmoniter&apos;;
-$mysql_pass = &apos;zabbix&apos;;
-$mysql_port = 3306;
-$mysql_flags = 0;
-</code></pre><p>在mysql slave的agent里面测试脚本是否生效（输出1即表示成功）：</p>
-<pre><code>sh /var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh running-slave
-</code></pre><p>问题：ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: NO)<br>方案1：在my.cnf配置用户名密码、sock路径                                                                                                                                                                                                                        </p>
-<pre><code>vim /usr/local/mysql/etc/my.cnf
-[mysql]
-user=zabbixmoniter
-password=zabbix
-socket=/var/lib/mysql/mysql.sock
-</code></pre><p>方案2：修改/var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh文件</p>
-<pre><code>RES=`HOME=~zabbix mysql -e &apos;SHOW SLAVE STATUS\G&apos; | egrep &apos;(Slave_IO_Running|Slave_SQL_Running):&apos; | awk -F: &apos;{print $2}&apos; | tr &apos;\n&apos; &apos;,&apos;`
-改为
-RES=`HOME=~zabbix mysql -uzabbixmoniter -pzabbix  -e &apos;SHOW SLAVE STATUS\G&apos; | egrep &apos;(Slave_IO_Running|Slave_SQL_Running):&apos; | awk -F: &apos;{print $2}&apos; | tr &apos;\n&apos; &apos;,&apos;`
-</code></pre><p>在zabbix server上测试</p>
-<pre><code>zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.Threads-connected
-zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
-</code></pre><p>问题1：rm: cannot remove ‘/tmp/localhost-mysql_cacti_stats.txt’: Operation not permitted<br>修改日志权限：</p>
-<pre><code>chown zabbix.zabbix /tmp/localhost-mysql_cacti_stats.txt 
-</code></pre><p>问题2：zabbix_get: command not found<br>安装zabbix-get：</p>
-<pre><code>yum install zabbix-get
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ifconfig， 全称是network interfaces configuring。是linux中用于显示或配置网络设备（网络接口卡）的命令</p>
+<a id="more"></a>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>有些最小化安装CentOS等Linux发行版的时候会默认不安装ifconfig等命令。此时终端运行ifconfig命令就会出错，ifconfig这个命令来源于net-tools，则安装即可：</p>
+<pre><code>yum install net-tools 
+</code></pre><p>查看当前网络接口的情况</p>
+<pre><code>[root@localhost ~]# ifconfig
+enp0s3: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.1.46  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::a00:27ff:fe7a:9880  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 08:00:27:7a:98:80  txqueuelen 1000  (Ethernet)
+        RX packets 2792  bytes 437764 (427.5 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 711  bytes 161168 (157.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;
+        loop  txqueuelen 0  (Local Loopback)
+        RX packets 12  bytes 1020 (1020.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 12  bytes 1020 (1020.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</code></pre><h2 id="执行ifconfig无输出"><a href="#执行ifconfig无输出" class="headerlink" title="执行ifconfig无输出"></a>执行ifconfig无输出</h2><p>检查 /sbin/ifconfig            </p>
+<p>通常情况下，ifconfig如果有显示，但没有某一项的信息（比如识别不到网卡）时，可以先检查/etc/sysconfig/network-scripts/下的配置文件是否正确<br>ifconfig及/sbin/ifconfig没有任何的输出，因此先检查了下/sbin/ifconfig文件。发现有以下错误：</p>
+<pre><code>[root@localhost ~]# ls -al /sbin/ifconfig
+-rwxr-xr-x. 1 root root 0 May 11 15:53 /sbin/ifconfig
+[root@localhost ~]# file /sbin/ifconfig
+/sbin/ifconfig: empty
+</code></pre><p>简单的解决方案就是从其它服务器内复制一份到当前服务器，再次执行即可</p>
+<h2 id="在CentOS最小化服务器版本中如何查找网卡IP和其它详细信息"><a href="#在CentOS最小化服务器版本中如何查找网卡IP和其它详细信息" class="headerlink" title="在CentOS最小化服务器版本中如何查找网卡IP和其它详细信息"></a>在CentOS最小化服务器版本中如何查找网卡IP和其它详细信息</h2><p>CentOS7最小化系统中，由于没有ifconfig，可以使用”ip addr”和”ip link”命令来查找网卡详情，统计数据可以使用”ip -s link”</p>
+<p>例如要查看网卡信息：</p>
+<pre><code>[root@localhost ~]# ip addr
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 08:00:27:7a:98:80 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.46/24 brd 192.168.1.255 scope global dynamic enp0s3
+       valid_lft 84522sec preferred_lft 84522sec
+    inet6 fe80::a00:27ff:fe7a:9880/64 scope link 
+       valid_lft forever preferred_lft forever
 </code></pre>
       
     </div>
@@ -508,7 +512,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2018/04/19/zabbix-percona-mysql/" title="zabbix采用percona监控mysql主从">http://jasonhzy.github.io/2018/04/19/zabbix-percona-mysql/</a>
+      <a href="http://jasonhzy.github.io/2018/04/12/ifconfig/" title="ifconfig">http://jasonhzy.github.io/2018/04/12/ifconfig/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -524,7 +528,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
       
         <div class="post-tags">
           
-            <a href="/tags/zabbix/" rel="tag"># zabbix</a>
+            <a href="/tags/ifconfig/" rel="tag"># ifconfig</a>
           
         </div>
       
@@ -537,8 +541,8 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/27/docker-lnmp/" rel="next" title="Docker搭建LNMP环境">
-                <i class="fa fa-chevron-left"></i> Docker搭建LNMP环境
+              <a href="/2018/04/11/ubuntu-recovery/" rel="next" title="Ubuntu恢复模式">
+                <i class="fa fa-chevron-left"></i> Ubuntu恢复模式
               </a>
             
           </div>
@@ -546,6 +550,10 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/03/jenkins/" rel="prev" title="持续集成Jenkins">
+                持续集成Jenkins <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -620,7 +628,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -631,7 +639,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -642,7 +650,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -724,7 +732,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装zabbix-agent"><span class="nav-number">1.</span> <span class="nav-text">安装zabbix-agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装PHP"><span class="nav-number">2.</span> <span class="nav-text">安装PHP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装percona-zabbix-templates"><span class="nav-number">3.</span> <span class="nav-text">安装percona-zabbix-templates</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行ifconfig无输出"><span class="nav-number">3.</span> <span class="nav-text">执行ifconfig无输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在CentOS最小化服务器版本中如何查找网卡IP和其它详细信息"><span class="nav-number">4.</span> <span class="nav-text">在CentOS最小化服务器版本中如何查找网卡IP和其它详细信息</span></a></li></ol></div>
             
 
           </div>

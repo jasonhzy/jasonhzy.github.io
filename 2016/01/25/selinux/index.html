@@ -93,21 +93,21 @@
 
 
 
-<meta name="description" content="SELinux 模式 SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中 targeted是较宽松的级别。  Enforcing： 这个缺省模式会在系统上启用并实施 SELinux 的安全性政策，拒绝访问及记录行动 Permissive： 在 Permissive">
+<meta name="description" content="SELinux 简介SELinux 全称是 Secure Enhanced Linux， 是MAC (Mandatory Access Control，强制访问控制系统)的一个实现，目的在于明确的指明某个进程可以访问哪些资源(文件、网络端口等)">
 <meta name="keywords" content="Linux,SELinux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SELinux">
 <meta property="og:url" content="http://jasonhzy.github.io/2016/01/25/selinux/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="SELinux 模式 SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中 targeted是较宽松的级别。  Enforcing： 这个缺省模式会在系统上启用并实施 SELinux 的安全性政策，拒绝访问及记录行动 Permissive： 在 Permissive">
+<meta property="og:description" content="SELinux 简介SELinux 全称是 Secure Enhanced Linux， 是MAC (Mandatory Access Control，强制访问控制系统)的一个实现，目的在于明确的指明某个进程可以访问哪些资源(文件、网络端口等)">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/audit2allow.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/ausearch.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/ausearch-audit2allow.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/sealert.png">
-<meta property="og:updated_time" content="2018-04-17T06:42:23.000Z">
+<meta property="og:updated_time" content="2018-05-10T13:07:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SELinux">
-<meta name="twitter:description" content="SELinux 模式 SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中 targeted是较宽松的级别。  Enforcing： 这个缺省模式会在系统上启用并实施 SELinux 的安全性政策，拒绝访问及记录行动 Permissive： 在 Permissive">
+<meta name="twitter:description" content="SELinux 简介SELinux 全称是 Secure Enhanced Linux， 是MAC (Mandatory Access Control，强制访问控制系统)的一个实现，目的在于明确的指明某个进程可以访问哪些资源(文件、网络端口等)">
 <meta name="twitter:image" content="http://jasonhzy.github.io/images/selinux/audit2allow.png">
 
 
@@ -423,43 +423,77 @@
       
 
       
-        <p>SELinux 模式</p>
-<p>SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中 targeted<br>是较宽松的级别。</p>
+        <h2 id="SELinux-简介"><a href="#SELinux-简介" class="headerlink" title="SELinux 简介"></a>SELinux 简介</h2><p>SELinux 全称是 Secure Enhanced Linux， 是MAC (Mandatory Access Control，强制访问控制系统)的一个实现，目的在于明确的指明某个进程可以访问哪些资源(文件、网络端口等)</p>
+<a id="more"></a>
+<p>MAC 的工作方式：<br>linux 传统的权限管理称为『自主式存取控制 (Discretionary Access Control, DAC)』，基本上就是依据程序的拥有者与文件资源的rwx权限来决定有无存取的能力。为了解决这种单一的权限管理模式，SELinux 导入了委任式存取控制 (Mandatory Access Control, MAC)。<br>MAC 的管理方式大概分为4个模块分别是： </p>
+<ul>
+<li>主体（ sbuject ）：用户或者用户运行的进程，比如/usr/sbin/httpd </li>
+<li>对象 ( object ) ：被主体访问的对象（资源），比如File、Directory、IP、Socket等系统资源；</li>
+<li>政策 ( policy ) ：定义主体读取对象的规则数据库</li>
+<li>安全性上下文（security context）：SELinux 的核心，分为进程安全上下文、文件安全上下文</li>
+</ul>
+<p>简而言之，MAC通过既定的各种政策，将主体（也就是 process）通过安全性文本，与目标进行对比从而最终得出主体对于目标是否有使用权限的方式。 </p>
+<h2 id="SELinux-模式"><a href="#SELinux-模式" class="headerlink" title="SELinux 模式"></a>SELinux 模式</h2><p>SELinux 拥有三个基本的操作模式，当中 Enforcing 是缺省的模式。此外，它还有一个 targeted 或 mls 的修饰语。这管制 SELinux 规则的应用有多广泛，当中targeted是较宽松的级别。</p>
 <ul>
 <li>Enforcing： 这个缺省模式会在系统上启用并实施 SELinux 的安全性政策，拒绝访问及记录行动</li>
 <li>Permissive： 在 Permissive 模式下，SELinux 会被启用但不会实施安全性政策，而只会发出警告及记录行动。Permissive 模式在排除 SELinux 的问题时很有用</li>
 <li>Disabled： SELinux 已被停用</li>
 </ul>
-<a id="more"></a>
-<h3 id="1-sestatus-v"><a href="#1-sestatus-v" class="headerlink" title="1.sestatus -v"></a>1.sestatus -v</h3><pre><code># sestatus
+<h2 id="安全性上下文"><a href="#安全性上下文" class="headerlink" title="安全性上下文"></a>安全性上下文</h2><p>SELinux 系统中的进程和文件都标记了 SELinux 的上下文，这个上下文包含了许多有用的信息，包括SELinux用户(不同于Linux系统的用户)、角色(Role)、类型(Type)和级别(Security Level)等。<br>SELinux 上下文广泛使用在 进程、Linux用户、文件中</p>
+<pre><code>ls -Z [file|dir] #查看文件或目录的SELinux上下文信息
+ps -eZ    #查看进程上下文信息
+id -Z     #查看Linux系统用户相关的SELinux上下文信息
+</code></pre><p>SELinux 上下文的组成：</p>
+<pre><code>user:role:type:level
+
+$ ls -Z
+drwxr-xr-x. root root system_u:object_r:httpd_sys_content_t:s0 .
+drwxr-xr-x. root root system_u:object_r:var_t:s0               ..
+drwxr-xr-x. root root system_u:object_r:httpd_sys_content_t:s0 html
+drwxr-xr-x. root root unconfined_u:object_r:svirt_sandbox_file_t:s0 jenkins
+drwxr-xr-x. root root system_u:object_r:httpd_sys_content_t:s0 project
+</code></pre><p>user：用户区域，指的是selinux环境下的用户，可用semanage login -l 查看SELinux 用户与 Linux 用户之间的映射关系<br>role：通过角色可以决定 SELinux 用户可以访问哪些域，而最终决定了SELinux 用户可以访问哪些对象类型。通过这种机制可以降低权限提升的风险<br>type：类型是类型强制(Type Enforcement)机制的一个属性，也是 TE 机制在 SELinux 中的实现，为进程定义了域，为文件定义了类型<br>level：控制级别，Multi-Category Security(MCS)    </p>
+<h2 id="启用-禁用SELinux"><a href="#启用-禁用SELinux" class="headerlink" title="启用/禁用SELinux"></a>启用/禁用SELinux</h2><p>查看SELinux是否开启     </p>
+<pre><code>$ sestatus -v
 SELinux status:                 enabled
 SELinuxfs mount:                /selinux
 Current mode:                   enforcing
 Mode from config file:          enforcing
 Policy version:                 21
 Policy from config file:        targeted
-</code></pre><p>如果SELinux status参数为enabled即为开启状态<br>临时关闭（不用重启机器）：<br>setenforce 0  #设置SELinux 成为permissive模式， setenforce 1 设置SELinux 成为enforcing模式</p>
-<h3 id="2-修改配置文件需要重启机器"><a href="#2-修改配置文件需要重启机器" class="headerlink" title="2.修改配置文件需要重启机器"></a>2.修改配置文件需要重启机器</h3><p>修改/etc/selinux/config 文件<br>将SELINUX=enforcing改为SELINUX=disabled<br>重启机器即可</p>
-<h3 id="3-日志文件"><a href="#3-日志文件" class="headerlink" title="3.日志文件"></a>3.日志文件</h3><p>默认情况下，SELinux的日志信息是由Linux审计系统auditd写在 /var/log/audit/audit.log里<br>autitd守护进程未启动，则写在/var/log/messages里</p>
-<p>例如：配置redis，修改默认端口为5000，启动时日志文件/var/log/messages出现的信息：</p>
+</code></pre><p>如果SELinux status参数为enabled即为开启状态</p>
+<p>关闭SELinux</p>
+<p>1) 永久关闭，修改/etc/selinux/config文件，之后重启机器即可</p>
+<pre><code>SELINUX=disabled
+</code></pre><p>2) 临时关闭（不用重启机器）：</p>
+<pre><code>setenforce 0  #设置SELinux 成为permissive模式， 
+setenforce 1 设置SELinux 成为enforcing模式
+</code></pre><h2 id="日志分析与故障排除"><a href="#日志分析与故障排除" class="headerlink" title="日志分析与故障排除"></a>日志分析与故障排除</h2><p>默认情况下，SELinux的日志信息是由Linux审计系统auditd写在 /var/log/audit/audit.log里<br>autitd守护进程未启动，则写在/var/log/messages里</p>
+<p>如果auditd.service未启动（selinux已开启的情况下），查看/var/log/message:</p>
+<pre><code>May 10 19:44:09 localhost kernel: audit: type=1400 audit(1525952649.863:10): avc:  denied  { read } for  pid=615 comm=&quot;auditd&quot; 
+name=&quot;ld.so.cache&quot; dev=&quot;dm-0&quot; ino=8488256 scontext=system_u:system_r:auditd_t:s0 tcontext=system_u:object_r:unlabeled_t:s0 tclass=file permissive=1
+</code></pre><p>此时启动出错可采用如下方式解决，即：</p>
+<pre><code>semanage permissive -a auditd_t 
+</code></pre><p>例如：配置redis，修改默认端口为5000，启动时日志文件/var/log/messages出现的信息：</p>
 <pre><code>type=AVC msg=audit(1511937910.858:596): avc:  denied  { name_bind } for pid=17835 
 comm=&quot;redis-server&quot; src=5000 scontext=system_u:system_r:redis_t:s0 
 tcontext=system_u:object_r:commplex_main_port_t:s0 tclass=tcp_socket
 </code></pre><p>audit2allow -w -a 查看详细的信息</p>
 <p><img src="/images/selinux/audit2allow.png" alt="audit2allow"><br><img src="/images/selinux/ausearch.png" alt="ausearch">    </p>
-<h3 id="4-利用-audit2allow-创建自定-SELinux-政策模块"><a href="#4-利用-audit2allow-创建自定-SELinux-政策模块" class="headerlink" title="4.利用 audit2allow 创建自定 SELinux 政策模块"></a>4.利用 audit2allow 创建自定 SELinux 政策模块</h3><pre><code>grep redis /var/log/audit/audit.log | audit2allow -M redis
+<h3 id="利用-audit2allow-创建自定-SELinux-政策模块"><a href="#利用-audit2allow-创建自定-SELinux-政策模块" class="headerlink" title="利用 audit2allow 创建自定 SELinux 政策模块"></a>利用 audit2allow 创建自定 SELinux 政策模块</h3><pre><code>grep redis /var/log/audit/audit.log | audit2allow -M redis
 或者
 ausearch -m AVC | audit2allow -a -M redis(名称自定义)
 </code></pre><p><img src="/images/selinux/ausearch-audit2allow.png" alt="ausearch-audit2allow">    </p>
-<h3 id="5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><a href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内" class="headerlink" title="5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内"></a>5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</h3><pre><code>semodule -i redis.pp
+<h3 id="5-利用-semodule-这个指令将拒绝的政策模块装入现有的-SELinux-政策内"><a href="#5-利用-semodule-这个指令将拒绝的政策模块装入现有的-SELinux-政策内" class="headerlink" title="5.利用 semodule 这个指令将拒绝的政策模块装入现有的 SELinux 政策内"></a>5.利用 semodule 这个指令将拒绝的政策模块装入现有的 SELinux 政策内</h3><pre><code>semodule -i redis.pp
 </code></pre><p>也可以使用sealert    来解决问题(需要安装yum install setroubleshoot)</p>
 <p><img src="/images/selinux/sealert.png" alt="sealert">        </p>
-<h3 id="6-查看支持的端口"><a href="#6-查看支持的端口" class="headerlink" title="6.查看支持的端口"></a>6.查看支持的端口</h3><pre><code>semanage port -l | grep redis        
+<h3 id="查看支持的端口"><a href="#查看支持的端口" class="headerlink" title="查看支持的端口"></a>查看支持的端口</h3><pre><code>semanage port -l | grep redis        
 
 例如：
 [root@localhost ~]# semanage port -l | grep redis
-redis_port_t           tcp      6379, 16379, 26379
-</code></pre>
+redis_port_t    tcp      6379, 16379, 26379
+</code></pre><h3 id="SELinux相关的工具"><a href="#SELinux相关的工具" class="headerlink" title="SELinux相关的工具"></a>SELinux相关的工具</h3><p>policycoreutils：提供与 SELinux 相关的命令，比如 restorecon, secon, setfiles, semodule , load_policy 和 setsebool 来操作和管理 SELinux。<br>policycoreutils-python：提供命令比如 semanage, audit2allow, audit2why和chcat来管理和操作SELinux。<br>setroubleshoot-server：翻译 SELinux 的拒绝操作体质信息，为 sealert 工具提供可以查看的、可读性好的信息。<br>setools/setools-console/setools-gui：这些安装包提供了与 SELinux 相关的策略分析、检索、日志审计与监控、文件上下文管理管理的相关工具。setools是元工具，setools-gui提供了 apol, seaudit 工具；setool-console 则提供了 sechecker, sediff, seinfo, sesearch, 和 findcon 等命令行工具。<br>mcstrans：提供对 SELinux 上文中的级别（比如 s0-s0:c0.c1023）翻译的工具。<br>libselinux-utils：提供 avcstat, getenforce, getsebool, matchpathcon, selinuxconlist, selinuxdefcon, selinuxenabled, 和 setenforce 工具。</p>
+
       
     </div>
 
@@ -626,7 +660,7 @@ redis_port_t           tcp      6379, 16379, 26379
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -637,7 +671,7 @@ redis_port_t           tcp      6379, 16379, 26379
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -648,7 +682,7 @@ redis_port_t           tcp      6379, 16379, 26379
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -730,7 +764,7 @@ redis_port_t           tcp      6379, 16379, 26379
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-sestatus-v"><span class="nav-number">1.</span> <span class="nav-text">1.sestatus -v</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改配置文件需要重启机器"><span class="nav-number">2.</span> <span class="nav-text">2.修改配置文件需要重启机器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-日志文件"><span class="nav-number">3.</span> <span class="nav-text">3.日志文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-利用-audit2allow-创建自定-SELinux-政策模块"><span class="nav-number">4.</span> <span class="nav-text">4.利用 audit2allow 创建自定 SELinux 政策模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-利用-semodule-这个指令将httpd政策模块装入现有的-SELinux-政策内"><span class="nav-number">5.</span> <span class="nav-text">5.利用 semodule 这个指令将httpd政策模块装入现有的 SELinux 政策内</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-查看支持的端口"><span class="nav-number">6.</span> <span class="nav-text">6.查看支持的端口</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SELinux-简介"><span class="nav-number">1.</span> <span class="nav-text">SELinux 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SELinux-模式"><span class="nav-number">2.</span> <span class="nav-text">SELinux 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全性上下文"><span class="nav-number">3.</span> <span class="nav-text">安全性上下文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用-禁用SELinux"><span class="nav-number">4.</span> <span class="nav-text">启用/禁用SELinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志分析与故障排除"><span class="nav-number">5.</span> <span class="nav-text">日志分析与故障排除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用-audit2allow-创建自定-SELinux-政策模块"><span class="nav-number">5.1.</span> <span class="nav-text">利用 audit2allow 创建自定 SELinux 政策模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-利用-semodule-这个指令将拒绝的政策模块装入现有的-SELinux-政策内"><span class="nav-number">5.2.</span> <span class="nav-text">5.利用 semodule 这个指令将拒绝的政策模块装入现有的 SELinux 政策内</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看支持的端口"><span class="nav-number">5.3.</span> <span class="nav-text">查看支持的端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELinux相关的工具"><span class="nav-number">5.4.</span> <span class="nav-text">SELinux相关的工具</span></a></li></ol></li></ol></div>
             
 
           </div>
