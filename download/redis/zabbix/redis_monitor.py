@@ -6,8 +6,8 @@
 # -------------------------------------------------------------------------------
 import os, sys, json
 
-redis_cli = "/root/redis/redis-4.0.2/src/redis-cli"
-passwd = "beecloud"
+redis_cli = "/etc/redis/redis-4.0.2/src/redis-cli"
+passwd = "123456"
 stderror = "2>/dev/null"
 
 
@@ -15,10 +15,10 @@ stderror = "2>/dev/null"
 def get_port():
     if sys.argv[2] == 'redis':
         key = '{#REDISPORT}'
-        t = os.popen("ps -ef | grep redis-server | grep -v grep | awk -F'0.0.0.0:' '{print $2}'")
+        t = os.popen("netstat -nltp|awk -F: '/redis-server/&&/LISTEN/{print $2}'|awk '{print $1}'| grep -v grep | grep -v '^$'")
     elif sys.argv[2] == 'sentinel':
         key = '{#SENTINELPORT}'
-        t = os.popen("ps -ef | grep redis-sentinel | grep -v grep | awk -F'0.0.0.0:' '{print $2}' | cut -d' ' -f1")
+        t = os.popen("netstat -nltp|awk -F: '/redis-sentinel/&&/LISTEN/{print $2}'|awk '{print $1}'| grep -v grep | grep -v '^$'")
 
     ports = []
     for port in t.readlines():
@@ -32,16 +32,7 @@ def get_ping():
     return os.popen(redis_cli + " -h localhost -p " + sys.argv[2] + " -a " + passwd + " ping " + stderror + " | grep -c PONG").read().strip()
 
 def get_info():
-    #used_memory / maxmemory => ratio
-    if sys.argv[2] == "used_memory_ratio":
-        used_memory = os.popen(redis_cli + " -h localhost -p " + sys.argv[3] + " -a " + passwd + " info " + stderror + " | grep -w used_memory | cut -d: -f2").read().strip()
-        maxmemory = os.popen(redis_cli + " -h localhost -p " + sys.argv[3] + " -a " + passwd + " info " + stderror + " | grep -w maxmemory | cut -d: -f2").read().strip()
-        #maxmemory = os.popen(redis_cli + " -p " + sys.argv[3] + " -a " + passwd + " CONFIG GET maxmemory | tail -n1").read().strip()
-        r = 0
-        if maxmemory > 0:
-            r = round(int(used_memory) / int(maxmemory) * 100, 2)
-    else:
-        r = os.popen(redis_cli + " -h localhost -p " + sys.argv[3] + " -a " + passwd + " info " + stderror + " | grep -w " + sys.argv[2] + " | cut -d: -f2").read().strip()
+    r = os.popen(redis_cli + " -h localhost -p " + sys.argv[3] + " -a " + passwd + " info " + stderror + " | grep -w " + sys.argv[2] + " | cut -d: -f2").read().strip()
     if r == "" and (sys.argv[2] not in ["role"]):
         return 0
     return r
@@ -54,23 +45,16 @@ def get_sentinel_info():
     if sys.argv[2] == "cluster_name":
         return os.popen(redis_cli + " -h localhost -p " + sys.argv[3] + " info " + stderror + " | grep ^master0:name | sed 's/^.*:name=//' | sed 's/,status=.*$//'").read().strip()
     elif sys.argv[2] == "slaves_num":
-        r = os.popen(redis_cli + " -h localhost -p " + sys.argv[3] + " info " + stderror + " | grep ^master0:name | sed 's/^.*slaves=//'|sed 's/,sentinels=.*$//'").read().strip()
+        command = redis_cli + " -h localhost -p " + sys.argv[3] + " info " + stderror + " | grep ^master0:name | sed 's/^.*slaves=//'|sed 's/,sentinels=.*$//'"
     elif sys.argv[2] == "sentinels_num":
-        r = os.popen(redis_cli + " -h localhost -p " + sys.argv[3] + " info " + stderror + " | grep ^master0:name | sed 's/^.*sentinels=//'").read().strip()
+        command = redis_cli + " -h localhost -p " + sys.argv[3] + " info " + stderror + " | grep ^master0:name | sed 's/^.*sentinels=//'"
     else:
-        r = os.popen(redis_cli + " -h localhost -p " + sys.argv[3] + " info " + stderror + " | grep -w " + sys.argv[2] + " | cut -d: -f2").read().strip()
+        command = redis_cli + " -h localhost -p " + sys.argv[3] + " info " + stderror + " | grep -w " + sys.argv[2] + " | cut -d: -f2"
+
+    r = os.popen(command).read().strip()
     if r == "" and (sys.argv[2] not in ["redis_mode"]):
         return 0
     return r
-
-# write log file
-def logs(conent, result="", file="/tmp/xx"):
-    fsock = open(file, "a")
-    fsock.write(conent)
-    fsock.write("\n")
-    fsock.write(result)
-    fsock.write("\n")
-    fsock.close()
 
 #zabbix items for redis
 if sys.argv[1] == 'discovery':

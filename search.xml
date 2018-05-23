@@ -4,6 +4,364 @@
   
     
     <entry>
+      <title><![CDATA[zabbix监控nginx]]></title>
+      <url>http://jasonhzy.github.io/2018/05/15/zabbix-nginx/</url>
+      <content type="html"><![CDATA[<p>nginx和php-fpm一样内建了一个状态页，利用状态页得到的各项参数，使用zabbix实现对nginx状态监控</p>
+<a id="more"></a>
+<h2 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h2><p>在配置的server内添加location</p>
+<pre><code>location /status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+}
+</code></pre><p>需要安装插件http_stub_status_module，编译安装即：</p>
+<pre><code>./configure --with-http_stub_status_module 
+</code></pre><h2 id="nginx-status数值的含义说明"><a href="#nginx-status数值的含义说明" class="headerlink" title="nginx status数值的含义说明"></a>nginx status数值的含义说明</h2><style>
+    table th:first-of-type {
+        width: 20%;
+    }
+</style>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Active connections</td>
+<td>当前的活动连接数，包含处于等待状态的连接</td>
+</tr>
+<tr>
+<td>accepts</td>
+<td>接收到的客户端发来的连接数</td>
+</tr>
+<tr>
+<td>handled</td>
+<td>已经处理完成的连接数，一般情况下它和accepts值相同，如果不同说明nginx性能出现瓶颈</td>
+</tr>
+<tr>
+<td>requests</td>
+<td>客户端请求总数</td>
+</tr>
+<tr>
+<td>reading</td>
+<td>正在读取请求头信息的连接数</td>
+</tr>
+<tr>
+<td>writing</td>
+<td>正在发送响应报文的连接数</td>
+</tr>
+<tr>
+<td>waiting</td>
+<td>处于闲置状态正等待客户端发送请求的连接数</td>
+</tr>
+</tbody>
+</table>
+<p>浏览器或者curl指令查看nginx status:</p>
+<pre><code>[root@localhost ~]# curl http://localhost/status
+Active connections: 1 
+server accepts handled requests
+ 201 201 1630 
+Reading: 0 Writing: 1 Waiting: 0
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> nginx </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> nginx </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[zabbix监控php-fpm]]></title>
+      <url>http://jasonhzy.github.io/2018/05/13/zabbix-phpfpm/</url>
+      <content type="html"><![CDATA[<p>通过启用php-fpm的status页面，使用zabbix来获取各数据参数以达到监控php-fpm性能状态</p>
+<a id="more"></a>
+<h2 id="php-fpm配置"><a href="#php-fpm配置" class="headerlink" title="php-fpm配置"></a>php-fpm配置</h2><p>配置文件php-fpm.conf</p>
+<pre><code>pm.status_path = /fpmstatus
+ping.path = /fpmping
+ping.response = pong
+</code></pre><h2 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h2><p>在配置的server内添加location</p>
+<pre><code>location ~ ^/(fpmstatus|fpmping) {    
+     fastcgi_pass 127.0.0.1:9000;
+     include fastcgi.conf;
+     access_log off;
+     allow 127.0.0.1;
+     deny all;
+}  
+</code></pre><h2 id="php-fpm-status的含义"><a href="#php-fpm-status的含义" class="headerlink" title="php-fpm status的含义"></a>php-fpm status的含义</h2><style>
+    table th:first-of-type {
+        width: 20%;
+    }
+</style>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pool</td>
+<td>php-fpm pool的名称，大多数情况下为www</td>
+</tr>
+<tr>
+<td>process manager</td>
+<td>进程管理方式，现今大多都为dynamic，不要使用static</td>
+</tr>
+<tr>
+<td>start time</td>
+<td>启动时间</td>
+</tr>
+<tr>
+<td>start since</td>
+<td>运行时长，单位秒</td>
+</tr>
+<tr>
+<td>accepted conn</td>
+<td>pool接收到的请求数</td>
+</tr>
+<tr>
+<td>listen queue</td>
+<td>请求等待的连接数，如果不为0，需要增加php-fpm进程数</td>
+</tr>
+<tr>
+<td>max listen queue</td>
+<td>从启动到现在处于等待连接的最大数量</td>
+</tr>
+<tr>
+<td>listen queue len</td>
+<td>socket等待队列长度</td>
+</tr>
+<tr>
+<td>idle processes</td>
+<td>空闲进程数</td>
+</tr>
+<tr>
+<td>active processes</td>
+<td>活跃进程数</td>
+</tr>
+<tr>
+<td>total processess</td>
+<td>进程总数</td>
+</tr>
+<tr>
+<td>max active process</td>
+<td>从php-fpm启动到现在最大的活跃进程数</td>
+</tr>
+<tr>
+<td>max children reached</td>
+<td>当pm试图启动更多的children进程时，却达到了进程数的限制，达到一次记录一次，如果不为0，需要增加php-fpm pool进程的最大数</td>
+</tr>
+<tr>
+<td>slow requests</td>
+<td>当启用了php-fpm slow-log功能时，如果出现php-fpm慢请求这个计数器会增加，一般不当的Mysql查询会触发这个值</td>
+</tr>
+</tbody>
+</table>
+<p>php-fpm状态页可以通过带参数实现个性化，可以带参数json、xml、html、full，并且前三个参数可分别和full组合，即：</p>
+<pre><code>#单个参数访问，如：
+curl http://localhost/fpmstatus
+curl http://localhost/fpmstatus?json
+curl http://localhost/fpmstatus?xml
+curl http://localhost/fpmstatus?html
+curl http://localhost/fpmstatus?full
+#组合形式，如：
+curl http://localhost/fpmstatus?html&amp;full
+</code></pre><p>full详解: </p>
+<pre><code>pid – 进程PID，可以单独kill这个进程
+state – 当前进程的状态 (Idle, Running, …)
+start time – 进程启动的日期
+start since – 当前进程运行时长
+requests – 当前进程处理了多少个请求
+request duration – 请求时长（单位微妙）
+request method – 请求方法 (GET, POST, …)
+request URI – 请求URI
+content length – 请求内容长度 (仅用于 POST)
+user – 用户 (PHP_AUTH_USER) (如果没设置为‘-’)
+script – PHP脚本 (如果没设置为‘-’)
+last request cpu – 最后一个请求CPU使用率。
+last request memory － 最后一个请求使用的内存    
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> php-fpm </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> php-fpm </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[zabbix自动发现规则监控redis（主从哨兵）]]></title>
+      <url>http://jasonhzy.github.io/2018/05/12/zabbix-redis/</url>
+      <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Zabbix是一个企业级的分布式开源监控方案。能够监控各种网络参数以及服务器健康性和完整性。支持灵活的通知机制，提供出色的报告和数据可视化功能</p>
+<a id="more"></a>
+<h2 id="Zabbix组成"><a href="#Zabbix组成" class="headerlink" title="Zabbix组成"></a>Zabbix组成</h2><ul>
+<li>服务端server：核心组件，agent可以向它报告可用性和完整性信息和统计数据。该server所有的配置，数据和业务数据都存在数据库中</li>
+<li>数据库存储：配置信息和Zabbix收集到的数据都被存储在数据库中，支持MySQL，PostgreSQL</li>
+<li>Web界面：提供了基于Web的访问界面(采用PHP语言编写)</li>
+<li>Proxy代理服务器：proxy可以替server收集性能和可用性的数据。proxy是一个可选择部署的部分，但它可以减轻zabbix server的负载压力</li>
+<li>客户端agent：zabbix agent被部署在监控的目标上，能够主动监控本地的资源和应用程序，并收集到的数据汇报给zabbix server</li>
+</ul>
+<h2 id="Zabbix安装"><a href="#Zabbix安装" class="headerlink" title="Zabbix安装"></a>Zabbix安装</h2><p>请参考<a href="https://www.zabbix.com/download" target="_blank" rel="external">安装文档</a></p>
+<p>环境：centos7系统，MySQL数据库，Zabbix3.4</p>
+<p>192.168.1.60 centos7 zabbix-server<br>192.168.1.49 centos7 zabbix-agent</p>
+<p>1.添加rpm包：</p>
+<pre><code>rpm -i http://repo.zabbix.com/zabbix/3.4/rhel/6/x86_64/zabbix-release-3.4-1.el6.noarch.rpm
+</code></pre><p>2.安装Zabbix server, frontend, agent</p>
+<pre><code>yum install zabbix-server-mysql zabbix-web-mysql zabbix-agent
+</code></pre><p>3.安装数据库Mysql，并导入数据</p>
+<p>1）为zabbix server创建授权用户zabbix</p>
+<pre><code>grant all privileges on zabbix.* to &apos;zabbix&apos;@&apos;localhost&apos; identified by &apos;password&apos;;     
+</code></pre><p>2）导入数据</p>
+<pre><code>#zcat 显示压缩包中文件的内容
+zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p zabbix
+</code></pre><p>3）为zabbix server配置数据库连接信息，修改/etc/zabbix/zabbix_server.conf</p>
+<pre><code>DBName=zabbix
+DBUser=zabbix
+DBPassword=zabbix        
+</code></pre><p>4.为zabbix agent配置，修改/etc/zabbix/zabbix_agentd.conf</p>
+<pre><code>Server=192.168.1.60 #服务端IP
+ServerActive=192.168.1.60 #服务端IP
+Hostname=192.168.1.49  #被监控agent的IP或主机名
+</code></pre><p>5.PHP相关配置</p>
+<p>修改/etc/httpd/conf.d/zabbix.conf</p>
+<pre><code>php_value max_execution_time 300
+php_value memory_limit 128M
+php_value post_max_size 16M
+php_value upload_max_filesize 2M
+php_value max_input_time 300
+php_value always_populate_raw_post_data -1
+php_value date.timezone Asia/Shanghai
+</code></pre><p>或者直接修改php.ini文件</p>
+<h2 id="监控redis"><a href="#监控redis" class="headerlink" title="监控redis"></a>监控redis</h2><h3 id="自动发现脚本"><a href="#自动发现脚本" class="headerlink" title="自动发现脚本"></a>自动发现脚本</h3><p>1）添加自动发现脚本/etc/zabbix/script/redis_monitor.py<br>自动发现脚本的内容即：</p>
+<pre><code>#!/usr/bin/env python
+import os
+import json
+
+t=os.popen(&quot;netstat -nltp|awk -F: &apos;/redis-server/&amp;&amp;/LISTEN/{print $2}&apos;|awk &apos;{print $1}&apos;| grep -v grep | grep -v &apos;^$&apos;&quot;)
+ports = []
+for port in  t.readlines():
+        r = os.path.basename(port.strip())
+        ports += [{&apos;{#REDISPORT}&apos;:r}]
+print json.dumps({&apos;data&apos;:ports}, sort_keys=True, indent=4, separators=(&apos;,&apos;,&apos;:&apos;))
+</code></pre><p>2）添加redis监控的配置文件/etc/zabbix/zabbix_agentd.d/userparameter_redis.conf，内容即：</p>
+<pre><code>[root@localhost ~]# cat  /etc/zabbix/zabbix_agentd.d/userparameter_redis.conf
+UserParameter=redis.discovery[*],/etc/zabbix/scripts/redis_monitor.py discovery $1
+UserParameter=redis.ping[*],/etc/zabbix/scripts/redis_monitor.py ping $1
+UserParameter=redis.item[*],/etc/zabbix/scripts/redis_monitor.py info $1 $2
+UserParameter=sentinel.ping[*], /etc/zabbix/scripts/redis_monitor.py sentinel_ping $1
+UserParameter=sentinel.item[*],/etc/zabbix/scripts/redis_monitor.py sentinel_info $1 $2
+</code></pre><p>获取redis／sentinel服务端口</p>
+<pre><code>/etc/zabbix/scripts/redis_monitor.py discovery redis #获取redis服务端口
+/etc/zabbix/scripts/redis_monitor.py discovery sentinel #获取sentinel服务端口
+</code></pre><p>执行脚本，例如获取redis端口：</p>
+<pre><code>[root@localhost ~]# /etc/zabbix/scripts/redis_monitor.py discovery redis 
+{
+    &quot;data&quot;:[
+        {
+            &quot;{#REDISPORT}&quot;:&quot;6379&quot;
+        }
+    ]
+}    
+</code></pre><h3 id="Zabbix-web内配置"><a href="#Zabbix-web内配置" class="headerlink" title="Zabbix web内配置"></a>Zabbix web内配置</h3><p>1）添加redis模板<br>在zabbix web页面：配置-&gt;模板<br><img src="/images/redis/zabbix/redis-template.png" alt="zabbix redis temp"></p>
+<p>2）添加应用集<br>zabbix web页面：配置-&gt;模板-&gt;redis模板名（点选）-&gt;应用集<br><img src="/images/redis/zabbix/redis-application.png" alt="zabbix redis app"></p>
+<p>3）添加自动发现规则<br>监控列表：<br><img src="/images/redis/zabbix/zabbix-rule-list.png" alt="zabbix redis item list"> </p>
+<p>zabbix web页面：配置-&gt;模板-&gt;redis模板名（点选）-&gt;自动发现规则-&gt;创建发现规则<br><img src="/images/redis/zabbix/redis-rule.png" alt="zabbix redis rule"></p>
+<p>3）添加监控项<br>zabbix web页面：配置-&gt;模板-&gt;redis模板名（点选）-&gt;自动发现规则-&gt;自动发现规则名称（点选）-&gt;监控项原型-&gt;创建监控项<br><img src="/images/redis/zabbix/zabbix-add-item.png" alt="zabbix redis item">  </p>
+<p>检测监控项是否成功，在zabbix server端利用zabbix_get测试：</p>
+<pre><code>[root@localhost ~]# zabbix_get -s 192.168.1.49 -k &apos;redis.item[maxmemory,6379]&apos;
+524288000
+</code></pre><p>注意：<br>(1)、zabbix-get是Zabbix服务端的一个命令，用于检测agent端的配置是否正确，很方便地知道key是否能正常获取到数据<br>如果zabbix-get没有安装，可以进行安装</p>
+<pre><code>yum install zabbix_get -y
+</code></pre><p>(2)、 创建监控项中的”信息类型（Data Type）”，选择合适的数据类型，注意与获取的数据数据类型保持一致。我们在创建图表时采用的监控项数据类型必须是numeric(unsigned/float)   </p>
+<p>4）添加主机<br>在zabbix web页面：配置-&gt;主机<br><img src="/images/redis/zabbix/zabbix-hosts-list.png" alt="zabbix redis hosts list"><br><img src="/images/redis/zabbix/zabbix-hosts.png" alt="zabbix redis add hosts"></p>
+<p>5）为主机添加模板<br>在zabbix web页面：配置-&gt;主机-&gt;选择为此添加模板的主机-&gt;模板选项<br><img src="/images/redis/zabbix/zabbix-add-temp.png" alt="zabbix redis add temp"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1、zabbix server／agent以zabbix或者root用户启动问题</p>
+<p>以zabbix用户启动（推荐）</p>
+<pre><code>zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf #启动客户端agent
+zabbix_server -c /etc/zabbix/zabbix_server.conf #启动服务端
+</code></pre><p>以root用户启动</p>
+<pre><code>systemctl start zabbix_agentd.service
+systemctl start zabbix_server.service
+</code></pre><p>当以root用户启动时，需要设置/etc/zabbix/zabbix_agentd.conf内参数：</p>
+<pre><code>AllowRoot=1    
+</code></pre><p>2、日志文件/var/log/zabbix/zabbix_agentd.log出现如下问题：</p>
+<pre><code>no active checks on server [192.168.1.60:10051]: host [xxxxx] not found
+</code></pre><p>在zabbix web页面Configuration-&gt;Hosts（配置-&gt;主机）页面更改Host name和zabbix_agentd.conf里面的Hostname一样，查看zabbix_agentd.conf文件中的Hostname    </p>
+<pre><code>### Option: Hostname
+#       Unique, case sensitive hostname.
+#       Required for active checks and must match hostname as configured on the server.
+#       Value is acquired from HostnameItem if undefined.
+#
+# Mandatory: no
+# Default:
+# Hostname=
+</code></pre><p>再次重启zabbix-agent服务即可</p>
+<p>4、SELinux配置</p>
+<pre><code>#查询SElinux策略内各项规则的布尔值
+[root@localhost ~]# getsebool -a
+httpd_can_connect_zabbix --&gt; off
+zabbix_can_network --&gt; off
+httpd_can_network_connect_db --&gt; off 
+
+#修改策略
+setsebool -P httpd_can_connect_zabbix on
+setsebool -P zabbix_can_network on
+setsebool -P httpd_can_network_connect_db on
+</code></pre><p>4、zabbix的图表中有些乱码</p>
+<p>寻找windows中的字体源， 上传某一个字体到zabbix服务器中的指定目录/usr/share/zabbix/fonts/，比如字体“楷体 常规”<br>修改/usr/share/zabbix/include/defines.inc.php，将关键字“graphfont”改为“simkai”  </p>
+<pre><code>define(&apos;ZBX_GRAPH_FONT_NAME&apos;,           &apos;graphfont&apos;); // font file name
+define(&apos;ZBX_FONT_NAME&apos;, &apos;graphfont&apos;);
+
+#或命令行替换
+sed -i  &apos;s/graphfont/simkai/g&apos;  /usr/share/zabbix/include/defines.inc.php
+</code></pre><p>5、日志文件/var/log/zabbix/zabbix_server.log出现如下类似的错误，即是获取的数据数据类型和设置监控项的数据类型不匹配导致的</p>
+<pre><code>15714:20180514:075327.276 error reason for &quot;192.168.1.49:redis.item[maxmemory,6379]&quot; changed: Value &quot;/opt/redis/redis-4.0.2/src/redis-cli 
+-h localhost -p 6379 -a 123456 info 2&gt;/dev/null | grep -w maxmemory | cut -d: -f2 
+524288000&quot; of type &quot;string&quot; is not suitable for value type &quot;Numeric (unsigned)&quot;
+</code></pre><p>附录：</p>
+<p>1、<a href="/download/userparameter_redis.conf">redis监控配置文件</a><br>2、<a href="/download/redis_monitor.py">redis监控脚本</a><br>3、<a href="/download/zbx_redis_templates.xml">redis监控模板</a>   </p>
+]]></content>
+      
+        <categories>
+            
+            <category> zabbix </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> zabbix </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[zabbix采用percona监控mysql主从]]></title>
       <url>http://jasonhzy.github.io/2018/05/10/zabbix-percona-mysql/</url>
       <content type="html"><![CDATA[<p>zabbix自带的默认模板template db mysql对mysql的监控相当简单，而percona监控插件对mysql的监控比较全面，但由于是php开发，因此要在agent安装php环境，本文主要介绍使用percona-monitoring-plugins监控mysql。<br><a id="more"></a></p>
@@ -2949,13 +3307,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#115;&#116;&#x61;&#x73;&#104;&#64;&#123;&#110;&#x7d;">&#115;&#116;&#x61;&#x73;&#104;&#64;&#123;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#x73;&#116;&#97;&#115;&#x68;&#64;&#x7b;&#110;&#125;">&#x73;&#116;&#97;&#115;&#x68;&#64;&#x7b;&#110;&#125;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x73;&#116;&#x61;&#115;&#104;&#x40;&#123;&#x6e;&#125;">&#x73;&#116;&#x61;&#115;&#104;&#x40;&#123;&#x6e;&#125;</a>参数，则从该<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x73;&#116;&#97;&#115;&#x68;&#x40;&#x7b;&#x6e;&#x7d;">&#x73;&#116;&#97;&#115;&#x68;&#x40;&#x7b;&#x6e;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x73;&#116;&#97;&#x73;&#x68;&#64;&#123;&#110;&#125;">&#x73;&#116;&#97;&#x73;&#x68;&#64;&#123;&#110;&#125;</a>参数，则从该<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x73;&#116;&#x61;&#x73;&#x68;&#64;&#123;&#x6e;&#125;">&#x73;&#116;&#x61;&#x73;&#x68;&#64;&#123;&#x6e;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
