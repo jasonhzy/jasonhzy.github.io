@@ -67,7 +67,44 @@ Active connections: 1
 server accepts handled requests
  201 201 1630 
 Reading: 0 Writing: 1 Waiting: 0
-</code></pre>]]></content>
+</code></pre><h2 id="监控nginx"><a href="#监控nginx" class="headerlink" title="监控nginx"></a>监控nginx</h2><h3 id="zabbix-agent客户端脚本-etc-zabbix-script-nginx-status-sh"><a href="#zabbix-agent客户端脚本-etc-zabbix-script-nginx-status-sh" class="headerlink" title="zabbix agent客户端脚本 /etc/zabbix/script/nginx_status.sh"></a>zabbix agent客户端脚本 /etc/zabbix/script/nginx_status.sh</h3><pre><code>#!/bin/bash
+
+SERVER=&apos;127.0.0.1:8080&apos;
+
+case $1 in
+  ping)
+    /usr/sbin/pidof nginx | wc -l
+    ;;
+  active)
+    /usr/bin/curl &quot;http://$SERVER/status&quot; 2&gt;/dev/null | grep &apos;Active&apos; | awk &apos;{print $NF}&apos;
+    ;;
+  reading)
+    /usr/bin/curl &quot;http://$SERVER/status&quot; 2&gt;/dev/null | grep &apos;Reading&apos; | awk &apos;{print $2}&apos;
+    ;;
+  writing)
+    /usr/bin/curl &quot;http://$SERVER/status&quot; 2&gt;/dev/null | grep &apos;Writing&apos; | awk &apos;{print $4}&apos;
+    ;;
+  waiting)
+    /usr/bin/curl &quot;http://$SERVER/status&quot; 2&gt;/dev/null | grep &apos;Waiting&apos; | awk &apos;{print $6}&apos;
+    ;;
+  accepts)
+    /usr/bin/curl &quot;http://$SERVER/status&quot; 2&gt;/dev/null | awk NR==3 | awk &apos;{print $1}&apos;
+    ;;
+  handled)
+    /usr/bin/curl &quot;http://$SERVER/status&quot; 2&gt;/dev/null | awk NR==3 | awk &apos;{print $2}&apos;
+    ;;
+  requests)
+    /usr/bin/curl &quot;http://$SERVER/status&quot; 2&gt;/dev/null | awk NR==3 | awk &apos;{print $3}&apos;
+    ;;
+  *)
+   echo &quot;Usage: %0 {active | reading | writing| waiting| accepts | handled | requests}&quot;
+   ;;
+esac
+</code></pre><h3 id="zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf"><a href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf" class="headerlink" title="zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf"></a>zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf</h3><pre><code>#Monitor Nginx status
+UserParameter=nginx.status[*],/etc/zabbix/script/nginx_status.sh $1   
+</code></pre><h3 id="zabbix-web端配置"><a href="#zabbix-web端配置" class="headerlink" title="zabbix web端配置"></a>zabbix web端配置</h3><p>配置请参考 <a href="https://jasonhzy.github.io/2018/05/12/zabbix-redis/">zabbix自动发现规则监控redis（主从哨兵）</a></p>
+<p>下载：<a href="/download/zabbix/nginx/zbx_nginx_templates.xml">nginx监控模板</a>    </p>
+]]></content>
       
         <categories>
             
@@ -196,7 +233,17 @@ user – 用户 (PHP_AUTH_USER) (如果没设置为‘-’)
 script – PHP脚本 (如果没设置为‘-’)
 last request cpu – 最后一个请求CPU使用率。
 last request memory － 最后一个请求使用的内存    
-</code></pre>]]></content>
+</code></pre><h2 id="监控fpm"><a href="#监控fpm" class="headerlink" title="监控fpm"></a>监控fpm</h2><h3 id="zabbix-agent客户端脚本-etc-zabbix-script-phpfpm-status-sh"><a href="#zabbix-agent客户端脚本-etc-zabbix-script-phpfpm-status-sh" class="headerlink" title="zabbix agent客户端脚本 /etc/zabbix/script/phpfpm_status.sh"></a>zabbix agent客户端脚本 /etc/zabbix/script/phpfpm_status.sh</h3><pre><code>#!/bin/bash
+
+SERVER=&apos;127.0.0.1:80&apos;
+
+/usr/bin/curl -s &quot;http://127.0.0.1/fpmstatus?xml&quot; | grep &quot;&lt;$1&gt;&quot; | awk -F&apos;&gt;|&lt;&apos; &apos;{print $3}&apos;
+</code></pre><h3 id="zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-phpfpm-conf"><a href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-phpfpm-conf" class="headerlink" title="zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf"></a>zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf</h3><pre><code>#Monitor php-fpm status
+UserParameter=phpfpm.status[*],/etc/zabbix/script/phpfpm_status.sh $1   
+</code></pre><h3 id="zabbix-web端配置"><a href="#zabbix-web端配置" class="headerlink" title="zabbix web端配置"></a>zabbix web端配置</h3><p>配置请参考 <a href="https://jasonhzy.github.io/2018/05/12/zabbix-redis/">zabbix自动发现规则监控redis（主从哨兵）</a></p>
+<p>下载：<a href="/download/zabbix/php/zbx_phpfpm_templates.xml">phpfpm监控模板</a>  </p>
+<p>docker run –name zabbix-agent -e ZBX_HOSTNAME=”jason-macox” -e ZBX_SERVER_HOST=”192.168.1.60” -e ZBX_SERVER_PORT=10051 -p 10050:10050 -d zabbix/zabbix-agent:centos-3.4-latest  </p>
+]]></content>
       
         <categories>
             
@@ -343,7 +390,7 @@ sed -i  &apos;s/graphfont/simkai/g&apos;  /usr/share/zabbix/include/defines.inc.
 -h localhost -p 6379 -a 123456 info 2&gt;/dev/null | grep -w maxmemory | cut -d: -f2 
 524288000&quot; of type &quot;string&quot; is not suitable for value type &quot;Numeric (unsigned)&quot;
 </code></pre><p>附录：</p>
-<p>1、<a href="/download/userparameter_redis.conf">redis监控配置文件</a><br>2、<a href="/download/redis_monitor.py">redis监控脚本</a><br>3、<a href="/download/zbx_redis_templates.xml">redis监控模板</a>   </p>
+<p>1、<a href="/download/zabbix/redis/userparameter_redis.conf">redis监控配置文件</a><br>2、<a href="/download/zabbix/redis/redis_monitor.py">redis监控脚本</a><br>3、<a href="/download/zabbix/redis/zbx_redis_templates.xml">redis监控模板</a>   </p>
 ]]></content>
       
         <categories>
@@ -3307,13 +3354,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#x74;&#x61;&#x73;&#x68;&#64;&#x7b;&#x6e;&#x7d;">&#115;&#x74;&#x61;&#x73;&#x68;&#64;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#115;&#116;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;">&#115;&#116;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x73;&#x74;&#97;&#115;&#104;&#64;&#123;&#x6e;&#125;">&#x73;&#x74;&#97;&#115;&#104;&#64;&#123;&#x6e;&#125;</a>参数，则从该<a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#58;&#115;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#x6e;&#125;">&#115;&#x74;&#97;&#115;&#104;&#64;&#x7b;&#x6e;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#115;&#116;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;">&#115;&#116;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;</a>参数，则从该<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#115;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;">&#115;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>

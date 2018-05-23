@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/zabbix/zabbix-hosts-list.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/zabbix/zabbix-hosts.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/zabbix/zabbix-add-temp.png">
-<meta property="og:updated_time" content="2018-05-22T13:06:52.000Z">
+<meta property="og:updated_time" content="2018-05-23T08:47:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix自动发现规则监控redis（主从哨兵）">
 <meta name="twitter:description" content="简介Zabbix是一个企业级的分布式开源监控方案。能够监控各种网络参数以及服务器健康性和完整性。支持灵活的通知机制，提供出色的报告和数据可视化功能">
@@ -554,7 +554,7 @@ sed -i  &apos;s/graphfont/simkai/g&apos;  /usr/share/zabbix/include/defines.inc.
 -h localhost -p 6379 -a 123456 info 2&gt;/dev/null | grep -w maxmemory | cut -d: -f2 
 524288000&quot; of type &quot;string&quot; is not suitable for value type &quot;Numeric (unsigned)&quot;
 </code></pre><p>附录：</p>
-<p>1、<a href="/download/userparameter_redis.conf">redis监控配置文件</a><br>2、<a href="/download/redis_monitor.py">redis监控脚本</a><br>3、<a href="/download/zbx_redis_templates.xml">redis监控模板</a>   </p>
+<p>1、<a href="/download/zabbix/redis/userparameter_redis.conf">redis监控配置文件</a><br>2、<a href="/download/zabbix/redis/redis_monitor.py">redis监控脚本</a><br>3、<a href="/download/zabbix/redis/zbx_redis_templates.xml">redis监控模板</a>   </p>
 
       
     </div>
