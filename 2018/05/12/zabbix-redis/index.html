@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/zabbix/zabbix-hosts-list.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/zabbix/zabbix-hosts.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/zabbix/zabbix-add-temp.png">
-<meta property="og:updated_time" content="2018-05-23T08:47:47.000Z">
+<meta property="og:updated_time" content="2018-05-24T01:29:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix自动发现规则监控redis（主从哨兵）">
 <meta name="twitter:description" content="简介Zabbix是一个企业级的分布式开源监控方案。能够监控各种网络参数以及服务器健康性和完整性。支持灵活的通知机制，提供出色的报告和数据可视化功能">
@@ -505,9 +505,9 @@ UserParameter=sentinel.item[*],/etc/zabbix/scripts/redis_monitor.py sentinel_inf
 <p>检测监控项是否成功，在zabbix server端利用zabbix_get测试：</p>
 <pre><code>[root@localhost ~]# zabbix_get -s 192.168.1.49 -k &apos;redis.item[maxmemory,6379]&apos;
 524288000
-</code></pre><p>注意：<br>(1)、zabbix-get是Zabbix服务端的一个命令，用于检测agent端的配置是否正确，很方便地知道key是否能正常获取到数据<br>如果zabbix-get没有安装，可以进行安装</p>
+</code></pre><p>注意：<br>(1)、默认管理账号：Admin／zabbix<br>(2)、zabbix-get是Zabbix服务端的一个命令，用于检测agent端的配置是否正确，很方便地知道key是否能正常获取到数据<br>如果zabbix-get没有安装，可以进行安装</p>
 <pre><code>yum install zabbix_get -y
-</code></pre><p>(2)、 创建监控项中的”信息类型（Data Type）”，选择合适的数据类型，注意与获取的数据数据类型保持一致。我们在创建图表时采用的监控项数据类型必须是numeric(unsigned/float)   </p>
+</code></pre><p>(3)、 创建监控项中的”信息类型（Data Type）”，选择合适的数据类型，注意与获取的数据数据类型保持一致。我们在创建图表时采用的监控项数据类型必须是numeric(unsigned/float)   </p>
 <p>4）添加主机<br>在zabbix web页面：配置-&gt;主机<br><img src="/images/redis/zabbix/zabbix-hosts-list.png" alt="zabbix redis hosts list"><br><img src="/images/redis/zabbix/zabbix-hosts.png" alt="zabbix redis add hosts"></p>
 <p>5）为主机添加模板<br>在zabbix web页面：配置-&gt;主机-&gt;选择为此添加模板的主机-&gt;模板选项<br><img src="/images/redis/zabbix/zabbix-add-temp.png" alt="zabbix redis add temp"></p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1、zabbix server／agent以zabbix或者root用户启动问题</p>

@@ -103,7 +103,7 @@ esac
 </code></pre><h3 id="zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf"><a href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf" class="headerlink" title="zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf"></a>zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf</h3><pre><code>#Monitor Nginx status
 UserParameter=nginx.status[*],/etc/zabbix/script/nginx_status.sh $1   
 </code></pre><h3 id="zabbix-web端配置"><a href="#zabbix-web端配置" class="headerlink" title="zabbix web端配置"></a>zabbix web端配置</h3><p>配置请参考 <a href="https://jasonhzy.github.io/2018/05/12/zabbix-redis/">zabbix自动发现规则监控redis（主从哨兵）</a></p>
-<p>下载：<a href="/download/zabbix/nginx/zbx_nginx_templates.xml">nginx监控模板</a>    </p>
+<p>下载：<a href="/download/zabbix/nginx/zbx_nginx_templates.xml">nginx监控模板</a> </p>
 ]]></content>
       
         <categories>
@@ -341,9 +341,9 @@ UserParameter=sentinel.item[*],/etc/zabbix/scripts/redis_monitor.py sentinel_inf
 <p>检测监控项是否成功，在zabbix server端利用zabbix_get测试：</p>
 <pre><code>[root@localhost ~]# zabbix_get -s 192.168.1.49 -k &apos;redis.item[maxmemory,6379]&apos;
 524288000
-</code></pre><p>注意：<br>(1)、zabbix-get是Zabbix服务端的一个命令，用于检测agent端的配置是否正确，很方便地知道key是否能正常获取到数据<br>如果zabbix-get没有安装，可以进行安装</p>
+</code></pre><p>注意：<br>(1)、默认管理账号：Admin／zabbix<br>(2)、zabbix-get是Zabbix服务端的一个命令，用于检测agent端的配置是否正确，很方便地知道key是否能正常获取到数据<br>如果zabbix-get没有安装，可以进行安装</p>
 <pre><code>yum install zabbix_get -y
-</code></pre><p>(2)、 创建监控项中的”信息类型（Data Type）”，选择合适的数据类型，注意与获取的数据数据类型保持一致。我们在创建图表时采用的监控项数据类型必须是numeric(unsigned/float)   </p>
+</code></pre><p>(3)、 创建监控项中的”信息类型（Data Type）”，选择合适的数据类型，注意与获取的数据数据类型保持一致。我们在创建图表时采用的监控项数据类型必须是numeric(unsigned/float)   </p>
 <p>4）添加主机<br>在zabbix web页面：配置-&gt;主机<br><img src="/images/redis/zabbix/zabbix-hosts-list.png" alt="zabbix redis hosts list"><br><img src="/images/redis/zabbix/zabbix-hosts.png" alt="zabbix redis add hosts"></p>
 <p>5）为主机添加模板<br>在zabbix web页面：配置-&gt;主机-&gt;选择为此添加模板的主机-&gt;模板选项<br><img src="/images/redis/zabbix/zabbix-add-temp.png" alt="zabbix redis add temp"></p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1、zabbix server／agent以zabbix或者root用户启动问题</p>
@@ -3354,13 +3354,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#115;&#116;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;">&#115;&#116;&#x61;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#58;&#x73;&#116;&#97;&#x73;&#104;&#x40;&#123;&#x6e;&#x7d;">&#x73;&#116;&#97;&#x73;&#104;&#x40;&#123;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#115;&#116;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;">&#115;&#116;&#x61;&#115;&#x68;&#x40;&#x7b;&#x6e;&#125;</a>参数，则从该<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#115;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;">&#115;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#110;&#x7d;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#116;&#97;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;">&#x73;&#116;&#97;&#x73;&#x68;&#x40;&#x7b;&#x6e;&#x7d;</a>参数，则从该<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#115;&#116;&#97;&#x73;&#x68;&#64;&#123;&#110;&#x7d;">&#115;&#116;&#97;&#x73;&#x68;&#64;&#123;&#110;&#x7d;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
@@ -4869,8 +4869,17 @@ git config --global user.email &quot;lotush@163.com&quot;
 <pre><code>git clone -b jason https://github.com/PinetTech/pinet-wechat.git
 </code></pre><h3 id="添加文件到缓冲区"><a href="#添加文件到缓冲区" class="headerlink" title="添加文件到缓冲区"></a>添加文件到缓冲区</h3><pre><code>git add &lt;filename&gt;或者git add *
 </code></pre><h3 id="提交文件"><a href="#提交文件" class="headerlink" title="提交文件"></a>提交文件</h3><pre><code>git commit -m &quot;代码提交信息&quot;
-</code></pre><p>对于已经修改提交过的注释，如果需要修改</p>
+</code></pre><p>对于当前已经提交过的信息，如需要修改，可执行：</p>
 <pre><code>git commit --amend
+</code></pre><p>对于当前已经提交过作者信息，如需要修改，可执行：</p>
+<pre><code>git commit --amend --author=&quot;newName &lt;newEmail&gt;&quot;        
+</code></pre><p>修改整个历史记录中的某些错误的author、email的方式： git rebase        </p>
+<pre><code># git rebase  模式
+git rebase -i -p a990e4e63c9e2dc19396efc51b693c314f3384d4 
+# 弹出编辑器，在需要修改的 commit 处 由 picked 改变为 edit ，然后 wq 退出 vim；
+git commit --amend --author &apos;newName &lt;newEmail&gt;&apos;
+# 执行后即变更了相应的 author 和 email 
+git rebase --continue 
 </code></pre><h3 id="你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库"><a href="#你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库" class="headerlink" title="你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库"></a>你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库</h3><pre><code>git push origin &lt;branchName&gt;
 </code></pre><h3 id="可以把-master-换成想要推送的任何分支，创建分支并切换过去"><a href="#可以把-master-换成想要推送的任何分支，创建分支并切换过去" class="headerlink" title="可以把 master 换成想要推送的任何分支，创建分支并切换过去"></a>可以把 master 换成想要推送的任何分支，创建分支并切换过去</h3><pre><code>git checkout -b &lt;branchName&gt;
 </code></pre><p>切换回某个分支：</p>
