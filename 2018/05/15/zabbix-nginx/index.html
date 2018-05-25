@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2018/05/15/zabbix-nginx/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="nginx和php-fpm一样内建了一个状态页，利用状态页得到的各项参数，使用zabbix实现对nginx状态监控">
-<meta property="og:updated_time" content="2018-05-24T08:14:26.000Z">
+<meta property="og:updated_time" content="2018-05-25T03:39:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix监控nginx">
 <meta name="twitter:description" content="nginx和php-fpm一样内建了一个状态页，利用状态页得到的各项参数，使用zabbix实现对nginx状态监控">
@@ -515,7 +515,7 @@ esac
 </code></pre><h3 id="zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf"><a href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf" class="headerlink" title="zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf"></a>zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf</h3><pre><code>#Monitor Nginx status
 UserParameter=nginx.status[*],/etc/zabbix/script/nginx_status.sh $1   
 </code></pre><h3 id="zabbix-web端配置"><a href="#zabbix-web端配置" class="headerlink" title="zabbix web端配置"></a>zabbix web端配置</h3><p>配置请参考 <a href="https://jasonhzy.github.io/2018/05/12/zabbix-redis/">zabbix自动发现规则监控redis（主从哨兵）</a></p>
-<p>下载：<a href="/download/zabbix/nginx/zbx_nginx_templates.xml">nginx监控模板</a> </p>
+<p>下载：<a href="/download/zabbix/nginx/zbx_nginx_templates.xml">nginx监控模板</a>    </p>
 
       
     </div>
