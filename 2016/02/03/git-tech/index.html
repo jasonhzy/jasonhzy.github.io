@@ -102,7 +102,7 @@
 <meta property="og:description" content="Git 常用命令">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git-diff.jpg">
-<meta property="og:updated_time" content="2018-05-24T08:13:09.000Z">
+<meta property="og:updated_time" content="2018-06-08T02:38:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基本命令">
 <meta name="twitter:description" content="Git 常用命令">
@@ -478,8 +478,11 @@ git branch -a #查看远程分支
 #改变本地HEAD的指针还原到工作区，即已经提交的可以恢复到当前工作区，可以再次修改提交
 git reset --hard HEAD^/commit id
 #强制移动指针到这个分支，会销毁它前面的所有的信息，本地也没有了，即不可恢复到工作区进行修改了
-</code></pre><p><strong>注意</strong>:<br>1).新建的文件和目录，且从未提交至版本库.此类文件的状态为Untracked files ，撤销方法如下:</p>
-<pre><code>git clean -fd . #其中的.表示当前目录及所有子目录中的文件，也可以直接指定对应的文件路径
+</code></pre><p><strong>注意</strong>:<br>1).新建的文件和目录，且从未提交至版本库，此类文件的状态为Untracked files，删除方法如下:</p>
+<pre><code>git clean -n    # 将显示哪些未被追踪的文件和文件夹可以清理
+git clean -d    # 清理未被追踪的文件夹
+git clean -f    # 清理未被追踪的文件(clean.requireForce=false可不加-f选项)
+git clean -df . # 其中的.表示当前目录及所有子目录中的文件，也可以直接指定对应的文件路径
 </code></pre><p>2)提交过版本库，但未提交至暂存区的文件（未执行git add）,此类文件的状态为Changes not staged for commit，撤销方法:</p>
 <pre><code>git checkout . #其中的.表示当前目录及所有子目录中的文件，也可以直接指定对应的文件路径
 </code></pre><h3 id="恢复到某个版本"><a href="#恢复到某个版本" class="headerlink" title="恢复到某个版本"></a>恢复到某个版本</h3><p>git reflog用来记录每一次操作的命令，记录着每次操作的commit_id<br>如果回退到某个版本:</p>
