@@ -1244,7 +1244,61 @@ req              //使用openssl的req子命令
 -days 5480       //自签名证书的有效期5480天（15年）【仅当使用了 -x509 选项后有效】  
 -keyout CA.key   //私钥文件名指定为CA.key【此选项的一般作用是新生成文件命名；但若同时使用了-key选项，则此选项用于原私钥文件的更名】  
 -out CA.crt      //指定输出所生成自签名证书的信息到文件，且文件名为CA.crt【建议不要省略】 
-</code></pre><p>运行中会提示输入一些 Distinguished Name fields，即证书的识别名信息字段，简称为DN字段<br>|DN字段名 | 缩写    |说明    | 填写要求|<br>|——|—–|—–|—-|<br>|Country Name|    C |    证书持有者所在国家    |要求填写国家代码，用2个字母表示|<br>|State or Province Name |    ST |    证书持有者所在州或省份|    填写全称，可省略不填|<br>|Locality Name    |L|    证书持有者所在城市|    可省略不填|<br>|Organization Name    |O    |证书持有者所属组织或公司    |最好还是填一下|<br>|Organizational Unit Name|    OU|    证书持有者所属部门|    可省略不填|<br>|Common Name    |CN    |证书持有者的通用名|必填。 对于非应用证书，它应该在一定程度上具有惟一性； 对于应用证书，一般填写服务器域名或通配符样式的域名。|<br>|Email Address    |     |    证书持有者的通信邮箱|    可省略不填 |   </p>
+</code></pre><p>运行中会提示输入一些 Distinguished Name fields，即证书的识别名信息字段，简称为DN字段   </p>
+<table>
+<thead>
+<tr>
+<th>DN字段名</th>
+<th>缩写</th>
+<th>说明</th>
+<th>填写要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Country Name</td>
+<td>C</td>
+<td>证书持有者所在国家</td>
+<td>要求填写国家代码，用2个字母表示</td>
+</tr>
+<tr>
+<td>State or Province Name</td>
+<td>ST</td>
+<td>证书持有者所在州或省份</td>
+<td>填写全称，可省略不填</td>
+</tr>
+<tr>
+<td>Locality Name</td>
+<td>L</td>
+<td>证书持有者所在城市</td>
+<td>可省略不填</td>
+</tr>
+<tr>
+<td>Organization Name</td>
+<td>O</td>
+<td>证书持有者所属组织或公司</td>
+<td>最好还是填一下</td>
+</tr>
+<tr>
+<td>Organizational Unit Name</td>
+<td>OU</td>
+<td>证书持有者所属部门</td>
+<td>可省略不填</td>
+</tr>
+<tr>
+<td>Common Name</td>
+<td>CN</td>
+<td>证书持有者的通用名</td>
+<td>必填。 对于非应用证书，它应该在一定程度上具有惟一性； 对于应用证书，一般填写服务器域名或通配符样式的域名。</td>
+</tr>
+<tr>
+<td>Email Address</td>
+<td></td>
+<td>证书持有者的通信邮箱</td>
+<td>可省略不填</td>
+</tr>
+</tbody>
+</table>
 <p>如果不想在运行过程中逐个输入这些DN字段的值，则可以使用 -subj 选项在命令中直接指定。选项 -subj 的使用形式为：</p>
 <pre><code>-subj arg
 </code></pre><p>其中，arg是选项 -subj 的参数，其格式类似于：/key0=value0/key1=value1/key2=… 形式。每一个 /key=value 形式的单元，都对应了一个完整的DN字段。其中，<br>/：是每一个DN字段的开始标志；<br>key0、key1等等：就是上述表中提到的DN字段名的缩写；<br>=：DN字段的名和值之间的间隔符；<br>value0、value1等等：就是原本你要在运行过程中逐个输入的DN字段的值。<br>对于您要将值置为空的DN字段，您可以略去不写</p>
@@ -3354,13 +3408,13 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
-</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#x73;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#x6e;&#x7d;">&#x73;&#x74;&#97;&#x73;&#x68;&#64;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
+</code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x73;&#116;&#x61;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;">&#x73;&#116;&#x61;&#115;&#104;&#64;&#x7b;&#x6e;&#x7d;</a>]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>如果不使用任何参数，恢复最近一次保存的工作进度</p>
 <pre><code>git stash pop #会从储藏列表中删除刚刚恢复的暂存
 git stash apply #不会从储藏列表中删除刚刚恢复的暂存
-</code></pre><p>如果使用<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#115;&#116;&#97;&#115;&#x68;&#x40;&#123;&#110;&#125;">&#115;&#116;&#97;&#115;&#x68;&#x40;&#123;&#110;&#125;</a>参数，则从该<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#x74;&#x61;&#x73;&#104;&#x40;&#123;&#x6e;&#125;">&#115;&#x74;&#x61;&#x73;&#104;&#x40;&#123;&#x6e;&#125;</a>中恢复保存的内容</p>
+</code></pre><p>如果使用<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#115;&#116;&#97;&#115;&#104;&#64;&#x7b;&#110;&#x7d;">&#115;&#116;&#97;&#115;&#104;&#64;&#x7b;&#110;&#x7d;</a>参数，则从该<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x73;&#116;&#97;&#115;&#x68;&#64;&#x7b;&#x6e;&#125;">&#x73;&#116;&#97;&#115;&#x68;&#64;&#x7b;&#x6e;&#125;</a>中恢复保存的内容</p>
 <pre><code>git stash pop &lt;stash@{n}&gt; #会从储藏列表中删除该`&lt;stash@{n}&gt;`
 git stash apply &lt;stash@{n}&gt; #不会从储藏列表中删除该`&lt;stash@{n}&gt;`
 </code></pre><p>–index除了恢复工作区的文件外，还会恢复暂存区的内容</p>
