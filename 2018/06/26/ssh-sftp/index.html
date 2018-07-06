@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2018/06/26/ssh-sftp/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介SFTP即安全文件传输协议（Secure File Transfer Protocol），一个独立的SSH封装协议包，SFTP本身没有单独的守护进程，必须使用sshd守护进程（端口号默认是22）来完成相应的连接操作，使用加密传输认证信息和传输的数据，所以SFTP是一种比较安全的传输方式。 但由于这种传输方式使用了加密/解密技术，效率比普通的FTP要低得多。在对网络安全性要求更高时，可代替FTP">
-<meta property="og:updated_time" content="2018-07-06T04:28:11.000Z">
+<meta property="og:updated_time" content="2018-07-06T04:28:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建SFTP">
 <meta name="twitter:description" content="简介SFTP即安全文件传输协议（Secure File Transfer Protocol），一个独立的SSH封装协议包，SFTP本身没有单独的守护进程，必须使用sshd守护进程（端口号默认是22）来完成相应的连接操作，使用加密传输认证信息和传输的数据，所以SFTP是一种比较安全的传输方式。 但由于这种传输方式使用了加密/解密技术，效率比普通的FTP要低得多。在对网络安全性要求更高时，可代替FTP">
@@ -418,7 +418,7 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>SFTP即安全文件传输协议（Secure File Transfer Protocol），一个独立的SSH封装协议包，SFTP本身没有单独的守护进程，必须使用sshd守护进程（端口号默认是22）来完成相应的连接操作，使用加密传输认证信息和传输的数据，所以SFTP是一种比较安全的传输方式。 但由于这种传输方式使用了加密/解密技术，效率比普通的FTP要低得多。在对网络安全性要求更高时，可代替FTP使用</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>SFTP即安全文件传输协议（Secure File Transfer Protocol），一个独立的SSH封装协议包，SFTP本身没有单独的守护进程，必须使用sshd守护进程（端口号默认是22）来完成相应的连接操作，使用加密传输认证信息和传输的数据，所以SFTP是一种比较安全的传输方式。 但由于这种传输方式使用了加密/解密技术，效率比普通的FTP要低得多。在对网络安全性要求更高时，可代替FTP使用。</p>
 <a id="more"></a>
 <h2 id="SFTP搭建"><a href="#SFTP搭建" class="headerlink" title="SFTP搭建"></a>SFTP搭建</h2><h3 id="查看配置"><a href="#查看配置" class="headerlink" title="查看配置"></a>查看配置</h3><p>当我们为SFTP配置chroot环境后，只有被许可的用户可以访问，并被限制到他们的家目录（“chroot监狱”，chroot jail或chroot prison）中，所以需要确认是否支持chroot。<br>服务器OpenSSH-Server版本最低4.8p1，因为配置权限需要版本添加的新配置项 ChrootDirectory 来完成。<br>查看OpenSSH版本，命令如下：</p>
 <pre><code>$ ssh -V
