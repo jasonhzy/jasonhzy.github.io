@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="Share experience summary">
+<meta name="description" content="简介MySQL在5.5.3之后增加了utf8mb4的编码，mb4即4-Byte UTF-8 Unicode Encoding，专门用来兼容四字节的unicode。utf8mb4为utf8的超集并兼容utf8，比utf8能表示更多的字符">
 <meta name="keywords" content="Mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql-utf8mb4">
+<meta property="og:title" content="Mysql支持utf8mb4">
 <meta property="og:url" content="http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Share experience summary">
-<meta property="og:updated_time" content="2018-07-11T03:44:17.000Z">
+<meta property="og:description" content="简介MySQL在5.5.3之后增加了utf8mb4的编码，mb4即4-Byte UTF-8 Unicode Encoding，专门用来兼容四字节的unicode。utf8mb4为utf8的超集并兼容utf8，比utf8能表示更多的字符">
+<meta property="og:updated_time" content="2018-07-11T08:42:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql-utf8mb4">
-<meta name="twitter:description" content="Share experience summary">
+<meta name="twitter:title" content="Mysql支持utf8mb4">
+<meta name="twitter:description" content="简介MySQL在5.5.3之后增加了utf8mb4的编码，mb4即4-Byte UTF-8 Unicode Encoding，专门用来兼容四字节的unicode。utf8mb4为utf8的超集并兼容utf8，比utf8能表示更多的字符">
 
 
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>mysql-utf8mb4 | Jason Website</title>
+  <title>Mysql支持utf8mb4 | Jason Website</title>
   
 
 
@@ -333,7 +333,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mysql-utf8mb4</h1>
+          <h1 class="post-title" itemprop="name headline">Mysql支持utf8mb4</h1>
         
 
         <div class="post-meta">
@@ -418,7 +418,55 @@
       
 
       
-        
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>MySQL在5.5.3之后增加了utf8mb4的编码，mb4即4-Byte UTF-8 Unicode Encoding，专门用来兼容四字节的unicode。utf8mb4为utf8的超集并兼容utf8，比utf8能表示更多的字符</p>
+<a id="more"></a>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>当我们在表中插入emoji表情符号时，就会出现如下的问题，</p>
+<pre><code>SQLSTATE[HY000]: General error: 1366 Incorrect string value: &apos;\xF0\x9F\x98\x83\xF0\x9F...&apos; for column &apos;name&apos; at row 1
+</code></pre><p>mysql的编码utf8最多支持3个字节, 其中已经包括我们日常能见过的绝大多数字体. 但3个字节远远不够容纳所有的文字, 日常用的emoji表情是4个字节，采用utf8mb4正好解决了这个问题</p>
+<h2 id="创建备份"><a href="#创建备份" class="headerlink" title="创建备份"></a>创建备份</h2><p>在要升级的服务器上备份所有数据库，安全第一！</p>
+<pre><code>mysqldump -uroot -proot --all-databases &gt; path/example.sql
+</code></pre><h2 id="检测MySQL-Server版本"><a href="#检测MySQL-Server版本" class="headerlink" title="检测MySQL Server版本"></a>检测MySQL Server版本</h2><p>在<a href="https://dev.mysql.com/doc/relnotes/mysql/5.5/en/news-5-5-3.html" target="_blank" rel="external">MySQL 5.5.3</a>版本中增加了对utfmb4的支持，所以需升级的版本即Mysql5.5.3+</p>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><pre><code>vim /etc/my.cnf
+# 对本地的mysql客户端的配置
+[client]
+default-character-set = utf8mb4
+
+# 对其他远程连接的mysql客户端的配置
+[mysql]
+default-character-set = utf8mb4
+
+# 本地mysql服务的配置
+[mysqld]
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+</code></pre><p>修改之后重启mysql    </p>
+<h2 id="检查MySQL是否启用了utf8mb4"><a href="#检查MySQL是否启用了utf8mb4" class="headerlink" title="检查MySQL是否启用了utf8mb4"></a>检查MySQL是否启用了utf8mb4</h2><pre><code>mysql&gt; SHOW VARIABLES WHERE Variable_name LIKE &apos;character_set_%&apos; OR Variable_name LIKE &apos;collation%&apos;;
++--------------------------+----------------------------------+
+| Variable_name            | Value                            |
++--------------------------+----------------------------------+
+| character_set_client     | utf8mb4                          |
+| character_set_connection | utf8mb4                          |
+| character_set_database   | utf8mb4                          |
+| character_set_filesystem | binary                           |
+| character_set_results    | utf8mb4                          |
+| character_set_server     | utf8mb4                          |
+| character_set_system     | utf8                             |
+| character_sets_dir       | /usr/local/mysql/share/charsets/ |
+| collation_connection     | utf8mb4_general_ci               |
+| collation_database       | utf8mb4_general_ci               |
+| collation_server         | utf8mb4_general_ci               |
++--------------------------+----------------------------------+
+</code></pre><h2 id="字符集修改"><a href="#字符集修改" class="headerlink" title="字符集修改"></a>字符集修改</h2><h3 id="修改database默认的字符集"><a href="#修改database默认的字符集" class="headerlink" title="修改database默认的字符集"></a>修改database默认的字符集</h3><pre><code>ALTER DATABASE database_name CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+</code></pre><h3 id="修改table的字符集"><a href="#修改table的字符集" class="headerlink" title="修改table的字符集"></a>修改table的字符集</h3><pre><code>ALTER TABLE table_name DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+</code></pre><h3 id="修改column默认的字符集"><a href="#修改column默认的字符集" class="headerlink" title="修改column默认的字符集"></a>修改column默认的字符集</h3><pre><code>ALTER TABLE table_name CHANGE column_name column_name VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;     
+</code></pre><h2 id="修复-amp-优化所有数据表-数据库引擎MyISAM"><a href="#修复-amp-优化所有数据表-数据库引擎MyISAM" class="headerlink" title="修复&amp;优化所有数据表(数据库引擎MyISAM)"></a>修复&amp;优化所有数据表(数据库引擎MyISAM)</h2><pre><code>mysqlcheck -u root -p --auto-repair --optimize --all-databases
+</code></pre><p>参考</p>
+<ol>
+<li><a href="https://mathiasbynens.be/notes/mysql-utf8mb4" target="_blank" rel="external">How to support full Unicode in MySQL databases</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.5/en/charset-unicode-conversion.html" target="_blank" rel="external">Converting Between 3-Byte and 4-Byte Unicode Character Sets</a></li>
+</ol>
+
       
     </div>
 
@@ -467,7 +515,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/" title="mysql-utf8mb4">http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/</a>
+      <a href="http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/" title="Mysql支持utf8mb4">http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -559,8 +607,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -669,6 +726,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">2.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建备份"><span class="nav-number">3.</span> <span class="nav-text">创建备份</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检测MySQL-Server版本"><span class="nav-number">4.</span> <span class="nav-text">检测MySQL Server版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改配置文件"><span class="nav-number">5.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查MySQL是否启用了utf8mb4"><span class="nav-number">6.</span> <span class="nav-text">检查MySQL是否启用了utf8mb4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集修改"><span class="nav-number">7.</span> <span class="nav-text">字符集修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改database默认的字符集"><span class="nav-number">7.1.</span> <span class="nav-text">修改database默认的字符集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改table的字符集"><span class="nav-number">7.2.</span> <span class="nav-text">修改table的字符集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改column默认的字符集"><span class="nav-number">7.3.</span> <span class="nav-text">修改column默认的字符集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复-amp-优化所有数据表-数据库引擎MyISAM"><span class="nav-number">8.</span> <span class="nav-text">修复&优化所有数据表(数据库引擎MyISAM)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -828,7 +901,7 @@
         var disqus_config = function () {
           this.page.url = 'http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/';
           this.page.identifier = '2018/07/10/mysql-utf8mb4/';
-          this.page.title = 'mysql-utf8mb4';
+          this.page.title = 'Mysql支持utf8mb4';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://jasonhzy.disqus.com/embed.js';

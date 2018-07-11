@@ -992,7 +992,8 @@
 
 </body>
 </html>
-                slice.hits.forEach(function (hit) {
+
+                    slice.hits.forEach(function (hit) {
                       result += text.substring(prevEnd, hit.position);
                       var end = hit.position + hit.length;
                       result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
