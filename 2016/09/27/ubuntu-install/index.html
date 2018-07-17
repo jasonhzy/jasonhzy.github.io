@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介 不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）">
 <meta property="og:image" content="http://jasonhzy.github.io/images/ubuntu-lamp.jpg">
-<meta property="og:updated_time" content="2016-09-28T09:35:16.000Z">
+<meta property="og:updated_time" content="2018-07-17T03:06:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 配置LAMP环境">
 <meta name="twitter:description" content="简介 不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）">
@@ -548,7 +548,12 @@ Adding password for user lippi
         &lt;/LimitExcept&gt;
     &lt;/Directory&gt;
 &lt;/IfModule&gt;
-</code></pre><h3 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h3><p>问题一：</p>
+</code></pre><p>virtualHost部分参数配置详解</p>
+<p>1.AllowOverride All就是允许根目录下的.htaccess起rewrite作用，AllowOverride None禁止.htaccess起作用<br>2.order是设置deny／allow的组合排序, 不区分大小写，中间用”,”分开，中间不能有空格</p>
+<pre><code>Order Deny,Allow #表示设定&quot;先检查禁止设定，没有设定禁止的全部允许&quot;
+Order Allow,Deny #表示设定&quot;先检查允许设定，没有设定允许的全部禁止&quot;
+</code></pre><p>最后的访问结果由第二参数决定！</p>
+<h3 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h3><p>问题一：</p>
 <pre><code>root@ubuntu:~# a2ensite example.com 
 ERROR:  Site example.com does not exists!
 </code></pre><p>解决方案:</p>
@@ -731,7 +736,7 @@ ERROR:  Site example.com does not exists!
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
