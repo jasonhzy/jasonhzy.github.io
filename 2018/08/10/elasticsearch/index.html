@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="简介">
+<meta name="description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Elasticsearch集群部署">
 <meta property="og:url" content="http://jasonhzy.github.io/2018/08/10/elasticsearch/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="简介">
+<meta property="og:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-13T07:58:10.000Z">
+<meta property="og:updated_time" content="2018-08-13T10:04:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elasticsearch集群部署">
-<meta name="twitter:description" content="简介">
+<meta name="twitter:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作">
 
 
 
@@ -419,7 +419,15 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><a id="more"></a>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作</p>
+<a id="more"></a>
+<p>目前 Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例，比如：</p>
+<pre><code>GitHub 使用 Elasticsearch 检索超过 800 万的代码库
+eBay 使用 Elasticsearch 搜索海量的商品数据
+Netflix 使用 Elasticsearch 来实现高效的消息传递系统
+</code></pre><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Index (索引)：Index 是名词，一个 Index 就像是传统关系数据库的 Database，它是 Elasticsearch 用来存储数据的逻辑区域<br>Document (文档)：Elasticsearch 使用 JSON 文档来表示一个对象，就像是关系数据库中一个 Table 中的一行数据<br>Type (类型)：文档归属于一种 Type，就像是关系数据库中的一个 Table<br>Field (字段)：每个文档包含多个字段，类似关系数据库中一个 Table 的列</p>
+<p>Node (节点)：node 是一个运行着的 Elasticsearch 实例，一个 node 就是一个单独的 server<br>Cluster (集群)：cluster 是多个 node 的集合<br>Shard (分片)：数据分片，一个 index 可能会存在于多个 shard</p>
+<!-- more -->
 <h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><p>操作系统：Ubuntu14.04<br>JDK：jdk1.8.0_121<br>Elasticsearch：2.3.3</p>
 <table>
 <thead>
@@ -495,7 +503,8 @@ path.logs: /data/elstaticsearch/logs
 
 #内存锁，选项为true或false，允许 JVM 锁住内存，禁止操作系统交换出去
 bootstrap.mlockall: true
-#用于设置缓存类型为Soft Reference，它的主要特点是据有较强的引用功能，只有当内存不够的时候，才进行回收这类内存，因此在内存足够的时候，它们通常不被回收
+#用于设置缓存类型为Soft Reference，它的主要特点是据有较强的引用功能，只有当内存不够的时候，
+#才进行回收这类内存，因此在内存足够的时候，它们通常不被回收
 index.cache.field.type: soft
 #用于设置缓存field的最大值
 index.cache.field.max_size: 50000
@@ -928,7 +937,7 @@ curl -X GET &apos;http://localhost:9200/_cluster/health?level=indices&apos; ｜ 
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">2.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装与部署"><span class="nav-number">3.</span> <span class="nav-text">安装与部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载不同版本地址：elasticsearch"><span class="nav-number">3.1.</span> <span class="nav-text">下载不同版本地址：elasticsearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户-目录-权限设置"><span class="nav-number">3.2.</span> <span class="nav-text">用户/目录/权限设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置内存"><span class="nav-number">3.3.</span> <span class="nav-text">配置内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置系统”最大打开文件数”"><span class="nav-number">3.4.</span> <span class="nav-text">配置系统”最大打开文件数”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置文件"><span class="nav-number">3.5.</span> <span class="nav-text">修改配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本API"><span class="nav-number">4.</span> <span class="nav-text">基本API</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">基本概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">2.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装与部署"><span class="nav-number">3.</span> <span class="nav-text">安装与部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载不同版本地址：elasticsearch"><span class="nav-number">3.1.</span> <span class="nav-text">下载不同版本地址：elasticsearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户-目录-权限设置"><span class="nav-number">3.2.</span> <span class="nav-text">用户/目录/权限设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置内存"><span class="nav-number">3.3.</span> <span class="nav-text">配置内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置系统”最大打开文件数”"><span class="nav-number">3.4.</span> <span class="nav-text">配置系统”最大打开文件数”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置文件"><span class="nav-number">3.5.</span> <span class="nav-text">修改配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本API"><span class="nav-number">4.</span> <span class="nav-text">基本API</span></a></li></ol></div>
             
 
           </div>
