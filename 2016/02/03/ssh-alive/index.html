@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2016/02/03/ssh-alive/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Many NAT firewalls time out idle sessions after a certain period of time to keep their trunks clean. Sometimes the interval between session drops is 24 hours, but on many commodity firewalls, connecti">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/ssh/putty.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/ssh/konsole.png">
 <meta property="og:updated_time" content="2016-08-23T09:04:22.000Z">
@@ -436,7 +437,7 @@ ClientAliveCountMax 2
 <p>The default value is 3. If, for example, ServerAliveInterval (see below) is set to 15 and ServerAliveCountMax is left at the default, if the server becomes unresponsive, ssh will disconnect after approximately 45 seconds. This option applies to protocol version 2 only; in protocol version 1 there is no mechanism to request a response from the server to the server alive messages, so disconnection is the responsibility of the TCP stack.</p>
 <p><strong>ServerAliveInterval</strong><br>Sets a timeout interval in seconds after which if no data has been received from the server, ssh(1) will send a message through the encrypted channel to request a response from the server. The default is 0, indicating that these messages will not be sent to the server, or 300 if the BatchMode option is set. This option applies to protocol version 2 only. ProtocolKeepAlives and SetupTimeOut are Debian-specific compatibility aliases for this option.</p>
 </blockquote>
-<p>文章摘自：<a href="https://patrickmn.com/aside/how-to-keep-alive-ssh-sessions/" target="_blank" rel="external">How to Keep Alive SSH Sessions</a></p>
+<p>文章摘自：<a href="https://patrickmn.com/aside/how-to-keep-alive-ssh-sessions/" target="_blank" rel="noopener">How to Keep Alive SSH Sessions</a></p>
 
       
     </div>
@@ -607,7 +608,7 @@ ClientAliveCountMax 2
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -618,7 +619,7 @@ ClientAliveCountMax 2
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -629,7 +630,7 @@ ClientAliveCountMax 2
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

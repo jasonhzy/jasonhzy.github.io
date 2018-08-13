@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2018/03/06/docker-command/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="docker简介Docker是由PaaS提供商dotCloud在2013年创建的一款开源应用引擎，Docker可以自动将任何应用打包成轻量、可移植、自包涵的容器引擎。开发者构建的应用可以一次构建全平台运行，包括本地开发机器、生产环境、虚拟机和云等。Docker一个基于LinuX Container（LXC）技术之上构建的Container容器引擎，源代码托管在GitHub上，基于Go语言并遵从Ap">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/docker-virtual.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/docker-iso.png">
 <meta property="og:updated_time" content="2018-05-11T01:32:52.000Z">
@@ -474,7 +475,7 @@ systemctl start/stop/reload  docker.service
 </code></pre><p>下载完毕，利用docker images查看:</p>
 <pre><code>REPOSITORY          TAG     IMAGE ID      CREATED      SIZE
 docker.io/centos    latest  2d194b392dd1  2 hours ago  195.4 MB
-</code></pre><p>备注：镜像版本<strong><a href="https://hub.docker.com/" target="_blank" rel="external">下载来源</a></strong>, 可以查看支持的镜像，例如：</p>
+</code></pre><p>备注：镜像版本<strong><a href="https://hub.docker.com/" target="_blank" rel="noopener">下载来源</a></strong>, 可以查看支持的镜像，例如：</p>
 <p><img src="/images/docker/docker-iso.png" alt="docker-iso"></p>
 <h3 id="修改镜像REPOSITORY／TAG"><a href="#修改镜像REPOSITORY／TAG" class="headerlink" title="修改镜像REPOSITORY／TAG"></a>修改镜像REPOSITORY／TAG</h3><pre><code>docker tag 原REPOSITORY:TAG 自义定名:自定义TAG名  #实际上是新建了镜像
 docker tag IMAGE ID(镜像id) REPOSITORY:TAG  #实际上是新建了镜像
@@ -570,7 +571,7 @@ Docker Root Dir: /var/lib/docker
 <pre><code>screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty      
 </code></pre><p>备注：1、断开当前会话，会话在后台运行：ctrl+a, d(先按control+a，再按d)<br>2、重新打开窗口：screen r<br>3、查看所有后台运行会话：screen ls<br>4、关闭当前会话，并退出：ctrl+a, k(先按control+a，再按k)      </p>
 <p>参考资料</p>
-<p>1.<a href="http://www.docker.org.cn/dockerppt/106.html" target="_blank" rel="external">Docker中文</a><br>2.<a href="http://www.enmotech.com/web/detail/1/171/2.html" target="_blank" rel="external">Docker on MacOS</a>      </p>
+<p>1.<a href="http://www.docker.org.cn/dockerppt/106.html" target="_blank" rel="noopener">Docker中文</a><br>2.<a href="http://www.enmotech.com/web/detail/1/171/2.html" target="_blank" rel="noopener">Docker on MacOS</a>      </p>
 
       
     </div>
@@ -741,7 +742,7 @@ Docker Root Dir: /var/lib/docker
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -752,7 +753,7 @@ Docker Root Dir: /var/lib/docker
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -763,7 +764,7 @@ Docker Root Dir: /var/lib/docker
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

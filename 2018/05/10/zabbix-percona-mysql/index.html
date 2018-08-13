@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2018/05/10/zabbix-percona-mysql/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="zabbix自带的默认模板template db mysql对mysql的监控相当简单，而percona监控插件对mysql的监控比较全面，但由于是php开发，因此要在agent安装php环境，本文主要介绍使用percona-monitoring-plugins监控mysql。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-07-11T06:10:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix采用percona监控mysql主从">
@@ -422,10 +423,10 @@
 <h2 id="安装zabbix-agent"><a href="#安装zabbix-agent" class="headerlink" title="安装zabbix-agent"></a>安装zabbix-agent</h2><pre><code>#centos7 mysql zabbix3.4
 rpm -i http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm 
 yum install zabbix-agent
-</code></pre><p>下载地址：<a href="https://www.zabbix.com/download" target="_blank" rel="external">zabbix download</a></p>
+</code></pre><p>下载地址：<a href="https://www.zabbix.com/download" target="_blank" rel="noopener">zabbix download</a></p>
 <h2 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h2><pre><code>yum install php php-mysql -y
 </code></pre><h2 id="安装percona-zabbix-templates"><a href="#安装percona-zabbix-templates" class="headerlink" title="安装percona-zabbix-templates"></a>安装percona-zabbix-templates</h2><pre><code>yum install https://www.percona.com/downloads/percona-monitoring-plugins/percona-monitoring-plugins-1.1.8/binary/redhat/7/x86_64/percona-zabbix-templates-1.1.8-1.noarch.rpm
-</code></pre><p>下载地址：<a href="https://www.percona.com/downloads/percona-monitoring-plugins/" target="_blank" rel="external">percona-monitoring-plugins</a>   </p>
+</code></pre><p>下载地址：<a href="https://www.percona.com/downloads/percona-monitoring-plugins/" target="_blank" rel="noopener">percona-monitoring-plugins</a>   </p>
 <p>复制配置文件至zabbix_agent相关目录下</p>
 <pre><code>cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf /etc/zabbix/zabbix_agentd.d/
 </code></pre><p>重启生效</p>
@@ -442,7 +443,7 @@ $mysql_port = 3306;
 $mysql_flags = 0;
 </code></pre><p>在mysql slave的agent里面测试脚本是否生效（输出1即表示成功）：</p>
 <pre><code>sh /var/lib/zabbix/percona/scripts/get_mysql_stats_wrapper.sh running-slave
-</code></pre><p>问题：ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: NO)<br>方案1：在my.cnf配置用户名密码、sock路径                                                                                                                                                                                                                        </p>
+</code></pre><p>问题：ERROR 1045 (28000): Access denied for user ‘root‘@’localhost’ (using password: NO)<br>方案1：在my.cnf配置用户名密码、sock路径                                                                                                                                                                                                                        </p>
 <pre><code>vim /usr/local/mysql/etc/my.cnf
 [mysql]
 user=zabbixmoniter
@@ -631,7 +632,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -642,7 +643,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -653,7 +654,7 @@ zabbix_get -s 192.168.1.49 -p 10050 -k MySQL.running-slave
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

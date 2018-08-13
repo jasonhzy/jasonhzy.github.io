@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2017/09/03/nginx/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-11-16T03:04:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
@@ -698,7 +699,7 @@ location ~* pattern 　~*开头表示不区分大小写的正则匹配。
 location /uri 　　　　不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。
 location / 　　　　　通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。
 </code></pre><p>优先级：<br>    (location =) &gt; (location 完整路径) &gt; (location ^~ 路径) &gt; (location ~,~* 正则顺序) &gt; (location 部分起始路径) &gt; (/)</p>
-<h3 id="rewrite指令"><a href="#rewrite指令" class="headerlink" title="rewrite指令"></a>rewrite指令</h3><p>rewrite功能就是，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实现url重写以及重定向。<br>rewrite只能放在server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用，<br>例如 <a href="http://seanlook.com/a/we/index.php?id=1&amp;u=str" target="_blank" rel="external">http://seanlook.com/a/we/index.php?id=1&amp;u=str</a> 只对/a/we/index.php重写。<br>语法rewrite regex replacement [flag] 。执行顺序是：</p>
+<h3 id="rewrite指令"><a href="#rewrite指令" class="headerlink" title="rewrite指令"></a>rewrite指令</h3><p>rewrite功能就是，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实现url重写以及重定向。<br>rewrite只能放在server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用，<br>例如 <a href="http://seanlook.com/a/we/index.php?id=1&amp;u=str" target="_blank" rel="noopener">http://seanlook.com/a/we/index.php?id=1&amp;u=str</a> 只对/a/we/index.php重写。<br>语法rewrite regex replacement [flag] 。执行顺序是：</p>
 <pre><code>1.执行server块的rewrite指令
 2.执行location匹配
 3.执行选定的location中的rewrite指令
@@ -910,7 +911,7 @@ $document_uri ： 与$uri相同。
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -921,7 +922,7 @@ $document_uri ： 与$uri相同。
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -932,7 +933,7 @@ $document_uri ： 与$uri相同。
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

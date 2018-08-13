@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2018/03/20/docker-registry/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="官方的Docker Hub是一个用于管理公共镜像的，我们可以找到想要的镜像，也可以把我们自己的镜像推送上去。但有时候，我们的使用场景需要拥有一个私有的镜像仓库来管理我们自己的镜像。这个可以通过开源软件Registry搭建私有仓库。搭建私有仓库的优点：1、部署快捷，镜像不必从Docker Hub下载，只需从私有仓库下载即可2、私有镜像，包含敏感信息，不方便公开对外，可在公司内部使用">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-04-03T12:11:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker私有仓库">
@@ -460,7 +461,7 @@ www.example.com/registry    latest   d1fd7d86a825   2 months ago        33.3 MB
 Trying to pull repository www.example.com/registry ... 
 Pulling repository d www.example.com/registry
 Error: image registry not found    
-</code></pre><p>则需要先登陆到私有仓库，即： docker login www.example.com   </p>
+</code></pre><p>则需要先登陆到私有仓库，即： docker login <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a>   </p>
 <h2 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h2><p>获取上传镜像的digest</p>
 <pre><code>$ curl -H &quot;Accept: application/vnd.docker.distribution.manifest.v2+json&quot; -I -X HEAD -u&lt;user:password&gt; https://www.example.com/v2/&lt;image name&gt;/manifests/&lt;image tag&gt;        
 HTTP/1.1 200 OK
@@ -654,7 +655,7 @@ docker restart registry
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -665,7 +666,7 @@ docker restart registry
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -676,7 +677,7 @@ docker restart registry
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

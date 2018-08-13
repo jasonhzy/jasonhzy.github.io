@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2016/07/31/php-cookie/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="在PHP中用setcookie 来设置网站的cookie，该函数的用法如下：  bool setcookie ( string $name [, string $value [, int $expire = 0 [, string $path [, string$domain [, bool $secure = false [, bool $httponly = false ]]]]]])">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/php-cookie/father_1st_view.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/php-cookie/child_1st_view.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/php-cookie/father_2nd_view.png">
@@ -461,7 +462,7 @@
 <tr>
 <td>domain</td>
 <td>该 cookie 有效的域名。</td>
-<td>要使 cookie 能在如 example.com域名下的所有子域都有效的话，该参数应该设为 ‘.example.com’。虽然 . 并不必须的，但加上它会兼容更多的浏览器。如果该参数设为www.example.com 的话，就只在 www 子域内有效。细节见Cookie 规范中的 tail matching。</td>
+<td>要使 cookie 能在如 example.com域名下的所有子域都有效的话，该参数应该设为 ‘.example.com’。虽然 . 并不必须的，但加上它会兼容更多的浏览器。如果该参数设为<a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> 的话，就只在 www 子域内有效。细节见Cookie 规范中的 tail matching。</td>
 </tr>
 <tr>
 <td>secure</td>
@@ -475,8 +476,8 @@
 </tr>
 </tbody>
 </table>
-<h2 id="path参数"><a href="#path参数" class="headerlink" title="path参数"></a>path参数</h2><p>如下的目录结构：<br>coookie<br>├─child<br>│   └── child.php<br>└─father.php<br>father.php中的代码：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">setcookie(<span class="string">"father_set_0"</span>, <span class="string">"default"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>);</div><div class="line">setcookie(<span class="string">"father_set_1"</span>, <span class="string">"/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/"</span>);</div><div class="line">setcookie(<span class="string">"father_set_2"</span>, <span class="string">"/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/child/"</span>);</div><div class="line">setcookie(<span class="string">"father_set_3"</span>, <span class="string">"/cookie/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/cookie/child/"</span>);</div><div class="line"></div><div class="line">echo '&lt;pre&gt;';</div><div class="line">print_r($_COOKIE);</div></pre></td></tr></table></figure></p>
-<p>child.php中的代码：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">setcookie(<span class="string">"child_set_0"</span>, <span class="string">"default"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>);</div><div class="line">setcookie(<span class="string">"child_set_1"</span>, <span class="string">"/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>,<span class="string">"/"</span>);</div><div class="line">setcookie(<span class="string">"child_set_2"</span>, <span class="string">"/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/child"</span>);</div><div class="line">setcookie(<span class="string">"child_set_3"</span>, <span class="string">"/cookie/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/cookie/child/"</span>);</div><div class="line"></div><div class="line">echo '&lt;pre&gt;';</div><div class="line">print_r($_COOKIE);</div></pre></td></tr></table></figure></p>
+<h2 id="path参数"><a href="#path参数" class="headerlink" title="path参数"></a>path参数</h2><p>如下的目录结构：<br>coookie<br>├─child<br>│   └── child.php<br>└─father.php<br>father.php中的代码：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">setcookie(<span class="string">"father_set_0"</span>, <span class="string">"default"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>);</span><br><span class="line">setcookie(<span class="string">"father_set_1"</span>, <span class="string">"/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/"</span>);</span><br><span class="line">setcookie(<span class="string">"father_set_2"</span>, <span class="string">"/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/child/"</span>);</span><br><span class="line">setcookie(<span class="string">"father_set_3"</span>, <span class="string">"/cookie/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/cookie/child/"</span>);</span><br><span class="line"></span><br><span class="line">echo '&lt;pre&gt;';</span><br><span class="line">print_r($_COOKIE);</span><br></pre></td></tr></table></figure></p>
+<p>child.php中的代码：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">setcookie(<span class="string">"child_set_0"</span>, <span class="string">"default"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>);</span><br><span class="line">setcookie(<span class="string">"child_set_1"</span>, <span class="string">"/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>,<span class="string">"/"</span>);</span><br><span class="line">setcookie(<span class="string">"child_set_2"</span>, <span class="string">"/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/child"</span>);</span><br><span class="line">setcookie(<span class="string">"child_set_3"</span>, <span class="string">"/cookie/child/"</span>, time()+<span class="number">24</span>*<span class="number">3600</span>, <span class="string">"/cookie/child/"</span>);</span><br><span class="line"></span><br><span class="line">echo '&lt;pre&gt;';</span><br><span class="line">print_r($_COOKIE);</span><br></pre></td></tr></table></figure></p>
 <p>按father.php—&gt;child.php—&gt;father.php—&gt;child.php的顺序访问页面，输入出结果如下：<br>第一次访问father.php:</p>
 <p><img src="/images/php-cookie/father_1st_view.png" alt="father_first_view"></p>
 <p>初始状态下客户端没有相关的cookie记录，在上图中只有已收到的cookie，没有已发送的cookie，则打印$_COOKIE数组时是没有输出。<br>　　从上面这点可以看出，页面的每次请求cookie的变化是：页面请求时浏览器发送客户端已有的cookie，服务器端接收cookie将其存入数组$_COOKIE数组中供程序使用；而在服务器端响应本次请求设置的cookie尚未发送到客户端时$_COOKIE数组中是没有记录的。</p>
@@ -780,7 +781,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -791,7 +792,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -802,7 +803,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2017/12/20/mysql-proxy/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;mysql-proxy是处在mysql数据库client和mysql server之间的程序，可以用来分析、监控和变换（transform）通信数据。支持嵌入性脚本语言Lua，支持广泛的使用场景：负载平衡，故障、查询分析，查询过滤和修改等。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;mysql-">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-proxy/proxy-config.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-proxy/proxy-log.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-proxy/proxy-client-conn.png">
@@ -552,7 +553,7 @@ end
 </code></pre><p>登录管理地址查看当前状态：</p>
 <pre><code>mysql -uproxy -p -h192.168.1.63 -P4000   
 </code></pre><p>显示结果如下：<br><img src="/images/mysql-proxy/proxy-client-conn.png" alt="proxy-client-conn"><br>若没有用户通过mysql-proxy连接到后端，则状态为unknown，尝试几次后，可以看到两个服务器状态都是up,</p>
-<h3 id="测试读写分离"><a href="#测试读写分离" class="headerlink" title="测试读写分离"></a>测试读写分离</h3><p>测试登陆账号proxy@192.168.1.%进行添加数据，即在客户端执行：</p>
+<h3 id="测试读写分离"><a href="#测试读写分离" class="headerlink" title="测试读写分离"></a>测试读写分离</h3><p>测试登陆账号<a href="mailto:proxy@192.168.1" target="_blank" rel="noopener">proxy@192.168.1</a>.%进行添加数据，即在客户端执行：</p>
 <pre><code>mysql -h192.168.1.63  -uproxy -p123456 -P4000
 </code></pre><p>1、正常情况下，插入数据</p>
 <pre><code>mysql&gt; use test;
@@ -742,7 +743,7 @@ mysql&gt; insert into user (`id`, `name`, `age`) values(3, &apos;joey&apos;, 20)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -753,7 +754,7 @@ mysql&gt; insert into user (`id`, `name`, `age`) values(3, &apos;joey&apos;, 20)
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -764,7 +765,7 @@ mysql&gt; insert into user (`id`, `name`, `age`) values(3, &apos;joey&apos;, 20)
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

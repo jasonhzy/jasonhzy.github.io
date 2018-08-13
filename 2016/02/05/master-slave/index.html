@@ -98,6 +98,7 @@
 <meta property="og:title" content="Mysql 数据库主从同步(Master-Slave)">
 <meta property="og:url" content="http://jasonhzy.github.io/2016/02/05/master-slave/index.html">
 <meta property="og:site_name" content="Jason Website">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-slave.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-status.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/slave-status.png">
@@ -467,7 +468,7 @@ binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
 <pre><code>mysql&gt; SHOW SLAVE STATUS\G;
 </code></pre><p>显示结果：<br>    <img src="/images/master-slave/slave-status.png" alt="slave status"></p>
 <p><strong>注意：</strong>Slave_IO_Running及Slave_SQL_Running进程必须正常运行，即YES状态，否则说明同步失败</p>
-<p>下面介绍几个比较关键的参数，全面的说明可阅读<a href="https://dev.mysql.com/doc/refman/5.5/en/show-slave-status.html" target="_blank" rel="external">参考手册</a>。</p>
+<p>下面介绍几个比较关键的参数，全面的说明可阅读<a href="https://dev.mysql.com/doc/refman/5.5/en/show-slave-status.html" target="_blank" rel="noopener">参考手册</a>。</p>
 <ul>
 <li>Slave_IO_Running: IO线程是否正常运行</li>
 <li>Slave_SQL_Running: SQL线程是否正常运行</li>
@@ -477,7 +478,7 @@ binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
 <li>Relay_Log_Pos: SQL线程正在读取和执行的本地日志文件的位置</li>
 <li>Relay_Master_Log_File: SQL线程正在重演的事件所在的主服务器日志文件</li>
 <li>Exec_Master_Log_Pos: SQL线程正在重演的事件在主服务器日志文件中的位置</li>
-<li>Seconds_Behind_Master:如果网络没有明显的延迟，该参数标志着SQL线程的事件重演速度。如果该值较大且不断递增，调整<a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit" target="_blank" rel="external">innodb_flush_log_at_trx_commit</a>会有比较明显的效果，但是可能会在MySQL进程崩溃时丢失数据。</li>
+<li>Seconds_Behind_Master:如果网络没有明显的延迟，该参数标志着SQL线程的事件重演速度。如果该值较大且不断递增，调整<a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit" target="_blank" rel="noopener">innodb_flush_log_at_trx_commit</a>会有比较明显的效果，但是可能会在MySQL进程崩溃时丢失数据。</li>
 </ul>
 <h3 id="mysql数据库同步验证"><a href="#mysql数据库同步验证" class="headerlink" title="mysql数据库同步验证"></a>mysql数据库同步验证</h3><p>主从数据库设置工作已经完成，可以在master新建数据库和表，插入和修改数据，查看slave是否获得同步，测试一下是否成功。</p>
 <h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><p>1、Slave_IO_Running: No Slave_SQL_Running: No</p>
@@ -687,7 +688,7 @@ vim /etc/sysconfig/iptables 添加3306端口：
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -698,7 +699,7 @@ vim /etc/sysconfig/iptables 添加3306端口：
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -709,7 +710,7 @@ vim /etc/sysconfig/iptables 添加3306端口：
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2016/05/04/php-curl-file/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="cURL介绍cURL是一个利用URL语法规定来传输文件和数据的工具，支持很多协议，如HTTP、FTP、TELNET等。PHP也支持cURL 库。本文将介绍 cURL 的一些高级特性，以及在PHP中如何运用它。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-05-04T07:43:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP的cURL文件上传">
@@ -469,7 +470,7 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
 ]); 
 </code></pre><p>PHP5.5另外引入了CURL_SAFE_UPLOAD选项，可以强制PHP的cURL模块拒绝旧的@语法，仅接受CURLFile式的文件。5.5的默认值为false，5.6的默认值为true。</p>
 <p><strong>注</strong>：PHP5.4及以下版本仅支持@语法形式；PHP5.5两种都是支持的，设置CURL_SAFE_UPLOAD＝true强制使用CURLFile方式；PHP5.6+仅支持CURLFile方式，即使设置CURL_SAFE_UPLOAD＝false也是毫无意义的。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://segmentfault.com/a/1190000000725185" target="_blank" rel="external">考虑PHP5.0~5.6各版本兼容性的cURL文件上传</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://segmentfault.com/a/1190000000725185" target="_blank" rel="noopener">考虑PHP5.0~5.6各版本兼容性的cURL文件上传</a></p>
 
       
     </div>
@@ -642,7 +643,7 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -653,7 +654,7 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -664,7 +665,7 @@ $ curl -F &quot;file=@/absolute/path/to/image.png&quot; &lt;url&gt;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -100,7 +100,8 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2018/07/16/php-opcache/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介 OPcache的前身是Optimizer+（于2013年3月中旬更名为Opcache），Zend开发的一款闭源但可以免费使用的PHP优化加速组件。OPcache通过将PHP脚本预编译的字节码存储到共享内存中来提升PHP的性能，存储预编译字节码的好处就是 省去了每次加载和解析 PHP 脚本的开销。PHP 5.5.0及后续版本中已经绑定了OPcache扩展。对于PHP 5.2，5.3 和 5.4">
-<meta property="og:updated_time" content="2018-07-17T17:16:37.000Z">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-10T03:38:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP OPcache">
 <meta name="twitter:description" content="简介 OPcache的前身是Optimizer+（于2013年3月中旬更名为Opcache），Zend开发的一款闭源但可以免费使用的PHP优化加速组件。OPcache通过将PHP脚本预编译的字节码存储到共享内存中来提升PHP的性能，存储预编译字节码的好处就是 省去了每次加载和解析 PHP 脚本的开销。PHP 5.5.0及后续版本中已经绑定了OPcache扩展。对于PHP 5.2，5.3 和 5.4">
@@ -419,7 +420,7 @@
 
       
         <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
-<p>OPcache的前身是Optimizer+（于2013年3月中旬更名为Opcache），Zend开发的一款闭源但可以免费使用的PHP优化加速组件。OPcache通过将PHP脚本预编译的字节码存储到共享内存中来提升PHP的性能，存储预编译字节码的好处就是 省去了每次加载和解析 PHP 脚本的开销。<br>PHP 5.5.0及后续版本中已经绑定了OPcache扩展。对于PHP 5.2，5.3 和 5.4 版本可以使用<a href="https://pecl.php.net/package/ZendOpcache" target="_blank" rel="external">PECL</a>扩展中的OPcache库</p>
+<p>OPcache的前身是Optimizer+（于2013年3月中旬更名为Opcache），Zend开发的一款闭源但可以免费使用的PHP优化加速组件。OPcache通过将PHP脚本预编译的字节码存储到共享内存中来提升PHP的性能，存储预编译字节码的好处就是 省去了每次加载和解析 PHP 脚本的开销。<br>PHP 5.5.0及后续版本中已经绑定了OPcache扩展。对于PHP 5.2，5.3 和 5.4 版本可以使用<a href="https://pecl.php.net/package/ZendOpcache" target="_blank" rel="noopener">PECL</a>扩展中的OPcache库</p>
 </blockquote>
 <a id="more"></a>
 <h2 id="常用的配置"><a href="#常用的配置" class="headerlink" title="常用的配置"></a>常用的配置</h2><h3 id="opcache-revalidate-freq"><a href="#opcache-revalidate-freq" class="headerlink" title="opcache.revalidate_freq"></a>opcache.revalidate_freq</h3><p>设置缓存的过期时间（单位是秒），当这个时间达到后，opcache会检查你的代码是否改变，如果改变了PHP会重新编译它，生成新的opcode，并且更新缓存。为“0”表示每次请求都会检查PHP代码是否更新</p>
@@ -435,7 +436,7 @@
 <p>opcache在php.ini的设置如下：<br>[opcache]<br>zend_extension=/path/opcache.so<br>opcache.revalidate_freq=10<br>opcache.validate_timestamps=1<br>opcache.max_accelerated_files=7963<br>opcache.memory_consumption=128<br>opcache.interned_strings_buffer=8<br>opcache.fast_shutdown=1</p>
 <h2 id="opcache相关的几个函数"><a href="#opcache相关的几个函数" class="headerlink" title="opcache相关的几个函数"></a>opcache相关的几个函数</h2><p>opcache_compile_file — 无需运行，即可编译并缓存PHP脚本<br>opcache_get_configuration — 获取php.ini中的配置信息<br>opcache_get_status — 获取缓存的状态信息<br>opcache_invalidate — 废除脚本缓存<br>opcache_is_script_cached — 一个php文件是否被缓存<br>opcache_reset — 重置情况所有的缓存内容</p>
 <p>参考资料</p>
-<p>1.<a href="https://www.zybuluo.com/phper/note/1016714" target="_blank" rel="external">Opcode是啥以及如何使用好Opcache</a><br>2.<a href="http://php.net/manual/zh/opcache.configuration.php#ini.opcache.max-accelerated-files" target="_blank" rel="external">PHP手册-基本配置</a><br>3.<a href="https://gywbd.github.io/posts/2016/1/best-config-for-zend-opcache.html" target="_blank" rel="external">zend opcache</a></p>
+<p>1.<a href="https://www.zybuluo.com/phper/note/1016714" target="_blank" rel="noopener">Opcode是啥以及如何使用好Opcache</a><br>2.<a href="http://php.net/manual/zh/opcache.configuration.php#ini.opcache.max-accelerated-files" target="_blank" rel="noopener">PHP手册-基本配置</a><br>3.<a href="https://gywbd.github.io/posts/2016/1/best-config-for-zend-opcache.html" target="_blank" rel="noopener">zend opcache</a></p>
 
       
     </div>
@@ -524,6 +525,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/08/10/elasticsearch/" rel="prev" title="Elasticsearch集群部署">
+                Elasticsearch集群部署 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -602,7 +607,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -613,7 +618,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -624,7 +629,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

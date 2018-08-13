@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2016/08/27/php-debug/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="一直以来，调试PHP脚本都是直接在脚本中die或exit实现断点调试，下面介绍phpstorm+xdebug的组合来实现代码的调试 安装&amp;amp;配置xdebug安装xdebugsudo apt-get install php5.6-xdebug #ubuntu sudo port install php56-xdebug  #mac sudo yum install php56w-pecl-xd">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-phpinfo.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-port.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/xdebug/xdebug-idekey.png">
@@ -639,7 +640,7 @@ xdebug.profiler_output_name = &quot;cachegrind.out.%t-%s&quot;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -650,7 +651,7 @@ xdebug.profiler_output_name = &quot;cachegrind.out.%t-%s&quot;
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -661,7 +662,7 @@ xdebug.profiler_output_name = &quot;cachegrind.out.%t-%s&quot;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -743,7 +744,7 @@ xdebug.profiler_output_name = &quot;cachegrind.out.%t-%s&quot;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-amp-配置xdebug"><span class="nav-number">1.</span> <span class="nav-text">安装&配置xdebug</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装xdebug"><span class="nav-number">1.1.</span> <span class="nav-text">安装xdebug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置php-ini"><span class="nav-number">1.2.</span> <span class="nav-text">配置php.ini</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置phpstorm"><span class="nav-number">2.</span> <span class="nav-text">配置phpstorm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调试端口"><span class="nav-number">2.1.</span> <span class="nav-text">调试端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DBGp-Proxy"><span class="nav-number">2.2.</span> <span class="nav-text">DBGp Proxy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入调试模式"><span class="nav-number">2.3.</span> <span class="nav-text">进入调试模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#脚本调试"><span class="nav-number">2.3.1.</span> <span class="nav-text">脚本调试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#web-application运行调试"><span class="nav-number">2.3.2.</span> <span class="nav-text">web application运行调试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#浏览器调试"><span class="nav-number">2.3.3.</span> <span class="nav-text">浏览器调试</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-amp-配置xdebug"><span class="nav-number">1.</span> <span class="nav-text">安装&amp;配置xdebug</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装xdebug"><span class="nav-number">1.1.</span> <span class="nav-text">安装xdebug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置php-ini"><span class="nav-number">1.2.</span> <span class="nav-text">配置php.ini</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置phpstorm"><span class="nav-number">2.</span> <span class="nav-text">配置phpstorm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调试端口"><span class="nav-number">2.1.</span> <span class="nav-text">调试端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DBGp-Proxy"><span class="nav-number">2.2.</span> <span class="nav-text">DBGp Proxy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入调试模式"><span class="nav-number">2.3.</span> <span class="nav-text">进入调试模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#脚本调试"><span class="nav-number">2.3.1.</span> <span class="nav-text">脚本调试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#web-application运行调试"><span class="nav-number">2.3.2.</span> <span class="nav-text">web application运行调试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#浏览器调试"><span class="nav-number">2.3.3.</span> <span class="nav-text">浏览器调试</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

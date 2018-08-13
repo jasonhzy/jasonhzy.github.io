@@ -100,6 +100,7 @@
 <meta property="og:url" content="http://jasonhzy.github.io/2016/03/28/mamp-config/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;MAMP 这个名字来源于 Macintosh Apache MySQL PHP，显然专门用来在 Mac环境下搭建Apache、MySQL、PHP平台。OSX中已经预装了Apache和PHP环境，但是启用、配置并安装整合MySQL仍然是一件极其复杂的工作。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mac-mysql.png">
 <meta property="og:updated_time" content="2018-05-09T08:56:36.000Z">
 <meta name="twitter:card" content="summary">
@@ -426,8 +427,8 @@
 
 sudo apachectl start ＃启动apache
 /usr/sbin/httpd -D FOREGROUND #可以查看启动失败的原因
-</code></pre><p>测试是否成功：<a href="http://localhost/，出现“It" target="_blank" rel="external">http://localhost/，出现“It</a> works!”，表示启用成功！</p>
-<p>配置apache支持<a href="http://localhost/~username/访问" target="_blank" rel="external">http://localhost/~username/访问</a></p>
+</code></pre><p>测试是否成功：<a href="http://localhost/，出现“It" target="_blank" rel="noopener">http://localhost/，出现“It</a> works!”，表示启用成功！</p>
+<p>配置apache支持<a href="http://localhost/~username/访问" target="_blank" rel="noopener">http://localhost/~username/访问</a></p>
 <pre><code>LoadModule php5_module libexec/apache2/libphp5.so #支持php
 LoadModule rewrite_module libexec/apache2/mod_rewrite.so #支持rewrite模式
 LoadModule userdir_module libexec/apache2/mod_userdir.so #启用userdir
@@ -441,7 +442,7 @@ LoadModule userdir_module libexec/apache2/mod_userdir.so #启用userdir
     Allow from all
 &lt;/Directory&gt;
 </code></pre><p>如上述操作之后，可以进行测试。</p>
-<h2 id="利用macports重新安装PHP环境"><a href="#利用macports重新安装PHP环境" class="headerlink" title="利用macports重新安装PHP环境"></a>利用macports重新安装PHP环境</h2><p>安装macports，可以在<a href="https://www.macports.org/install.php" target="_blank" rel="external">官网下载</a></p>
+<h2 id="利用macports重新安装PHP环境"><a href="#利用macports重新安装PHP环境" class="headerlink" title="利用macports重新安装PHP环境"></a>利用macports重新安装PHP环境</h2><p>安装macports，可以在<a href="https://www.macports.org/install.php" target="_blank" rel="noopener">官网下载</a></p>
 <h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><pre><code>sudo port search mysql #查看mysql，选择需要的版本
 sudo port install mysql #安装mysql
 </code></pre><p>利用which mysql<br>可以查看到位于/opt/local/lib/mysql55/bin下，进入此目录下：</p>
@@ -482,7 +483,7 @@ LoadModule php5_module modules/mod_php56.so
 <pre><code># Include PHP configurations
 Include conf/extra/mod_php56.conf
 </code></pre><p><strong>参考资料</strong></p>
-<p>1.<a href="https://trac.macports.org/wiki/howto/MAMP" target="_blank" rel="external">howto MAMP</a></p>
+<p>1.<a href="https://trac.macports.org/wiki/howto/MAMP" target="_blank" rel="noopener">howto MAMP</a></p>
 
       
     </div>
@@ -655,7 +656,7 @@ Include conf/extra/mod_php56.conf
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -666,7 +667,7 @@ Include conf/extra/mod_php56.conf
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -677,7 +678,7 @@ Include conf/extra/mod_php56.conf
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
