@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作">
+<meta name="description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Elasticsearch集群部署">
 <meta property="og:url" content="http://jasonhzy.github.io/2018/08/10/elasticsearch/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作">
+<meta property="og:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-13T10:04:57.000Z">
+<meta property="og:updated_time" content="2018-08-14T01:59:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elasticsearch集群部署">
-<meta name="twitter:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作">
+<meta name="twitter:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例">
 
 
 
@@ -419,13 +419,9 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例</p>
 <a id="more"></a>
-<p>目前 Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例，比如：</p>
-<pre><code>GitHub 使用 Elasticsearch 检索超过 800 万的代码库
-eBay 使用 Elasticsearch 搜索海量的商品数据
-Netflix 使用 Elasticsearch 来实现高效的消息传递系统
-</code></pre><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Index (索引)：Index 是名词，一个 Index 就像是传统关系数据库的 Database，它是 Elasticsearch 用来存储数据的逻辑区域<br>Document (文档)：Elasticsearch 使用 JSON 文档来表示一个对象，就像是关系数据库中一个 Table 中的一行数据<br>Type (类型)：文档归属于一种 Type，就像是关系数据库中的一个 Table<br>Field (字段)：每个文档包含多个字段，类似关系数据库中一个 Table 的列</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Index (索引)：Index 是名词，一个 Index 就像是传统关系数据库的 Database，它是 Elasticsearch 用来存储数据的逻辑区域<br>Document (文档)：Elasticsearch 使用 JSON 文档来表示一个对象，就像是关系数据库中一个 Table 中的一行数据<br>Type (类型)：文档归属于一种 Type，就像是关系数据库中的一个 Table<br>Field (字段)：每个文档包含多个字段，类似关系数据库中一个 Table 的列</p>
 <p>Node (节点)：node 是一个运行着的 Elasticsearch 实例，一个 node 就是一个单独的 server<br>Cluster (集群)：cluster 是多个 node 的集合<br>Shard (分片)：数据分片，一个 index 可能会存在于多个 shard</p>
 <!-- more -->
 <h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><p>操作系统：Ubuntu14.04<br>JDK：jdk1.8.0_121<br>Elasticsearch：2.3.3</p>
