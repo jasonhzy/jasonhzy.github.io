@@ -236,7 +236,7 @@ es1     0 r UNASSIGNED
 </code></pre><p>5.处理中Elasticsearch集群yellow和red状态   </p>
 <p>查看是哪个索引的status是red／yellow导致了集群都red／yellow了，查找API即：</p>
 <pre><code>curl -X GET &apos;http://localhost:9200/_cluster/health?level=indices&amp;pretty&apos; #格式化显示， 或者使用python -m json.tool格式化
-curl -X GET &apos;http://localhost:9200/_cluster/health?level=indices&apos; ｜ grep red #可以看到索引信息
+curl -X GET &apos;http://localhost:9200/_cluster/health?level=indices&apos; | grep red #可以看到索引信息
 </code></pre><p>修复导致了集群状态red／yellow的unassigned shards索引：</p>
 <pre><code>curl -XPOST &apos;http://localhost:9200/_cluster/reroute&apos; -d &apos;{
     &quot;commands&quot; : [ {
