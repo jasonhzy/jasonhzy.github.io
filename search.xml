@@ -2840,12 +2840,13 @@ http {
 }
 </code></pre><h3 id="location模块"><a href="#location模块" class="headerlink" title="location模块"></a>location模块</h3><p>匹配模式及顺序</p>
 <pre><code>location = /uri 　　　=开头表示精确匹配，只有完全匹配上才能生效。
-location ^~ /uri 　　^~ 开头对URL路径进行前缀匹配，并且在正则之前。
-location ~ pattern 　~开头表示区分大小写的正则匹配。
-location ~* pattern 　~*开头表示不区分大小写的正则匹配。
+location ^~ /uri 　　^~ 开头对URL路径进行前缀匹配，并且在正则之前。非正则匹配
+location ~ pattern 　~开头表示区分大小写的正则匹配。!~为区分大小写不匹配的正则
+location ~* pattern 　~*开头表示不区分大小写的正则匹配。!~*为不区分大小写不匹配的正则
 location /uri 　　　　不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。
 location / 　　　　　通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。
-</code></pre><p>优先级：<br>    (location =) &gt; (location 完整路径) &gt; (location ^~ 路径) &gt; (location ~,~* 正则顺序) &gt; (location 部分起始路径) &gt; (/)</p>
+</code></pre><p>注意：<br>    前缀匹配，如果有包含关系时，按最大匹配原则进行匹配。比如在前缀匹配：location /dir1与location /dir1/dir2，如有请求<a href="http://localhost/dir1/dir2/file将最终匹配到location" target="_blank" rel="noopener">http://localhost/dir1/dir2/file将最终匹配到location</a> /dir1/dir2</p>
+<p>优先级：<br>    (location =) &gt; (location 完整路径) &gt; (location ^~ 路径) &gt; (location ~,~* 正则顺序) &gt; (location 部分起始路径) &gt; (/)</p>
 <h3 id="rewrite指令"><a href="#rewrite指令" class="headerlink" title="rewrite指令"></a>rewrite指令</h3><p>rewrite功能就是，使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位实现url重写以及重定向。<br>rewrite只能放在server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用，<br>例如 <a href="http://seanlook.com/a/we/index.php?id=1&amp;u=str" target="_blank" rel="noopener">http://seanlook.com/a/we/index.php?id=1&amp;u=str</a> 只对/a/we/index.php重写。<br>语法rewrite regex replacement [flag] 。执行顺序是：</p>
 <pre><code>1.执行server块的rewrite指令
 2.执行location匹配
