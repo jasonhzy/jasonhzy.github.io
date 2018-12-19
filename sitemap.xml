@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jasonhzy.github.io/about/index.html</loc>
+    
+    <lastmod>2018-12-19T08:06:55.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2017/09/03/nginx/</loc>
     
     <lastmod>2018-09-17T03:19:20.000Z</lastmod>
@@ -124,13 +131,6 @@
     <loc>http://jasonhzy.github.io/2016/02/27/ci-smarty/</loc>
     
     <lastmod>2018-07-11T03:48:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/about/index.html</loc>
-    
-    <lastmod>2018-07-06T06:28:07.000Z</lastmod>
     
   </url>
   
@@ -359,6 +359,20 @@
   </url>
   
   <url>
+    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
+    
+    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2016/01/31/php-fun/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
@@ -373,13 +387,6 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://jasonhzy.github.io/2016/02/19/sort-algorithm/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
@@ -387,14 +394,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
@@ -416,13 +423,6 @@
   
   <url>
     <loc>http://jasonhzy.github.io/tags/index.html</loc>
-    
-    <lastmod>2016-03-27T14:09:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
