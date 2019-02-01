@@ -6,7 +6,7 @@
     <entry>
       <title><![CDATA[mysql-config-editor使用]]></title>
       <url>http://jasonhzy.github.io/2019/02/01/mysql-config-editor/</url>
-      <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>登陆MySQL我们需要频繁输入用户名密码，自MySQL5.6+以后出现了mysql_config_editor，可以给指定的连接和密码生成一个加密文件，服务的认证信息加密保存在.mylogin.cnf文件（默认位于用户主目录）之后，MySQL客户端工具可通过读取该加密文件连接MySQL，避免重复输入登录信息，也避免敏感信息的暴露。<br>应用：<br>MySQL的登陆和数据库的备份（mysqldump）等即可实现免密登陆。</p>
+      <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>登陆MySQL我们需要频繁输入用户名密码，自MySQL5.6+以后出现了mysql_config_editor，可以给指定的连接和密码生成一个加密文件，服务的认证信息加密保存在.mylogin.cnf文件（默认位于用户主目录）之后，MySQL客户端工具可通过读取该加密文件连接MySQL，避免重复输入登录信息，也避免敏感信息的暴露。<br>应用：<br>MySQL的登陆和备份（mysqldump）等即可实现免密操作。</p>
 <a id="more"></a>
 <h2 id="查看帮助"><a href="#查看帮助" class="headerlink" title="查看帮助"></a>查看帮助</h2><pre><code>mysql_config_editor --help
 mysql_config_editor [set/remove/reset] --help
