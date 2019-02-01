@@ -45,7 +45,7 @@ useradd -g mysql -s /sbin/nologin -M mysql
 systemctl enable mysqld
 systemctl status/start/stop mysqld
 </code></pre><h2 id="配置root登录密码"><a href="#配置root登录密码" class="headerlink" title="配置root登录密码"></a>配置root登录密码</h2><pre><code>mysql_secure_installation
-</code></pre><h2 id="创建远程访问用户"><a href="#创建远程访问用户" class="headerlink" title="创建远程访问用户"></a>创建远程访问用户</h2><pre><code>grant select, insert, update, delete on pre_school.* to &apos;bellgift&apos;@&apos;%&apos; identified by &apos;Bell309&amp;&apos;;
+</code></pre><h2 id="创建远程访问用户"><a href="#创建远程访问用户" class="headerlink" title="创建远程访问用户"></a>创建远程访问用户</h2><pre><code>grant select, insert, update, delete on jasonhzy.* to &apos;test&apos;@&apos;%&apos; identified by &apos;test&apos;;
 flush privileges;
 </code></pre>]]></content>
       
