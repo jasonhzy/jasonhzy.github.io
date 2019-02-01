@@ -14,7 +14,7 @@
 </code></pre><h2 id="创建文件目录"><a href="#创建文件目录" class="headerlink" title="创建文件目录"></a>创建文件目录</h2><pre><code>mkdir -p /usr/local/mysql
 mkdir -p /usr/local/boost
 mkdir -p /data/mysql
-</code></pre><p>修改目录权限</p>
+</code></pre><p>修改目录权限：</p>
 <pre><code>chown -R mysql:mysql /usr/local/mysql
 chown -R mysql:mysql /data/mysql
 </code></pre><h2 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h2><pre><code>groupadd mysql
