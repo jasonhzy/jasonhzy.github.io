@@ -4,6 +4,52 @@
   
     
     <entry>
+      <title><![CDATA[mysql-config-editor使用]]></title>
+      <url>http://jasonhzy.github.io/2019/02/01/mysql-config-editor/</url>
+      <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>登陆MySQL我们需要频繁输入用户名密码，自MySQL5.6+以后出现了mysql_config_editor，可以给指定的连接和密码生成一个加密文件，服务的认证信息加密保存在.mylogin.cnf文件（默认位于用户主目录）之后，MySQL客户端工具可通过读取该加密文件连接MySQL，避免重复输入登录信息，也避免敏感信息的暴露。</p>
+<a id="more"></a>
+<h2 id="查看帮助"><a href="#查看帮助" class="headerlink" title="查看帮助"></a>查看帮助</h2><pre><code>mysql_config_editor --help
+mysql_config_editor [set/remove/reset] --help
+</code></pre><p>如图所示：<br><img src="/images/mysql-config-editor/help.png" alt="help">    </p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><pre><code>mysql_config_editor set --login-path=test --host=localhost --user=root --port=3306 --password
+</code></pre><p>其中配置项：</p>
+<pre><code>-h, –host=name 添加host到登陆文件中
+-G,–login-path=name 在登录文件中为login path添加名字（默认为client）
+-p, –password 在登陆文件中添加密码（该密码会被mysql_config_editor自动加密）
+-u, –user 添加用户名到登陆文件中
+-S, –socket=/path/mysql.sock 添加sock文件路径到登陆文件中
+-P, –port=3306 添加登陆端口到登陆文件中
+</code></pre><p>如图所示：<br><img src="/images/mysql-config-editor/set.png" alt="set"> </p>
+<h3 id="显示配置"><a href="#显示配置" class="headerlink" title="显示配置"></a>显示配置</h3><pre><code>mysql_config_editor print --login-path=test #显示执行的login-path配置
+mysql_config_editor print --all             #显示所有的login-path信息
+</code></pre><p>显示的密码是经过加密处理的，不必担心暴露问题</p>
+<p>如图所示：<br><img src="/images/mysql-config-editor/print.png" alt="print">     </p>
+<h3 id="删除配置"><a href="#删除配置" class="headerlink" title="删除配置"></a>删除配置</h3><pre><code>mysql_config_editor remove --login-path=test
+</code></pre><h3 id="清空配置"><a href="#清空配置" class="headerlink" title="清空配置"></a>清空配置</h3><p>通过reset命令可以清空所有的配置信息</p>
+<pre><code>mysql_config_editor reset
+</code></pre><h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>数据库登陆：</p>
+<pre><code>mysql --login-path=test
+</code></pre><p>如图所示：<br><img src="/images/mysql-config-editor/login.png" alt="login">     </p>
+<p>全量备份：</p>
+<pre><code>mysqldump --login-path=test --opt pre_school | gzip &gt; test.sql.gz
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Elasticsearch集群部署]]></title>
       <url>http://jasonhzy.github.io/2018/08/10/elasticsearch/</url>
       <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例</p>
