@@ -4,6 +4,124 @@
   
     
     <entry>
+      <title><![CDATA[Linux内核版本]]></title>
+      <url>http://jasonhzy.github.io/2019/02/14/linux-kernel-version/</url>
+      <content type="html"><![CDATA[<p>Linux内核版本命名在不同时期有着不同的规范，在涉及到Linux版本问题时经常容易混淆，主线版本／稳定版／长期支持版本经常搞不清楚，本文主要记录下内核版本命名的规则以及如何查看Linux系统版本信息。</p>
+<a id="more"></a>
+<h2 id="Linux内核（Linux-kernel）简介"><a href="#Linux内核（Linux-kernel）简介" class="headerlink" title="Linux内核（Linux kernel）简介"></a>Linux内核（Linux kernel）简介</h2><p>内核是操作系统的核心 ，其主要功能有：</p>
+<pre><code>响应中断，执行中断服务程序
+管理多个进程，调度和分享处理器的时间
+管理进程地址空间的内存管理
+网络和进程间通信等系统服务程序
+</code></pre><p>内核的活动范围：</p>
+<pre><code>运行于用户空间，执行用户进程
+运行于内核空间，处于进程上下文，代表某个特定进程的执行
+运行于内核空间，处于中断上下文，与任何进程无关，处理某个特定的中断
+</code></pre><h2 id="Linux内核版本号"><a href="#Linux内核版本号" class="headerlink" title="Linux内核版本号"></a>Linux内核版本号</h2><p>第一种方式：<br>Linux 的版本号分为两部分，即内核版本与发行版本。内核版本号由3个数字组成：A.B.C。各数字含义如下：</p>
+<pre><code>A：内核主版本号。这是很少发生变化，只有当发生重大变化的代码和内核发生才会发生。在历史上曾改变两次的内核：1994年的1.0及1996年的2.0。
+B：内核次版本号。是指一些重大修改的内核。偶数表示稳定版本；奇数表示开发中版本。
+C：内核修订版本号。是指轻微修订的内核。这个数字当有安全补丁,bug修复，新的功能或驱动程序，内核便会有变化。
+</code></pre><p>第二种方式：<br>major.minor.patch-build.desc</p>
+<pre><code>major : 主版本号，有结构变化才变更 
+minor : 次版本号，新增功能时才发生变化，一般技术表示测试版，偶数表示生产版 
+patch : 补丁包数或次版本的修改次数 
+build : 编译（或构建）的次数，每次编译可能对少量程序做优化或修改，但一般没有大的（可控的）功能变化。
+desc  : 当前版本的特殊信息，其信息由编译时指定，具有较大的随意性，有如下的标识是常用的： 
+    rc（或r），表示发行候选版本（release candidate），rc后的数字表示该正式版本的第几个候选版本，多数情况下，各候选版本之间数字越大越接近正式版。
+    smp，表示对称多处理器（Symmetric MultiProcessing）。
+    pp，在Red Hat Linux中常用来表示测试版本（pre-patch）。
+    EL，在Red Hat Linux中用来表示企业版Linux（Enterprise Linux）。
+    mm，表示专门用来测试新的技术或新功能的版本。
+    fc，在Red Hat Linux中表示Fedora Core。  
+</code></pre><p>例如：<br>用命令uname -a查看内核版本号</p>
+<p>1、在CentOS下如：</p>
+<pre><code>Linux localhost 2.6.32-642.15.1.el6.x86_64 #1 SMP Fri Feb 24 14:31:22 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre><p>说明如下：</p>
+<pre><code>第一个组数字：2, 主版本号
+第二个组数字：6, 次版本号，当前为稳定版本
+第三个组数字：32, 修订版本号
+第四个组数字：642.15.1，表示发型版本的补丁版本
+el6：则表示我正在使用的内核是 RedHat / CentOS 系列发行版专用内核
+x86_64：采用的是64位的CPU
+</code></pre><p>2、在Ubuntu下如：</p>
+<pre><code>Linux localhost 3.2.0-67-generic #101-Ubuntu SMP Tue Jul 15 17:46:11 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+#有的是3.2.0-67-generic-pae
+</code></pre><p>说明如下：</p>
+<pre><code>第一个组数字：3, 主版本号
+第二个组数字：2, 次版本号，当前为稳定版本
+第三个组数字：0, 修订版本号
+第四个组数字：67，当前内核版本（3.2.0）的第67次微调patch
+generic：当前内核版本为通用版本，另有表示不同含义的server（针对服务器）、i386（针对老式英特尔处理器）
+pae（Physical Address Extension）：物理地址扩展，为了弥补32位地址在PC服务器应用上的不足而推出，表示此32位系统可以支持超过4G的内存
+x86_64：采用的是64位的CPU
+SMP：对称多处理机，表示内核支持多核、多处理器
+Tue Jul 15 17:46:11 UTC 2014：内核的编译时间（build date）为 2014/07/15 17:46:11  
+</code></pre><h2 id="内核版本分类"><a href="#内核版本分类" class="headerlink" title="内核版本分类"></a>内核版本分类</h2><p>Linux内核版本的最新发布状态，参见Linux官网：<a href="https://kernel.org/" target="_blank" rel="noopener">https://kernel.org/</a></p>
+<p><img src="/images/kernel/website.png" alt="kernel website"></p>
+<p>1、mainline<br>主线版本</p>
+<p>2、stable<br>稳定版，由mainline在时机成熟时发布，稳定版也会在相应版本号的主线上提供bug修复和安全补丁，但内核社区人力有限，因此较老版本会停止维护，而标记为EOL(End of Life)的版本表示不再支持的版本。</p>
+<p>3、longterm(Long Term Support)<br>长期支持版，长期支持版的内核不再支持时会标记EOL。</p>
+<p>4、linux-next，snapshot<br>代码提交周期结束之前生成的快照 用于给Linux代码贡献者们做测试</p>
+<h2 id="查看Linux内核版本命令"><a href="#查看Linux内核版本命令" class="headerlink" title="查看Linux内核版本命令"></a>查看Linux内核版本命令</h2><p>1、cat /proc/version</p>
+<pre><code>[root@bogon ~]# cat /proc/version
+Linux version 4.4.131-1.el7.elrepo.x86_64 (mockbuild@Build64R7) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-28) (GCC) ) #1 SMP Wed May 2 13:09:02 EDT 2018
+</code></pre><p>2、uname -a</p>
+<pre><code>[root@bogon ~]# uname -a
+Linux bogon 4.4.131-1.el7.elrepo.x86_64 #1 SMP Wed May 2 13:09:02 EDT 2018 x86_64 x86_64 x86_64 GNU/Linux
+
+[root@bogon ~]# uname -r
+4.4.131-1.el7.elrepo.x86_64
+</code></pre><h2 id="查看Linux系统版本的命令"><a href="#查看Linux系统版本的命令" class="headerlink" title="查看Linux系统版本的命令"></a>查看Linux系统版本的命令</h2><p>1、lsb_release -a（适用于所有的Linux发行版本）</p>
+<p>LSB是Linux Standard Base的缩写，lsb_release命令用来显示LSB和特定版本的相关信息。如果使用该命令时不带参数，则默认加上-v参数。<br>说明：</p>
+<pre><code>-v 显示版本信息。
+-i 显示发行版的id。
+-d 显示该发行版的描述信息。
+-r 显示当前系统是发行版的具体版本号。
+-c 发行版代号。
+-a 显示上面的所有信息。
+-h 显示帮助信息。
+-s 输出简短的描述信息(仅限于redhat和fedora系统) 。
+</code></pre><p>有些系统中默认并没有安装lsb_release，需要进行安装，以CentOS为例：<br>首先查找lsb_release安装包：</p>
+<pre><code>[root@bogon ~]# yum provides lsb_release
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.cn99.com
+ * elrepo: mirrors.tuna.tsinghua.edu.cn
+ * extras: centos.ustc.edu.cn
+ * updates: mirrors.cn99.com
+redhat-lsb-core-4.1-27.el7.centos.1.x86_64 : LSB Core module support
+Repo        : base
+Matched from:
+Filename    : /usr/bin/lsb_release
+</code></pre><p>安装：</p>
+<pre><code>[root@bogon ~]# yum install -y redhat-lsb-core
+</code></pre><p>2、cat /etc/redhat-release（适用于Redhat系的Linux）</p>
+<pre><code>[root@bogon ~]# cat /etc/redhat-release
+CentOS Linux release 7.5.1804 (Core) 
+</code></pre><p>3、cat /etc/issue（适用于所有的Linux发行版本）</p>
+<pre><code>root@localhost:~# cat /etc/issue
+Ubuntu 14.04.5 LTS \n \l
+</code></pre><p>参考资料：<br>1、<a href="https://zh.wikipedia.org/wiki/Linux%E5%86%85%E6%A0%B8#%E7%89%88%E6%9C%AC%E5%91%BD%E5%90%8D" target="_blank" rel="noopener">Linux内核（维基百科）</a><br>2、<a href="https://www.ibm.com/developerworks/cn/linux/l-linux-kernel/" target="_blank" rel="noopener">Linux 内核剖析</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Kernel </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[MySQL源码安装]]></title>
       <url>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</url>
       <content type="html"><![CDATA[<p>MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例</p>
