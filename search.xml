@@ -101,7 +101,7 @@ CentOS Linux release 7.5.1804 (Core)
 </code></pre><p>3、cat /etc/issue（适用于所有的Linux发行版本）</p>
 <pre><code>root@localhost:~# cat /etc/issue
 Ubuntu 14.04.5 LTS \n \l
-</code></pre><p>参考资料：<br>1、<a href="https://zh.wikipedia.org/wiki/Linux%E5%86%85%E6%A0%B8#%E7%89%88%E6%9C%AC%E5%91%BD%E5%90%8D" target="_blank" rel="noopener">Linux内核（维基百科）</a><br>2、<a href="https://www.ibm.com/developerworks/cn/linux/l-linux-kernel/" target="_blank" rel="noopener">Linux 内核剖析</a></p>
+</code></pre><p>参考资料：<br>1、<a href="https://zh.wikipedia.org/wiki/Linux%E5%86%85%E6%A0%B8#%E7%89%88%E6%9C%AC%E5%91%BD%E5%90%8D" target="_blank" rel="noopener">Linux内核（维基百科）</a><br>2、<a href="https://www.ibm.com/developerworks/cn/linux/l-linux-kernel/" target="_blank" rel="noopener">Linux内核剖析</a></p>
 ]]></content>
       
         <categories>
