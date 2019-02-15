@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title><![CDATA[Linux内核版本]]></title>
+      <title><![CDATA[Linux内核版本介绍与查询]]></title>
       <url>http://jasonhzy.github.io/2019/02/14/linux-kernel-version/</url>
       <content type="html"><![CDATA[<p>Linux内核版本命名在不同时期有着不同的规范，在涉及到Linux版本问题时经常容易混淆，主线版本／稳定版／长期支持版本经常搞不清楚，本文主要记录下内核版本命名的规则以及如何查看Linux系统版本信息。</p>
 <a id="more"></a>
