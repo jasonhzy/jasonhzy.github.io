@@ -4,8 +4,144 @@
   
     
     <entry>
+      <title><![CDATA[Ubuntu内核升级]]></title>
+      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
+      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
+<a id="more"></a>
+<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
+apt-cache search linux-headers-\*
+</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
+apt-get install linux-headers-X.X.X.X-generic
+</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
+或
+update-initramfs -u -k `uname -r`
+</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
+</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
+</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
+</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
+<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
+<pre><code>getconf LONG_BIT
+</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
+<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
+</code></pre><p>3、使用wget命令来下载到服务器</p>
+<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>4、安装下载软件包</p>
+<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
+<pre><code>update-grub
+</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
+<pre><code>dpkg --get-selections | grep linux-image
+</code></pre><p>2、移除不要的Kernel</p>
+<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
+</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
+<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Kernel </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[CentOS内核升级]]></title>
+      <url>http://jasonhzy.github.io/2019/02/06/centos-kernel-upgrade/</url>
+      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的CentOS进行操作</p>
+<a id="more"></a>  
+<h2 id="导入public-key"><a href="#导入public-key" class="headerlink" title="导入public key"></a>导入public key</h2><pre><code>rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+</code></pre><h2 id="yum源更新"><a href="#yum源更新" class="headerlink" title="yum源更新"></a>yum源更新</h2><p>访问<a href="http://elrepo.org/tiki/tiki-index.php" target="_blank" rel="noopener">ELRepo.org</a>查看与自己系统匹配的yum源然后安装</p>
+<p>RHEL-7, SL-7 or CentOS-7:</p>
+<pre><code>rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+</code></pre><p>RHEL-6, SL-6 or CentOS-6:</p>
+<pre><code>rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm    
+</code></pre><h2 id="安装内核"><a href="#安装内核" class="headerlink" title="安装内核"></a>安装内核</h2><p>列出可用的内核相关包：</p>
+<pre><code>yum --disablerepo=&quot;*&quot; --enablerepo=&quot;elrepo-kernel&quot; list available
+</code></pre><p>备注：mt为短期支持，lt是长期支持  </p>
+<p>ml内核（mainline，安装的是最新版的内核），安装命令：</p>
+<pre><code>yum --enablerepo=elrepo-kernel install kernel-ml -y 
+</code></pre><p>kernel-lt（lt=long-term)，安装命令：</p>
+<pre><code>yum --enablerepo=elrepo-kernel install kernel-lt -y
+</code></pre><h2 id="安装头文件"><a href="#安装头文件" class="headerlink" title="安装头文件"></a>安装头文件</h2><p>查找头文件版本：</p>
+<pre><code>rpm -qa kernel-headers
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost ~]# rpm -qa kernel-headers
+kernel-headers-3.10.0-693.21.1.el7.x86_64    
+</code></pre><p>卸载老版本的headers，防止冲突</p>
+<pre><code>yum -y remove kernel-headers-3.10.0-693.21.1.el7.x86_64
+</code></pre><p>然后安装新的头文件:</p>
+<pre><code>yum --disablerepo=&quot;*&quot; --enablerepo=elrepo-kernel install kernel-lt-headers -y
+</code></pre><h2 id="设置GRUB默认的内核版本"><a href="#设置GRUB默认的内核版本" class="headerlink" title="设置GRUB默认的内核版本"></a>设置GRUB默认的内核版本</h2><p>打开并编辑/etc/default/grub，设置GRUB_DEFAULT=0。意思是GRUB初始化页面的第一个内核将作为默认内核</p>
+<pre><code>#默认启动项，按menuentry顺序，从0开始；若要默认从第3个菜单项启动，数字改为2；若改为saved，则默认上次启动项
+GRUB_DEFAULT=0
+#设置进入默认启动项的等候时间，默认值5秒；若为-1则一直等待
+GRUB_TIMEOUT=5
+#菜单中的描述名称
+GRUB_DISTRIBUTOR=&quot;$(sed &apos;s, release .*$,,g&apos; /etc/system-release)&quot;
+GRUB_DISABLE_SUBMENU=true
+#设置是否使用图形界面。前面有#注释则使用图形界面，无则使用控制台终端
+GRUB_TERMINAL_OUTPUT=&quot;console&quot;
+#手动添加内核启动参数
+GRUB_CMDLINE_LINUX=&quot;rd.lvm.lv=centos/root rd.lvm.lv=centos/swap crashkernel=auto rhgb quiet&quot;
+#设定是否创建修复模式菜单项，前面有#注释则建立修复模式，无则不建立修复模式
+GRUB_DISABLE_RECOVERY=&quot;true&quot;
+</code></pre><p>低版本的centos，需要编辑/etc/grub.conf文件</p>
+<p>重新编译内核启动文件:</p>
+<pre><code>grub2-mkconfig -o /boot/grub2/grub.cfg
+</code></pre><h2 id="重启之后查看内核"><a href="#重启之后查看内核" class="headerlink" title="重启之后查看内核"></a>重启之后查看内核</h2><pre><code>uname -a
+</code></pre><h2 id="删除旧版本的内核"><a href="#删除旧版本的内核" class="headerlink" title="删除旧版本的内核"></a>删除旧版本的内核</h2><p><strong> 旧内核建议保留一段时间，以防止发生异常。待新内核稳定运行一段时间时候，可以删除。 </strong></p>
+<p>列出已安装的内核：</p>
+<pre><code>rpm -qa | grep kernel
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost ~]#  rpm -qa | grep kernel
+kernel-lt-4.4.121-1.el7.elrepo.x86_64
+kernel-headers-3.10.0-693.21.1.el7.x86_64
+kernel-lt-4.4.174-1.el7.elrepo.x86_64
+</code></pre><p>删除内核：</p>
+<pre><code>rpm -e kernel-headers-3.10.0-693.21.1.el7.x86_64 kernel-lt-4.4.121-1.el7.elrepo.x86_64
+或
+yum remove kernel-headers-3.10.0-693.21.1.el7.x86_64 kernel-lt-4.4.121-1.el7.elrepo.x86_64       
+</code></pre><p>备注：<br>1、导入key时，出现curl: (60) Peer’s Certificate has expired问题</p>
+<p>解决方案有两种：<br>1）更新证书</p>
+<pre><code>update-ca-trust
+</code></pre><p>2）更新证书后问题没有解决，查看是否是系统时间过期引起的问题<br>查看系统时间：</p>
+<pre><code>date
+</code></pre><p>同步系统时间：</p>
+<pre><code>ntpdate time.apple.com
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Kernel </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Linux内核版本介绍与查询]]></title>
-      <url>http://jasonhzy.github.io/2019/02/14/linux-kernel-version/</url>
+      <url>http://jasonhzy.github.io/2019/02/05/linux-kernel-version/</url>
       <content type="html"><![CDATA[<p>Linux内核版本命名在不同时期有着不同的规范，在涉及到Linux版本问题时经常容易混淆，主线版本／稳定版／长期支持版本经常搞不清楚，本文主要记录下内核版本命名的规则以及如何查看Linux系统版本信息。</p>
 <a id="more"></a>
 <h2 id="Linux内核（Linux-kernel）简介"><a href="#Linux内核（Linux-kernel）简介" class="headerlink" title="Linux内核（Linux kernel）简介"></a>Linux内核（Linux kernel）简介</h2><p>内核是操作系统的核心 ，其主要功能有：</p>
