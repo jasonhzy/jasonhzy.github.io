@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/ausearch.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/ausearch-audit2allow.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/selinux/sealert.png">
-<meta property="og:updated_time" content="2018-05-10T13:07:46.000Z">
+<meta property="og:updated_time" content="2019-02-16T07:33:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SELinux">
 <meta name="twitter:description" content="SELinux 简介SELinux 全称是 Secure Enhanced Linux， 是MAC (Mandatory Access Control，强制访问控制系统)的一个实现，目的在于明确的指明某个进程可以访问哪些资源(文件、网络端口等)">
@@ -494,6 +494,8 @@ ausearch -m AVC | audit2allow -a -M redis(名称自定义)
 [root@localhost ~]# semanage port -l | grep redis
 redis_port_t    tcp      6379, 16379, 26379
 </code></pre><h3 id="SELinux相关的工具"><a href="#SELinux相关的工具" class="headerlink" title="SELinux相关的工具"></a>SELinux相关的工具</h3><p>policycoreutils：提供与 SELinux 相关的命令，比如 restorecon, secon, setfiles, semodule , load_policy 和 setsebool 来操作和管理 SELinux。<br>policycoreutils-python：提供命令比如 semanage, audit2allow, audit2why和chcat来管理和操作SELinux。<br>setroubleshoot-server：翻译 SELinux 的拒绝操作体质信息，为 sealert 工具提供可以查看的、可读性好的信息。<br>setools/setools-console/setools-gui：这些安装包提供了与 SELinux 相关的策略分析、检索、日志审计与监控、文件上下文管理管理的相关工具。setools是元工具，setools-gui提供了 apol, seaudit 工具；setool-console 则提供了 sechecker, sediff, seinfo, sesearch, 和 findcon 等命令行工具。<br>mcstrans：提供对 SELinux 上文中的级别（比如 s0-s0:c0.c1023）翻译的工具。<br>libselinux-utils：提供 avcstat, getenforce, getsebool, matchpathcon, selinuxconlist, selinuxdefcon, selinuxenabled, 和 setenforce 工具。</p>
+<p>参考资料</p>
+<p><a href="https://wiki.centos.org/zh/HowTos/SELinux#head-2c3b6731592632a3657bfb57b10adb2aa6d3d96a" target="_blank" rel="noopener">CentOS SELinux</a></p>
 
       
     </div>
@@ -666,7 +668,7 @@ redis_port_t    tcp      6379, 16379, 26379
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -688,7 +690,7 @@ redis_port_t    tcp      6379, 16379, 26379
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
