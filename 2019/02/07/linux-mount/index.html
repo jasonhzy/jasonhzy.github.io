@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。通常情况下，为磁盘分区通常使用fdisk，它是对基于MBR机制分区的管理磁盘命令，但是它仅仅支持2TB以下磁盘的分区，超出2TB部分无法识别。若过超过则可以使用parted进行分区，本文主要讲解fdisk分区。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-21T06:34:53.000Z">
+<meta property="og:updated_time" content="2019-02-21T06:37:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux分区与挂载">
 <meta name="twitter:description" content="分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。通常情况下，为磁盘分区通常使用fdisk，它是对基于MBR机制分区的管理磁盘命令，但是它仅仅支持2TB以下磁盘的分区，超出2TB部分无法识别。若过超过则可以使用parted进行分区，本文主要讲解fdisk分区。">
@@ -786,7 +786,7 @@ echo &apos;/dev/sdb1 /data ext4 defaults 0 0&apos; &gt;&gt; /etc/fstab
 </code></pre><p>备注：开机自动挂载最好设置UUID，其次使用卷标，因为有时卷设备名会发生变化，导致开机启动出现异常</p>
 <p>每列描述如下：    </p>
 <pre><code>file system&lt;设备文件名称&gt;   mount point&lt;挂载目录&gt;    type&lt;文件系统类型&gt;  options&lt;文件系统参数&gt;  dump&lt;是否备份&gt;  pass&lt;开机时自检&gt;
-</code></pre><p>第一列：可以是设备名称（比如 /dev/sda1）或标记 (LABEL=) 或 UUID (UUID=)<br>第二列：挂载点（也就是挂载目录），对于交换空间，该值应该是”none”或”swap”<br>第三列：所要挂载设备的文件系统类型。支持许多种不同的文件系统：ext2, ext3, ext4, reiserfs, xfs, jfs, smbfs, iso9660, vfat, ntfs, swap 及 auto。<br>       设置成auto类型，mount 命令会猜测使用的文件系统类型，对 CDROM 和 DVD 等移动设备是非常有用的。<br>第四列：挂载参数，即mount命令“-o”选项后可使用的参数，如defaults、rw等，通常使用defaults即可<br>第五列：备份，dump是一个用来作为备份的命令。0：不做备份 1：每天备份<br>第六列：文件系统的检查顺序。开机的过程中，系统默认会以fsck检验我们系统是否为完整；0：不检验， 1：最先检验（一般根目录即”/“会选择， 设置后其他不能再使用1），2：1级别检验完成之后进行检验</p>
+</code></pre><p>第一列：可以是设备名称（比如 /dev/sda1）或标记 (LABEL=) 或 UUID (UUID=)<br>第二列：挂载点（也就是挂载目录），对于交换空间，该值应该是”none”或”swap”<br>第三列：所要挂载设备的文件系统类型。支持许多种不同的文件系统：ext2, ext3, ext4, reiserfs, xfs, jfs, smbfs, iso9660, vfat,<br>        ntfs, swap 及 auto。设置成auto类型，mount 命令会猜测使用的文件系统类型，对 CDROM 和 DVD 等移动设备是非常有用的。<br>第四列：挂载参数，即mount命令“-o”选项后可使用的参数，如defaults、rw等，通常使用defaults即可<br>第五列：备份，dump是一个用来作为备份的命令。0：不做备份 1：每天备份<br>第六列：文件系统的检查顺序。开机的过程中，系统默认会以fsck检验我们系统是否为完整；0：不检验，<br>        1：最先检验（一般根目录即”/“会选择， 设置后其他不能再使用1），2：1级别检验完成之后进行检验</p>
 <p>2、/etc/fstab写入完成后，重启或者执行”mount -a”自动挂载。</p>
 <p>3、最后”df -hT”查看挂载是否成功。</p>
 <h3 id="取消挂载"><a href="#取消挂载" class="headerlink" title="取消挂载"></a>取消挂载</h3><p>命令umount用来卸载已挂载的文件系统，命令：</p>
