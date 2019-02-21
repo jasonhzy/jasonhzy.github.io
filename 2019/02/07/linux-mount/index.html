@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。通常情况下，为磁盘分区通常使用fdisk，它是对基于MBR机制分区的管理磁盘命令，但是它仅仅支持2TB以下磁盘的分区，超出2TB部分无法识别。若过超过则可以使用parted进行分区，本文主要讲解fdisk分区。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-21T06:15:44.000Z">
+<meta property="og:updated_time" content="2019-02-21T06:34:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux分区与挂载">
 <meta name="twitter:description" content="分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。通常情况下，为磁盘分区通常使用fdisk，它是对基于MBR机制分区的管理磁盘命令，但是它仅仅支持2TB以下磁盘的分区，超出2TB部分无法识别。若过超过则可以使用parted进行分区，本文主要讲解fdisk分区。">
@@ -751,7 +751,7 @@ Writing superblocks and filesystem accounting information: done
 <h3 id="磁盘挂载"><a href="#磁盘挂载" class="headerlink" title="磁盘挂载"></a>磁盘挂载</h3><p>格式化硬盘后，需要为每个分区设置挂载点，有两种方式：一种是临时挂载，重启失效；另一种开机自动挂载。</p>
 <p>1、创建挂载点</p>
 <pre><code>mkdir /data
-</code></pre><p>作为挂载点的目录，理论上都应该是空目录。如果挂载的目录不为空，那么挂载了文件系统之后，原目录下的内容会暂时消失(被隐藏，而不是被覆盖），<br>且不会将此前的目录容量加上，取消挂载之后，原来内容即可恢复。  </p>
+</code></pre><p>作为挂载点的目录，理论上都应该是空目录。如果挂载的目录不为空，那么挂载了文件系统之后，原目录下的内容会暂时消失(被隐藏，而不是被覆盖），且不会将此前的目录容量加上，取消挂载之后，原来内容即可恢复。  </p>
 <p>2、磁盘挂载</p>
 <p>第一种方式：临时挂载（手动挂载），重启失效</p>
 <p>命令mount可用来挂载文件系统：</p>
