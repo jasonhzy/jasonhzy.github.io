@@ -4,6 +4,240 @@
   
     
     <entry>
+      <title><![CDATA[Linux NFS配置]]></title>
+      <url>http://jasonhzy.github.io/2019/02/08/linux-nfs/</url>
+      <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。</p>
+<a id="more"></a>
+<h2 id="RPC协议介绍"><a href="#RPC协议介绍" class="headerlink" title="RPC协议介绍"></a>RPC协议介绍</h2><p>RPC（Remote Procedure Call）远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。其工作在TCP/UDP的111端口。建立在Socket之上的，主要是简化编程的工作在底层提供网络之间的通信。当客户端尝试使用RPC Server所提供的服务时，由于Client需要取得一个可以连接的端口（port）才能够使用RPC Server所提供的服务，因此，客户端首先去请求rpcbind，然后rpcbind将自己管理的端口映射告知客户端，好让客户端可以连接上服务，因此启动NFS之前，一定要先启动rpcbind。</p>
+<p>NFS系统守护进程（rpc.nfsd和rpc.mountd）：<br>rpc.nfsd∶<br>这个 daemon 主要的功能即管理客户端是否能够登入主机的权限<br>rpc.mountd<br>这个 daemon 主要的功能即管理 NFS 的档案系统。当客户端顺利通过 rpc.nfsd 而登入主机之后，在他可以使用 NFS 服务器提供的档案之前，还要经过档案使用权限 (即-rwxrwxrwx 与 owner／group等权限) 的认证程序！除此之外还要根据NFS的设定档 /etc/exports 来比对 Client 的权限，当都通过这些权限设置之后客户端即可取得使用NFS档案的权限</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><pre><code>NFS服务端 CentOS7.4 192.168.1.60
+NFS客户端 CentOS7.4 192.168.1.76 
+</code></pre><h2 id="安装NFS与配置"><a href="#安装NFS与配置" class="headerlink" title="安装NFS与配置"></a>安装NFS与配置</h2><p>NFS的常用目录:</p>
+<pre><code>/etc/exports        #NFS服务的主要配置文件
+/usr/sbin/exportfs  #NFS服务的管理命令
+/usr/sbin/showmount #客户端的查看命令
+/var/lib/nfs/etab   #记录NFS分享出来的目录的完整权限设定值
+/var/lib/nfs/xtab   #记录曾经登录过的客户端信息
+</code></pre><h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><h4 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h4><p>检查下本地是否已经安装，如果安装则无需重复安装包：</p>
+<pre><code>rpm -qa | grep rpcbind
+rpm -qa | grep nfs
+</code></pre><p>CentOS系统：</p>
+<pre><code>#CentOS系统服务端
+yum -y install nfs-utils
+yum -y install rpcbind 
+</code></pre><p>Ubuntu系统：</p>
+<pre><code>#Ubuntu服务端
+apt-get install nfs-kernel-server
+</code></pre><p>将服务加入开机自启动，并启动服务：</p>
+<pre><code>systemctl enable rpcbind nfs-server
+systemctl start rpcbind nfs-server
+</code></pre><p>查看nfs服务向rpc注册的端口信息(当前nfs-server未启动，所有没有注册端口)：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+</code></pre><p>如果此时启动nfs,可以发现nfs随机注册的端口如下（对于此种情况下，如果未开启防火墙，随机端口是没有问题的，一旦开启就需要将端口固定下来了）：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+100005    1   udp  20048  mountd
+100005    1   tcp  20048  mountd
+100005    2   udp  20048  mountd
+100005    2   tcp  20048  mountd
+100005    3   udp  20048  mountd
+100005    3   tcp  20048  mountd
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl
+100021    1   udp  37045  nlockmgr
+100021    3   udp  37045  nlockmgr
+100021    4   udp  37045  nlockmgr
+100021    1   tcp  39375  nlockmgr
+100021    3   tcp  39375  nlockmgr
+100021    4   tcp  39375  nlockmgr
+</code></pre><h4 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h4><p>NFS的防火墙很难设定规则，除了固定的nfs2049、portmapper111之外， 还有很多不固定的端口是由rpc.mountd, rpc.rquotad等服务所开启的。因此我们需要在/etc/sysconfig/nfs指定特定的端口，这样每次启动nfs时，相关服务启动的端口就会固定，如此即可设置防护墙！</p>
+<h5 id="固定nfs服务端口"><a href="#固定nfs服务端口" class="headerlink" title="固定nfs服务端口"></a>固定nfs服务端口</h5><p>固定端口nfs 2049、portmapper 111，另外3个服务端口可设置为mountd 892、rpc.statd 662、 nlockmgr 32803、32769</p>
+<p>配置：<br>1.修改/etc/sysconfig/nfs文件，将下列内容的注释去掉，如果没有则添加：</p>
+<pre><code># TCP port rpc.lockd should listen on.
+LOCKD_TCPPORT=32803
+# UDP port rpc.lockd should listen on.
+LOCKD_UDPPORT=32769
+
+# Port rpc.mountd should listen on.
+MOUNTD_PORT=892
+
+# Port rpc.statd should listen on.
+STATD_PORT=662
+# Outgoing port statd should used. The default is port
+# is random
+STATD_OUTGOING_PORT=2020
+</code></pre><p>端口配置完成后查看（注意重启nfs与服务器）：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+100005    1   udp    892  mountd
+100024    1   udp    662  status
+100005    1   tcp    892  mountd
+100024    1   tcp    662  status
+100005    2   udp    892  mountd
+100005    2   tcp    892  mountd
+100005    3   udp    892  mountd
+100005    3   tcp    892  mountd
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl
+100021    1   udp  32769  nlockmgr
+100021    3   udp  32769  nlockmgr
+100021    4   udp  32769  nlockmgr
+100021    1   tcp  32803  nlockmgr
+100021    3   tcp  32803  nlockmgr
+100021    4   tcp  32803  nlockmgr
+</code></pre><p>2、CentOS7下配置如下：</p>
+<p>编辑文件 /etc/firewalld/zones/public.xml：</p>
+<pre><code>#vim /etc/firewalld/zones/public.xml
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;zone&gt;
+  &lt;short&gt;Public&lt;/short&gt;
+  &lt;description&gt;For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.&lt;/description&gt;
+  &lt;service name=&quot;ssh&quot;/&gt;
+  &lt;service name=&quot;http&quot;/&gt; 
+  &lt;service name=&quot;https&quot;/&gt; 
+  &lt;port protocol=&quot;tcp&quot; port=&quot;8080&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;22&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;111&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;662&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;892&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;2049&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;32803&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;111&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;662&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;892&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;2049&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;32769&quot;/&gt;
+&lt;/zone&gt;
+</code></pre><p>注意重启防火墙</p>
+<h3 id="创建共享目录"><a href="#创建共享目录" class="headerlink" title="创建共享目录"></a>创建共享目录</h3><p>创建服务端共享目录，例如：</p>
+<pre><code>mkdir /data   
+</code></pre><h3 id="NFS共享目录文件配置"><a href="#NFS共享目录文件配置" class="headerlink" title="NFS共享目录文件配置"></a>NFS共享目录文件配置</h3><p>/etc/exports文件内容：</p>
+<pre><code>#vi /etc/exports
+/data/     192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
+</code></pre><p>以上配置分为三个部分：</p>
+<p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机<a href="http://www.example.com，指定域中的所有主机*.example.com，所有主机*）。" target="_blank" rel="noopener">www.example.com，指定域中的所有主机*.example.com，所有主机*）。</a><br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
+<pre><code>rw ：读写；
+ro ：只读；
+sync ：同步模式，内存中数据时时写入磁盘
+async ：不同步，把内存中数据定期写入磁盘中
+secure ：nfs通过1024以下的安全TCP/IP端口发送
+insecure ：nfs通过1024以上的端口发送
+no_root_squash：NFS客户端连接服务端时如果使用的是root的话，那么对服务端分享的目录来说，也拥有root权限。显然开启这项是不安全的
+root_squash：当客户端登陆NFS的身份为root用户时，将客户端的root用户及所属组都映射为匿名用户或用户组（默认设置），通常使用nobody或nfsnobody身份
+subtree：若输出目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)。
+no_subtree：即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率
+no_all_squash ：无论客户端登陆NFS的身份为何，都将映射为root用户（默认设置）
+all_squash ：不论NFS客户端连接服务端时使用什么用户，对服务端分享的目录来说都是拥有匿名用户权限；
+anonuid：匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定
+anongid：匿名用户的GID值
+</code></pre><p>配置完成后，重新加载nfs配置（exportfs -rv）或重启nfs服务。</p>
+<pre><code>exportfs [-aruv]
+参数说明:
+-a  全部挂载（或卸载）/etc/exports文件内的设定
+-r  重新挂载/etc/exports中的设置，此外同步更新/etc/exports及/var/lib/nfs/xtab中的内容
+-u  卸载某一目录
+-v  在export时将共享的目录显示在屏幕上
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost /]# exportfs -rv
+exporting 192.168.1.76:/data
+</code></pre><h3 id="服务端验证"><a href="#服务端验证" class="headerlink" title="服务端验证"></a>服务端验证</h3><p>通过showmount -e命令如果正常显示共享目录，表示安装正常:</p>
+<pre><code>[root@localhost ~]# showmount -e localhost
+Export list for localhost:
+/data 192.168.1.76
+</code></pre><p>如果客户端已经挂载了目录，在服务端通过showmount -e命令可显示NFS客户端信息和共享目录</p>
+<pre><code>[root@localhost ~]# showmount -a
+All mount points on localhost.localdomain:
+192.168.1.76:/data
+</code></pre><p>注意：挂载时如果未指定nfsvers版本，默认使用nfs支持的最新版本，目前为ver=4，如果使用此版本， showmount -a将不会显示NFS客户端信息和共享目录  </p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><h4 id="安装客户端NFS"><a href="#安装客户端NFS" class="headerlink" title="安装客户端NFS"></a>安装客户端NFS</h4><p>检查下本地是否已经安装，如果安装则无需重复安装包：</p>
+<pre><code>rpm -qa | grep nfs
+</code></pre><p>CentOS系统：</p>
+<pre><code>#CentOS系统客户端
+yum -y install nfs-utils
+</code></pre><p>Ubuntu系统：</p>
+<pre><code>#Ubuntu客户端
+apt-get install nfs-common
+</code></pre><p>启动rpcbind，无需启动nfs：</p>
+<pre><code>systemctl start rpcbind 
+</code></pre><h4 id="挂载NFS共享目录"><a href="#挂载NFS共享目录" class="headerlink" title="挂载NFS共享目录"></a>挂载NFS共享目录</h4><p>1、查看showmount -e IP来查看NFS共享状态：</p>
+<pre><code>[root@localhost /]# showmount -e 192.168.1.60
+Export list for 192.168.1.60:
+/data 192.168.1.76
+</code></pre><p>2、挂载NFS共享目录</p>
+<p>1）创建服务端共享目录，例如：</p>
+<pre><code>mkdir /data
+</code></pre><p>2）挂载目录</p>
+<pre><code>#临时挂载，即时生效
+mount -t nfs -o nfsvers=3 192.168.1.60:/data /data
+
+#配置永久挂载nfs文件系统，保存后重启服务器即可生效
+$ vim /etc/fstab
+$ 192.168.1.60:/data /data nfs defaults,nfsvers=3 0 0  
+</code></pre><p>客户端执行nfsstat -m命令，查看当前所使用的nfs版本：</p>
+<pre><code>[root@localhost ~]# nfsstat -m
+/data from 192.168.1.60:/data
+ Flags:    rw,relatime,vers=3,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,
+ mountaddr=192.168.1.60,mountvers=3,mountport=892,mountproto=udp,local_lock=none,addr=192.168.1.60
+</code></pre><p>3）查看挂载是否成功：</p>
+<pre><code>[root@localhost /]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+devtmpfs                 994M     0  994M   0% /dev
+tmpfs                   1000M  8.4M  992M   1% /run
+/dev/mapper/centos-root  6.7G  3.5G  3.2G  53% /
+/dev/sda1                497M  118M  380M  24% /boot
+192.168.1.60:/data       6.2G  4.5G  1.8G  72% /data
+</code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="nfsstat"><a href="#nfsstat" class="headerlink" title="nfsstat"></a>nfsstat</h3><p>查看NFS的运行状态，对于调整NFS的运行有很大帮助：</p>
+<pre><code>nfsstat -s #查看服务端的情况
+nfsstat -c #查看客户端的情况
+</code></pre><h3 id="exportfs"><a href="#exportfs" class="headerlink" title="exportfs"></a>exportfs</h3><p>启动了NFS之后又修改了/etc/exports，使用exportfs命令来使改动立刻生效</p>
+<h3 id="rpcinfo"><a href="#rpcinfo" class="headerlink" title="rpcinfo"></a>rpcinfo</h3><p>查看rpc执行信息，可以用于检测rpc运行情况的工具    </p>
+]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> NFS </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Linux分区与挂载]]></title>
       <url>http://jasonhzy.github.io/2019/02/07/linux-mount/</url>
       <content type="html"><![CDATA[<p>分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。<br>通常情况下，为磁盘分区通常使用fdisk，它是对基于MBR机制分区的管理磁盘命令，但是它仅仅支持2TB以下磁盘的分区，超出2TB部分无法识别。若过超过则可以使用parted进行分区，本文主要讲解fdisk分区。</p>
@@ -366,7 +600,7 @@ remount: 重新挂载文件系统
 /dev/sdb1: UUID=&quot;330c5768-3bdb-4a25-9b91-626276a6d2ca&quot; TYPE=&quot;ext4&quot; 
 /dev/mapper/centos-root: UUID=&quot;96b564fd-7267-4cf3-a4c2-78da91f07e2d&quot; TYPE=&quot;xfs&quot; 
 /dev/mapper/centos-swap: UUID=&quot;4677bc0d-f76e-4af0-b078-196f86856f19&quot; TYPE=&quot;swap&quot;
-</code></pre><p>1、编辑/etc/fstab,添加一行。<br>查看要挂载分区的UUID，将UUID或者直接将对应的设备文件名写入文件中，即：</p>
+</code></pre><p>1、编辑/etc/fstab,添加一行。<br>查看要挂载分区的UUID（Universally Unique Identifier），将UUID或者直接将对应的设备文件名写入文件中，即：</p>
 <pre><code>echo &apos;UUID=&quot;F6FzL6-RBmy-3vgL-IbSC-caU3-rIUg-9hv2jg&quot; /data  ext4 defaults 0 0&apos; &gt;&gt; /etc/fstab
 或者
 echo &apos;/dev/sdb1 /data ext4 defaults 0 0&apos; &gt;&gt; /etc/fstab    

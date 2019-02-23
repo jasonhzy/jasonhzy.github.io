@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Git," />
+  <meta name="keywords" content="Linux,NFS," />
 
 
 
@@ -93,21 +93,18 @@
 
 
 
-<meta name="description" content="Git 常用命令">
-<meta name="keywords" content="Git">
+<meta name="description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
+<meta name="keywords" content="Linux,NFS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git基本命令">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/02/03/git-tech/index.html">
+<meta property="og:title" content="Linux NFS配置">
+<meta property="og:url" content="http://jasonhzy.github.io/2019/02/08/linux-nfs/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Git 常用命令">
+<meta property="og:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://jasonhzy.github.io/images/git.jpg">
-<meta property="og:image" content="http://jasonhzy.github.io/images/git-diff.jpg">
-<meta property="og:updated_time" content="2018-06-08T02:43:56.000Z">
+<meta property="og:updated_time" content="2019-02-23T08:26:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git基本命令">
-<meta name="twitter:description" content="Git 常用命令">
-<meta name="twitter:image" content="http://jasonhzy.github.io/images/git.jpg">
+<meta name="twitter:title" content="Linux NFS配置">
+<meta name="twitter:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
 
 
 
@@ -135,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/2016/02/03/git-tech/"/>
+  <link rel="canonical" href="http://jasonhzy.github.io/2019/02/08/linux-nfs/"/>
 
 
 
 
 
-  <title>Git基本命令 | Jason Website</title>
+  <title>Linux NFS配置 | Jason Website</title>
   
 
 
@@ -320,7 +317,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/02/03/git-tech/">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2019/02/08/linux-nfs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jason hu">
@@ -337,7 +334,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Git基本命令</h1>
+          <h1 class="post-title" itemprop="name headline">Linux NFS配置</h1>
         
 
         <div class="post-meta">
@@ -349,8 +346,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-03T13:17:31+08:00">
-                2016-02-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-08T11:17:49+08:00">
+                2019-02-08
               </time>
             
 
@@ -372,8 +369,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Git/" itemprop="url" rel="index">
-                    <span itemprop="name">Git</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -390,9 +387,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/02/03/git-tech/#comments" itemprop="discussionUrl">
+                <a href="/2019/02/08/linux-nfs/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/02/03/git-tech/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/02/08/linux-nfs/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -422,175 +419,218 @@
       
 
       
-        <h2 id="Git-常用命令"><a href="#Git-常用命令" class="headerlink" title="Git 常用命令"></a>Git 常用命令</h2><p><img src="/images/git.jpg" alt="Git command"></p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。</p>
 <a id="more"></a>
-<h3 id="安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中"><a href="#安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中" class="headerlink" title="安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中"></a>安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中</h3><pre><code>git config --global user.name &quot;jasonhzy&quot;
-git config --global user.email &quot;lotush@163.com&quot;
-</code></pre><p>检查你的设置(Checking Your Settings) 命令：</p>
-<pre><code>git config --list
-　　user.name=Scott Chacon
-　　user.email=schacon@gmail.com
-　　color.status=auto
-　　color.branch=auto
-　　color.interactive=auto
-　　color.diff=auto
-　　...
-</code></pre><h3 id="创建一个本地仓库的克隆版本"><a href="#创建一个本地仓库的克隆版本" class="headerlink" title="创建一个本地仓库的克隆版本"></a>创建一个本地仓库的克隆版本</h3><p>初始化Git仓库</p>
-<pre><code>git init --bare xxxx.git #xxx.git即仓库名称    
-</code></pre><p>克隆代码仓库</p>
-<pre><code>git clone https://github.com/PinetTech/pinet-wechat.git &lt;指定目录&gt;
-</code></pre><p>克隆指定分支(jason分支)</p>
-<pre><code>git clone -b jason https://github.com/PinetTech/pinet-wechat.git
-</code></pre><h3 id="添加文件到缓冲区"><a href="#添加文件到缓冲区" class="headerlink" title="添加文件到缓冲区"></a>添加文件到缓冲区</h3><pre><code>git add &lt;filename&gt;或者git add *
-</code></pre><h3 id="提交文件"><a href="#提交文件" class="headerlink" title="提交文件"></a>提交文件</h3><pre><code>git commit -m &quot;代码提交信息&quot;
-</code></pre><p>对于当前已经提交过的信息，如需要修改，可执行：</p>
-<pre><code>git commit --amend
-</code></pre><p>对于当前已经提交过作者信息，如需要修改，可执行：</p>
-<pre><code>git commit --amend --author=&quot;newName &lt;newEmail&gt;&quot;        
-</code></pre><p>修改整个历史记录中的某些错误的author、email的方式： git rebase        </p>
-<pre><code># git rebase  模式
-git rebase -i -p a990e4e63c9e2dc19396efc51b693c314f3384d4 
-# 弹出编辑器，在需要修改的 commit 处 由 picked 改变为 edit ，然后 wq 退出 vim；
-git commit --amend --author &apos;newName &lt;newEmail&gt;&apos;
-# 执行后即变更了相应的 author 和 email 
-git rebase --continue 
-</code></pre><h3 id="你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库"><a href="#你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库" class="headerlink" title="你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库"></a>你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库</h3><pre><code>git push origin &lt;branchName&gt;
-</code></pre><h3 id="可以把-master-换成想要推送的任何分支，创建分支并切换过去"><a href="#可以把-master-换成想要推送的任何分支，创建分支并切换过去" class="headerlink" title="可以把 master 换成想要推送的任何分支，创建分支并切换过去"></a>可以把 master 换成想要推送的任何分支，创建分支并切换过去</h3><pre><code>git checkout -b &lt;branchName&gt;
-</code></pre><p>切换回某个分支：</p>
-<pre><code>git checkout &lt;branchName&gt;
-</code></pre><h3 id="创建、查看、删除、重命名分支"><a href="#创建、查看、删除、重命名分支" class="headerlink" title="创建、查看、删除、重命名分支"></a>创建、查看、删除、重命名分支</h3><p>创建分支：</p>
-<pre><code>git branch &lt;branchName&gt;
-</code></pre><p>查看分支：</p>
-<pre><code>git branch #查看本地分支
-git branch -a #查看远程分支
-</code></pre><p>删掉新建的分支(本地分支)：</p>
-<pre><code>git branch -d &lt;branchName&gt;
-</code></pre><p>删除远程分支:</p>
-<pre><code>git push origin --delete &lt;branchName&gt; 或者 git push origin :&lt;branchName&gt;
-</code></pre><p>重命名本地分支：</p>
-<pre><code>git branch -m &lt;old_branch_name&gt; &lt;new_branch_name&gt;
-</code></pre><p>删除不存在对应远程分支的本地分支:</p>
-<pre><code>git remote prune origin或者git fetch -p
-</code></pre><h3 id="git上修改后还原所有的"><a href="#git上修改后还原所有的" class="headerlink" title="git上修改后还原所有的"></a>git上修改后还原所有的</h3><pre><code>git reset --hard
-</code></pre><h3 id="提交之前撤销add操作"><a href="#提交之前撤销add操作" class="headerlink" title="提交之前撤销add操作"></a>提交之前撤销add操作</h3><pre><code>git reset HEAD 或者    git revert HEAD --no-commit
-</code></pre><h3 id="查看文件被谁改动"><a href="#查看文件被谁改动" class="headerlink" title="查看文件被谁改动"></a>查看文件被谁改动</h3><pre><code>git blame FILE
-</code></pre><h3 id="还原已经add或commit的"><a href="#还原已经add或commit的" class="headerlink" title="还原已经add或commit的"></a>还原已经add或commit的</h3><p>git log 命令查看提交的历史记录<br>在Git中，用HEAD表示当前版本，也就是最新的提交(commit)，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100，例如回退到上一个版本：</p>
-<pre><code>git reset HEAD^/commit id
-#改变本地HEAD的指针还原到工作区，即已经提交的可以恢复到当前工作区，可以再次修改提交
-git reset --hard HEAD^/commit id
-#强制移动指针到这个分支，会销毁它前面的所有的信息，本地也没有了，即不可恢复到工作区进行修改了
-</code></pre><p><strong>注意</strong>:<br>1).新建的文件和目录，且从未提交至版本库，此类文件的状态为Untracked files，删除方法如下:</p>
-<pre><code>git clean -n    # 将显示哪些未被追踪的文件和文件夹可以清理
-git clean -d    # 清理未被追踪的文件夹
-git clean -f    # 清理未被追踪的文件(clean.requireForce=false可不加-f选项)
-git clean -df . # 其中的.表示当前目录及所有子目录中的文件，也可以直接指定对应的文件路径
-</code></pre><p>2)提交过版本库，但未提交至暂存区的文件（未执行git add）,此类文件的状态为Changes not staged for commit，撤销方法:</p>
-<pre><code>git checkout . #其中的.表示当前目录及所有子目录中的文件，也可以直接指定对应的文件路径
-</code></pre><h3 id="恢复到某个版本"><a href="#恢复到某个版本" class="headerlink" title="恢复到某个版本"></a>恢复到某个版本</h3><p>git reflog用来记录每一次操作的命令，记录着每次操作的commit_id<br>如果回退到某个版本:</p>
-<pre><code>git reset --hard &lt;commit id&gt;
-git revert &lt;commit id&gt;
-</code></pre><h3 id="忽略已跟踪文件的改动"><a href="#忽略已跟踪文件的改动" class="headerlink" title="忽略已跟踪文件的改动"></a>忽略已跟踪文件的改动</h3><p>有时需让git忽略某个文件的更新，比如配置文件</p>
-<pre><code>git update-index --assume-unchanged /path/to/filgit old-branchese #忽略跟踪
-git update-index --no-assume-unchanged /path/to/file  #恢复跟踪
-</code></pre><h3 id="Git补丁管理-方便在多台机器上开发同步时用"><a href="#Git补丁管理-方便在多台机器上开发同步时用" class="headerlink" title="Git补丁管理(方便在多台机器上开发同步时用)"></a>Git补丁管理(方便在多台机器上开发同步时用)</h3><p>生成补丁:</p>
-<pre><code>git diff &gt; ../sync.patch
-</code></pre><p>打补丁:</p>
-<pre><code>git apply ../sync.patch
-</code></pre><p>测试补丁能否成功:</p>
-<pre><code>git apply --check  ../sync.patch
-</code></pre><p>注意：在相同分支下操作</p>
-<h3 id="Pull-远程分支"><a href="#Pull-远程分支" class="headerlink" title="Pull 远程分支"></a>Pull 远程分支</h3><p>Pull 远程分支是指，取回远程服务器上某个分支的更新，再与本地的指定分支合并。其格式为：</p>
-<pre><code>git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;
-</code></pre><p>例如：取回 origin 主机的 dev 分支，与本地的 master 分支合并</p>
-<pre><code>git pull origin dev:master
-</code></pre><p>如果远程分支是与当前分支合并，则冒号后面的部分可以省略：</p>
-<pre><code>git pull origin dev
-</code></pre><p>如果远程主机删除了某个分支，默认情况下，git pull 不会在拉取远程分支的时候，删除对应的本地分支。这是为了防止，<br>由于其他人操作了远程主机，导致git pull不知不觉删除了本地分支。但是，你可以改变这个行为，加上参数-p<br>就会在本地删除远程已经删除的分支。</p>
-<pre><code>git pull -p
-</code></pre><h3 id="Git-push到多个远程库"><a href="#Git-push到多个远程库" class="headerlink" title="Git push到多个远程库"></a>Git push到多个远程库</h3><pre><code>git remote add origin git@github.com:looly/hutool.git #远程仓库1
-git remote add osc git@git.oschina.net:loolly/hutool.git #远程仓库2
-git add . 
-git commit -m &apos;First commit&apos; 
-git push origin master
-git push osc master
+<h2 id="RPC协议介绍"><a href="#RPC协议介绍" class="headerlink" title="RPC协议介绍"></a>RPC协议介绍</h2><p>RPC（Remote Procedure Call）远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。其工作在TCP/UDP的111端口。建立在Socket之上的，主要是简化编程的工作在底层提供网络之间的通信。当客户端尝试使用RPC Server所提供的服务时，由于Client需要取得一个可以连接的端口（port）才能够使用RPC Server所提供的服务，因此，客户端首先去请求rpcbind，然后rpcbind将自己管理的端口映射告知客户端，好让客户端可以连接上服务，因此启动NFS之前，一定要先启动rpcbind。</p>
+<p>NFS系统守护进程（rpc.nfsd和rpc.mountd）：<br>rpc.nfsd∶<br>这个 daemon 主要的功能即管理客户端是否能够登入主机的权限<br>rpc.mountd<br>这个 daemon 主要的功能即管理 NFS 的档案系统。当客户端顺利通过 rpc.nfsd 而登入主机之后，在他可以使用 NFS 服务器提供的档案之前，还要经过档案使用权限 (即-rwxrwxrwx 与 owner／group等权限) 的认证程序！除此之外还要根据NFS的设定档 /etc/exports 来比对 Client 的权限，当都通过这些权限设置之后客户端即可取得使用NFS档案的权限</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><pre><code>NFS服务端 CentOS7.4 192.168.1.60
+NFS客户端 CentOS7.4 192.168.1.76 
+</code></pre><h2 id="安装NFS与配置"><a href="#安装NFS与配置" class="headerlink" title="安装NFS与配置"></a>安装NFS与配置</h2><p>NFS的常用目录:</p>
+<pre><code>/etc/exports        #NFS服务的主要配置文件
+/usr/sbin/exportfs  #NFS服务的管理命令
+/usr/sbin/showmount #客户端的查看命令
+/var/lib/nfs/etab   #记录NFS分享出来的目录的完整权限设定值
+/var/lib/nfs/xtab   #记录曾经登录过的客户端信息
+</code></pre><h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><h4 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h4><p>检查下本地是否已经安装，如果安装则无需重复安装包：</p>
+<pre><code>rpm -qa | grep rpcbind
+rpm -qa | grep nfs
+</code></pre><p>CentOS系统：</p>
+<pre><code>#CentOS系统服务端
+yum -y install nfs-utils
+yum -y install rpcbind 
+</code></pre><p>Ubuntu系统：</p>
+<pre><code>#Ubuntu服务端
+apt-get install nfs-kernel-server
+</code></pre><p>将服务加入开机自启动，并启动服务：</p>
+<pre><code>systemctl enable rpcbind nfs-server
+systemctl start rpcbind nfs-server
+</code></pre><p>查看nfs服务向rpc注册的端口信息(当前nfs-server未启动，所有没有注册端口)：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+</code></pre><p>如果此时启动nfs,可以发现nfs随机注册的端口如下（对于此种情况下，如果未开启防火墙，随机端口是没有问题的，一旦开启就需要将端口固定下来了）：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+100005    1   udp  20048  mountd
+100005    1   tcp  20048  mountd
+100005    2   udp  20048  mountd
+100005    2   tcp  20048  mountd
+100005    3   udp  20048  mountd
+100005    3   tcp  20048  mountd
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl
+100021    1   udp  37045  nlockmgr
+100021    3   udp  37045  nlockmgr
+100021    4   udp  37045  nlockmgr
+100021    1   tcp  39375  nlockmgr
+100021    3   tcp  39375  nlockmgr
+100021    4   tcp  39375  nlockmgr
+</code></pre><h4 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h4><p>NFS的防火墙很难设定规则，除了固定的nfs2049、portmapper111之外， 还有很多不固定的端口是由rpc.mountd, rpc.rquotad等服务所开启的。因此我们需要在/etc/sysconfig/nfs指定特定的端口，这样每次启动nfs时，相关服务启动的端口就会固定，如此即可设置防护墙！</p>
+<h5 id="固定nfs服务端口"><a href="#固定nfs服务端口" class="headerlink" title="固定nfs服务端口"></a>固定nfs服务端口</h5><p>固定端口nfs 2049、portmapper 111，另外3个服务端口可设置为mountd 892、rpc.statd 662、 nlockmgr 32803、32769</p>
+<p>配置：<br>1.修改/etc/sysconfig/nfs文件，将下列内容的注释去掉，如果没有则添加：</p>
+<pre><code># TCP port rpc.lockd should listen on.
+LOCKD_TCPPORT=32803
+# UDP port rpc.lockd should listen on.
+LOCKD_UDPPORT=32769
 
-git remote rm   [alias]      #删除一个别名,eg:origin osc
-git remote rename [old-alias] [new-alias] #重命名,eg:git remote rename osc test
-git remote show [主机名] #加上主机名，可以查看该主机的详细信息
-</code></pre><h3 id="远程url切换"><a href="#远程url切换" class="headerlink" title="远程url切换"></a>远程url切换</h3><pre><code>git remote set-url origin &lt;URL&gt; #origin是可以替换的
-</code></pre><h3 id="在已忽略文件夹中不忽略指定文件夹，例如："><a href="#在已忽略文件夹中不忽略指定文件夹，例如：" class="headerlink" title="在已忽略文件夹中不忽略指定文件夹，例如："></a>在已忽略文件夹中不忽略指定文件夹，例如：</h3><pre><code>themes/*
-!themes/jacman/
-</code></pre><p>注意点：</p>
-<ul>
-<li>空行不匹配任何内容,所以可以作为块分隔符；</li>
-<li># 开头表示注释,如果相匹配 #,可以在前面加一个反斜杠,即 #</li>
-<li>除非加了反斜杠,否则一连串的空格会被忽略；</li>
-<li>如果在匹配的内容前面加上 ! ,则这些匹配过的部分将被移出,如果要匹配以 ! 开头的内容,需要加上反斜杠,如 !important.txt</li>
-<li>如果一个匹配 pattern 后面有一个斜杠,如 foo/,则默认会匹配所有（包含父子文件夹）中的 foo 文件夹内容</li>
-<li>如果一个匹配 pattern 不包含斜杠,如 foo,Git 会将其作为一个 shell 的查找命令匹配内容</li>
-</ul>
-<h3 id="Git查看、删除、重命名tag"><a href="#Git查看、删除、重命名tag" class="headerlink" title="Git查看、删除、重命名tag"></a>Git查看、删除、重命名tag</h3><p>创建tag：</p>
-<pre><code>git tag &lt;tagname&gt; 或者 git tag -a &lt;tagname&gt; -m &quot;create tag desc&quot;
-</code></pre><p>把本地tag推送到远程：</p>
-<pre><code>git push --tags
-</code></pre><p>获取远程tag</p>
-<pre><code>git fetch origin tag &lt;tagname&gt;
-</code></pre><p>删除tag：</p>
-<pre><code>git tag -d &lt;tagname&gt;   #删除本地tag
-git push origin --delete tag &lt;tagname&gt; #删除远程tag
-git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
-</code></pre><h3 id="用diff来检查改动"><a href="#用diff来检查改动" class="headerlink" title="用diff来检查改动"></a>用diff来检查改动</h3><p><img src="/images/git-diff.jpg" alt="git diff"></p>
-<p>比较分支和版本</p>
-<p>比较两个分支，或是两个特定项目版本。来让我们看看在 “jason” 分支的哪些改动并不存在于“master”上：</p>
-<pre><code>git diff master..jason
-</code></pre><p>这些比较信息仅仅是在分支层面上的，你也可以比较任意的两个项目版本之间的内容：</p>
-<pre><code>git diff 0023cdd..fcd6199
-</code></pre><h2 id="Git支持四种数据传输协议，四种传输协议各自的优势和不足"><a href="#Git支持四种数据传输协议，四种传输协议各自的优势和不足" class="headerlink" title="Git支持四种数据传输协议，四种传输协议各自的优势和不足"></a>Git支持四种数据传输协议，四种传输协议各自的优势和不足</h2><table>
-<thead>
-<tr>
-<th>传输协议</th>
-<th>优势</th>
-<th>缺点</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>本地传输</td>
-<td>1. 远程仓库部署在本地目录，Git client-server之间的数据通信类似本地文件的复制剪切，数据的通信速度较快；2.资源的权限沿用本地操作系统的文件权限和网络访问权限，不需要单独配置。</td>
-<td>1.由于远程仓库在本地目录，资源毁灭性丢失的危险性增大。</td>
-</tr>
-<tr>
-<td>ssh协议(安全外壳传输协议ssh://)</td>
-<td>1.服务搭建相对较简单；2.基于公钥私钥对的方式进行加密授权数据传输；3.同时支持数据的读和写操作。</td>
-<td>1.不支持匿名访问，必须通过ssh访问主机才能读写仓库。</td>
-</tr>
-<tr>
-<td>Git协议(git://)</td>
-<td>1.自身携带的传输协议，传输速度最快的协议；2.使用类似ssh相同的数据传输机制，但取消了加密解密的开销。</td>
-<td>1.没有授权机制，要么所有客户端都可读，要么所有客户端都可写，不能根据情况选择性配置读写权限；2.服务搭建相对较复杂。</td>
-</tr>
-<tr>
-<td>http/https协议（超文本传输协议）</td>
-<td>1.服务搭建相对较简单，基于Apache等web容器就可以实现；2.授权机制简单，能够访问Git仓库所在服务器的web服务的人都可以获取远程仓库资源。</td>
-<td>1. 数据通信网络开销较大；2. 执行写操作需要基于ssh协议。</td>
-</tr>
-</tbody>
-</table>
-<h2 id="常见解决问题方案"><a href="#常见解决问题方案" class="headerlink" title="常见解决问题方案"></a>常见解决问题方案</h2><p>1.git add添加要提交的文件的时候，如果文件名是中文，会显示形如274\232\350\256\256\346\200\273\347\273\223.png 的乱码,core.quotepath设为false的话，就不会对0x80以上的字符进行quote,中文显示正常。有两种解决方案：<br>1）利用git命令配置core.quotepath为false</p>
-<pre><code>git config --global core.quotepath false
-</code></pre><p>2）修改 ~/.gitconfig，找到 [core] 的位置後面，加上：</p>
-<pre><code>[core]
-    quotepath = false
-</code></pre><p>附：相关资料</p>
-<ul>
-<li><a href="http://www.bootcss.com/p/git-guide/" target="_blank" rel="noopener">git - 简易指南</a>  </li>
-<li><a href="http://git-scm.com/" target="_blank" rel="noopener">git 官网</a></li>
-<li><a href="http://backlogtool.com/git-guide/cn/" target="_blank" rel="noopener">猴子都能懂的git入门</a></li>
-<li><a href="/download/msysGit.png">msysGit</a></li>
-<li><a href="/download/git.jpeg">Git学习</a></li>
-<li><a href="http://zengrong.net/post/1249.htm" target="_blank" rel="noopener">git乱码解决方案汇总</a></li>
-<li><a href="https://www.zybuluo.com/phper/note/223883" target="_blank" rel="noopener">git reset&amp;revert</a></li>
-</ul>
+# Port rpc.mountd should listen on.
+MOUNTD_PORT=892
+
+# Port rpc.statd should listen on.
+STATD_PORT=662
+# Outgoing port statd should used. The default is port
+# is random
+STATD_OUTGOING_PORT=2020
+</code></pre><p>端口配置完成后查看（注意重启nfs与服务器）：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+100005    1   udp    892  mountd
+100024    1   udp    662  status
+100005    1   tcp    892  mountd
+100024    1   tcp    662  status
+100005    2   udp    892  mountd
+100005    2   tcp    892  mountd
+100005    3   udp    892  mountd
+100005    3   tcp    892  mountd
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl
+100021    1   udp  32769  nlockmgr
+100021    3   udp  32769  nlockmgr
+100021    4   udp  32769  nlockmgr
+100021    1   tcp  32803  nlockmgr
+100021    3   tcp  32803  nlockmgr
+100021    4   tcp  32803  nlockmgr
+</code></pre><p>2、CentOS7下配置如下：</p>
+<p>编辑文件 /etc/firewalld/zones/public.xml：</p>
+<pre><code>#vim /etc/firewalld/zones/public.xml
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;zone&gt;
+  &lt;short&gt;Public&lt;/short&gt;
+  &lt;description&gt;For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.&lt;/description&gt;
+  &lt;service name=&quot;ssh&quot;/&gt;
+  &lt;service name=&quot;http&quot;/&gt; 
+  &lt;service name=&quot;https&quot;/&gt; 
+  &lt;port protocol=&quot;tcp&quot; port=&quot;8080&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;22&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;111&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;662&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;892&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;2049&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;32803&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;111&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;662&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;892&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;2049&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;32769&quot;/&gt;
+&lt;/zone&gt;
+</code></pre><p>注意重启防火墙</p>
+<h3 id="创建共享目录"><a href="#创建共享目录" class="headerlink" title="创建共享目录"></a>创建共享目录</h3><p>创建服务端共享目录，例如：</p>
+<pre><code>mkdir /data   
+</code></pre><h3 id="NFS共享目录文件配置"><a href="#NFS共享目录文件配置" class="headerlink" title="NFS共享目录文件配置"></a>NFS共享目录文件配置</h3><p>/etc/exports文件内容：</p>
+<pre><code>#vi /etc/exports
+/data/     192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
+</code></pre><p>以上配置分为三个部分：</p>
+<p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机<a href="http://www.example.com，指定域中的所有主机*.example.com，所有主机*）。" target="_blank" rel="noopener">www.example.com，指定域中的所有主机*.example.com，所有主机*）。</a><br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
+<pre><code>rw ：读写；
+ro ：只读；
+sync ：同步模式，内存中数据时时写入磁盘
+async ：不同步，把内存中数据定期写入磁盘中
+secure ：nfs通过1024以下的安全TCP/IP端口发送
+insecure ：nfs通过1024以上的端口发送
+no_root_squash：NFS客户端连接服务端时如果使用的是root的话，那么对服务端分享的目录来说，也拥有root权限。显然开启这项是不安全的
+root_squash：当客户端登陆NFS的身份为root用户时，将客户端的root用户及所属组都映射为匿名用户或用户组（默认设置），通常使用nobody或nfsnobody身份
+subtree：若输出目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)。
+no_subtree：即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率
+no_all_squash ：无论客户端登陆NFS的身份为何，都将映射为root用户（默认设置）
+all_squash ：不论NFS客户端连接服务端时使用什么用户，对服务端分享的目录来说都是拥有匿名用户权限；
+anonuid：匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定
+anongid：匿名用户的GID值
+</code></pre><p>配置完成后，重新加载nfs配置（exportfs -rv）或重启nfs服务。</p>
+<pre><code>exportfs [-aruv]
+参数说明:
+-a  全部挂载（或卸载）/etc/exports文件内的设定
+-r  重新挂载/etc/exports中的设置，此外同步更新/etc/exports及/var/lib/nfs/xtab中的内容
+-u  卸载某一目录
+-v  在export时将共享的目录显示在屏幕上
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost /]# exportfs -rv
+exporting 192.168.1.76:/data
+</code></pre><h3 id="服务端验证"><a href="#服务端验证" class="headerlink" title="服务端验证"></a>服务端验证</h3><p>通过showmount -e命令如果正常显示共享目录，表示安装正常:</p>
+<pre><code>[root@localhost ~]# showmount -e localhost
+Export list for localhost:
+/data 192.168.1.76
+</code></pre><p>如果客户端已经挂载了目录，在服务端通过showmount -e命令可显示NFS客户端信息和共享目录</p>
+<pre><code>[root@localhost ~]# showmount -a
+All mount points on localhost.localdomain:
+192.168.1.76:/data
+</code></pre><p>注意：挂载时如果未指定nfsvers版本，默认使用nfs支持的最新版本，目前为ver=4，如果使用此版本， showmount -a将不会显示NFS客户端信息和共享目录  </p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><h4 id="安装客户端NFS"><a href="#安装客户端NFS" class="headerlink" title="安装客户端NFS"></a>安装客户端NFS</h4><p>检查下本地是否已经安装，如果安装则无需重复安装包：</p>
+<pre><code>rpm -qa | grep nfs
+</code></pre><p>CentOS系统：</p>
+<pre><code>#CentOS系统客户端
+yum -y install nfs-utils
+</code></pre><p>Ubuntu系统：</p>
+<pre><code>#Ubuntu客户端
+apt-get install nfs-common
+</code></pre><p>启动rpcbind，无需启动nfs：</p>
+<pre><code>systemctl start rpcbind 
+</code></pre><h4 id="挂载NFS共享目录"><a href="#挂载NFS共享目录" class="headerlink" title="挂载NFS共享目录"></a>挂载NFS共享目录</h4><p>1、查看showmount -e IP来查看NFS共享状态：</p>
+<pre><code>[root@localhost /]# showmount -e 192.168.1.60
+Export list for 192.168.1.60:
+/data 192.168.1.76
+</code></pre><p>2、挂载NFS共享目录</p>
+<p>1）创建服务端共享目录，例如：</p>
+<pre><code>mkdir /data
+</code></pre><p>2）挂载目录</p>
+<pre><code>#临时挂载，即时生效
+mount -t nfs -o nfsvers=3 192.168.1.60:/data /data
+
+#配置永久挂载nfs文件系统，保存后重启服务器即可生效
+$ vim /etc/fstab
+$ 192.168.1.60:/data /data nfs defaults,nfsvers=3 0 0  
+</code></pre><p>客户端执行nfsstat -m命令，查看当前所使用的nfs版本：</p>
+<pre><code>[root@localhost ~]# nfsstat -m
+/data from 192.168.1.60:/data
+ Flags:    rw,relatime,vers=3,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,
+ mountaddr=192.168.1.60,mountvers=3,mountport=892,mountproto=udp,local_lock=none,addr=192.168.1.60
+</code></pre><p>3）查看挂载是否成功：</p>
+<pre><code>[root@localhost /]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+devtmpfs                 994M     0  994M   0% /dev
+tmpfs                   1000M  8.4M  992M   1% /run
+/dev/mapper/centos-root  6.7G  3.5G  3.2G  53% /
+/dev/sda1                497M  118M  380M  24% /boot
+192.168.1.60:/data       6.2G  4.5G  1.8G  72% /data
+</code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="nfsstat"><a href="#nfsstat" class="headerlink" title="nfsstat"></a>nfsstat</h3><p>查看NFS的运行状态，对于调整NFS的运行有很大帮助：</p>
+<pre><code>nfsstat -s #查看服务端的情况
+nfsstat -c #查看客户端的情况
+</code></pre><h3 id="exportfs"><a href="#exportfs" class="headerlink" title="exportfs"></a>exportfs</h3><p>启动了NFS之后又修改了/etc/exports，使用exportfs命令来使改动立刻生效</p>
+<h3 id="rpcinfo"><a href="#rpcinfo" class="headerlink" title="rpcinfo"></a>rpcinfo</h3><p>查看rpc执行信息，可以用于检测rpc运行情况的工具    </p>
 
       
     </div>
@@ -640,7 +680,7 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2016/02/03/git-tech/" title="Git基本命令">http://jasonhzy.github.io/2016/02/03/git-tech/</a>
+      <a href="http://jasonhzy.github.io/2019/02/08/linux-nfs/" title="Linux NFS配置">http://jasonhzy.github.io/2019/02/08/linux-nfs/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -656,7 +696,9 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
       
         <div class="post-tags">
           
-            <a href="/tags/Git/" rel="tag"># Git</a>
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/NFS/" rel="tag"># NFS</a>
           
         </div>
       
@@ -669,8 +711,8 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/02/03/vim-ide/" rel="next" title="Vim IDE搭建">
-                <i class="fa fa-chevron-left"></i> Vim IDE搭建
+              <a href="/2019/02/07/linux-mount/" rel="next" title="Linux分区与挂载">
+                <i class="fa fa-chevron-left"></i> Linux分区与挂载
               </a>
             
           </div>
@@ -678,10 +720,6 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/02/03/ssh-alive/" rel="prev" title="How to Keep Alive SSH Sessions">
-                How to Keep Alive SSH Sessions <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -865,7 +903,7 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-常用命令"><span class="nav-number">1.</span> <span class="nav-text">Git 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中"><span class="nav-number">1.1.</span> <span class="nav-text">安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个本地仓库的克隆版本"><span class="nav-number">1.2.</span> <span class="nav-text">创建一个本地仓库的克隆版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加文件到缓冲区"><span class="nav-number">1.3.</span> <span class="nav-text">添加文件到缓冲区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交文件"><span class="nav-number">1.4.</span> <span class="nav-text">提交文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#你的改动现在已经在本地仓库的-HEAD-中了。执行如下命令以将这些改动提交到远端仓库"><span class="nav-number">1.5.</span> <span class="nav-text">你的改动现在已经在本地仓库的 HEAD 中了。执行如下命令以将这些改动提交到远端仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可以把-master-换成想要推送的任何分支，创建分支并切换过去"><span class="nav-number">1.6.</span> <span class="nav-text">可以把 master 换成想要推送的任何分支，创建分支并切换过去</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建、查看、删除、重命名分支"><span class="nav-number">1.7.</span> <span class="nav-text">创建、查看、删除、重命名分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git上修改后还原所有的"><span class="nav-number">1.8.</span> <span class="nav-text">git上修改后还原所有的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交之前撤销add操作"><span class="nav-number">1.9.</span> <span class="nav-text">提交之前撤销add操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看文件被谁改动"><span class="nav-number">1.10.</span> <span class="nav-text">查看文件被谁改动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#还原已经add或commit的"><span class="nav-number">1.11.</span> <span class="nav-text">还原已经add或commit的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#恢复到某个版本"><span class="nav-number">1.12.</span> <span class="nav-text">恢复到某个版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#忽略已跟踪文件的改动"><span class="nav-number">1.13.</span> <span class="nav-text">忽略已跟踪文件的改动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git补丁管理-方便在多台机器上开发同步时用"><span class="nav-number">1.14.</span> <span class="nav-text">Git补丁管理(方便在多台机器上开发同步时用)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pull-远程分支"><span class="nav-number">1.15.</span> <span class="nav-text">Pull 远程分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git-push到多个远程库"><span class="nav-number">1.16.</span> <span class="nav-text">Git push到多个远程库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程url切换"><span class="nav-number">1.17.</span> <span class="nav-text">远程url切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在已忽略文件夹中不忽略指定文件夹，例如："><span class="nav-number">1.18.</span> <span class="nav-text">在已忽略文件夹中不忽略指定文件夹，例如：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git查看、删除、重命名tag"><span class="nav-number">1.19.</span> <span class="nav-text">Git查看、删除、重命名tag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用diff来检查改动"><span class="nav-number">1.20.</span> <span class="nav-text">用diff来检查改动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git支持四种数据传输协议，四种传输协议各自的优势和不足"><span class="nav-number">2.</span> <span class="nav-text">Git支持四种数据传输协议，四种传输协议各自的优势和不足</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见解决问题方案"><span class="nav-number">3.</span> <span class="nav-text">常见解决问题方案</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC协议介绍"><span class="nav-number">2.</span> <span class="nav-text">RPC协议介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">3.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装NFS与配置"><span class="nav-number">4.</span> <span class="nav-text">安装NFS与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">4.1.</span> <span class="nav-text">服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装服务端"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#防火墙配置"><span class="nav-number">4.1.2.</span> <span class="nav-text">防火墙配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#固定nfs服务端口"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">固定nfs服务端口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建共享目录"><span class="nav-number">4.2.</span> <span class="nav-text">创建共享目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS共享目录文件配置"><span class="nav-number">4.3.</span> <span class="nav-text">NFS共享目录文件配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端验证"><span class="nav-number">4.4.</span> <span class="nav-text">服务端验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">4.5.</span> <span class="nav-text">客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装客户端NFS"><span class="nav-number">4.5.1.</span> <span class="nav-text">安装客户端NFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#挂载NFS共享目录"><span class="nav-number">4.5.2.</span> <span class="nav-text">挂载NFS共享目录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">5.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nfsstat"><span class="nav-number">5.1.</span> <span class="nav-text">nfsstat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exportfs"><span class="nav-number">5.2.</span> <span class="nav-text">exportfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpcinfo"><span class="nav-number">5.3.</span> <span class="nav-text">rpcinfo</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -1028,9 +1066,9 @@ git push origin :refs/tags/&lt;tagname&gt;  #删除远tag
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://jasonhzy.github.io/2016/02/03/git-tech/';
-          this.page.identifier = '2016/02/03/git-tech/';
-          this.page.title = 'Git基本命令';
+          this.page.url = 'http://jasonhzy.github.io/2019/02/08/linux-nfs/';
+          this.page.identifier = '2019/02/08/linux-nfs/';
+          this.page.title = 'Linux NFS配置';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://jasonhzy.disqus.com/embed.js';
