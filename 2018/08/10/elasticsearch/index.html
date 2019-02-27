@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-27T10:03:15.000Z">
+<meta property="og:updated_time" content="2019-02-27T10:06:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elasticsearch集群部署">
 <meta name="twitter:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例">
@@ -663,8 +663,7 @@ curl -X GET &apos;http://localhost:9200/_cluster/health?level=indices&apos; | gr
     ]
 }&apos;        
 </code></pre><p>注意：其中_cluster/reroute这个API中参数node，可根据_nodes/process接口查询到，尝试使用其中的数据节点</p>
-<p>6.删除索引</p>
-<p>1）命令格式：</p>
+<p>6.删除索引<br>1）命令格式：</p>
 <pre><code>curl -XDELETE http://localhost:9200/索引名称
 </code></pre><p>例如：删除索引”data-2018.08.10”</p>
 <pre><code>$ curl -XDELETE http://localhost:9200/data-2018.08.10
@@ -675,8 +674,7 @@ curl -X GET &apos;http://localhost:9200/_cluster/health?level=indices&apos; | gr
 </code></pre><p>3）模糊匹配删除<br>例如：删除以”data-2018.08”为前缀的索引即”data-2018.08.*”    </p>
 <pre><code>$ curl -XDELETE http://localhost:9200/data-2018.08.*
 {&quot;acknowledged&quot;:true} #表示删除成功
-</code></pre><p>4）使用通配符，删除所有的索引</p>
-<p>命令：</p>
+</code></pre><p>4）使用通配符，删除所有的索引<br>命令：</p>
 <pre><code>curl -XDELETE http://localhost:9200/_all
 或 curl -XDELETE http://localhost:9200/*
 </code></pre><p>_all ,<em> 通配所有的索引， 通常不建议使用通配符，误删了后果就很严重了。<br>为了安全起见，可以在配置文件中设置禁用_all和</em>通配符</p>
