@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="通过启用php-fpm的status页面，使用zabbix来获取各数据参数以达到监控php-fpm性能状态">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-11T06:10:42.000Z">
+<meta property="og:updated_time" content="2019-02-27T09:19:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix监控php-fpm">
 <meta name="twitter:description" content="通过启用php-fpm的status页面，使用zabbix来获取各数据参数以达到监控php-fpm性能状态">
@@ -528,16 +528,17 @@ user – 用户 (PHP_AUTH_USER) (如果没设置为‘-’)
 script – PHP脚本 (如果没设置为‘-’)
 last request cpu – 最后一个请求CPU使用率。
 last request memory － 最后一个请求使用的内存    
-</code></pre><h2 id="监控fpm"><a href="#监控fpm" class="headerlink" title="监控fpm"></a>监控fpm</h2><h3 id="zabbix-agent客户端脚本-etc-zabbix-script-phpfpm-status-sh"><a href="#zabbix-agent客户端脚本-etc-zabbix-script-phpfpm-status-sh" class="headerlink" title="zabbix agent客户端脚本 /etc/zabbix/script/phpfpm_status.sh"></a>zabbix agent客户端脚本 /etc/zabbix/script/phpfpm_status.sh</h3><pre><code>#!/bin/bash
+</code></pre><h2 id="监控fpm"><a href="#监控fpm" class="headerlink" title="监控fpm"></a>监控fpm</h2><h3 id="zabbix-agent客户端脚本"><a href="#zabbix-agent客户端脚本" class="headerlink" title="zabbix agent客户端脚本"></a>zabbix agent客户端脚本</h3><p>/etc/zabbix/script/phpfpm_status.sh</p>
+<pre><code>#!/bin/bash
 
 SERVER=&apos;127.0.0.1:80&apos;
 
 /usr/bin/curl -s &quot;http://127.0.0.1/fpmstatus?xml&quot; | grep &quot;&lt;$1&gt;&quot; | awk -F&apos;&gt;|&lt;&apos; &apos;{print $3}&apos;
-</code></pre><h3 id="zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-phpfpm-conf"><a href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-phpfpm-conf" class="headerlink" title="zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf"></a>zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf</h3><pre><code>#Monitor php-fpm status
+</code></pre><h3 id="zabbix-agent客户端配置"><a href="#zabbix-agent客户端配置" class="headerlink" title="zabbix agent客户端配置"></a>zabbix agent客户端配置</h3><p>/etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf</p>
+<pre><code>#Monitor php-fpm status
 UserParameter=phpfpm.status[*],/etc/zabbix/script/phpfpm_status.sh $1   
 </code></pre><h3 id="zabbix-web端配置"><a href="#zabbix-web端配置" class="headerlink" title="zabbix web端配置"></a>zabbix web端配置</h3><p>配置请参考 <a href="https://jasonhzy.github.io/2018/05/12/zabbix-redis/">zabbix自动发现规则监控redis（主从哨兵）</a></p>
 <p>下载：<a href="/download/zabbix/php/zbx_phpfpm_templates.xml">phpfpm监控模板</a>  </p>
-<p>docker run –name zabbix-agent -e ZBX_HOSTNAME=”jason-macox” -e ZBX_SERVER_HOST=”192.168.1.60” -e ZBX_SERVER_PORT=10051 -p 10050:10050 -d zabbix/zabbix-agent:centos-3.4-latest  </p>
 
       
     </div>
@@ -814,7 +815,7 @@ UserParameter=phpfpm.status[*],/etc/zabbix/script/phpfpm_status.sh $1
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#php-fpm配置"><span class="nav-number">1.</span> <span class="nav-text">php-fpm配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx配置"><span class="nav-number">2.</span> <span class="nav-text">nginx配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php-fpm-status的含义"><span class="nav-number">3.</span> <span class="nav-text">php-fpm status的含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监控fpm"><span class="nav-number">4.</span> <span class="nav-text">监控fpm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-agent客户端脚本-etc-zabbix-script-phpfpm-status-sh"><span class="nav-number">4.1.</span> <span class="nav-text">zabbix agent客户端脚本 /etc/zabbix/script/phpfpm_status.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-phpfpm-conf"><span class="nav-number">4.2.</span> <span class="nav-text">zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-web端配置"><span class="nav-number">4.3.</span> <span class="nav-text">zabbix web端配置</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#php-fpm配置"><span class="nav-number">1.</span> <span class="nav-text">php-fpm配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx配置"><span class="nav-number">2.</span> <span class="nav-text">nginx配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php-fpm-status的含义"><span class="nav-number">3.</span> <span class="nav-text">php-fpm status的含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监控fpm"><span class="nav-number">4.</span> <span class="nav-text">监控fpm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-agent客户端脚本"><span class="nav-number">4.1.</span> <span class="nav-text">zabbix agent客户端脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-agent客户端配置"><span class="nav-number">4.2.</span> <span class="nav-text">zabbix agent客户端配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-web端配置"><span class="nav-number">4.3.</span> <span class="nav-text">zabbix web端配置</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="nginx和php-fpm一样内建了一个状态页，利用状态页得到的各项参数，使用zabbix实现对nginx状态监控">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-11T06:11:00.000Z">
+<meta property="og:updated_time" content="2019-02-27T09:17:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zabbix监控nginx">
 <meta name="twitter:description" content="nginx和php-fpm一样内建了一个状态页，利用状态页得到的各项参数，使用zabbix实现对nginx状态监控">
@@ -480,7 +480,8 @@ Active connections: 1
 server accepts handled requests
  201 201 1630 
 Reading: 0 Writing: 1 Waiting: 0
-</code></pre><h2 id="监控nginx"><a href="#监控nginx" class="headerlink" title="监控nginx"></a>监控nginx</h2><h3 id="zabbix-agent客户端脚本-etc-zabbix-script-nginx-status-sh"><a href="#zabbix-agent客户端脚本-etc-zabbix-script-nginx-status-sh" class="headerlink" title="zabbix agent客户端脚本 /etc/zabbix/script/nginx_status.sh"></a>zabbix agent客户端脚本 /etc/zabbix/script/nginx_status.sh</h3><pre><code>#!/bin/bash
+</code></pre><h2 id="监控nginx"><a href="#监控nginx" class="headerlink" title="监控nginx"></a>监控nginx</h2><h3 id="zabbix-agent客户端脚本"><a href="#zabbix-agent客户端脚本" class="headerlink" title="zabbix agent客户端脚本"></a>zabbix agent客户端脚本</h3><p>/etc/zabbix/script/nginx_status.sh</p>
+<pre><code>#!/bin/bash
 
 SERVER=&apos;127.0.0.1:8080&apos;
 
@@ -513,7 +514,8 @@ case $1 in
    echo &quot;Usage: %0 {active | reading | writing| waiting| accepts | handled | requests}&quot;
    ;;
 esac
-</code></pre><h3 id="zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf"><a href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf" class="headerlink" title="zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf"></a>zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf</h3><pre><code>#Monitor Nginx status
+</code></pre><h3 id="zabbix-agent客户端配置"><a href="#zabbix-agent客户端配置" class="headerlink" title="zabbix agent客户端配置"></a>zabbix agent客户端配置</h3><p>/etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf</p>
+<pre><code>#Monitor Nginx status
 UserParameter=nginx.status[*],/etc/zabbix/script/nginx_status.sh $1   
 </code></pre><h3 id="zabbix-web端配置"><a href="#zabbix-web端配置" class="headerlink" title="zabbix web端配置"></a>zabbix web端配置</h3><p>配置请参考 <a href="https://jasonhzy.github.io/2018/05/12/zabbix-redis/">zabbix自动发现规则监控redis（主从哨兵）</a></p>
 <p>下载：<a href="/download/zabbix/nginx/zbx_nginx_templates.xml">nginx监控模板</a>    </p>
@@ -793,7 +795,7 @@ UserParameter=nginx.status[*],/etc/zabbix/script/nginx_status.sh $1
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx配置"><span class="nav-number">1.</span> <span class="nav-text">nginx配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx-status数值的含义说明"><span class="nav-number">2.</span> <span class="nav-text">nginx status数值的含义说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监控nginx"><span class="nav-number">3.</span> <span class="nav-text">监控nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-agent客户端脚本-etc-zabbix-script-nginx-status-sh"><span class="nav-number">3.1.</span> <span class="nav-text">zabbix agent客户端脚本 /etc/zabbix/script/nginx_status.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf"><span class="nav-number">3.2.</span> <span class="nav-text">zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-web端配置"><span class="nav-number">3.3.</span> <span class="nav-text">zabbix web端配置</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx配置"><span class="nav-number">1.</span> <span class="nav-text">nginx配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx-status数值的含义说明"><span class="nav-number">2.</span> <span class="nav-text">nginx status数值的含义说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监控nginx"><span class="nav-number">3.</span> <span class="nav-text">监控nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-agent客户端脚本"><span class="nav-number">3.1.</span> <span class="nav-text">zabbix agent客户端脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-agent客户端配置"><span class="nav-number">3.2.</span> <span class="nav-text">zabbix agent客户端配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zabbix-web端配置"><span class="nav-number">3.3.</span> <span class="nav-text">zabbix web端配置</span></a></li></ol></li></ol></div>
             
 
           </div>

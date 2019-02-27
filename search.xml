@@ -8,8 +8,7 @@
       <url>http://jasonhzy.github.io/2019/02/08/linux-nfs/</url>
       <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。</p>
 <a id="more"></a>
-<h2 id="RPC协议介绍"><a href="#RPC协议介绍" class="headerlink" title="RPC协议介绍"></a>RPC协议介绍</h2><p>RPC（Remote Procedure Call）远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。其工作在TCP/UDP的111端口。建立在Socket之上的，主要是简化编程的工作在底层提供网络之间的通信。当客户端尝试使用RPC Server所提供的服务时，由于Client需要取得一个可以连接的端口（port）才能够使用RPC Server所提供的服务，因此，客户端首先去请求rpcbind，然后rpcbind将自己管理的端口映射告知客户端，好让客户端可以连接上服务，因此启动NFS之前，一定要先启动rpcbind。</p>
-<p>NFS系统守护进程（rpc.nfsd和rpc.mountd）：<br>rpc.nfsd∶<br>这个 daemon 主要的功能即管理客户端是否能够登入主机的权限<br>rpc.mountd<br>这个 daemon 主要的功能即管理 NFS 的档案系统。当客户端顺利通过 rpc.nfsd 而登入主机之后，在他可以使用 NFS 服务器提供的档案之前，还要经过档案使用权限 (即-rwxrwxrwx 与 owner／group等权限) 的认证程序！除此之外还要根据NFS的设定档 /etc/exports 来比对 Client 的权限，当都通过这些权限设置之后客户端即可取得使用NFS档案的权限</p>
+<h2 id="RPC协议介绍"><a href="#RPC协议介绍" class="headerlink" title="RPC协议介绍"></a>RPC协议介绍</h2><p>RPC（Remote Procedure Call）远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。其工作在TCP/UDP的111端口。建立在Socket之上的，主要是简化编程的工作在底层提供网络之间的通信。当客户端尝试使用RPC Server所提供的服务时，由于Client需要取得一个可以连接的端口（port）才能够使用RPC Server所提供的服务，因此，客户端首先去请求rpcbind，然后rpcbind将自己管理的端口映射告知客户端，好让客户端可以连接上服务，因此启动NFS之前，一定要先启动rpcbind。<br>NFS系统守护进程（rpc.nfsd和rpc.mountd）：<br>rpc.nfsd∶<br>这个 daemon 主要的功能即管理客户端是否能够登入主机的权限<br>rpc.mountd<br>这个 daemon 主要的功能即管理 NFS 的档案系统。当客户端顺利通过 rpc.nfsd 而登入主机之后，在他可以使用 NFS 服务器提供的档案之前，还要经过档案使用权限 (即-rwxrwxrwx 与 owner／group等权限) 的认证程序！除此之外还要根据NFS的设定档 /etc/exports 来比对 Client 的权限，当都通过这些权限设置之后客户端即可取得使用NFS档案的权限</p>
 <h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><pre><code>NFS服务端 CentOS7.4 192.168.1.60
 NFS客户端 CentOS7.4 192.168.1.76 
 </code></pre><h2 id="安装NFS与配置"><a href="#安装NFS与配置" class="headerlink" title="安装NFS与配置"></a>安装NFS与配置</h2><p>NFS的常用目录:</p>
@@ -488,7 +487,7 @@ Syncing disks.
 /dev/mapper/centos-root on / type xfs (rw,relatime,attr2,inode64,noquota)
 /dev/sda1 on /boot type xfs (rw,relatime,attr2,inode64,noquota)
 </code></pre><p>2、lsblk<br>显示块设备，当使用 -f 选项时，会打印当前系统所有分区的文件系统类型。</p>
-<pre><code>[root@localhost /]# lsblk -f
+<pre><code>[root@localhost /]# lsblk -f  //lsblk -o UUID -f 
 NAME            FSTYPE      LABEL UUID                                   MOUNTPOINT
 sda                                                                      
 |-sda1          xfs               d918cc0b-aa5b-4147-bd41-469533c0618d   /boot
@@ -674,6 +673,59 @@ vim     1485 root    4u   REG   8,17    12288   12 /data/.a.swp
     </entry>
     
     <entry>
+      <title><![CDATA[Ubuntu内核升级]]></title>
+      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
+      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
+<a id="more"></a>
+<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
+apt-cache search linux-headers-\*
+</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
+apt-get install linux-headers-X.X.X.X-generic
+</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
+或
+update-initramfs -u -k `uname -r`
+</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
+</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
+</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
+</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
+<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
+<pre><code>getconf LONG_BIT
+</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
+<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
+</code></pre><p>3、使用wget命令来下载到服务器</p>
+<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>4、安装下载软件包</p>
+<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
+<pre><code>update-grub
+</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
+<pre><code>dpkg --get-selections | grep linux-image
+</code></pre><p>2、移除不要的Kernel</p>
+<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
+</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
+<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Kernel </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[CentOS内核升级]]></title>
       <url>http://jasonhzy.github.io/2019/02/06/centos-kernel-upgrade/</url>
       <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的CentOS进行操作</p>
@@ -737,59 +789,6 @@ yum remove kernel-headers-3.10.0-693.21.1.el7.x86_64 kernel-lt-4.4.121-1.el7.elr
 <pre><code>date
 </code></pre><p>同步系统时间：</p>
 <pre><code>ntpdate time.apple.com
-</code></pre>]]></content>
-      
-        <categories>
-            
-            <category> Linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Linux </tag>
-            
-            <tag> Kernel </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Ubuntu内核升级]]></title>
-      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
-      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
-<a id="more"></a>
-<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
-apt-cache search linux-headers-\*
-</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
-apt-get install linux-headers-X.X.X.X-generic
-</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
-或
-update-initramfs -u -k `uname -r`
-</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
-</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
-</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
-</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
-<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
-<pre><code>getconf LONG_BIT
-</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
-<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
-</code></pre><p>3、使用wget命令来下载到服务器</p>
-<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>4、安装下载软件包</p>
-<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
-<pre><code>update-grub
-</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
-<pre><code>dpkg --get-selections | grep linux-image
-</code></pre><p>2、移除不要的Kernel</p>
-<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
-</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
-<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
 </code></pre>]]></content>
       
         <categories>
@@ -1216,7 +1215,7 @@ active_shards_percent_as_number：这是集群中，集群所需要的活动分�
 <pre><code>green
     所有的主分片和副本分片都已分配。你的集群是 100% 可用的。
 yellow
-    所有的主分片已经分片了，但至少还有一个副本是缺失的。不会有数据丢失，所以搜索结果依然是完整的。不过，你的高可用性在某种程度上被弱化。如果 更多的 分片消失，你就会丢数据了。把 yellow 想象成一个需要及时调查的警告。
+    所有的主分片已经分片了，但至少还有一个副本是缺失的。不会有数据丢失，所以搜索结果依然是完整的。不过，你的高可用性在某种程度上被弱化。如果更多的分片消失，你就会丢数据了。把yellow想象成一个需要及时调查的警告。
 red
     至少一个主分片（以及它的全部副本）都在缺失中。这意味着你在缺少数据：搜索只能返回部分数据，而分配到这个分片上的写入请求会返回一个异常。
 </code></pre><p>2.查看集群节点情况</p>
@@ -1582,7 +1581,8 @@ Active connections: 1
 server accepts handled requests
  201 201 1630 
 Reading: 0 Writing: 1 Waiting: 0
-</code></pre><h2 id="监控nginx"><a href="#监控nginx" class="headerlink" title="监控nginx"></a>监控nginx</h2><h3 id="zabbix-agent客户端脚本-etc-zabbix-script-nginx-status-sh"><a href="#zabbix-agent客户端脚本-etc-zabbix-script-nginx-status-sh" class="headerlink" title="zabbix agent客户端脚本 /etc/zabbix/script/nginx_status.sh"></a>zabbix agent客户端脚本 /etc/zabbix/script/nginx_status.sh</h3><pre><code>#!/bin/bash
+</code></pre><h2 id="监控nginx"><a href="#监控nginx" class="headerlink" title="监控nginx"></a>监控nginx</h2><h3 id="zabbix-agent客户端脚本"><a href="#zabbix-agent客户端脚本" class="headerlink" title="zabbix agent客户端脚本"></a>zabbix agent客户端脚本</h3><p>/etc/zabbix/script/nginx_status.sh</p>
+<pre><code>#!/bin/bash
 
 SERVER=&apos;127.0.0.1:8080&apos;
 
@@ -1615,7 +1615,8 @@ case $1 in
    echo &quot;Usage: %0 {active | reading | writing| waiting| accepts | handled | requests}&quot;
    ;;
 esac
-</code></pre><h3 id="zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf"><a href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-nginx-conf" class="headerlink" title="zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf"></a>zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf</h3><pre><code>#Monitor Nginx status
+</code></pre><h3 id="zabbix-agent客户端配置"><a href="#zabbix-agent客户端配置" class="headerlink" title="zabbix agent客户端配置"></a>zabbix agent客户端配置</h3><p>/etc/zabbix/zabbix_agentd.d/userparameter_nginx.conf</p>
+<pre><code>#Monitor Nginx status
 UserParameter=nginx.status[*],/etc/zabbix/script/nginx_status.sh $1   
 </code></pre><h3 id="zabbix-web端配置"><a href="#zabbix-web端配置" class="headerlink" title="zabbix web端配置"></a>zabbix web端配置</h3><p>配置请参考 <a href="https://jasonhzy.github.io/2018/05/12/zabbix-redis/">zabbix自动发现规则监控redis（主从哨兵）</a></p>
 <p>下载：<a href="/download/zabbix/nginx/zbx_nginx_templates.xml">nginx监控模板</a>    </p>
@@ -1750,16 +1751,17 @@ user – 用户 (PHP_AUTH_USER) (如果没设置为‘-’)
 script – PHP脚本 (如果没设置为‘-’)
 last request cpu – 最后一个请求CPU使用率。
 last request memory － 最后一个请求使用的内存    
-</code></pre><h2 id="监控fpm"><a href="#监控fpm" class="headerlink" title="监控fpm"></a>监控fpm</h2><h3 id="zabbix-agent客户端脚本-etc-zabbix-script-phpfpm-status-sh"><a href="#zabbix-agent客户端脚本-etc-zabbix-script-phpfpm-status-sh" class="headerlink" title="zabbix agent客户端脚本 /etc/zabbix/script/phpfpm_status.sh"></a>zabbix agent客户端脚本 /etc/zabbix/script/phpfpm_status.sh</h3><pre><code>#!/bin/bash
+</code></pre><h2 id="监控fpm"><a href="#监控fpm" class="headerlink" title="监控fpm"></a>监控fpm</h2><h3 id="zabbix-agent客户端脚本"><a href="#zabbix-agent客户端脚本" class="headerlink" title="zabbix agent客户端脚本"></a>zabbix agent客户端脚本</h3><p>/etc/zabbix/script/phpfpm_status.sh</p>
+<pre><code>#!/bin/bash
 
 SERVER=&apos;127.0.0.1:80&apos;
 
 /usr/bin/curl -s &quot;http://127.0.0.1/fpmstatus?xml&quot; | grep &quot;&lt;$1&gt;&quot; | awk -F&apos;&gt;|&lt;&apos; &apos;{print $3}&apos;
-</code></pre><h3 id="zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-phpfpm-conf"><a href="#zabbix-agent客户端配置-etc-zabbix-zabbix-agentd-d-userparameter-phpfpm-conf" class="headerlink" title="zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf"></a>zabbix agent客户端配置 /etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf</h3><pre><code>#Monitor php-fpm status
+</code></pre><h3 id="zabbix-agent客户端配置"><a href="#zabbix-agent客户端配置" class="headerlink" title="zabbix agent客户端配置"></a>zabbix agent客户端配置</h3><p>/etc/zabbix/zabbix_agentd.d/userparameter_phpfpm.conf</p>
+<pre><code>#Monitor php-fpm status
 UserParameter=phpfpm.status[*],/etc/zabbix/script/phpfpm_status.sh $1   
 </code></pre><h3 id="zabbix-web端配置"><a href="#zabbix-web端配置" class="headerlink" title="zabbix web端配置"></a>zabbix web端配置</h3><p>配置请参考 <a href="https://jasonhzy.github.io/2018/05/12/zabbix-redis/">zabbix自动发现规则监控redis（主从哨兵）</a></p>
 <p>下载：<a href="/download/zabbix/php/zbx_phpfpm_templates.xml">phpfpm监控模板</a>  </p>
-<p>docker run –name zabbix-agent -e ZBX_HOSTNAME=”jason-macox” -e ZBX_SERVER_HOST=”192.168.1.60” -e ZBX_SERVER_PORT=10051 -p 10050:10050 -d zabbix/zabbix-agent:centos-3.4-latest  </p>
 ]]></content>
       
         <categories>

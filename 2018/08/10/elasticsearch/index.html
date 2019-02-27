@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-23T01:40:41.000Z">
+<meta property="og:updated_time" content="2019-02-27T06:38:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elasticsearch集群部署">
 <meta name="twitter:description" content="简介Elasticsearch是一款稳定高效的分布式搜索和分析引擎，它的底层基于 Lucene，并提供了友好的RESTful API来对数据进行操作。Elasticsearch 在搭建企业级搜索（如日志搜索、商品搜索等）平台中很广泛，官网也提供了不少案例">
@@ -598,7 +598,7 @@ active_shards_percent_as_number：这是集群中，集群所需要的活动分�
 <pre><code>green
     所有的主分片和副本分片都已分配。你的集群是 100% 可用的。
 yellow
-    所有的主分片已经分片了，但至少还有一个副本是缺失的。不会有数据丢失，所以搜索结果依然是完整的。不过，你的高可用性在某种程度上被弱化。如果 更多的 分片消失，你就会丢数据了。把 yellow 想象成一个需要及时调查的警告。
+    所有的主分片已经分片了，但至少还有一个副本是缺失的。不会有数据丢失，所以搜索结果依然是完整的。不过，你的高可用性在某种程度上被弱化。如果更多的分片消失，你就会丢数据了。把yellow想象成一个需要及时调查的警告。
 red
     至少一个主分片（以及它的全部副本）都在缺失中。这意味着你在缺少数据：搜索只能返回部分数据，而分配到这个分片上的写入请求会返回一个异常。
 </code></pre><p>2.查看集群节点情况</p>
