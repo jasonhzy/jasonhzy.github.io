@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-05T07:43:05.000Z">
+<meta property="og:updated_time" content="2019-03-05T07:44:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux NFS配置">
 <meta name="twitter:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
@@ -614,8 +614,9 @@ $ 192.168.1.60:/data /test nfs defaults,nfsvers=3 0 0
 </code></pre><p>客户端执行nfsstat -m命令，查看当前所使用的nfs版本：</p>
 <pre><code>[root@localhost ~]# nfsstat -m
 /data from 192.168.1.60:/data
- Flags:    rw,relatime,vers=3,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,
- mountaddr=192.168.1.60,mountvers=3,mountport=892,mountproto=udp,local_lock=none,addr=192.168.1.60
+ Flags:    rw,relatime,vers=3,rsize=262144,wsize=262144,namlen=255,hard,
+ proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=192.168.1.60,mountvers=3,
+ mountport=892,mountproto=udp,local_lock=none,addr=192.168.1.60
 </code></pre><p>3）查看挂载是否成功：</p>
 <pre><code>[root@localhost /]# df -h
 Filesystem               Size  Used Avail Use% Mounted on

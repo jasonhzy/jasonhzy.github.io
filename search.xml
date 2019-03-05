@@ -201,8 +201,9 @@ $ 192.168.1.60:/data /test nfs defaults,nfsvers=3 0 0
 </code></pre><p>客户端执行nfsstat -m命令，查看当前所使用的nfs版本：</p>
 <pre><code>[root@localhost ~]# nfsstat -m
 /data from 192.168.1.60:/data
- Flags:    rw,relatime,vers=3,rsize=262144,wsize=262144,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,
- mountaddr=192.168.1.60,mountvers=3,mountport=892,mountproto=udp,local_lock=none,addr=192.168.1.60
+ Flags:    rw,relatime,vers=3,rsize=262144,wsize=262144,namlen=255,hard,
+ proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=192.168.1.60,mountvers=3,
+ mountport=892,mountproto=udp,local_lock=none,addr=192.168.1.60
 </code></pre><p>3）查看挂载是否成功：</p>
 <pre><code>[root@localhost /]# df -h
 Filesystem               Size  Used Avail Use% Mounted on
