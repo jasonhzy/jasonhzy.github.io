@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-05T07:39:30.000Z">
+<meta property="og:updated_time" content="2019-03-05T07:43:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux NFS配置">
 <meta name="twitter:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
@@ -553,7 +553,7 @@ program vers proto   port  service
 <pre><code>#vi /etc/exports
 /data     192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
 </code></pre><p>以上配置分为三个部分：</p>
-<p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机<a href="http://www.example.com，指定域中的所有主机*.example.com，所有主机*）。" target="_blank" rel="noopener">www.example.com，指定域中的所有主机*.example.com，所有主机*）。</a><br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
+<p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机 <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> ，指定域中的所有主机 <em>.example.com ，所有主机</em>）。<br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
 <pre><code>rw ：读写；
 ro ：只读；
 sync ：同步模式，内存中数据时时写入磁盘

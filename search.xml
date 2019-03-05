@@ -140,7 +140,7 @@ program vers proto   port  service
 <pre><code>#vi /etc/exports
 /data     192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
 </code></pre><p>以上配置分为三个部分：</p>
-<p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机<a href="http://www.example.com，指定域中的所有主机*.example.com，所有主机*）。" target="_blank" rel="noopener">www.example.com，指定域中的所有主机*.example.com，所有主机*）。</a><br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
+<p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机 <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> ，指定域中的所有主机 <em>.example.com ，所有主机</em>）。<br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
 <pre><code>rw ：读写；
 ro ：只读；
 sync ：同步模式，内存中数据时时写入磁盘
