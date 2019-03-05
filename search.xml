@@ -217,7 +217,7 @@ tmpfs                   1000M  8.4M  992M   1% /run
 nfsstat -c #查看客户端的情况
 </code></pre><h3 id="exportfs"><a href="#exportfs" class="headerlink" title="exportfs"></a>exportfs</h3><p>启动了NFS之后又修改了/etc/exports，使用exportfs命令来使改动立刻生效</p>
 <h3 id="rpcinfo"><a href="#rpcinfo" class="headerlink" title="rpcinfo"></a>rpcinfo</h3><p>查看rpc执行信息，可以用于检测rpc运行情况的工具</p>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>1、服务端NFS配置：</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="实例一"><a href="#实例一" class="headerlink" title="实例一"></a>实例一</h3><p>服务端NFS配置：</p>
 <pre><code>#vi /etc/exports
 /data  192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
 </code></pre><p>客户端创建文件：touch a，客户端显示如下：</p>
@@ -233,7 +233,7 @@ total 0
 drwxr-xr-x.  2 root root  15 Feb 24 20:52 .
 dr-xr-xr-x. 18 root root 236 Feb 19 00:43 ..
 -rw-r--r--.  1 root root   0 Feb 24 20:52 a
-</code></pre><p>2、服务端NFS配置：</p>
+</code></pre><h3 id="实例二"><a href="#实例二" class="headerlink" title="实例二"></a>实例二</h3><p>服务端NFS配置：</p>
 <pre><code>#vi /etc/exports
 /data  192.168.1.76(rw,sync,secure,root_squash)
 </code></pre><p>此时服务端”/data”的权限：</p>
@@ -261,7 +261,7 @@ drwxrwxrwx.  2 root      root       24 Feb 24 21:03 .
 dr-xr-xr-x. 18 root      root      236 Feb 19 00:43 ..
 -rw-r--r--.  1 root      root        0 Feb 24 20:52 a
 -rw-r--r--.  1 nfsnobody nfsnobody   0 Feb 24 21:03 b
-</code></pre><p>3、服务端NFS配置：</p>
+</code></pre><h3 id="实例三"><a href="#实例三" class="headerlink" title="实例三"></a>实例三</h3><p>服务端NFS配置：</p>
 <pre><code>创建group和user 
 # groupadd -g 1000 jason
 # useradd -u 1000 -g jason -M -s /bin/bash jason
