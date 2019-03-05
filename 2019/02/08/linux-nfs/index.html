@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-23T08:30:33.000Z">
+<meta property="og:updated_time" content="2019-03-05T07:39:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux NFS配置">
 <meta name="twitter:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
@@ -524,8 +524,7 @@ program vers proto   port  service
 100021    1   tcp  32803  nlockmgr
 100021    3   tcp  32803  nlockmgr
 100021    4   tcp  32803  nlockmgr
-</code></pre><p>2、CentOS7下配置如下：</p>
-<p>编辑文件 /etc/firewalld/zones/public.xml：</p>
+</code></pre><h5 id="CentOS7下配置"><a href="#CentOS7下配置" class="headerlink" title="CentOS7下配置"></a>CentOS7下配置</h5><p>编辑文件 /etc/firewalld/zones/public.xml：</p>
 <pre><code>#vim /etc/firewalld/zones/public.xml
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;zone&gt;
@@ -552,7 +551,7 @@ program vers proto   port  service
 <pre><code>mkdir /data   
 </code></pre><h3 id="NFS共享目录文件配置"><a href="#NFS共享目录文件配置" class="headerlink" title="NFS共享目录文件配置"></a>NFS共享目录文件配置</h3><p>/etc/exports文件内容：</p>
 <pre><code>#vi /etc/exports
-/data/     192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
+/data     192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
 </code></pre><p>以上配置分为三个部分：</p>
 <p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机<a href="http://www.example.com，指定域中的所有主机*.example.com，所有主机*）。" target="_blank" rel="noopener">www.example.com，指定域中的所有主机*.example.com，所有主机*）。</a><br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
 <pre><code>rw ：读写；
@@ -583,8 +582,8 @@ exporting 192.168.1.76:/data
 <pre><code>[root@localhost ~]# showmount -e localhost
 Export list for localhost:
 /data 192.168.1.76
-</code></pre><p>如果客户端已经挂载了目录，在服务端通过showmount -e命令可显示NFS客户端信息和共享目录</p>
-<pre><code>[root@localhost ~]# showmount -a
+</code></pre><p>如果客户端已经挂载了目录，在服务端通过showmount -a命令可显示NFS客户端信息和共享目录（包含历史信息）</p>
+<pre><code>[root@localhost ~]# showmount -a localhost
 All mount points on localhost.localdomain:
 192.168.1.76:/data
 </code></pre><p>注意：挂载时如果未指定nfsvers版本，默认使用nfs支持的最新版本，目前为ver=4，如果使用此版本， showmount -a将不会显示NFS客户端信息和共享目录  </p>
@@ -604,14 +603,14 @@ Export list for 192.168.1.60:
 /data 192.168.1.76
 </code></pre><p>2、挂载NFS共享目录</p>
 <p>1）创建服务端共享目录，例如：</p>
-<pre><code>mkdir /data
+<pre><code>mkdir /test
 </code></pre><p>2）挂载目录</p>
 <pre><code>#临时挂载，即时生效
-mount -t nfs -o nfsvers=3 192.168.1.60:/data /data
+mount -t nfs -o nfsvers=3 192.168.1.60:/data /test
 
 #配置永久挂载nfs文件系统，保存后重启服务器即可生效
 $ vim /etc/fstab
-$ 192.168.1.60:/data /data nfs defaults,nfsvers=3 0 0  
+$ 192.168.1.60:/data /test nfs defaults,nfsvers=3 0 0  
 </code></pre><p>客户端执行nfsstat -m命令，查看当前所使用的nfs版本：</p>
 <pre><code>[root@localhost ~]# nfsstat -m
 /data from 192.168.1.60:/data
@@ -624,13 +623,103 @@ devtmpfs                 994M     0  994M   0% /dev
 tmpfs                   1000M  8.4M  992M   1% /run
 /dev/mapper/centos-root  6.7G  3.5G  3.2G  53% /
 /dev/sda1                497M  118M  380M  24% /boot
-192.168.1.60:/data       6.2G  4.5G  1.8G  72% /data
+192.168.1.60:/data       6.2G  4.5G  1.8G  72% /test
 </code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="nfsstat"><a href="#nfsstat" class="headerlink" title="nfsstat"></a>nfsstat</h3><p>查看NFS的运行状态，对于调整NFS的运行有很大帮助：</p>
 <pre><code>nfsstat -s #查看服务端的情况
 nfsstat -c #查看客户端的情况
 </code></pre><h3 id="exportfs"><a href="#exportfs" class="headerlink" title="exportfs"></a>exportfs</h3><p>启动了NFS之后又修改了/etc/exports，使用exportfs命令来使改动立刻生效</p>
-<h3 id="rpcinfo"><a href="#rpcinfo" class="headerlink" title="rpcinfo"></a>rpcinfo</h3><p>查看rpc执行信息，可以用于检测rpc运行情况的工具    </p>
+<h3 id="rpcinfo"><a href="#rpcinfo" class="headerlink" title="rpcinfo"></a>rpcinfo</h3><p>查看rpc执行信息，可以用于检测rpc运行情况的工具</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>1、服务端NFS配置：</p>
+<pre><code>#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
+</code></pre><p>客户端创建文件：touch a，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch a
+[root@localhost test]# ls -al 
+total 4
+drwxr-xr-x.  2 root root   15 Feb 24 20:52 .
+dr-xr-xr-x. 19 root root 4096 Feb 24 20:51 ..
+-rw-r--r--.  1 root root    0 Feb 24 20:52 a
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@localhost /]# ls -al /data
+total 0
+drwxr-xr-x.  2 root root  15 Feb 24 20:52 .
+dr-xr-xr-x. 18 root root 236 Feb 19 00:43 ..
+-rw-r--r--.  1 root root   0 Feb 24 20:52 a
+</code></pre><p>2、服务端NFS配置：</p>
+<pre><code>#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,root_squash)
+</code></pre><p>此时服务端”/data”的权限：</p>
+<pre><code>[root@localhost /]# ls -al | grep data
+drwxr-xr-x.   2 root root   15 Feb 24 20:52 data    
+</code></pre><p>客户端创建文件：touch b，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch b
+touch: cannot touch &apos;b&apos;: Permission denied
+</code></pre><p>此时客户端是不能创建，主要是因”/data”的权限：所在组group和其他用户other的权限不能写，需要修改权限：</p>
+<pre><code>[root@localhost /]# chmod go+w /data
+[root@localhost /]# ls -al | grep data
+drwxrwxrwx.   2 root root   15 Feb 24 20:52 data
+</code></pre><p>客户端再次创建文件：touch b，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch b
+[root@localhost test]# ls -al 
+total 4
+drwxrwxrwx.  2 root      root        24 Feb 24 21:03 .
+dr-xr-xr-x. 19 root      root      4096 Feb 24 20:51 ..
+-rw-r--r--.  1 root      root         0 Feb 24 20:52 a
+-rw-r--r--.  1 nfsnobody nfsnobody    0 Feb 24 21:03 b
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@bogon /]# ls -al /data
+total 0
+drwxrwxrwx.  2 root      root       24 Feb 24 21:03 .
+dr-xr-xr-x. 18 root      root      236 Feb 19 00:43 ..
+-rw-r--r--.  1 root      root        0 Feb 24 20:52 a
+-rw-r--r--.  1 nfsnobody nfsnobody   0 Feb 24 21:03 b
+</code></pre><p>3、服务端NFS配置：</p>
+<pre><code>创建group和user 
+# groupadd -g 1000 jason
+# useradd -u 1000 -g jason -M -s /bin/bash jason
+设置共享目录权限
+setfacl -m u:jason:rwx /data
 
+#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,all_squash,,anonuid=1000,anongid=1000))
+</code></pre><p>此时服务端”/data”的权限：</p>
+<pre><code>[root@localhost /]# ls -al | grep data
+drwxr-xr-x.   2 root root   15 Feb 25 12:41 data
+[root@localhost /]# getfacl /data
+getfacl: Removing leading &apos;/&apos; from absolute path names
+# file: data
+# owner: root
+# group: root
+user::rwx
+group::r-x
+other::r-x
+
+[root@localhost /]# setfacl -m u:jason:rwx  /data
+[root@localhost /]# getfacl /data
+getfacl: Removing leading &apos;/&apos; from absolute path names
+# file: data
+# owner: root
+# group: root
+user::rwx
+user:jason:rwx #多出来一个用户jason的权限rwx
+group::r-x
+mask::rwx
+other::r-x
+</code></pre><p><strong> 备注：</strong> ACL（Access Control List），主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置<br>1)、setfacl可以更精确的控制权限的分配<br>2)、getfacl取得某个文件/目录的 ACL 配置项目</p>
+<p>客户端创建文件：touch a，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch a
+[root@localhost test]# ls -al
+total 4
+drwxrwxr-x.  2 root  root    15 Feb 25 12:39 .
+dr-xr-xr-x. 19 root  root  4096 Feb 24 20:51 ..
+-rw-r--r--.  1 jason jason    0 Feb 25 12:39 a #因客户端也存在uid和gid为1000的jason，所以用户和组都显示为jason，否则显示1000
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@localhost data]# ls -al
+total 0
+drwxrwxr-x+  2 root  root   15 Feb 25 12:41 .
+dr-xr-xr-x. 18 root  root  236 Feb 19 00:43 ..
+-rw-r--r--.  1 jason jason   0 Feb 25 12:41 a        
+</code></pre>
       
     </div>
 
@@ -902,7 +991,7 @@ nfsstat -c #查看客户端的情况
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC协议介绍"><span class="nav-number">2.</span> <span class="nav-text">RPC协议介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">3.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装NFS与配置"><span class="nav-number">4.</span> <span class="nav-text">安装NFS与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">4.1.</span> <span class="nav-text">服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装服务端"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#防火墙配置"><span class="nav-number">4.1.2.</span> <span class="nav-text">防火墙配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#固定nfs服务端口"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">固定nfs服务端口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建共享目录"><span class="nav-number">4.2.</span> <span class="nav-text">创建共享目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS共享目录文件配置"><span class="nav-number">4.3.</span> <span class="nav-text">NFS共享目录文件配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端验证"><span class="nav-number">4.4.</span> <span class="nav-text">服务端验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">4.5.</span> <span class="nav-text">客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装客户端NFS"><span class="nav-number">4.5.1.</span> <span class="nav-text">安装客户端NFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#挂载NFS共享目录"><span class="nav-number">4.5.2.</span> <span class="nav-text">挂载NFS共享目录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">5.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nfsstat"><span class="nav-number">5.1.</span> <span class="nav-text">nfsstat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exportfs"><span class="nav-number">5.2.</span> <span class="nav-text">exportfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpcinfo"><span class="nav-number">5.3.</span> <span class="nav-text">rpcinfo</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC协议介绍"><span class="nav-number">2.</span> <span class="nav-text">RPC协议介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">3.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装NFS与配置"><span class="nav-number">4.</span> <span class="nav-text">安装NFS与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">4.1.</span> <span class="nav-text">服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装服务端"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#防火墙配置"><span class="nav-number">4.1.2.</span> <span class="nav-text">防火墙配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#固定nfs服务端口"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">固定nfs服务端口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CentOS7下配置"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">CentOS7下配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建共享目录"><span class="nav-number">4.2.</span> <span class="nav-text">创建共享目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS共享目录文件配置"><span class="nav-number">4.3.</span> <span class="nav-text">NFS共享目录文件配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端验证"><span class="nav-number">4.4.</span> <span class="nav-text">服务端验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">4.5.</span> <span class="nav-text">客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装客户端NFS"><span class="nav-number">4.5.1.</span> <span class="nav-text">安装客户端NFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#挂载NFS共享目录"><span class="nav-number">4.5.2.</span> <span class="nav-text">挂载NFS共享目录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">5.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nfsstat"><span class="nav-number">5.1.</span> <span class="nav-text">nfsstat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exportfs"><span class="nav-number">5.2.</span> <span class="nav-text">exportfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpcinfo"><span class="nav-number">5.3.</span> <span class="nav-text">rpcinfo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">6.</span> <span class="nav-text">实例</span></a></li></ol></div>
             
 
           </div>
