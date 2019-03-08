@@ -102,7 +102,7 @@
 <meta property="og:description" content="简介MySQL在5.5.3之后增加了utf8mb4的编码，mb4即4-Byte UTF-8 Unicode Encoding，专门用来兼容四字节的unicode。utf8mb4为utf8的超集并兼容utf8，比utf8能表示更多的字符">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-charset/process.png">
-<meta property="og:updated_time" content="2019-03-08T02:54:59.000Z">
+<meta property="og:updated_time" content="2019-03-08T03:14:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql支持utf8mb4">
 <meta name="twitter:description" content="简介MySQL在5.5.3之后增加了utf8mb4的编码，mb4即4-Byte UTF-8 Unicode Encoding，专门用来兼容四字节的unicode。utf8mb4为utf8的超集并兼容utf8，比utf8能表示更多的字符">
@@ -444,7 +444,7 @@ character-set-client-handshake = FALSE
 character-set-server = utf8mb4
 collation-server = utf8mb4_unicode_ci
 </code></pre><p>修改之后重启mysql    </p>
-<h2 id="检查MySQL是否启用了utf8mb4"><a href="#检查MySQL是否启用了utf8mb4" class="headerlink" title="检查MySQL是否启用了utf8mb4"></a>检查MySQL是否启用了utf8mb4</h2><pre><code>mysql&gt; SHOW VARIABLES WHERE Variable_name LIKE &apos;character_set_%&apos; OR Variable_name LIKE &apos;collation%&apos;;
+<h2 id="检查MySQL是否启用了utf8mb4"><a href="#检查MySQL是否启用了utf8mb4" class="headerlink" title="检查MySQL是否启用了utf8mb4"></a>检查MySQL是否启用了utf8mb4</h2><pre><code>mysql&gt; SHOW VARIABLES WHERE Variable_name LIKE &apos;character\_set\_%&apos; OR Variable_name LIKE &apos;collation%&apos;;
 +--------------------------+----------------------------------+
 | Variable_name            | Value                            |
 +--------------------------+----------------------------------+
@@ -460,7 +460,9 @@ collation-server = utf8mb4_unicode_ci
 | collation_database       | utf8mb4_unicode_ci               |
 | collation_server         | utf8mb4_unicode_ci               |
 +--------------------------+----------------------------------+
-</code></pre><h2 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h2><h3 id="字符集参数"><a href="#字符集参数" class="headerlink" title="字符集参数"></a>字符集参数</h3><p>1、参数详解：</p>
+</code></pre><h2 id="utf8mb4-general-ci／utf8mb4-unicode-ci区别"><a href="#utf8mb4-general-ci／utf8mb4-unicode-ci区别" class="headerlink" title="utf8mb4_general_ci／utf8mb4_unicode_ci区别"></a>utf8mb4_general_ci／utf8mb4_unicode_ci区别</h2><p>准确性：<br>    1、utf8mb4_unicode_ci是基于标准的Unicode来排序和比较，能够在各种语言之间精确排序<br>    2、utf8mb4_general_ci没有实现Unicode排序规则，在遇到某些特殊语言或者字符集，排序结果可能不一致。<br>性能：<br>    1、utf8mb4_general_ci在比较和排序的时候更快<br>    2、utf8mb4_unicode_ci在特殊情况下，Unicode排序规则为了能够处理特殊字符的情况，实现了略微复杂的排序算法。</p>
+<p>总结：unicode_ci的精确度高于general_ci，unicode_ci的速度慢于general_ci</p>
+<h2 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h2><h3 id="字符集参数"><a href="#字符集参数" class="headerlink" title="字符集参数"></a>字符集参数</h3><p>1、参数详解：</p>
 <pre><code>character_set_client: 客户端请求数据的字符集
 character_set_connection: 服务器收到查询语句后转换成的字符集
 character_set_database: 数据库使用的字符集
@@ -469,6 +471,7 @@ character_set_filesystem: 把os上文件名转化成此字符集，即把charact
 character_set_results: 查询结果的字符集，即返回给客户端的字符集
 character_set_server: 服务器使用的字符集
 character_set_system: 系统字符集，总是utf8，不需要设置，是为存储系统元数据(字段名等)的字符集
+以 collation_ 开头的: 描述字符序
 </code></pre><p>2、字符集转换流程：</p>
 <p><img src="/images/mysql-charset/process.png" alt="charset">  </p>
 <p>1) mysql Server收到请求时将请求数据从character_set_client转换为character_set_connection<br>2) 进行内部操作前将请求数据从character_set_connection转换为内部操作字符集,步骤如下<br>    A. 使用每个数据字段的CHARACTER SET设定值；<br>    B. 若上述值不存在，则使用对应数据表的字符集设定值<br>    C. 若上述值不存在，则使用对应数据库的字符集设定值；<br>    D. 若上述值不存在，则使用character_set_server设定值。<br>3) 最后将操作结果从内部操作字符集转换为character_set_results</p>
@@ -476,7 +479,7 @@ character_set_system: 系统字符集，总是utf8，不需要设置，是为存
 </code></pre><h4 id="修改table的字符集"><a href="#修改table的字符集" class="headerlink" title="修改table的字符集"></a>修改table的字符集</h4><pre><code>ALTER TABLE table_name DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 </code></pre><h4 id="修改column默认的字符集"><a href="#修改column默认的字符集" class="headerlink" title="修改column默认的字符集"></a>修改column默认的字符集</h4><pre><code>ALTER TABLE table_name CHANGE column_name column_name VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;     
 </code></pre><h2 id="修复-amp-优化所有数据表-数据库引擎MyISAM"><a href="#修复-amp-优化所有数据表-数据库引擎MyISAM" class="headerlink" title="修复&amp;优化所有数据表(数据库引擎MyISAM)"></a>修复&amp;优化所有数据表(数据库引擎MyISAM)</h2><pre><code>mysqlcheck -u root -p --auto-repair --optimize --all-databases
-</code></pre><p>参考</p>
+</code></pre><p>参考资料</p>
 <ol>
 <li><a href="https://mathiasbynens.be/notes/mysql-utf8mb4" target="_blank" rel="noopener">How to support full Unicode in MySQL databases</a></li>
 <li><a href="https://dev.mysql.com/doc/refman/5.5/en/charset-unicode-conversion.html" target="_blank" rel="noopener">Converting Between 3-Byte and 4-Byte Unicode Character Sets</a></li>
@@ -755,7 +758,7 @@ character_set_system: 系统字符集，总是utf8，不需要设置，是为存
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">2.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建备份"><span class="nav-number">3.</span> <span class="nav-text">创建备份</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检测MySQL-Server版本"><span class="nav-number">4.</span> <span class="nav-text">检测MySQL Server版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改配置文件"><span class="nav-number">5.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查MySQL是否启用了utf8mb4"><span class="nav-number">6.</span> <span class="nav-text">检查MySQL是否启用了utf8mb4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集"><span class="nav-number">7.</span> <span class="nav-text">字符集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符集参数"><span class="nav-number">7.1.</span> <span class="nav-text">字符集参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符集修改"><span class="nav-number">7.2.</span> <span class="nav-text">字符集修改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改database默认的字符集"><span class="nav-number">7.2.1.</span> <span class="nav-text">修改database默认的字符集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改table的字符集"><span class="nav-number">7.2.2.</span> <span class="nav-text">修改table的字符集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改column默认的字符集"><span class="nav-number">7.2.3.</span> <span class="nav-text">修改column默认的字符集</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复-amp-优化所有数据表-数据库引擎MyISAM"><span class="nav-number">8.</span> <span class="nav-text">修复&amp;优化所有数据表(数据库引擎MyISAM)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">2.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建备份"><span class="nav-number">3.</span> <span class="nav-text">创建备份</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检测MySQL-Server版本"><span class="nav-number">4.</span> <span class="nav-text">检测MySQL Server版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改配置文件"><span class="nav-number">5.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查MySQL是否启用了utf8mb4"><span class="nav-number">6.</span> <span class="nav-text">检查MySQL是否启用了utf8mb4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#utf8mb4-general-ci／utf8mb4-unicode-ci区别"><span class="nav-number">7.</span> <span class="nav-text">utf8mb4_general_ci／utf8mb4_unicode_ci区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集"><span class="nav-number">8.</span> <span class="nav-text">字符集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符集参数"><span class="nav-number">8.1.</span> <span class="nav-text">字符集参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符集修改"><span class="nav-number">8.2.</span> <span class="nav-text">字符集修改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改database默认的字符集"><span class="nav-number">8.2.1.</span> <span class="nav-text">修改database默认的字符集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改table的字符集"><span class="nav-number">8.2.2.</span> <span class="nav-text">修改table的字符集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改column默认的字符集"><span class="nav-number">8.2.3.</span> <span class="nav-text">修改column默认的字符集</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复-amp-优化所有数据表-数据库引擎MyISAM"><span class="nav-number">9.</span> <span class="nav-text">修复&amp;优化所有数据表(数据库引擎MyISAM)</span></a></li></ol></div>
             
 
           </div>
