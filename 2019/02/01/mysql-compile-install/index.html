@@ -102,7 +102,7 @@
 <meta property="og:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-compile-install/source.jpg">
-<meta property="og:updated_time" content="2019-02-01T08:15:59.000Z">
+<meta property="og:updated_time" content="2019-03-08T01:26:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL源码安装">
 <meta name="twitter:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
@@ -426,35 +426,36 @@
 <h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><pre><code>https://dev.mysql.com/downloads/mysql/5.7.html#downloads
 </code></pre><p><img src="/images/mysql-compile-install/source.jpg" alt="mysql"></p>
 <h2 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h2><pre><code>yum -y install gcc gcc-c++ bison bison-devel ncurses ncurses-devel cmake openssl
+</code></pre><h2 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h2><pre><code>groupadd mysql
+useradd -g mysql -s /sbin/nologin -M mysql
 </code></pre><h2 id="创建文件目录"><a href="#创建文件目录" class="headerlink" title="创建文件目录"></a>创建文件目录</h2><pre><code>mkdir -p /usr/local/mysql
 mkdir -p /usr/local/boost
 mkdir -p /data/mysql
 </code></pre><p>修改目录权限：</p>
 <pre><code>chown -R mysql:mysql /usr/local/mysql
 chown -R mysql:mysql /data/mysql
-</code></pre><h2 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h2><pre><code>groupadd mysql
-useradd -g mysql -s /sbin/nologin -M mysql
 </code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
-    -DMYSQL_DATADIR=/data/mysql \
-    -DDOWNLOAD_BOOST=1 \
-    -DWITH_BOOST=/usr/local/boost \
-    -DSYSCONFDIR=/etc \
-    -DMYSQL_UNIX_ADDR=/tmp/mysql.sock
-    -DDEFAULT_CHARSET=utf8mb4 \
-    -DDEFAULT_COLLATION=utf8mb4_unicode_ci \
-    -DENABLE_DOWNLOADS=1
+        -DMYSQL_DATADIR=/data/mysql \
+        -DSYSCONFDIR=/etc \
+        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+        -DDEFAULT_CHARSET=utf8mb4 \
+        -DDEFAULT_COLLATION=utf8mb4_unicode_ci \
+        -DDOWNLOAD_BOOST=1 \   #若boost已经下载更改为0即可
+        -DWITH_BOOST=/usr/local/boost
 </code></pre><p>注意:<br>    1、编译过程需要较长的时间，需耐心等待。<br>    2、重新cmake时，由于cmake生成临时文件CMakeCache.txt，需要先删除CMakeCache.txt文件，避免不必要的错误，即</p>
 <pre><code>rm CMakeCache.txt
+</code></pre><h2 id="编译之后安装"><a href="#编译之后安装" class="headerlink" title="编译之后安装"></a>编译之后安装</h2><pre><code>make install
 </code></pre><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>–initialize-insecure 不会生成密码<br>-–initialize 会生成一个随机密码<br>-–datadir 目标目录下不能有数据文件</p>
 <p>初始化命令：</p>
-<pre><code>mysqld --defaults-file=/etc/my.cnf \ 
-    --initialize --basedir=/usr/local/mysql \
-    --datadir=/data/mysql  \
-    --user=mysql
+<pre><code>mysqld --defaults-file=/etc/my.cnf \
+    --initialize \
+    --user=mysql \
+    --basedir=/usr/local/mysql \
+    --datadir=/data/mysql
 </code></pre><p>如果需要重新初始化，清空datadir即可：</p>
 <pre><code>rm -fr /data/mysql/*
-</code></pre><h2 id="编译之后安装"><a href="#编译之后安装" class="headerlink" title="编译之后安装"></a>编译之后安装</h2><pre><code>make install
-</code></pre><h2 id="配置mysql服务"><a href="#配置mysql服务" class="headerlink" title="配置mysql服务"></a>配置mysql服务</h2><pre><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
+</code></pre><p>备注：5.7之前的版本采用mysql_install_db初始化    </p>
+<h2 id="配置mysql服务"><a href="#配置mysql服务" class="headerlink" title="配置mysql服务"></a>配置mysql服务</h2><pre><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
 </code></pre><h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre><code>service mysqld status/start/stop
 或者 
 systemctl enable mysqld
@@ -462,6 +463,88 @@ systemctl status/start/stop mysqld
 </code></pre><h2 id="配置root登录密码"><a href="#配置root登录密码" class="headerlink" title="配置root登录密码"></a>配置root登录密码</h2><pre><code>mysql_secure_installation
 </code></pre><h2 id="创建远程访问用户"><a href="#创建远程访问用户" class="headerlink" title="创建远程访问用户"></a>创建远程访问用户</h2><pre><code>grant select, insert, update, delete on jasonhzy.* to &apos;test&apos;@&apos;%&apos; identified by &apos;test&apos;;
 flush privileges;
+</code></pre><h2 id="配置关键参数"><a href="#配置关键参数" class="headerlink" title="配置关键参数"></a>配置关键参数</h2><pre><code>[client]
+port     = 3306
+socket   = /tmp/mysql.sock
+﻿default-character-set = utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
+
+[mysqld]
+# 监听的TCP/IP端口
+port     = 3306
+# mysql安装路径
+basedir  = /usr/local/mysql
+# 数据文件位置
+datadir  = /data/mysql
+# mysql socket连接文件
+socket   = /tmp/mysql.sock
+# mysql进程的文件
+pid-file   = /data/mysql/mysql.pid
+#  错误日志文件
+log-error  = /data/mysql/mysql-error.log
+
+# 字符集
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+# init_connect = &apos;SET NAMES utf8mb4&apos;
+# skip-character-set-client-handshake = true
+
+# explicit_defaults_for_timestamp = true
+# 设置时区
+#default-time-zone = &apos;+8:00&apos;
+
+# 默认存储引擎
+default-storage-engine = InnoDB
+
+# MySQL支持4种事务隔离级别，他们分别是：
+# READ-UNCOMMITTED, READ-COMMITTED, REPEATABLE-READ, SERIALIZABLE
+# 若未指定，mysql默认采用的是REPEATABLE-READ，ORACLE默认的是READ-COMMITTED
+transaction_isolation = REPEATABLE-READ
+
+# 库名、表名是否区分大小写。默认为0区分大小写。设置1不区分大小写，创建的表、数据库都以小写形式存放磁盘
+# lower_case_table_names = 0
+
+# 不在tcp/ip端口上进行监听，所有的连接都是通过本地的socket文件连
+# skip-networking
+# 禁用DNS查询，不能在mysql的授权表中使用主机名，只能使用IP，例如：
+# grant all on test.* to root@localhost 这是不行的
+skip-name-resolve
+
+# 是否开启慢查询日志
+slow-query-log = 1
+# 慢查询日志文件位置
+slow-query-log-file= /data/mysql/mysql-slow.log
+
+# 指定mysql服务所允许的最大连接进程数，
+max_connections = 1000
+# 每个主机连接允许异常中断的次数，当超过该次数mysql服务将禁止该主机的连接请求。若让禁止的host仍可连接，方法如下：
+# 1、重启mysql服务 2、flush hosts 3、mysqladmin flush-hosts -hlocalhost -P 3306 -uroot -p  
+max_connect_errors = 1000000
+
+# 服务器标识id(用于主从复制)
+server-id  = 10
+# 二进制日志存放路径
+log_bin = mysql-bin
+# binlog格式，复制有3种模式STATEMENT，ROW，MIXED
+binlog_format = row
+
+# 如果你在使用链式从服务器结构的复制模式 (A-&gt;B-&gt;C),
+# 你需要在服务器B上打开此项.
+# 此选项打开在从线程上重做过的更新的日志,
+# 并将其写入从服务器的二进制日志.
+# log_slave_updates
+
+# 独立表空间，每个表的数据和索引单独存放在以表命名的.ibd文件中，最好在安装数据库就设置，使用之后再设置可能无法重启
+# 节省空间／提升性能，但单表增加过大
+innodb-file-per-table  = 1
+
+[mysqldump]                        
+max_allowed_packet = 256M
+# mysqldump导出大表时很有用，强制从服务器查询取得记录直接输出，而不是取得所有记录后将它们缓存到内存中。
+quick
 </code></pre>
       
     </div>
@@ -736,7 +819,7 @@ flush privileges;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载地址"><span class="nav-number">1.</span> <span class="nav-text">下载地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖包"><span class="nav-number">2.</span> <span class="nav-text">安装依赖包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件目录"><span class="nav-number">3.</span> <span class="nav-text">创建文件目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建用户和组"><span class="nav-number">4.</span> <span class="nav-text">创建用户和组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预编译"><span class="nav-number">5.</span> <span class="nav-text">预编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">6.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译之后安装"><span class="nav-number">7.</span> <span class="nav-text">编译之后安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mysql服务"><span class="nav-number">8.</span> <span class="nav-text">配置mysql服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务"><span class="nav-number">9.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置root登录密码"><span class="nav-number">10.</span> <span class="nav-text">配置root登录密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建远程访问用户"><span class="nav-number">11.</span> <span class="nav-text">创建远程访问用户</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载地址"><span class="nav-number">1.</span> <span class="nav-text">下载地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖包"><span class="nav-number">2.</span> <span class="nav-text">安装依赖包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建用户和组"><span class="nav-number">3.</span> <span class="nav-text">创建用户和组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件目录"><span class="nav-number">4.</span> <span class="nav-text">创建文件目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预编译"><span class="nav-number">5.</span> <span class="nav-text">预编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译之后安装"><span class="nav-number">6.</span> <span class="nav-text">编译之后安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">7.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mysql服务"><span class="nav-number">8.</span> <span class="nav-text">配置mysql服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务"><span class="nav-number">9.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置root登录密码"><span class="nav-number">10.</span> <span class="nav-text">配置root登录密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建远程访问用户"><span class="nav-number">11.</span> <span class="nav-text">创建远程访问用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置关键参数"><span class="nav-number">12.</span> <span class="nav-text">配置关键参数</span></a></li></ol></div>
             
 
           </div>
