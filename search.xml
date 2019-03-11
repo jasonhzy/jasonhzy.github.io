@@ -6,7 +6,311 @@
     <entry>
       <title><![CDATA[Linux NFS配置]]></title>
       <url>http://jasonhzy.github.io/2019/02/08/linux-nfs/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。</p>
+<a id="more"></a>
+<h2 id="RPC协议介绍"><a href="#RPC协议介绍" class="headerlink" title="RPC协议介绍"></a>RPC协议介绍</h2><p>RPC（Remote Procedure Call）远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。其工作在TCP/UDP的111端口。建立在Socket之上的，主要是简化编程的工作在底层提供网络之间的通信。当客户端尝试使用RPC Server所提供的服务时，由于Client需要取得一个可以连接的端口（port）才能够使用RPC Server所提供的服务，因此，客户端首先去请求rpcbind，然后rpcbind将自己管理的端口映射告知客户端，好让客户端可以连接上服务，因此启动NFS之前，一定要先启动rpcbind。<br>NFS系统守护进程（rpc.nfsd和rpc.mountd）：<br>rpc.nfsd∶<br>这个 daemon 主要的功能即管理客户端是否能够登入主机的权限<br>rpc.mountd<br>这个 daemon 主要的功能即管理 NFS 的档案系统。当客户端顺利通过 rpc.nfsd 而登入主机之后，在他可以使用 NFS 服务器提供的档案之前，还要经过档案使用权限 (即-rwxrwxrwx 与 owner／group等权限) 的认证程序！除此之外还要根据NFS的设定档 /etc/exports 来比对 Client 的权限，当都通过这些权限设置之后客户端即可取得使用NFS档案的权限</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><pre><code>NFS服务端 CentOS7.4 192.168.1.60
+NFS客户端 CentOS7.4 192.168.1.76 
+</code></pre><h2 id="安装NFS与配置"><a href="#安装NFS与配置" class="headerlink" title="安装NFS与配置"></a>安装NFS与配置</h2><p>NFS的常用目录:</p>
+<pre><code>/etc/exports        #NFS服务的主要配置文件
+/usr/sbin/exportfs  #NFS服务的管理命令
+/usr/sbin/showmount #客户端的查看命令
+/var/lib/nfs/etab   #记录NFS分享出来的目录的完整权限设定值
+/var/lib/nfs/xtab   #记录曾经登录过的客户端信息
+</code></pre><h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><h4 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h4><p>检查下本地是否已经安装，如果安装则无需重复安装包：</p>
+<pre><code>rpm -qa | grep rpcbind
+rpm -qa | grep nfs
+</code></pre><p>CentOS系统：</p>
+<pre><code>#CentOS系统服务端
+yum -y install nfs-utils
+yum -y install rpcbind 
+</code></pre><p>Ubuntu系统：</p>
+<pre><code>#Ubuntu服务端
+apt-get install nfs-kernel-server
+</code></pre><p>将服务加入开机自启动，并启动服务：</p>
+<pre><code>systemctl enable rpcbind nfs-server
+systemctl start rpcbind nfs-server
+</code></pre><p>查看nfs服务向rpc注册的端口信息(当前nfs-server未启动，所有没有注册端口)：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+</code></pre><p>如果此时启动nfs,可以发现nfs随机注册的端口如下（对于此种情况下，如果未开启防火墙，随机端口是没有问题的，一旦开启就需要将端口固定下来了）：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+100005    1   udp  20048  mountd
+100005    1   tcp  20048  mountd
+100005    2   udp  20048  mountd
+100005    2   tcp  20048  mountd
+100005    3   udp  20048  mountd
+100005    3   tcp  20048  mountd
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl
+100021    1   udp  37045  nlockmgr
+100021    3   udp  37045  nlockmgr
+100021    4   udp  37045  nlockmgr
+100021    1   tcp  39375  nlockmgr
+100021    3   tcp  39375  nlockmgr
+100021    4   tcp  39375  nlockmgr
+</code></pre><h4 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h4><p>NFS的防火墙很难设定规则，除了固定的nfs2049、portmapper111之外， 还有很多不固定的端口是由rpc.mountd, rpc.rquotad等服务所开启的。因此我们需要在/etc/sysconfig/nfs指定特定的端口，这样每次启动nfs时，相关服务启动的端口就会固定，如此即可设置防护墙！</p>
+<h5 id="固定nfs服务端口"><a href="#固定nfs服务端口" class="headerlink" title="固定nfs服务端口"></a>固定nfs服务端口</h5><p>固定端口nfs 2049、portmapper 111，另外3个服务端口可设置为mountd 892、rpc.statd 662、 nlockmgr 32803、32769</p>
+<p>配置：<br>1.修改/etc/sysconfig/nfs文件，将下列内容的注释去掉，如果没有则添加：</p>
+<pre><code># TCP port rpc.lockd should listen on.
+LOCKD_TCPPORT=32803
+# UDP port rpc.lockd should listen on.
+LOCKD_UDPPORT=32769
+
+# Port rpc.mountd should listen on.
+MOUNTD_PORT=892
+
+# Port rpc.statd should listen on.
+STATD_PORT=662
+# Outgoing port statd should used. The default is port
+# is random
+STATD_OUTGOING_PORT=2020
+</code></pre><p>端口配置完成后查看（注意重启nfs与服务器）：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+100005    1   udp    892  mountd
+100024    1   udp    662  status
+100005    1   tcp    892  mountd
+100024    1   tcp    662  status
+100005    2   udp    892  mountd
+100005    2   tcp    892  mountd
+100005    3   udp    892  mountd
+100005    3   tcp    892  mountd
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl
+100021    1   udp  32769  nlockmgr
+100021    3   udp  32769  nlockmgr
+100021    4   udp  32769  nlockmgr
+100021    1   tcp  32803  nlockmgr
+100021    3   tcp  32803  nlockmgr
+100021    4   tcp  32803  nlockmgr
+</code></pre><h5 id="CentOS7下配置"><a href="#CentOS7下配置" class="headerlink" title="CentOS7下配置"></a>CentOS7下配置</h5><p>编辑文件 /etc/firewalld/zones/public.xml：</p>
+<pre><code>#vim /etc/firewalld/zones/public.xml
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;zone&gt;
+  &lt;short&gt;Public&lt;/short&gt;
+  &lt;description&gt;For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.&lt;/description&gt;
+  &lt;service name=&quot;ssh&quot;/&gt;
+  &lt;service name=&quot;http&quot;/&gt; 
+  &lt;service name=&quot;https&quot;/&gt; 
+  &lt;port protocol=&quot;tcp&quot; port=&quot;8080&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;22&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;111&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;662&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;892&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;2049&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;32803&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;111&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;662&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;892&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;2049&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;32769&quot;/&gt;
+&lt;/zone&gt;
+</code></pre><p>注意重启防火墙</p>
+<h3 id="创建共享目录"><a href="#创建共享目录" class="headerlink" title="创建共享目录"></a>创建共享目录</h3><p>创建服务端共享目录，例如：</p>
+<pre><code>mkdir /data   
+</code></pre><h3 id="NFS共享目录文件配置"><a href="#NFS共享目录文件配置" class="headerlink" title="NFS共享目录文件配置"></a>NFS共享目录文件配置</h3><p>/etc/exports文件内容：</p>
+<pre><code>#vi /etc/exports
+/data     192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
+</code></pre><p>以上配置分为三个部分：</p>
+<p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机 <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> ，指定域中的所有主机 <em>.example.com ，所有主机</em>）。<br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
+<pre><code>rw ：读写；
+ro ：只读；
+sync ：同步模式，内存中数据时时写入磁盘
+async ：不同步，把内存中数据定期写入磁盘中
+secure ：nfs通过1024以下的安全TCP/IP端口发送
+insecure ：nfs通过1024以上的端口发送
+no_root_squash：NFS客户端连接服务端时如果使用的是root的话，那么对服务端分享的目录来说，
+            也拥有root权限。 显然开启这项是不安全的
+root_squash：当客户端登陆NFS的身份为root用户时，将客户端的root用户及所属组都映射为匿名用户
+            或用户组（默认设置）， 通常使用nobody或nfsnobody身份
+subtree：若输出目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)。
+no_subtree：即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率
+no_all_squash ：无论客户端登陆NFS的身份为何，都将映射为root用户（默认设置）
+all_squash ：不论NFS客户端连接服务端时使用什么用户，对服务端分享的目录来说都是拥有匿名用户权限；
+anonuid：匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定
+anongid：匿名用户的GID值
+</code></pre><p>配置完成后，重新加载nfs配置（exportfs -rv）或重启nfs服务。</p>
+<pre><code>exportfs [-aruv]
+参数说明:
+-a  全部挂载（或卸载）/etc/exports文件内的设定
+-r  重新挂载/etc/exports中的设置，此外同步更新/etc/exports及/var/lib/nfs/xtab中的内容
+-u  卸载某一目录
+-v  在export时将共享的目录显示在屏幕上
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost /]# exportfs -rv
+exporting 192.168.1.76:/data
+</code></pre><h3 id="服务端验证"><a href="#服务端验证" class="headerlink" title="服务端验证"></a>服务端验证</h3><p>通过showmount -e命令如果正常显示共享目录，表示安装正常:</p>
+<pre><code>[root@localhost ~]# showmount -e localhost
+Export list for localhost:
+/data 192.168.1.76
+</code></pre><p>如果客户端已经挂载了目录，在服务端通过showmount -a命令可显示NFS客户端信息和共享目录（包含历史信息）</p>
+<pre><code>[root@localhost ~]# showmount -a localhost
+All mount points on localhost.localdomain:
+192.168.1.76:/data
+</code></pre><p>注意：挂载时如果未指定nfsvers版本，默认使用nfs支持的最新版本，目前为ver=4，如果使用此版本， showmount -a将不会显示NFS客户端信息和共享目录  </p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><h4 id="安装客户端NFS"><a href="#安装客户端NFS" class="headerlink" title="安装客户端NFS"></a>安装客户端NFS</h4><p>检查下本地是否已经安装，如果安装则无需重复安装包：</p>
+<pre><code>rpm -qa | grep nfs
+</code></pre><p>CentOS系统：</p>
+<pre><code>#CentOS系统客户端
+yum -y install nfs-utils
+</code></pre><p>Ubuntu系统：</p>
+<pre><code>#Ubuntu客户端
+apt-get install nfs-common
+</code></pre><p>启动rpcbind，无需启动nfs：</p>
+<pre><code>systemctl start rpcbind 
+</code></pre><h4 id="挂载NFS共享目录"><a href="#挂载NFS共享目录" class="headerlink" title="挂载NFS共享目录"></a>挂载NFS共享目录</h4><p>1、查看showmount -e IP来查看NFS共享状态：</p>
+<pre><code>[root@localhost /]# showmount -e 192.168.1.60
+Export list for 192.168.1.60:
+/data 192.168.1.76
+</code></pre><p>2、挂载NFS共享目录</p>
+<p>1）创建服务端共享目录，例如：</p>
+<pre><code>mkdir /test
+</code></pre><p>2）挂载目录</p>
+<pre><code>#临时挂载，即时生效
+mount -t nfs -o nfsvers=3 192.168.1.60:/data /test
+
+#配置永久挂载nfs文件系统，保存后重启服务器即可生效
+$ vim /etc/fstab
+$ 192.168.1.60:/data /test nfs defaults,nfsvers=3 0 0  
+</code></pre><p>客户端执行nfsstat -m命令，查看当前所使用的nfs版本：</p>
+<pre><code>[root@localhost ~]# nfsstat -m
+/data from 192.168.1.60:/data
+ Flags:    rw,relatime,vers=3,rsize=262144,wsize=262144,namlen=255,hard,
+ proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=192.168.1.60,mountvers=3,
+ mountport=892,mountproto=udp,local_lock=none,addr=192.168.1.60
+</code></pre><p>3）查看挂载是否成功：</p>
+<pre><code>[root@localhost /]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+devtmpfs                 994M     0  994M   0% /dev
+tmpfs                   1000M  8.4M  992M   1% /run
+/dev/mapper/centos-root  6.7G  3.5G  3.2G  53% /
+/dev/sda1                497M  118M  380M  24% /boot
+192.168.1.60:/data       6.2G  4.5G  1.8G  72% /test
+</code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="nfsstat"><a href="#nfsstat" class="headerlink" title="nfsstat"></a>nfsstat</h3><p>查看NFS的运行状态，对于调整NFS的运行有很大帮助：</p>
+<pre><code>nfsstat -s #查看服务端的情况
+nfsstat -c #查看客户端的情况
+</code></pre><h3 id="exportfs"><a href="#exportfs" class="headerlink" title="exportfs"></a>exportfs</h3><p>启动了NFS之后又修改了/etc/exports，使用exportfs命令来使改动立刻生效</p>
+<h3 id="rpcinfo"><a href="#rpcinfo" class="headerlink" title="rpcinfo"></a>rpcinfo</h3><p>查看rpc执行信息，可以用于检测rpc运行情况的工具</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="实例一"><a href="#实例一" class="headerlink" title="实例一"></a>实例一</h3><p>服务端NFS配置：</p>
+<pre><code>#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
+</code></pre><p>客户端创建文件：touch a，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch a
+[root@localhost test]# ls -al 
+total 4
+drwxr-xr-x.  2 root root   15 Feb 24 20:52 .
+dr-xr-xr-x. 19 root root 4096 Feb 24 20:51 ..
+-rw-r--r--.  1 root root    0 Feb 24 20:52 a
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@localhost /]# ls -al /data
+total 0
+drwxr-xr-x.  2 root root  15 Feb 24 20:52 .
+dr-xr-xr-x. 18 root root 236 Feb 19 00:43 ..
+-rw-r--r--.  1 root root   0 Feb 24 20:52 a
+</code></pre><h3 id="实例二"><a href="#实例二" class="headerlink" title="实例二"></a>实例二</h3><p>服务端NFS配置：</p>
+<pre><code>#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,root_squash)
+</code></pre><p>此时服务端”/data”的权限：</p>
+<pre><code>[root@localhost /]# ls -al | grep data
+drwxr-xr-x.   2 root root   15 Feb 24 20:52 data    
+</code></pre><p>客户端创建文件：touch b，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch b
+touch: cannot touch &apos;b&apos;: Permission denied
+</code></pre><p>此时客户端是不能创建，主要是因”/data”的权限：所在组group和其他用户other的权限不能写，需要修改权限：</p>
+<pre><code>[root@localhost /]# chmod go+w /data
+[root@localhost /]# ls -al | grep data
+drwxrwxrwx.   2 root root   15 Feb 24 20:52 data
+</code></pre><p>客户端再次创建文件：touch b，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch b
+[root@localhost test]# ls -al 
+total 4
+drwxrwxrwx.  2 root      root        24 Feb 24 21:03 .
+dr-xr-xr-x. 19 root      root      4096 Feb 24 20:51 ..
+-rw-r--r--.  1 root      root         0 Feb 24 20:52 a
+-rw-r--r--.  1 nfsnobody nfsnobody    0 Feb 24 21:03 b
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@bogon /]# ls -al /data
+total 0
+drwxrwxrwx.  2 root      root       24 Feb 24 21:03 .
+dr-xr-xr-x. 18 root      root      236 Feb 19 00:43 ..
+-rw-r--r--.  1 root      root        0 Feb 24 20:52 a
+-rw-r--r--.  1 nfsnobody nfsnobody   0 Feb 24 21:03 b
+</code></pre><h3 id="实例三"><a href="#实例三" class="headerlink" title="实例三"></a>实例三</h3><p>服务端NFS配置：</p>
+<pre><code>创建group和user 
+# groupadd -g 1000 jason
+# useradd -u 1000 -g jason -M -s /bin/bash jason
+设置共享目录权限
+setfacl -m u:jason:rwx /data
+
+#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,all_squash,,anonuid=1000,anongid=1000))
+</code></pre><p>此时服务端”/data”的权限：</p>
+<pre><code>[root@localhost /]# ls -al | grep data
+drwxr-xr-x.   2 root root   15 Feb 25 12:41 data
+[root@localhost /]# getfacl /data
+getfacl: Removing leading &apos;/&apos; from absolute path names
+# file: data
+# owner: root
+# group: root
+user::rwx
+group::r-x
+other::r-x
+
+[root@localhost /]# setfacl -m u:jason:rwx  /data
+[root@localhost /]# getfacl /data
+getfacl: Removing leading &apos;/&apos; from absolute path names
+# file: data
+# owner: root
+# group: root
+user::rwx
+user:jason:rwx #多出来一个用户jason的权限rwx
+group::r-x
+mask::rwx
+other::r-x
+</code></pre><p><strong> 备注：</strong> ACL（Access Control List），主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置<br>1)、setfacl可以更精确的控制权限的分配<br>2)、getfacl取得某个文件/目录的 ACL 配置项目</p>
+<p>客户端创建文件：touch a，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch a
+[root@localhost test]# ls -al
+total 4
+drwxrwxr-x.  2 root  root    15 Feb 25 12:39 .
+dr-xr-xr-x. 19 root  root  4096 Feb 24 20:51 ..
+#因客户端也存在uid和gid为1000的jason，所以用户和组都显示为jason，否则显示1000
+-rw-r--r--.  1 jason jason    0 Feb 25 12:39 a 
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@localhost data]# ls -al
+total 0
+drwxrwxr-x+  2 root  root   15 Feb 25 12:41 .
+dr-xr-xr-x. 18 root  root  236 Feb 19 00:43 ..
+-rw-r--r--.  1 jason jason   0 Feb 25 12:41 a        
+</code></pre>]]></content>
       
         <categories>
             
@@ -28,7 +332,421 @@
     <entry>
       <title><![CDATA[Linux分区与挂载]]></title>
       <url>http://jasonhzy.github.io/2019/02/07/linux-mount/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<p>分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。<br>通常情况下，为磁盘分区通常使用fdisk，它是对基于MBR机制分区的管理磁盘命令，但是它仅仅支持2TB以下磁盘的分区，超出2TB部分无法识别。若过超过则可以使用parted进行分区，本文主要讲解fdisk分区。</p>
+<a id="more"></a>
+<p>当前以虚拟机内的CentOS7为例：</p>
+<h2 id="fdisk磁盘分区"><a href="#fdisk磁盘分区" class="headerlink" title="fdisk磁盘分区"></a>fdisk磁盘分区</h2><p>1、查看Linux系统上的文件系统（包含文件系统类型）的磁盘使用情况：</p>
+<pre><code>df -hT
+</code></pre><p>详情如下：</p>
+<pre><code>[root@localhost ~]# df -hT
+Filesystem              Type      Size  Used Avail Use% Mounted on
+devtmpfs                devtmpfs  994M     0  994M   0% /dev
+tmpfs                   tmpfs    1000M     0 1000M   0% /dev/shm
+tmpfs                   tmpfs    1000M   96M  905M  10% /run
+tmpfs                   tmpfs    1000M     0 1000M   0% /sys/fs/cgroup
+/dev/mapper/centos-root xfs       6.7G  3.4G  3.3G  51% /
+/dev/sda1               xfs       497M  118M  380M  24% /boot
+tmpfs                   tmpfs     200M     0  200M   0% /run/user/0   
+</code></pre><p>2、fdisk命令详情如下：</p>
+<pre><code>fdisk(选项)(参数)
+</code></pre><p>选项：</p>
+<pre><code>-b&lt;分区大小&gt;：指定每个分区的大小；
+-l：列出指定的外围设备的分区表状况；
+-s&lt;分区编号&gt;：将指定的分区大小输出到标准输出上，单位为区块；
+-u：搭配&quot;-l&quot;参数列表，会用分区数目取代柱面数目，来表示每个分区的起始地址；
+-v：显示版本信息。
+</code></pre><p>参数：</p>
+<pre><code>设备文件：指定要进行分区或者显示分区的硬盘设备文件
+</code></pre><p>菜单操作说明：</p>
+<pre><code>a    设置可引导标记
+b    编辑bsd磁盘标签
+c    设置Dos操作系统兼容标记
+d    删除一个分区
+l   显示已知的文件系统类型，例：83为Linux分区，82为Linux swap分区
+m   显示菜单和帮助信息
+n   新建分区
+o    建立空白的DOS分区表
+p    列出当前磁盘的分区表信息
+q   不保存退出
+s    新建空白SUN磁盘标签
+t    改变一个分区的系统ID
+u    改变显示记录单位
+v    进行分区检查
+w    保存退出
+x    附加功能
+x ：扩展应用，高级功能    
+</code></pre><h3 id="查看磁盘分区情况"><a href="#查看磁盘分区情况" class="headerlink" title="查看磁盘分区情况"></a>查看磁盘分区情况</h3><p>查看命令：</p>
+<pre><code>fdisk -l
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost ~]# fdisk -l
+Disk /dev/sda: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000c374c
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     1026047      512000   83  Linux
+/dev/sda2         1026048    16777215     7875584   8e  Linux LVM
+
+Disk /dev/sdb: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0xda06dd45
+
+   Device Boot      Start         End      Blocks   Id  System
+
+Disk /dev/mapper/centos-root: 7159 MB, 7159676928 bytes, 13983744 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+Disk /dev/mapper/centos-swap: 859 MB, 859832320 bytes, 1679360 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+</code></pre><h3 id="磁盘分区"><a href="#磁盘分区" class="headerlink" title="磁盘分区"></a>磁盘分区</h3><p>1、从上述查看结果可以看出/dev/sdb可进行分区：</p>
+<pre><code>fdisk /dev/sdb
+</code></pre><p>其中”Device Boot      Start      End      Blocks   Id    System”描述如下：</p>
+<pre><code>第一列：Device 显示了磁盘分区对应的设备文件名。
+第二列：Boot 显示是否为引导分区，上图中的 /dev/sda1 就是引导分区。
+第三列：Start 表示磁盘分区的起始位置。
+第四列：End 表示磁盘分区的结束位置。
+第五列：Sectors 表示分区占用的扇区数目。
+第六列：Size 显示分区的大小。
+第七列和第八列：显示的内容相同，分别是数值ID及其文字描述。 Id列显示了磁盘分区对应的ID，根据分区的不同，分区对应的ID号也不相同。
+        Linux下用83表示主分区和逻辑分区，82表示swap交换分区，5表示扩展分区，8e表示LVM分区，7表示NTFS分区
+</code></pre><p>2、进入交互模式后按 <strong> “m” </strong> 可列出所有命令    </p>
+<pre><code>[root@localhost ~]# fdisk /dev/sdb
+Welcome to fdisk (util-linux 2.23.2).
+
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Command (m for help): m
+Command action
+   a   toggle a bootable flag
+   b   edit bsd disklabel
+   c   toggle the dos compatibility flag
+   d   delete a partition
+   g   create a new empty GPT partition table
+   G   create an IRIX (SGI) partition table
+   l   list known partition types
+   m   print this menu
+   n   add a new partition
+   o   create a new empty DOS partition table
+   p   print the partition table
+   q   quit without saving changes
+   s   create a new empty Sun disklabel
+   t   change a partition&apos;s system id
+   u   change display/entry units
+   v   verify the partition table
+   w   write table to disk and exit
+   x   extra functionality (experts only)
+</code></pre><p>3、输入<strong> “p” </strong>列出磁盘目前的分区情况：</p>
+<pre><code>Command (m for help): p
+
+Disk /dev/sdb: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0xda06dd45
+
+   Device Boot      Start         End      Blocks   Id  System
+</code></pre><p>可以看出尚未进行分区。</p>
+<p>4、输入<strong> “n” </strong>创建新的磁盘分区：<br>1）出现两个菜单e表示扩展分区，p表示主分区<br>2）按”p”键（或直接回车，即默认）出现提示：”Partition number (1-4): “选择主分区号<br>3）输入”1”（或直接回车，即默认）表示第一个主分区<br>4）直接按回车表示”1”柱面开始分区<br>5）提示最后一个柱面或大小<br>分区的大小通过分区开始处的扇区和结束处的扇区设置的，或者输入分区的大小，如+4G（即磁盘容量为4G）；之后回车，即表示创建了第一个分区。<br>这里如果不设置结束处的扇区或输入分区大小，而是直接回车会把整个磁盘划分为一个分区，也可以创建多个分区<br>6）输入”p”可查看磁盘目前的分区情况，如果分区没有问题，可以进行保存。</p>
+<pre><code>Command (m for help): n
+Partition type:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+Select (default p): p
+Partition number (1-4, default 1): 1
+First sector (2048-16777215, default 2048): 
+Using default value 2048
+Last sector, +sectors or +size{K,M,G} (2048-16777215, default 16777215): 
+Using default value 16777215
+Partition 1 of type Linux and of size 8 GiB is set
+
+Command (m for help): p
+
+Disk /dev/sdb: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0xda06dd45
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048    16777215     8387584   83  Linux
+</code></pre><p>5、按<strong> “t” </strong>键可改变一个分区的系统ID</p>
+<pre><code>Command (m for help): p
+
+Disk /dev/sdb: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0xda06dd45
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048    16777215     8387584   83  Linux
+
+Command (m for help): t       
+Selected partition 1
+Hex code (type L to list all codes): L
+
+ 0  Empty           24  NEC DOS         81  Minix / old Lin bf  Solaris        
+ 1  FAT12           27  Hidden NTFS Win 82  Linux swap / So c1  DRDOS/sec (FAT-
+ 2  XENIX root      39  Plan 9          83  Linux           c4  DRDOS/sec (FAT-
+ 3  XENIX usr       3c  PartitionMagic  84  OS/2 hidden C:  c6  DRDOS/sec (FAT-
+ 4  FAT16 &lt;32M      40  Venix 80286     85  Linux extended  c7  Syrinx         
+ 5  Extended        41  PPC PReP Boot   86  NTFS volume set da  Non-FS data    
+ 6  FAT16           42  SFS             87  NTFS volume set db  CP/M / CTOS / .
+ 7  HPFS/NTFS/exFAT 4d  QNX4.x          88  Linux plaintext de  Dell Utility   
+ 8  AIX             4e  QNX4.x 2nd part 8e  Linux LVM       df  BootIt         
+ 9  AIX bootable    4f  QNX4.x 3rd part 93  Amoeba          e1  DOS access     
+ a  OS/2 Boot Manag 50  OnTrack DM      94  Amoeba BBT      e3  DOS R/O        
+ b  W95 FAT32       51  OnTrack DM6 Aux 9f  BSD/OS          e4  SpeedStor      
+ c  W95 FAT32 (LBA) 52  CP/M            a0  IBM Thinkpad hi eb  BeOS fs        
+ e  W95 FAT16 (LBA) 53  OnTrack DM6 Aux a5  FreeBSD         ee  GPT            
+ f  W95 Ext&apos;d (LBA) 54  OnTrackDM6      a6  OpenBSD         ef  EFI (FAT-12/16/
+10  OPUS            55  EZ-Drive        a7  NeXTSTEP        f0  Linux/PA-RISC b
+11  Hidden FAT12    56  Golden Bow      a8  Darwin UFS      f1  SpeedStor      
+12  Compaq diagnost 5c  Priam Edisk     a9  NetBSD          f4  SpeedStor      
+14  Hidden FAT16 &lt;3 61  SpeedStor       ab  Darwin boot     f2  DOS secondary  
+16  Hidden FAT16    63  GNU HURD or Sys af  HFS / HFS+      fb  VMware VMFS    
+17  Hidden HPFS/NTF 64  Novell Netware  b7  BSDI fs         fc  VMware VMKCORE 
+18  AST SmartSleep  65  Novell Netware  b8  BSDI swap       fd  Linux raid auto
+1b  Hidden W95 FAT3 70  DiskSecure Mult bb  Boot Wizard hid fe  LANstep        
+1c  Hidden W95 FAT3 75  PC/IX           be  Solaris boot    ff  BBT            
+1e  Hidden W95 FAT1 80  Old Minix      
+Hex code (type L to list all codes): a6
+Changed type of partition &apos;Linux&apos; to &apos;OpenBSD&apos;
+
+Command (m for help): p
+
+Disk /dev/sdb: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0xda06dd45
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048    16777215     8387584   a6  OpenBSD
+</code></pre><p>5、按<strong> “d” </strong>键删除分区：</p>
+<p>如果分区有误，可以删除重新分区。如下：</p>
+<pre><code>Command (m for help): d
+Selected partition 1
+Partition 1 is deleted
+
+Command (m for help): p
+
+Disk /dev/sdb: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0xda06dd45
+
+   Device Boot      Start         End      Blocks   Id  System
+</code></pre><p>6、按<strong> “w” </strong>键保存退出：</p>
+<p>分区结束后一定要保存，否则之前的分区不会生效</p>
+<pre><code>Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+Syncing disks.
+</code></pre><p>各个参数的解析：</p>
+<pre><code>1. 输入 m 显示所有命令列示。
+2. 输入 p 显示硬盘分割情形，打印分区表。
+3. 输入 a 设定硬盘启动区。
+4. 输入 n 设定新的硬盘分割区。
+　　4.1. 输入 e 硬盘为[延伸]分割区(extend)。
+　　4.2. 输入 p 硬盘为[主要]分割区(primary)。
+5. 输入 t 改变硬盘分割区属性。例：　　　　　　　　　　
+    82: linux swap
+    83：linux
+    86：NTFS window分区
+6. 输入 d 删除硬盘分割区属性。
+7. 输入 q 结束不存入硬盘分割区属性。
+8. 输入 w 结束并写入硬盘分割区属性
+</code></pre><h3 id="磁盘格式化（创建文件系统）"><a href="#磁盘格式化（创建文件系统）" class="headerlink" title="磁盘格式化（创建文件系统）"></a>磁盘格式化（创建文件系统）</h3><h4 id="查看文件系统的类型"><a href="#查看文件系统的类型" class="headerlink" title="查看文件系统的类型"></a>查看文件系统的类型</h4><p>1、mount<br>查看已经挂载的文件系统类型。</p>
+<pre><code>[root@localhost /]# mount | grep &quot;^/dev&quot;
+/dev/mapper/centos-root on / type xfs (rw,relatime,attr2,inode64,noquota)
+/dev/sda1 on /boot type xfs (rw,relatime,attr2,inode64,noquota)
+</code></pre><p>2、lsblk<br>显示块设备，当使用 -f 选项时，会打印当前系统所有分区的文件系统类型。</p>
+<pre><code>[root@localhost /]# lsblk -f  //lsblk -o UUID -f 
+NAME            FSTYPE      LABEL UUID                                   MOUNTPOINT
+sda                                                                      
+|-sda1          xfs               d918cc0b-aa5b-4147-bd41-469533c0618d   /boot
+`-sda2          LVM2_member       F6FzL6-RBmy-3vgL-IbSC-caU3-rIUg-9hv2jg 
+  |-centos-root xfs               96b564fd-7267-4cf3-a4c2-78da91f07e2d   /
+  `-centos-swap swap              4677bc0d-f76e-4af0-b078-196f86856f19   [SWAP]
+sdb                                                                      
+`-sdb1          ext4              32ce315d-b6a5-49a6-84c7-daaec7ac32cb   
+sr0                                                         
+</code></pre><h4 id="查看当前系统支持的文件系统"><a href="#查看当前系统支持的文件系统" class="headerlink" title="查看当前系统支持的文件系统"></a>查看当前系统支持的文件系统</h4><p>1、cat /proc/filesystems</p>
+<pre><code>[root@localhost /]# cat /proc/filesystems
+nodev    sysfs
+nodev    rootfs
+...
+nodev    mqueue
+    xfs
+    ext3
+    ext2
+    ext4
+    iso9660
+    vfat
+    hfs
+    hfsplus
+</code></pre><p>2、cat /etc/filesystems</p>
+<pre><code>[root@localhost /]# cat /etc/filesystems
+xfs
+ext4
+ext3
+ext2
+...
+hfs
+hfsplus
+*
+</code></pre><p>3、ls -l /lib/modules/<code>uname -r</code>/kernel/fs (CentOS)</p>
+<pre><code>[root@localhost /]# ls  -al /lib/modules/`uname -r`/kernel/fs
+total 60
+drwxr-xr-x 33 root root  4096 Feb 15 18:44 .
+drwxr-xr-x 12 root root   118 Feb 15 18:44 ..
+drwxr-xr-x  2 root root    21 Feb 15 18:44 btrfs
+...
+drwxr-xr-x  2 root root    22 Feb 15 18:44 exofs
+drwxr-xr-x  2 root root    20 Feb 15 18:44 ext4
+</code></pre><h4 id="mke2fs命令"><a href="#mke2fs命令" class="headerlink" title="mke2fs命令"></a>mke2fs命令</h4><p>系统分区之后，并不能直接使用，需要格式化。mke2fs命令是专门用于管理ext系列文件系统的一个专门的工具。其还有像mkfs.ext2，mkfs.ext3，mkfs.ext4等衍生的命令<br>命令格式：</p>
+<pre><code>mke2fs [options] [device]
+</code></pre><p>选项说明：</p>
+<pre><code>-t 指定文件系统类型（如ext2，ext3，ext4等），则会从/etc/mke2fs.conf文件中读取默认配置；
+-j：创建ext3文件系统，mkfs.ext3自带了该选项，不加-j则为ext2；
+-b block-size：设置硬盘的block大小。
+-L &apos;LABEL&apos;：设置卷标；
+-N：设置inode节点的数量；
+-m：设置为文件系统预留的块的百分比；
+-c：在创建文件系统前进程硬盘自检；
+</code></pre><p>例如：</p>
+<pre><code>mke2fs /dev/sdb1   #创建文件系统格式为ext2
+mke2fs -j /dev/sdb1 #创建文件系统格式为ext3
+mke2fs -t ext4 /dev/sdb1 #创建文件系统格式为ext4
+
+[root@localhost /]# mke2fs -t ext4 /dev/sdb1 
+mke2fs 1.42.9 (28-Dec-2013)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+524288 inodes, 2096896 blocks
+104844 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=2147483648
+64 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+    32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done
+</code></pre><p>e2fsck  -p /dev/sdb1 #检查ext2/ext3/ext4格式的文件系统：文件、扇区是否有错误，参数-p（等同 -a）是自动修复</p>
+<p>格式化完成之后，便可以进行硬盘的挂载。</p>
+<h3 id="磁盘挂载"><a href="#磁盘挂载" class="headerlink" title="磁盘挂载"></a>磁盘挂载</h3><p>格式化硬盘后，需要为每个分区设置挂载点，有两种方式：一种是临时挂载，重启失效；另一种开机自动挂载。</p>
+<p>1、创建挂载点</p>
+<pre><code>mkdir /data
+</code></pre><p>作为挂载点的目录，理论上都应该是空目录。如果挂载的目录不为空，那么挂载了文件系统之后，原目录下的内容会暂时消失(被隐藏，而不是被覆盖），且不会将此前的目录容量加上，取消挂载之后，原来内容即可恢复。  </p>
+<p>2、磁盘挂载</p>
+<p>第一种方式：临时挂载（手动挂载），重启失效</p>
+<p>命令mount可用来挂载文件系统：</p>
+<pre><code>mount 要挂载的设备源 挂载目的点
+</code></pre><p>例如：</p>
+<pre><code>mount /dev/sdb1 /data    
+</code></pre><p>常用参数：<br>不带参数的mount命令会显示所有已挂载的文件系统<br>-t　指定文件系统的类型，如：-t ext4、-t vfat<br>-o　指定挂载选项:</p>
+<pre><code>ro: 以只读方式挂载；
+rw: 以读写方式挂载，默认挂载选项；
+async: 异步IO，数据写操作优先于内存完成，然后再根据某种策略同步至硬盘中，默认挂载选项；
+sync: 同步IO；
+auto/noauto: 设置设备是否支持mount的-a选项自动挂载，默认挂载为auto；
+exec/noexec: 设置是否允许执行此设备上得二进制程序文件，默认挂载为exec；
+suid/nosuid: 设置是否支持在此设备的文件上使用suid，默认挂载为suid；
+user/nouser: 设置是否允许普通挂载此文件设备，默认挂载为nouser；
+defaults: 使用预设的选项 rw, suid, dev, exec, auto, nouser, and async；
+remount: 重新挂载文件系统
+</code></pre><p>比如：</p>
+<pre><code>mount -t ext4 -o remount,ro /dev/sdb1 /data/ #重新挂载并只读
+</code></pre><p>第二种方式：开机自动挂载</p>
+<p>blkid命令，可以查看硬盘设备的信息（或者采用上述的命令lsblk）：</p>
+<pre><code>[root@localhost data]# blkid
+/dev/sda1: UUID=&quot;d918cc0b-aa5b-4147-bd41-469533c0618d&quot; TYPE=&quot;xfs&quot; 
+/dev/sda2: UUID=&quot;F6FzL6-RBmy-3vgL-IbSC-caU3-rIUg-9hv2jg&quot; TYPE=&quot;LVM2_member&quot; 
+/dev/sdb1: UUID=&quot;330c5768-3bdb-4a25-9b91-626276a6d2ca&quot; TYPE=&quot;ext4&quot; 
+/dev/mapper/centos-root: UUID=&quot;96b564fd-7267-4cf3-a4c2-78da91f07e2d&quot; TYPE=&quot;xfs&quot; 
+/dev/mapper/centos-swap: UUID=&quot;4677bc0d-f76e-4af0-b078-196f86856f19&quot; TYPE=&quot;swap&quot;
+</code></pre><p>1、编辑/etc/fstab,添加一行。<br>查看要挂载分区的UUID（Universally Unique Identifier），将UUID或者直接将对应的设备文件名写入文件中，即：</p>
+<pre><code>echo &apos;UUID=&quot;F6FzL6-RBmy-3vgL-IbSC-caU3-rIUg-9hv2jg&quot; /data  ext4 defaults 0 0&apos; &gt;&gt; /etc/fstab
+或者
+echo &apos;/dev/sdb1 /data ext4 defaults 0 0&apos; &gt;&gt; /etc/fstab    
+</code></pre><p>备注：开机自动挂载最好设置UUID，其次使用卷标，因为有时卷设备名会发生变化，导致开机启动出现异常</p>
+<p>每列描述如下：    </p>
+<pre><code>file system&lt;设备文件名称&gt;   mount point&lt;挂载目录&gt;    type&lt;文件系统类型&gt;  options&lt;文件系统参数&gt;  dump&lt;是否备份&gt;  pass&lt;开机时自检&gt;
+</code></pre><p>第一列：可以是设备名称（比如 /dev/sda1）或标记 (LABEL=) 或 UUID (UUID=)<br>第二列：挂载点（也就是挂载目录），对于交换空间，该值应该是”none”或”swap”<br>第三列：所要挂载设备的文件系统类型。支持许多种不同的文件系统：ext2, ext3, ext4, reiserfs, xfs, jfs, smbfs, iso9660, vfat, ntfs, swap 及 auto。设置成auto类型，mount 命令会猜测使用的文件系统类型，对 CDROM 和 DVD 等移动设备是非常有用的。<br>第四列：挂载参数，即mount命令“-o”选项后可使用的参数，如defaults、rw等，通常使用defaults即可<br>第五列：备份，dump是一个用来作为备份的命令。0：不做备份 1：每天备份<br>第六列：文件系统的检查顺序。开机的过程中，系统默认会以fsck检验我们系统是否为完整；0：不检验，1：最先检验（一般根目录即”/“会选择， 设置后其他不能再使用1），2：1级别检验完成之后进行检验</p>
+<p>2、/etc/fstab写入完成后，重启或者执行”mount -a”自动挂载。</p>
+<p>3、最后”df -hT”查看挂载是否成功。</p>
+<h3 id="取消挂载"><a href="#取消挂载" class="headerlink" title="取消挂载"></a>取消挂载</h3><p>命令umount用来卸载已挂载的文件系统，命令：</p>
+<pre><code>umount 文件系统或者挂载点
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost ~]# umount /dev/sdb1
+或者
+[root@localhost ~]# umount /data
+</code></pre><p>如果出现下面的问题：    </p>
+<pre><code>[root@localhost ~]# umount /dev/sdb1
+umount: /data: target is busy.
+        (In some cases useful info about processes that use
+         the device is found by lsof(8) or fuser(1))
+</code></pre><p>表示该文件系统正在被使用，无法卸载。在Linux系统中，只有当该文件系统上所有访问的用户或进程完成操作并退出后，这个文件系统才能被正常卸载。<br>一般情况下的原因是因为你在当前的目录中工作，这时只要退到根目录下再卸载就可以了。可以使用命令fuser／lsof查看哪些进程正在访问该文件系统，<br>之后使用kill命令将进程杀死来进行卸载。</p>
+<p>1、fuser -uvm 文件系统或者挂载点，fuser显示使用指定文件或者文件系统的进程的pid</p>
+<p>参数描述：</p>
+<pre><code>-u：在每个进程后显示所属的用户名
+-m：显示所有使用指定文件系统的进程，后面可以跟挂载点，或是dev块设备
+-v：详细的输出，可以看到占用的进程和PID号
+-i：杀死进程前需要用户确认（和-k一起使用）
+-k：杀死访问指定文件的所有进程（效果类似rm -rf）
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost data]# fuser -uvm  /data
+                     USER        PID ACCESS COMMAND
+/data:               root     kernel mount (root)/data
+                     root       1037 ..c.. (root)bash
+                     root       1485 F.... (root)vim
+</code></pre><p>每种类型的访问(即每个pid后面)加上一个字母表示：</p>
+<pre><code>c - 当前目录。表示该进程是在该目录下启动的
+e - 正在运行的可执行文件
+f - 打开文件。在默认显示模式下省略f
+F - 打开文件进行写入。默认显示模式下省略F
+r - 根目录。表示该目录是该进程的根目录
+m - mmap&apos;ed文件或共享库
+</code></pre><p>2、lsof 文件系统或者挂载点</p>
+<pre><code>[root@localhost /]# lsof +D  /data
+COMMAND  PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+vim     1485 root    4u   REG   8,17    12288   12 /data/.a.swp
+</code></pre><p>如果出现：fuser／lsof: command not found，安装psmisc／lsof即可。</p>
+<p><strong> 备注：挂载／取消挂载的限制（重点） </strong></p>
+<pre><code>1、根目录是必须要先于其他mount point被挂载。因为挂载的是所有目录的根目录，其他目录都是由根目录&quot;/&quot;衍生出来的。
+2、挂载点必须是已经存在的目录。
+3、挂载点的指定可以任意，但必须遵守必要的系统目录架构原则
+4、所有挂载点在同一时间只能被挂载一次
+5、所有分区在同一时间只能被挂载一次
+6、若取消挂载，必须将工作目录退出挂载点（及其子目录）之外，且当前磁盘没有发生读写等操作
+</code></pre>]]></content>
       
         <categories>
             
@@ -42,6 +760,59 @@
             <tag> Linux </tag>
             
             <tag> Mount </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Ubuntu内核升级]]></title>
+      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
+      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
+<a id="more"></a>
+<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
+apt-cache search linux-headers-\*
+</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
+apt-get install linux-headers-X.X.X.X-generic
+</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
+或
+update-initramfs -u -k `uname -r`
+</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
+</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
+</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
+</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
+<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
+<pre><code>getconf LONG_BIT
+</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
+<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
+</code></pre><p>3、使用wget命令来下载到服务器</p>
+<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>4、安装下载软件包</p>
+<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
+<pre><code>update-grub
+</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
+<pre><code>dpkg --get-selections | grep linux-image
+</code></pre><p>2、移除不要的Kernel</p>
+<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
+</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
+<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Kernel </tag>
             
         </tags>
         
@@ -111,59 +882,6 @@ yum remove kernel-headers-3.10.0-693.21.1.el7.x86_64 kernel-lt-4.4.121-1.el7.elr
 <pre><code>date
 </code></pre><p>同步系统时间：</p>
 <pre><code>ntpdate time.apple.com
-</code></pre>]]></content>
-      
-        <categories>
-            
-            <category> Linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Linux </tag>
-            
-            <tag> Kernel </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Ubuntu内核升级]]></title>
-      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
-      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
-<a id="more"></a>
-<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
-apt-cache search linux-headers-\*
-</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
-apt-get install linux-headers-X.X.X.X-generic
-</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
-或
-update-initramfs -u -k `uname -r`
-</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
-</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
-</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
-</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
-<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
-<pre><code>getconf LONG_BIT
-</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
-<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
-</code></pre><p>3、使用wget命令来下载到服务器</p>
-<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>4、安装下载软件包</p>
-<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
-<pre><code>update-grub
-</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
-<pre><code>dpkg --get-selections | grep linux-image
-</code></pre><p>2、移除不要的Kernel</p>
-<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
-</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
-<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
 </code></pre>]]></content>
       
         <categories>
@@ -304,7 +1022,156 @@ Ubuntu 14.04.5 LTS \n \l
     <entry>
       <title><![CDATA[MySQL源码安装]]></title>
       <url>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<p>MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例</p>
+<a id="more"></a>
+<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><pre><code>https://dev.mysql.com/downloads/mysql/5.7.html#downloads
+</code></pre><p><img src="/images/mysql-compile-install/source.jpg" alt="mysql"></p>
+<h2 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h2><pre><code>yum -y install gcc gcc-c++ bison bison-devel ncurses ncurses-devel cmake openssl
+</code></pre><h2 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h2><pre><code>groupadd mysql
+useradd -g mysql -s /sbin/nologin -M mysql
+</code></pre><h2 id="创建文件目录"><a href="#创建文件目录" class="headerlink" title="创建文件目录"></a>创建文件目录</h2><pre><code>mkdir -p /usr/local/mysql
+mkdir -p /usr/local/boost
+mkdir -p /data/mysql
+</code></pre><p>修改目录权限：</p>
+<pre><code>chown -R mysql:mysql /usr/local/mysql
+chown -R mysql:mysql /data/mysql
+</code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql
+        -DMYSQL_DATADIR=/data/mysql
+        -DSYSCONFDIR=/etc
+        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock
+        -DDEFAULT_CHARSET=utf8mb4
+        -DDEFAULT_COLLATION=utf8mb4_unicode_ci
+        -DDOWNLOAD_BOOST=1  #若boost已经下载更改为0即可
+        -DWITH_BOOST=/usr/local/boost
+</code></pre><p>注意:<br>    1、编译过程需要较长的时间，需耐心等待。<br>    2、重新cmake时，由于cmake生成临时文件CMakeCache.txt，需要先删除CMakeCache.txt文件，避免不必要的错误，即</p>
+<pre><code>rm CMakeCache.txt
+</code></pre><h2 id="编译之后安装"><a href="#编译之后安装" class="headerlink" title="编译之后安装"></a>编译之后安装</h2><pre><code>make install
+</code></pre><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>–initialize-insecure 不会生成密码<br>-–initialize 会生成一个随机密码<br>-–datadir 目标目录下不能有数据文件</p>
+<p>初始化命令：</p>
+<pre><code>mysqld --defaults-file=/etc/my.cnf
+    --user=mysql
+    --basedir=/usr/local/mysql
+    --datadir=/data/mysql
+    --initialize
+</code></pre><p>如果需要重新初始化，清空datadir即可：</p>
+<pre><code>rm -fr /data/mysql/*
+</code></pre><p>备注：5.7之前的版本采用mysql_install_db初始化    </p>
+<h2 id="配置mysql服务"><a href="#配置mysql服务" class="headerlink" title="配置mysql服务"></a>配置mysql服务</h2><pre><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
+</code></pre><h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre><code>service mysqld status/start/stop
+或者 
+systemctl enable mysqld
+systemctl status/start/stop mysqld
+</code></pre><h2 id="配置root登录密码"><a href="#配置root登录密码" class="headerlink" title="配置root登录密码"></a>配置root登录密码</h2><pre><code>mysql_secure_installation
+</code></pre><h2 id="创建远程访问用户"><a href="#创建远程访问用户" class="headerlink" title="创建远程访问用户"></a>创建远程访问用户</h2><pre><code>grant select, insert, update, delete on jasonhzy.* to &apos;test&apos;@&apos;%&apos; identified by &apos;test&apos;;
+flush privileges;
+</code></pre><h2 id="配置关键参数"><a href="#配置关键参数" class="headerlink" title="配置关键参数"></a>配置关键参数</h2><pre><code>[client]
+port     = 3306
+socket   = /tmp/mysql.sock
+﻿default-character-set = utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
+
+[mysqld]
+# 监听的TCP/IP端口
+port     = 3306
+# mysql安装路径
+basedir  = /usr/local/mysql
+# 数据文件位置
+datadir  = /data/mysql
+# mysql socket连接文件
+socket   = /tmp/mysql.sock
+# mysql进程的文件
+pid-file   = /data/mysql/mysql.pid
+#  错误日志文件
+log-error  = /data/mysql/mysql-error.log
+
+# 字符集
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+# init_connect = &apos;SET NAMES utf8mb4&apos;
+# skip-character-set-client-handshake = true
+
+# explicit_defaults_for_timestamp = true
+# 设置时区
+# default-time-zone = &apos;+8:00&apos;
+
+# 库名、表名是否区分大小写。默认为0区分大小写。设置1不区分大小写，创建的表、数据库都以小写形式存放磁盘
+# lower_case_table_names = 0
+
+# 不在tcp/ip端口上进行监听，所有的连接都是通过本地的socket文件连
+# skip-networking
+# 禁用DNS查询，不能在mysql的授权表中使用主机名，只能使用IP，例如：
+# grant all on test.* to root@localhost 这是不行的
+skip-name-resolve
+
+# 默认存储引擎
+default-storage-engine = InnoDB
+
+# MySQL支持4种事务隔离级别，他们分别是：
+# READ-UNCOMMITTED, READ-COMMITTED, REPEATABLE-READ, SERIALIZABLE
+# 若未指定，mysql默认采用的是REPEATABLE-READ，ORACLE默认的是READ-COMMITTED
+transaction_isolation = REPEATABLE-READ
+
+# 是否开启慢查询日志，1表示开启，0表示关闭
+slow-query-log = 1
+# 慢查询日志文件位置
+slow-query-log-file= /data/mysql/mysql-slow.log
+# 所有的使用了比这个时间(以秒为单位)更多的查询会被认为是慢速查询.
+# long_query_time = 10
+# 日志存储方式。log_output=&apos;FILE&apos;表示将日志存入文件，默认值是&apos;FILE&apos;。
+# log_output=&apos;TABLE&apos;表示将日志存入数据库，这样日志信息就会被写入到mysql.slow_log表中。
+# MySQL数据库支持同时两种日志存储方式，配置的时候以逗号隔开即可，如：log_output=&apos;FILE,TABLE&apos;。
+# 日志记录到系统的专用日志表中，要比记录到文件耗费更多的系统资源，因此对于需要启用慢查询日志，
+# 又需要能够获得更高的系统性能，那么建议优先记录到文件
+# log_output=FILE
+
+# 指定mysql服务所允许的最大连接进程数，若访问时经常出现&quot;Too Many Connections&quot;的错误提示，则需要增大该参数值。
+max_connections = 1000
+# 每个主机连接允许异常中断的次数，当超过该次数mysql服务将禁止该主机的连接请求。若让禁止的host仍可连接，方法如下：
+# 1、重启mysql服务 2、flush hosts 3、mysqladmin flush-hosts -hlocalhost -P 3306 -uroot -p  
+max_connect_errors = 1000000
+
+# 服务器标识id(用于主从复制)
+server-id  = 10
+# 二进制日志存放路径
+log_bin = mysql-bin
+log_bin_index = /data/mysql/mysql-bin.index
+# binlog格式，复制有3种模式STATEMENT，ROW，MIXED
+binlog_format = row
+
+# 如果你在使用链式从服务器结构的复制模式 (A-&gt;B-&gt;C),
+# 你需要在服务器B上打开此项.
+# 此选项打开在从线程上重做过的更新的日志,
+# 并将其写入从服务器的二进制日志.
+# log_slave_updates
+
+# 独立表空间，每个表的数据和索引单独存放在以表命名的.ibd文件中，最好在安装数据库就设置，使用之后再设置可能无法重启
+# 节省空间／提升性能，但单表增加过大
+innodb-file-per-table  = 1
+
+# 缓冲池大小，对Innodb表来说非常重要，一般设置为主机内存的70~80%
+innodb_buffer_pool_size = 6G
+
+# 1)为0，log buffer将每秒一次地写入log file中,并且log file的flush(刷到磁盘)操作同时进行. 当事务提交时,不做日志写入操作。
+#   当MySQL Crash和OS Crash或者主机断电之后，可能会丢失上一秒的事务数据
+# 2)为1，每次事务提交时MySQL都会把log buffer的数据写入log file,并且flush(刷到磁盘)中去。最安全的设置，能够保证不论
+#   是MySQL Crash还是OS Crash或者是主机断电都不会丢失任何已经提交的数据
+# 3)为2，每次事务提交时MySQL都会把log buffer的数据写入log file.但是flush(刷到磁盘)操作并不会同时进行。该模式下MySQL
+#  会每秒定时执行一次flush(刷到磁盘)操作。MySQL Crash并不会造成数据的丢失，但是OS Crash或者是主机断电后可能丢失
+# 简单说来，可选值的安全性从0-&gt;2-&gt;1递增，分别对应于mysqld进程crash可能丢失 -&gt; OS crash可能丢失 -&gt; 事务安全。
+innodb_flush_log_at_trx_commit = 2
+
+#开启gtid
+gtid_mode=ON
+enforce-gtid-consistency=ON
+
+[mysqldump]                        
+max_allowed_packet = 256M
+# mysqldump导出大表时很有用，强制从服务器查询取得记录直接输出，而不是取得所有记录后将它们缓存到内存中。
+quick
+</code></pre>]]></content>
       
         <categories>
             
@@ -688,7 +1555,70 @@ curl -X GET &apos;http://localhost:9200/_cluster/health?level=indices&apos; | gr
     <entry>
       <title><![CDATA[Mysql支持utf8mb4]]></title>
       <url>http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>MySQL在5.5.3之后增加了utf8mb4的编码，mb4即4-Byte UTF-8 Unicode Encoding，专门用来兼容四字节的unicode。utf8mb4为utf8的超集并兼容utf8，比utf8能表示更多的字符</p>
+<a id="more"></a>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>当我们在表中插入emoji表情符号时，就会出现如下的问题，</p>
+<pre><code>SQLSTATE[HY000]: General error: 1366 Incorrect string value: &apos;\xF0\x9F\x98\x83\xF0\x9F...&apos; for column &apos;name&apos; at row 1
+</code></pre><p>mysql的编码utf8最多支持3个字节, 其中已经包括我们日常能见过的绝大多数字体. 但3个字节远远不够容纳所有的文字, 日常用的emoji表情是4个字节，采用utf8mb4正好解决了这个问题</p>
+<h2 id="创建备份"><a href="#创建备份" class="headerlink" title="创建备份"></a>创建备份</h2><p>在要升级的服务器上备份所有数据库，安全第一！</p>
+<pre><code>mysqldump -uroot -proot --all-databases &gt; path/example.sql
+</code></pre><h2 id="检测MySQL-Server版本"><a href="#检测MySQL-Server版本" class="headerlink" title="检测MySQL Server版本"></a>检测MySQL Server版本</h2><p>在<a href="https://dev.mysql.com/doc/relnotes/mysql/5.5/en/news-5-5-3.html" target="_blank" rel="noopener">MySQL 5.5.3</a>版本中增加了对utfmb4的支持，所以需升级的版本即Mysql5.5.3+</p>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><pre><code>vim /etc/my.cnf
+# 对本地的mysql客户端的配置
+[client]
+default-character-set = utf8mb4
+
+# 对其他远程连接的mysql客户端的配置
+[mysql]
+default-character-set = utf8mb4
+
+# 本地mysql服务的配置
+[mysqld]
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+</code></pre><p>修改之后重启mysql    </p>
+<h2 id="检查MySQL是否启用了utf8mb4"><a href="#检查MySQL是否启用了utf8mb4" class="headerlink" title="检查MySQL是否启用了utf8mb4"></a>检查MySQL是否启用了utf8mb4</h2><pre><code>mysql&gt; SHOW VARIABLES WHERE Variable_name LIKE &apos;character\_set\_%&apos; OR Variable_name LIKE &apos;collation%&apos;;
++--------------------------+----------------------------------+
+| Variable_name            | Value                            |
++--------------------------+----------------------------------+
+| character_set_client     | utf8mb4                          |
+| character_set_connection | utf8mb4                          |
+| character_set_database   | utf8mb4                          |
+| character_set_filesystem | binary                           |
+| character_set_results    | utf8mb4                          |
+| character_set_server     | utf8mb4                          |
+| character_set_system     | utf8                             |
+| character_sets_dir       | /usr/local/mysql/share/charsets/ |
+| collation_connection     | utf8mb4_unicode_ci               |
+| collation_database       | utf8mb4_unicode_ci               |
+| collation_server         | utf8mb4_unicode_ci               |
++--------------------------+----------------------------------+
+</code></pre><h2 id="utf8mb4-general-ci／utf8mb4-unicode-ci区别"><a href="#utf8mb4-general-ci／utf8mb4-unicode-ci区别" class="headerlink" title="utf8mb4_general_ci／utf8mb4_unicode_ci区别"></a>utf8mb4_general_ci／utf8mb4_unicode_ci区别</h2><p>准确性：<br>    1、utf8mb4_unicode_ci是基于标准的Unicode来排序和比较，能够在各种语言之间精确排序<br>    2、utf8mb4_general_ci没有实现Unicode排序规则，在遇到某些特殊语言或者字符集，排序结果可能不一致。<br>性能：<br>    1、utf8mb4_general_ci在比较和排序的时候更快<br>    2、utf8mb4_unicode_ci在特殊情况下，Unicode排序规则为了能够处理特殊字符的情况，实现了略微复杂的排序算法。</p>
+<p>总结：unicode_ci的精确度高于general_ci，unicode_ci的速度慢于general_ci</p>
+<h2 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h2><h3 id="字符集参数"><a href="#字符集参数" class="headerlink" title="字符集参数"></a>字符集参数</h3><p>1、参数详解：</p>
+<pre><code>character_set_client: 客户端请求数据的字符集
+character_set_connection: 服务器收到查询语句后转换成的字符集
+character_set_database: 数据库使用的字符集
+character_set_filesystem: 把os上文件名转化成此字符集，即把character_set_client
+                    转换character_set_filesystem，默认binary是不做任何转换的
+character_set_results: 查询结果的字符集，即返回给客户端的字符集
+character_set_server: 服务器使用的字符集
+character_set_system: 系统字符集，总是utf8，不需要设置，是为存储系统元数据(字段名等)的字符集
+以 collation_ 开头的: 描述字符序
+</code></pre><p>2、字符集转换流程：</p>
+<p><img src="/images/mysql-charset/process.png" alt="charset">  </p>
+<p>1) mysql Server收到请求时将请求数据从character_set_client转换为character_set_connection<br>2) 进行内部操作前将请求数据从character_set_connection转换为内部操作字符集,步骤如下<br>    A. 使用每个数据字段的CHARACTER SET设定值；<br>    B. 若上述值不存在，则使用对应数据表的字符集设定值<br>    C. 若上述值不存在，则使用对应数据库的字符集设定值；<br>    D. 若上述值不存在，则使用character_set_server设定值。<br>3) 最后将操作结果从内部操作字符集转换为character_set_results</p>
+<h3 id="字符集修改"><a href="#字符集修改" class="headerlink" title="字符集修改"></a>字符集修改</h3><h4 id="修改database默认的字符集"><a href="#修改database默认的字符集" class="headerlink" title="修改database默认的字符集"></a>修改database默认的字符集</h4><pre><code>ALTER DATABASE database_name CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+</code></pre><h4 id="修改table的字符集"><a href="#修改table的字符集" class="headerlink" title="修改table的字符集"></a>修改table的字符集</h4><pre><code>ALTER TABLE table_name DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+</code></pre><h4 id="修改column默认的字符集"><a href="#修改column默认的字符集" class="headerlink" title="修改column默认的字符集"></a>修改column默认的字符集</h4><pre><code>ALTER TABLE table_name CHANGE column_name column_name VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;     
+</code></pre><h2 id="修复-amp-优化所有数据表-数据库引擎MyISAM"><a href="#修复-amp-优化所有数据表-数据库引擎MyISAM" class="headerlink" title="修复&amp;优化所有数据表(数据库引擎MyISAM)"></a>修复&amp;优化所有数据表(数据库引擎MyISAM)</h2><pre><code>mysqlcheck -u root -p --auto-repair --optimize --all-databases
+</code></pre><p>参考资料</p>
+<ol>
+<li><a href="https://mathiasbynens.be/notes/mysql-utf8mb4" target="_blank" rel="noopener">How to support full Unicode in MySQL databases</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.5/en/charset-unicode-conversion.html" target="_blank" rel="noopener">Converting Between 3-Byte and 4-Byte Unicode Character Sets</a></li>
+</ol>
+]]></content>
       
         <categories>
             
