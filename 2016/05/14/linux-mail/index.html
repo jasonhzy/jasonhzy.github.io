@@ -559,7 +559,12 @@ user@example.com
           
   <div class="comments" id="comments">
     
-      <div id="SOHUCS"></div>
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -866,6 +871,24 @@ user@example.com
 
   
 
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jasonhzy.github.io/2016/05/14/linux-mail/';
+          this.page.identifier = '2016/05/14/linux-mail/';
+          this.page.title = 'linux mail命令发送邮件';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jasonhzy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -878,10 +901,6 @@ user@example.com
   
 
 
-
-
-
-  
 
 
 
