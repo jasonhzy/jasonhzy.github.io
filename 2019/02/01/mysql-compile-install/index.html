@@ -102,7 +102,7 @@
 <meta property="og:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-compile-install/source.jpg">
-<meta property="og:updated_time" content="2019-03-11T02:09:26.000Z">
+<meta property="og:updated_time" content="2019-03-11T02:11:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL源码安装">
 <meta name="twitter:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
@@ -434,13 +434,13 @@ mkdir -p /data/mysql
 </code></pre><p>修改目录权限：</p>
 <pre><code>chown -R mysql:mysql /usr/local/mysql
 chown -R mysql:mysql /data/mysql
-</code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
-        -DMYSQL_DATADIR=/data/mysql \
-        -DSYSCONFDIR=/etc \
-        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
-        -DDEFAULT_CHARSET=utf8mb4 \
-        -DDEFAULT_COLLATION=utf8mb4_unicode_ci \
-        -DDOWNLOAD_BOOST=1 \   #若boost已经下载更改为0即可
+</code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql
+        -DMYSQL_DATADIR=/data/mysql
+        -DSYSCONFDIR=/etc
+        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock
+        -DDEFAULT_CHARSET=utf8mb4
+        -DDEFAULT_COLLATION=utf8mb4_unicode_ci
+        -DDOWNLOAD_BOOST=1  #若boost已经下载更改为0即可
         -DWITH_BOOST=/usr/local/boost
 </code></pre><p>注意:<br>    1、编译过程需要较长的时间，需耐心等待。<br>    2、重新cmake时，由于cmake生成临时文件CMakeCache.txt，需要先删除CMakeCache.txt文件，避免不必要的错误，即</p>
 <pre><code>rm CMakeCache.txt
