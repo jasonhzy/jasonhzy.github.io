@@ -1020,68 +1020,6 @@ Ubuntu 14.04.5 LTS \n \l
     </entry>
     
     <entry>
-      <title><![CDATA[MySQL源码安装]]></title>
-      <url>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</url>
-      <content type="html"><![CDATA[<p>MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例</p>
-<a id="more"></a>
-<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><pre><code>https://dev.mysql.com/downloads/mysql/5.7.html#downloads
-</code></pre><p><img src="/images/mysql-compile-install/source.jpg" alt="mysql"></p>
-<h2 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h2><pre><code>yum -y install gcc gcc-c++ bison bison-devel ncurses ncurses-devel cmake openssl
-</code></pre><h2 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h2><pre><code>groupadd mysql
-useradd -g mysql -s /sbin/nologin -M mysql
-</code></pre><h2 id="创建文件目录"><a href="#创建文件目录" class="headerlink" title="创建文件目录"></a>创建文件目录</h2><pre><code>mkdir -p /usr/local/mysql
-mkdir -p /usr/local/boost
-mkdir -p /data/mysql
-</code></pre><p>修改目录权限：</p>
-<pre><code>chown -R mysql:mysql /usr/local/mysql
-chown -R mysql:mysql /data/mysql
-</code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql
-        -DMYSQL_DATADIR=/data/mysql
-        -DSYSCONFDIR=/etc
-        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock
-        -DDEFAULT_CHARSET=utf8mb4
-        -DDEFAULT_COLLATION=utf8mb4_unicode_ci
-        -DDOWNLOAD_BOOST=1  #若boost已经下载更改为0即可
-        -DWITH_BOOST=/usr/local/boost
-</code></pre><p>注意:<br>    1、编译过程需要较长的时间，需耐心等待。<br>    2、重新cmake时，由于cmake生成临时文件CMakeCache.txt，需要先删除CMakeCache.txt文件，避免不必要的错误，即</p>
-<pre><code>rm CMakeCache.txt
-</code></pre><h2 id="编译之后安装"><a href="#编译之后安装" class="headerlink" title="编译之后安装"></a>编译之后安装</h2><pre><code>make install
-</code></pre><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>–initialize-insecure 不会生成密码<br>-–initialize 会生成一个随机密码<br>-–datadir 目标目录下不能有数据文件</p>
-<p>初始化命令：</p>
-<pre><code>mysqld --defaults-file=/etc/my.cnf
-    --user=mysql
-    --basedir=/usr/local/mysql
-    --datadir=/data/mysql
-    --initialize
-</code></pre><p>如果需要重新初始化，清空datadir即可：</p>
-<pre><code>rm -fr /data/mysql/*
-</code></pre><p>备注：5.7之前的版本采用mysql_install_db初始化    </p>
-<h2 id="配置mysql服务"><a href="#配置mysql服务" class="headerlink" title="配置mysql服务"></a>配置mysql服务</h2><pre><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
-</code></pre><h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre><code>service mysqld status/start/stop
-或者 
-systemctl enable mysqld
-systemctl status/start/stop mysqld
-</code></pre><h2 id="配置root登录密码"><a href="#配置root登录密码" class="headerlink" title="配置root登录密码"></a>配置root登录密码</h2><pre><code>mysql_secure_installation
-</code></pre><h2 id="创建远程访问用户"><a href="#创建远程访问用户" class="headerlink" title="创建远程访问用户"></a>创建远程访问用户</h2><pre><code>grant select, insert, update, delete on jasonhzy.* to &apos;test&apos;@&apos;%&apos; identified by &apos;test&apos;;
-flush privileges;
-</code></pre>]]></content>
-      
-        <categories>
-            
-            <category> Mysql </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Mysql </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[mysql-config-editor使用]]></title>
       <url>http://jasonhzy.github.io/2019/01/15/mysql-config-editor/</url>
       <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>登陆MySQL我们需要频繁输入用户名密码，自MySQL5.6+以后出现了mysql_config_editor，可以给指定的连接和密码生成一个加密文件，服务的认证信息加密保存在.mylogin.cnf文件（默认位于用户主目录）之后，MySQL客户端工具可通过读取该加密文件连接MySQL，避免重复输入登录信息，也避免敏感信息的暴露。<br>应用：<br>MySQL的登陆和备份（mysqldump）等即可实现免密操作。</p>
