@@ -1,0 +1,1490 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Linux,NFS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
+<meta name="keywords" content="Linux,NFS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux NFS配置">
+<meta property="og:url" content="http://jasonhzy.github.io/2019/02/08/linux-nfs/index.html">
+<meta property="og:site_name" content="Jason Website">
+<meta property="og:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux NFS配置">
+<meta name="twitter:description" content="简介NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jasonhzy.github.io/2019/02/08/linux-nfs/">
+
+
+
+
+
+  <title>Linux NFS配置 | Jason Website</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b49d57b46e0af963911a7b562d48c40f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <!-- --------- add Fork me on Github ---------- -->
+    <a href="https://github.com/jasonhzy" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0; height:100px !important;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+     <!----------- add Fork me on Github ------------>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jason Website</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Personal Notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2019/02/08/linux-nfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jason hu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jason Website">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux NFS配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-08T11:17:49+08:00">
+                2019-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"> 浏览</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>NFS（Network File System）即网络文件系统。主要功能是通过局域网络让不同的主机系统之间可以共享文件或目录。NFS在文件传送或信息传送过程中依赖于RPC协议。NFS存储文件系统简单易用、方便部署、数据可靠、服务稳定；存放的数据都在文件系统之上，所有数据都是能看得见。但存在单点故障, 构建高可用维护麻烦；且客户端挂载无账号密码设置及数据明文，导致安全性一般。</p>
+<a id="more"></a>
+<h2 id="RPC协议介绍"><a href="#RPC协议介绍" class="headerlink" title="RPC协议介绍"></a>RPC协议介绍</h2><p>RPC（Remote Procedure Call）远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。其工作在TCP/UDP的111端口。建立在Socket之上的，主要是简化编程的工作在底层提供网络之间的通信。当客户端尝试使用RPC Server所提供的服务时，由于Client需要取得一个可以连接的端口（port）才能够使用RPC Server所提供的服务，因此，客户端首先去请求rpcbind，然后rpcbind将自己管理的端口映射告知客户端，好让客户端可以连接上服务，因此启动NFS之前，一定要先启动rpcbind。<br>NFS系统守护进程（rpc.nfsd和rpc.mountd）：<br>rpc.nfsd∶<br>这个 daemon 主要的功能即管理客户端是否能够登入主机的权限<br>rpc.mountd<br>这个 daemon 主要的功能即管理 NFS 的档案系统。当客户端顺利通过 rpc.nfsd 而登入主机之后，在他可以使用 NFS 服务器提供的档案之前，还要经过档案使用权限 (即-rwxrwxrwx 与 owner／group等权限) 的认证程序！除此之外还要根据NFS的设定档 /etc/exports 来比对 Client 的权限，当都通过这些权限设置之后客户端即可取得使用NFS档案的权限</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><pre><code>NFS服务端 CentOS7.4 192.168.1.60
+NFS客户端 CentOS7.4 192.168.1.76 
+</code></pre><h2 id="安装NFS与配置"><a href="#安装NFS与配置" class="headerlink" title="安装NFS与配置"></a>安装NFS与配置</h2><p>NFS的常用目录:</p>
+<pre><code>/etc/exports        #NFS服务的主要配置文件
+/usr/sbin/exportfs  #NFS服务的管理命令
+/usr/sbin/showmount #客户端的查看命令
+/var/lib/nfs/etab   #记录NFS分享出来的目录的完整权限设定值
+/var/lib/nfs/xtab   #记录曾经登录过的客户端信息
+</code></pre><h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><h4 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h4><p>检查下本地是否已经安装，如果安装则无需重复安装包：</p>
+<pre><code>rpm -qa | grep rpcbind
+rpm -qa | grep nfs
+</code></pre><p>CentOS系统：</p>
+<pre><code>#CentOS系统服务端
+yum -y install nfs-utils
+yum -y install rpcbind 
+</code></pre><p>Ubuntu系统：</p>
+<pre><code>#Ubuntu服务端
+apt-get install nfs-kernel-server
+</code></pre><p>将服务加入开机自启动，并启动服务：</p>
+<pre><code>systemctl enable rpcbind nfs-server
+systemctl start rpcbind nfs-server
+</code></pre><p>查看nfs服务向rpc注册的端口信息(当前nfs-server未启动，所有没有注册端口)：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+</code></pre><p>如果此时启动nfs,可以发现nfs随机注册的端口如下（对于此种情况下，如果未开启防火墙，随机端口是没有问题的，一旦开启就需要将端口固定下来了）：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+100005    1   udp  20048  mountd
+100005    1   tcp  20048  mountd
+100005    2   udp  20048  mountd
+100005    2   tcp  20048  mountd
+100005    3   udp  20048  mountd
+100005    3   tcp  20048  mountd
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl
+100021    1   udp  37045  nlockmgr
+100021    3   udp  37045  nlockmgr
+100021    4   udp  37045  nlockmgr
+100021    1   tcp  39375  nlockmgr
+100021    3   tcp  39375  nlockmgr
+100021    4   tcp  39375  nlockmgr
+</code></pre><h4 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h4><p>NFS的防火墙很难设定规则，除了固定的nfs2049、portmapper111之外， 还有很多不固定的端口是由rpc.mountd, rpc.rquotad等服务所开启的。因此我们需要在/etc/sysconfig/nfs指定特定的端口，这样每次启动nfs时，相关服务启动的端口就会固定，如此即可设置防护墙！</p>
+<h5 id="固定nfs服务端口"><a href="#固定nfs服务端口" class="headerlink" title="固定nfs服务端口"></a>固定nfs服务端口</h5><p>固定端口nfs 2049、portmapper 111，另外3个服务端口可设置为mountd 892、rpc.statd 662、 nlockmgr 32803、32769</p>
+<p>配置：<br>1.修改/etc/sysconfig/nfs文件，将下列内容的注释去掉，如果没有则添加：</p>
+<pre><code># TCP port rpc.lockd should listen on.
+LOCKD_TCPPORT=32803
+# UDP port rpc.lockd should listen on.
+LOCKD_UDPPORT=32769
+
+# Port rpc.mountd should listen on.
+MOUNTD_PORT=892
+
+# Port rpc.statd should listen on.
+STATD_PORT=662
+# Outgoing port statd should used. The default is port
+# is random
+STATD_OUTGOING_PORT=2020
+</code></pre><p>端口配置完成后查看（注意重启nfs与服务器）：</p>
+<pre><code>[root@localhost ~]# rpcinfo -p
+program vers proto   port  service
+100000    4   tcp    111  portmapper
+100000    3   tcp    111  portmapper
+100000    2   tcp    111  portmapper
+100000    4   udp    111  portmapper
+100000    3   udp    111  portmapper
+100000    2   udp    111  portmapper
+100005    1   udp    892  mountd
+100024    1   udp    662  status
+100005    1   tcp    892  mountd
+100024    1   tcp    662  status
+100005    2   udp    892  mountd
+100005    2   tcp    892  mountd
+100005    3   udp    892  mountd
+100005    3   tcp    892  mountd
+100003    3   tcp   2049  nfs
+100003    4   tcp   2049  nfs
+100227    3   tcp   2049  nfs_acl
+100003    3   udp   2049  nfs
+100003    4   udp   2049  nfs
+100227    3   udp   2049  nfs_acl
+100021    1   udp  32769  nlockmgr
+100021    3   udp  32769  nlockmgr
+100021    4   udp  32769  nlockmgr
+100021    1   tcp  32803  nlockmgr
+100021    3   tcp  32803  nlockmgr
+100021    4   tcp  32803  nlockmgr
+</code></pre><h5 id="CentOS7下配置"><a href="#CentOS7下配置" class="headerlink" title="CentOS7下配置"></a>CentOS7下配置</h5><p>编辑文件 /etc/firewalld/zones/public.xml：</p>
+<pre><code>#vim /etc/firewalld/zones/public.xml
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;zone&gt;
+  &lt;short&gt;Public&lt;/short&gt;
+  &lt;description&gt;For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.&lt;/description&gt;
+  &lt;service name=&quot;ssh&quot;/&gt;
+  &lt;service name=&quot;http&quot;/&gt; 
+  &lt;service name=&quot;https&quot;/&gt; 
+  &lt;port protocol=&quot;tcp&quot; port=&quot;8080&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;22&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;111&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;662&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;892&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;2049&quot;/&gt;
+  &lt;port protocol=&quot;tcp&quot; port=&quot;32803&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;111&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;662&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;892&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;2049&quot;/&gt;
+  &lt;port protocol=&quot;udp&quot; port=&quot;32769&quot;/&gt;
+&lt;/zone&gt;
+</code></pre><p>注意重启防火墙</p>
+<h3 id="创建共享目录"><a href="#创建共享目录" class="headerlink" title="创建共享目录"></a>创建共享目录</h3><p>创建服务端共享目录，例如：</p>
+<pre><code>mkdir /data   
+</code></pre><h3 id="NFS共享目录文件配置"><a href="#NFS共享目录文件配置" class="headerlink" title="NFS共享目录文件配置"></a>NFS共享目录文件配置</h3><p>/etc/exports文件内容：</p>
+<pre><code>#vi /etc/exports
+/data     192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
+</code></pre><p>以上配置分为三个部分：</p>
+<p>第一部分就是本地要共享出去的目录。<br>第二部分为允许访问的主机（可以是一个IP，一个IP段如192.168.0.0/24、192.168.0.0/255.255.255.0，指定域名的主机 <a href="http://www.example.com" target="_blank" rel="noopener">www.example.com</a> ，指定域中的所有主机 <em>.example.com ，所有主机</em>）。<br>第三部分小括号里面的，为一些权限选项。权限说明：</p>
+<pre><code>rw ：读写；
+ro ：只读；
+sync ：同步模式，内存中数据时时写入磁盘
+async ：不同步，把内存中数据定期写入磁盘中
+secure ：nfs通过1024以下的安全TCP/IP端口发送
+insecure ：nfs通过1024以上的端口发送
+no_root_squash：NFS客户端连接服务端时如果使用的是root的话，那么对服务端分享的目录来说，
+            也拥有root权限。 显然开启这项是不安全的
+root_squash：当客户端登陆NFS的身份为root用户时，将客户端的root用户及所属组都映射为匿名用户
+            或用户组（默认设置）， 通常使用nobody或nfsnobody身份
+subtree：若输出目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)。
+no_subtree：即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率
+no_all_squash ：无论客户端登陆NFS的身份为何，都将映射为root用户（默认设置）
+all_squash ：不论NFS客户端连接服务端时使用什么用户，对服务端分享的目录来说都是拥有匿名用户权限；
+anonuid：匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定
+anongid：匿名用户的GID值
+</code></pre><p>配置完成后，重新加载nfs配置（exportfs -rv）或重启nfs服务。</p>
+<pre><code>exportfs [-aruv]
+参数说明:
+-a  全部挂载（或卸载）/etc/exports文件内的设定
+-r  重新挂载/etc/exports中的设置，此外同步更新/etc/exports及/var/lib/nfs/xtab中的内容
+-u  卸载某一目录
+-v  在export时将共享的目录显示在屏幕上
+</code></pre><p>例如：</p>
+<pre><code>[root@localhost /]# exportfs -rv
+exporting 192.168.1.76:/data
+</code></pre><h3 id="服务端验证"><a href="#服务端验证" class="headerlink" title="服务端验证"></a>服务端验证</h3><p>通过showmount -e命令如果正常显示共享目录，表示安装正常:</p>
+<pre><code>[root@localhost ~]# showmount -e localhost
+Export list for localhost:
+/data 192.168.1.76
+</code></pre><p>如果客户端已经挂载了目录，在服务端通过showmount -a命令可显示NFS客户端信息和共享目录（包含历史信息）</p>
+<pre><code>[root@localhost ~]# showmount -a localhost
+All mount points on localhost.localdomain:
+192.168.1.76:/data
+</code></pre><p>注意：挂载时如果未指定nfsvers版本，默认使用nfs支持的最新版本，目前为ver=4，如果使用此版本， showmount -a将不会显示NFS客户端信息和共享目录  </p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><h4 id="安装客户端NFS"><a href="#安装客户端NFS" class="headerlink" title="安装客户端NFS"></a>安装客户端NFS</h4><p>检查下本地是否已经安装，如果安装则无需重复安装包：</p>
+<pre><code>rpm -qa | grep nfs
+</code></pre><p>CentOS系统：</p>
+<pre><code>#CentOS系统客户端
+yum -y install nfs-utils
+</code></pre><p>Ubuntu系统：</p>
+<pre><code>#Ubuntu客户端
+apt-get install nfs-common
+</code></pre><p>启动rpcbind，无需启动nfs：</p>
+<pre><code>systemctl start rpcbind 
+</code></pre><h4 id="挂载NFS共享目录"><a href="#挂载NFS共享目录" class="headerlink" title="挂载NFS共享目录"></a>挂载NFS共享目录</h4><p>1、查看showmount -e IP来查看NFS共享状态：</p>
+<pre><code>[root@localhost /]# showmount -e 192.168.1.60
+Export list for 192.168.1.60:
+/data 192.168.1.76
+</code></pre><p>2、挂载NFS共享目录</p>
+<p>1）创建服务端共享目录，例如：</p>
+<pre><code>mkdir /test
+</code></pre><p>2）挂载目录</p>
+<pre><code>#临时挂载，即时生效
+mount -t nfs -o nfsvers=3 192.168.1.60:/data /test
+
+#配置永久挂载nfs文件系统，保存后重启服务器即可生效
+$ vim /etc/fstab
+$ 192.168.1.60:/data /test nfs defaults,nfsvers=3 0 0  
+</code></pre><p>客户端执行nfsstat -m命令，查看当前所使用的nfs版本：</p>
+<pre><code>[root@localhost ~]# nfsstat -m
+/data from 192.168.1.60:/data
+ Flags:    rw,relatime,vers=3,rsize=262144,wsize=262144,namlen=255,hard,
+ proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=192.168.1.60,mountvers=3,
+ mountport=892,mountproto=udp,local_lock=none,addr=192.168.1.60
+</code></pre><p>3）查看挂载是否成功：</p>
+<pre><code>[root@localhost /]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+devtmpfs                 994M     0  994M   0% /dev
+tmpfs                   1000M  8.4M  992M   1% /run
+/dev/mapper/centos-root  6.7G  3.5G  3.2G  53% /
+/dev/sda1                497M  118M  380M  24% /boot
+192.168.1.60:/data       6.2G  4.5G  1.8G  72% /test
+</code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="nfsstat"><a href="#nfsstat" class="headerlink" title="nfsstat"></a>nfsstat</h3><p>查看NFS的运行状态，对于调整NFS的运行有很大帮助：</p>
+<pre><code>nfsstat -s #查看服务端的情况
+nfsstat -c #查看客户端的情况
+</code></pre><h3 id="exportfs"><a href="#exportfs" class="headerlink" title="exportfs"></a>exportfs</h3><p>启动了NFS之后又修改了/etc/exports，使用exportfs命令来使改动立刻生效</p>
+<h3 id="rpcinfo"><a href="#rpcinfo" class="headerlink" title="rpcinfo"></a>rpcinfo</h3><p>查看rpc执行信息，可以用于检测rpc运行情况的工具</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="实例一"><a href="#实例一" class="headerlink" title="实例一"></a>实例一</h3><p>服务端NFS配置：</p>
+<pre><code>#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,no_root_squash,no_all_squash)
+</code></pre><p>客户端创建文件：touch a，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch a
+[root@localhost test]# ls -al 
+total 4
+drwxr-xr-x.  2 root root   15 Feb 24 20:52 .
+dr-xr-xr-x. 19 root root 4096 Feb 24 20:51 ..
+-rw-r--r--.  1 root root    0 Feb 24 20:52 a
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@localhost /]# ls -al /data
+total 0
+drwxr-xr-x.  2 root root  15 Feb 24 20:52 .
+dr-xr-xr-x. 18 root root 236 Feb 19 00:43 ..
+-rw-r--r--.  1 root root   0 Feb 24 20:52 a
+</code></pre><h3 id="实例二"><a href="#实例二" class="headerlink" title="实例二"></a>实例二</h3><p>服务端NFS配置：</p>
+<pre><code>#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,root_squash)
+</code></pre><p>此时服务端”/data”的权限：</p>
+<pre><code>[root@localhost /]# ls -al | grep data
+drwxr-xr-x.   2 root root   15 Feb 24 20:52 data    
+</code></pre><p>客户端创建文件：touch b，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch b
+touch: cannot touch &apos;b&apos;: Permission denied
+</code></pre><p>此时客户端是不能创建，主要是因”/data”的权限：所在组group和其他用户other的权限不能写，需要修改权限：</p>
+<pre><code>[root@localhost /]# chmod go+w /data
+[root@localhost /]# ls -al | grep data
+drwxrwxrwx.   2 root root   15 Feb 24 20:52 data
+</code></pre><p>客户端再次创建文件：touch b，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch b
+[root@localhost test]# ls -al 
+total 4
+drwxrwxrwx.  2 root      root        24 Feb 24 21:03 .
+dr-xr-xr-x. 19 root      root      4096 Feb 24 20:51 ..
+-rw-r--r--.  1 root      root         0 Feb 24 20:52 a
+-rw-r--r--.  1 nfsnobody nfsnobody    0 Feb 24 21:03 b
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@bogon /]# ls -al /data
+total 0
+drwxrwxrwx.  2 root      root       24 Feb 24 21:03 .
+dr-xr-xr-x. 18 root      root      236 Feb 19 00:43 ..
+-rw-r--r--.  1 root      root        0 Feb 24 20:52 a
+-rw-r--r--.  1 nfsnobody nfsnobody   0 Feb 24 21:03 b
+</code></pre><h3 id="实例三"><a href="#实例三" class="headerlink" title="实例三"></a>实例三</h3><p>服务端NFS配置：</p>
+<pre><code>创建group和user 
+# groupadd -g 1000 jason
+# useradd -u 1000 -g jason -M -s /bin/bash jason
+设置共享目录权限
+setfacl -m u:jason:rwx /data
+
+#vi /etc/exports
+/data  192.168.1.76(rw,sync,secure,all_squash,,anonuid=1000,anongid=1000))
+</code></pre><p>此时服务端”/data”的权限：</p>
+<pre><code>[root@localhost /]# ls -al | grep data
+drwxr-xr-x.   2 root root   15 Feb 25 12:41 data
+[root@localhost /]# getfacl /data
+getfacl: Removing leading &apos;/&apos; from absolute path names
+# file: data
+# owner: root
+# group: root
+user::rwx
+group::r-x
+other::r-x
+
+[root@localhost /]# setfacl -m u:jason:rwx  /data
+[root@localhost /]# getfacl /data
+getfacl: Removing leading &apos;/&apos; from absolute path names
+# file: data
+# owner: root
+# group: root
+user::rwx
+user:jason:rwx #多出来一个用户jason的权限rwx
+group::r-x
+mask::rwx
+other::r-x
+</code></pre><p><strong> 备注：</strong> ACL（Access Control List），主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置<br>1)、setfacl可以更精确的控制权限的分配<br>2)、getfacl取得某个文件/目录的 ACL 配置项目</p>
+<p>客户端创建文件：touch a，客户端显示如下：</p>
+<pre><code>[root@localhost test]# touch a
+[root@localhost test]# ls -al
+total 4
+drwxrwxr-x.  2 root  root    15 Feb 25 12:39 .
+dr-xr-xr-x. 19 root  root  4096 Feb 24 20:51 ..
+#因客户端也存在uid和gid为1000的jason，所以用户和组都显示为jason，否则显示1000
+-rw-r--r--.  1 jason jason    0 Feb 25 12:39 a 
+</code></pre><p>服务端”/data”显示如下：</p>
+<pre><code>[root@localhost data]# ls -al
+total 0
+drwxrwxr-x+  2 root  root   15 Feb 25 12:41 .
+dr-xr-xr-x. 18 root  root  236 Feb 19 00:43 ..
+-rw-r--r--.  1 jason jason   0 Feb 25 12:41 a        
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>轻轻的我走了，正如我轻轻的来</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wxpay.jpg" alt="Jason hu WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="Jason hu Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Jason hu
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jasonhzy.github.io/2019/02/08/linux-nfs/" title="Linux NFS配置">http://jasonhzy.github.io/2019/02/08/linux-nfs/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/NFS/" rel="tag"># NFS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/07/linux-mount/" rel="next" title="Linux分区与挂载">
+                <i class="fa fa-chevron-left"></i> Linux分区与挂载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div id="sidebar-dimmer"></div>
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jason hu">
+          <p class="site-author-name" itemprop="name">Jason hu</p>
+           
+              <p class="site-description motion-element" itemprop="description">Share experience summary</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jasonhzy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/lotushzy" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/lotushzy?trk=hp-identity-name" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/lotushzy" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://segmentfault.com/u/jasonhu" target="_blank" title="Segmentfault">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Segmentfault
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC协议介绍"><span class="nav-number">2.</span> <span class="nav-text">RPC协议介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">3.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装NFS与配置"><span class="nav-number">4.</span> <span class="nav-text">安装NFS与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">4.1.</span> <span class="nav-text">服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装服务端"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#防火墙配置"><span class="nav-number">4.1.2.</span> <span class="nav-text">防火墙配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#固定nfs服务端口"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">固定nfs服务端口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CentOS7下配置"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">CentOS7下配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建共享目录"><span class="nav-number">4.2.</span> <span class="nav-text">创建共享目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS共享目录文件配置"><span class="nav-number">4.3.</span> <span class="nav-text">NFS共享目录文件配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端验证"><span class="nav-number">4.4.</span> <span class="nav-text">服务端验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">4.5.</span> <span class="nav-text">客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装客户端NFS"><span class="nav-number">4.5.1.</span> <span class="nav-text">安装客户端NFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#挂载NFS共享目录"><span class="nav-number">4.5.2.</span> <span class="nav-text">挂载NFS共享目录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">5.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nfsstat"><span class="nav-number">5.1.</span> <span class="nav-text">nfsstat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exportfs"><span class="nav-number">5.2.</span> <span class="nav-text">exportfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rpcinfo"><span class="nav-number">5.3.</span> <span class="nav-text">rpcinfo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">6.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实例一"><span class="nav-number">6.1.</span> <span class="nav-text">实例一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例二"><span class="nav-number">6.2.</span> <span class="nav-text">实例二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例三"><span class="nav-number">6.3.</span> <span class="nav-text">实例三</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason hu</span>
+</div>
+
+
+<!--div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div-->
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"> 访客数</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"> 总访问量</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
