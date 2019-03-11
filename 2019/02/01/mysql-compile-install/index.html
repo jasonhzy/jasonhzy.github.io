@@ -102,7 +102,7 @@
 <meta property="og:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-compile-install/source.jpg">
-<meta property="og:updated_time" content="2019-03-08T01:26:35.000Z">
+<meta property="og:updated_time" content="2019-03-11T02:09:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL源码安装">
 <meta name="twitter:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
@@ -447,11 +447,11 @@ chown -R mysql:mysql /data/mysql
 </code></pre><h2 id="编译之后安装"><a href="#编译之后安装" class="headerlink" title="编译之后安装"></a>编译之后安装</h2><pre><code>make install
 </code></pre><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>–initialize-insecure 不会生成密码<br>-–initialize 会生成一个随机密码<br>-–datadir 目标目录下不能有数据文件</p>
 <p>初始化命令：</p>
-<pre><code>mysqld --defaults-file=/etc/my.cnf \
-    --initialize \
-    --user=mysql \
-    --basedir=/usr/local/mysql \
+<pre><code>mysqld --defaults-file=/etc/my.cnf
+    --user=mysql
+    --basedir=/usr/local/mysql
     --datadir=/data/mysql
+    --initialize
 </code></pre><p>如果需要重新初始化，清空datadir即可：</p>
 <pre><code>rm -fr /data/mysql/*
 </code></pre><p>备注：5.7之前的版本采用mysql_install_db初始化    </p>
@@ -494,15 +494,7 @@ collation-server = utf8mb4_unicode_ci
 
 # explicit_defaults_for_timestamp = true
 # 设置时区
-#default-time-zone = &apos;+8:00&apos;
-
-# 默认存储引擎
-default-storage-engine = InnoDB
-
-# MySQL支持4种事务隔离级别，他们分别是：
-# READ-UNCOMMITTED, READ-COMMITTED, REPEATABLE-READ, SERIALIZABLE
-# 若未指定，mysql默认采用的是REPEATABLE-READ，ORACLE默认的是READ-COMMITTED
-transaction_isolation = REPEATABLE-READ
+# default-time-zone = &apos;+8:00&apos;
 
 # 库名、表名是否区分大小写。默认为0区分大小写。设置1不区分大小写，创建的表、数据库都以小写形式存放磁盘
 # lower_case_table_names = 0
@@ -513,12 +505,28 @@ transaction_isolation = REPEATABLE-READ
 # grant all on test.* to root@localhost 这是不行的
 skip-name-resolve
 
-# 是否开启慢查询日志
+# 默认存储引擎
+default-storage-engine = InnoDB
+
+# MySQL支持4种事务隔离级别，他们分别是：
+# READ-UNCOMMITTED, READ-COMMITTED, REPEATABLE-READ, SERIALIZABLE
+# 若未指定，mysql默认采用的是REPEATABLE-READ，ORACLE默认的是READ-COMMITTED
+transaction_isolation = REPEATABLE-READ
+
+# 是否开启慢查询日志，1表示开启，0表示关闭
 slow-query-log = 1
 # 慢查询日志文件位置
 slow-query-log-file= /data/mysql/mysql-slow.log
+# 所有的使用了比这个时间(以秒为单位)更多的查询会被认为是慢速查询.
+# long_query_time = 10
+# 日志存储方式。log_output=&apos;FILE&apos;表示将日志存入文件，默认值是&apos;FILE&apos;。
+# log_output=&apos;TABLE&apos;表示将日志存入数据库，这样日志信息就会被写入到mysql.slow_log表中。
+# MySQL数据库支持同时两种日志存储方式，配置的时候以逗号隔开即可，如：log_output=&apos;FILE,TABLE&apos;。
+# 日志记录到系统的专用日志表中，要比记录到文件耗费更多的系统资源，因此对于需要启用慢查询日志，
+# 又需要能够获得更高的系统性能，那么建议优先记录到文件
+# log_output=FILE
 
-# 指定mysql服务所允许的最大连接进程数，
+# 指定mysql服务所允许的最大连接进程数，若访问时经常出现&quot;Too Many Connections&quot;的错误提示，则需要增大该参数值。
 max_connections = 1000
 # 每个主机连接允许异常中断的次数，当超过该次数mysql服务将禁止该主机的连接请求。若让禁止的host仍可连接，方法如下：
 # 1、重启mysql服务 2、flush hosts 3、mysqladmin flush-hosts -hlocalhost -P 3306 -uroot -p  
@@ -528,6 +536,7 @@ max_connect_errors = 1000000
 server-id  = 10
 # 二进制日志存放路径
 log_bin = mysql-bin
+log_bin_index = /data/mysql/mysql-bin.index
 # binlog格式，复制有3种模式STATEMENT，ROW，MIXED
 binlog_format = row
 
@@ -540,6 +549,22 @@ binlog_format = row
 # 独立表空间，每个表的数据和索引单独存放在以表命名的.ibd文件中，最好在安装数据库就设置，使用之后再设置可能无法重启
 # 节省空间／提升性能，但单表增加过大
 innodb-file-per-table  = 1
+
+# 缓冲池大小，对Innodb表来说非常重要，一般设置为主机内存的70~80%
+innodb_buffer_pool_size = 6G
+
+# 1)为0，log buffer将每秒一次地写入log file中,并且log file的flush(刷到磁盘)操作同时进行. 当事务提交时,不做日志写入操作。
+#   当MySQL Crash和OS Crash或者主机断电之后，可能会丢失上一秒的事务数据
+# 2)为1，每次事务提交时MySQL都会把log buffer的数据写入log file,并且flush(刷到磁盘)中去。最安全的设置，能够保证不论
+#   是MySQL Crash还是OS Crash或者是主机断电都不会丢失任何已经提交的数据
+# 3)为2，每次事务提交时MySQL都会把log buffer的数据写入log file.但是flush(刷到磁盘)操作并不会同时进行。该模式下MySQL
+#  会每秒定时执行一次flush(刷到磁盘)操作。MySQL Crash并不会造成数据的丢失，但是OS Crash或者是主机断电后可能丢失
+# 简单说来，可选值的安全性从0-&gt;2-&gt;1递增，分别对应于mysqld进程crash可能丢失 -&gt; OS crash可能丢失 -&gt; 事务安全。
+innodb_flush_log_at_trx_commit = 2
+
+#开启gtid
+gtid_mode=ON
+enforce-gtid-consistency=ON
 
 [mysqldump]                        
 max_allowed_packet = 256M
