@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-20T06:37:49.000Z">
+<meta property="og:updated_time" content="2019-03-20T06:48:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB搭建Replica Set">
 <meta name="twitter:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
@@ -495,7 +495,7 @@ switched to db admin
 };
 &gt; rs.initiate(cfg); #使集群cfg配置生效
 { &quot;ok&quot; : 1 }
-</code></pre><p>1）<br>_id：Replica Set的名称（需与配置文件mongodb.conf中replication.replSetName保持一致）<br>priority：表示优先级别，数值越大，表示是主节点<br>arbiterOnly：true表示仲裁节点</p>
+</code></pre><p>1）参数描述<br>_id：Replica Set的名称（需与配置文件mongodb.conf中replication.replSetName保持一致）<br>priority：表示优先级别，数值越大，表示是主节点<br>arbiterOnly：true表示仲裁节点</p>
 <p>2）除上述之外，另一种添加节点方式：</p>
 <pre><code>添加secondary：rs.add({host: &quot;192.168.1.40:27011&quot;, priority: 1 }) 
 添加仲裁点：rs.addArb(&quot;192.168.1.60:27011&quot;)  ---集群中有一个仲裁节点足矣
