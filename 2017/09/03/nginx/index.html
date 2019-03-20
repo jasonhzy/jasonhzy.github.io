@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-03-20T08:50:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -493,6 +493,24 @@ http {
 
     # 指定access_log的存放路径、格式和缓存大小
     #access_log  logs/access.log  main;
+
+    # 隐藏nginx版本号
+    ﻿server_tokens off;
+
+    # ﻿﻿启用目录浏览
+    autoindex on;
+    # ﻿显示出文件的确切／大概大小：on确切大小，单位是bytes；off大概大小，单位是kB或者MB或者GB
+    autoindex_exact_size off;
+    # ﻿﻿off显示的文件时间为GMT时间，﻿on显示的文件时间为文件的服务器时间
+    autoindex_localtime on; 
+
+    # 用户认证
+    # yum install httpd-tools               #适用centos
+    # sudo apt-get install apache2-utils    #适用ubuntu
+    # 生成用户密码文件
+    # htpasswd -c /data/.htpasswd user1 
+    auth_basic  &quot;User Login&quot;;
+    auth_basic_user_file  /data/.htpasswd;
 
     # sendfile 指令用于指定 Nginx 是否调用Linux 的 sendfile 函数（zero copy 方式）来输出文件，提高文件传输效率 
     sendfile        on;

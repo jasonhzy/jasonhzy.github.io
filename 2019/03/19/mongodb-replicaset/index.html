@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-20T06:48:52.000Z">
+<meta property="og:updated_time" content="2019-03-20T09:26:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB搭建Replica Set">
 <meta name="twitter:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
@@ -636,7 +636,7 @@ syncingTo: 表示当前服务器从哪个节点做同步。
     }
 }
 &gt; cfg.members[0].host = &quot;192.168.1.30:27011&quot;
-&gt; rs.reconfig(cfg)
+&gt; rs.reconfig(cfg)  # 强制更新副本集配置 rs.reconfig(cfg, {&quot;force&quot;: true}) 
 </code></pre><p>参数描述：</p>
 <pre><code>version: 每修改一次集群的配置，副本集的version都会+1
 protocolVersion: 协议版本
@@ -725,7 +725,7 @@ rs.reconfig(config)
 </tbody>
 </table>
 <h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>mongodb默认是从主节点读写数据的，副本节点上不允许读，需要设置副本节点可以读：</p>
-<pre><code>jasonhzy:SECONDARY&gt; db.getMongo().setSlaveOk();
+<pre><code>jasonhzy:SECONDARY&gt; db.getMongo().setSlaveOk();  # 或 rs.slaveOk();
 </code></pre><p>有几种模式如下：</p>
 <table>
 <thead>
