@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-20T06:23:24.000Z">
+<meta property="og:updated_time" content="2019-03-20T06:30:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB搭建Replica Set">
 <meta name="twitter:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
@@ -770,25 +770,28 @@ chmod 600 /data/mongodb/keyfile/jasonhzy.key
 <pre><code>read：允许用户读取指定数据库
 readWrite：允许用户读写指定数据库
 </code></pre><p>2、数据库管理员角色</p>
-<pre><code>dbAdmin：允许用户进行索引创建、删除，查看统计或访问system.profile，但没有角色和用户管理的权限
-userAdmin：提供了在当前数据库中创建和修改角色和用户的能力
-dbOwner： 提供对数据库执行任何管理操作的能力。这个角色组合了readWrite、dbAdmin和userAdmin角色授予的特权。
-</code></pre><p>　　<br>3、集群管理角色</p>
-<pre><code>clusterAdmin ： 提供最强大的集群管理访问。组合clusterManager、clusterMonitor和hostManager角色的能力。还提供了dropDatabase操作
-clusterManager ： 在集群上提供管理和监视操作。可以访问配置和本地数据库，这些数据库分别用于分片和复制
+<pre><code>dbAdmin：允许用户进行索引创建、删除，查看统计或访问system.profile，但没有角色和用户管理的权限。
+userAdmin：提供了在当前数据库中创建和修改角色和用户的能力。
+dbOwner： 提供对数据库执行任何管理操作的能力。这个角色组合了readWrite、dbAdmin和userAdmin角色
+        授予的特权。
+</code></pre><p>3、集群管理角色</p>
+<pre><code>clusterAdmin ： 提供最强大的集群管理访问。组合clusterManager、clusterMonitor和hostManager角色的能力，
+            还提供了dropDatabase操作。
+clusterManager ： 在集群上提供管理和监视操作。可以访问配置和本地数据库，这些数据库分别用于分片和复制。
 clusterMonitor ： 提供对监控工具的只读访问，例如MongoDB云管理器和Ops管理器监控代理。
 hostManager ： 提供监视和管理服务器的能力。
-</code></pre><p>　　<br>4、备份恢复角色</p>
+</code></pre><p>4、备份恢复角色</p>
 <pre><code>backup ： 提供备份数据所需的能力，使用MongoDB云管理器备份代理、Ops管理器备份代理或使用mongodump
 restore ： 提供使用mongorestore恢复数据所需的能力
-</code></pre><p>　　<br>5、所有数据库角色</p>
+</code></pre><p>5、所有数据库角色</p>
 <pre><code>readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限 
 readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限 
 userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限 
-dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。 
-</code></pre><p>　　<br>6、超级用户角色</p>
-<pre><code>root：提供对readWriteAnyDatabase、dbAdminAnyDatabase、userAdminAnyDatabase、clusterAdmin、restore和backup的所有资源的访问
-</code></pre><p>　　<br>7、内部角色</p>
+dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限
+</code></pre><p>6、超级用户角色</p>
+<pre><code>root：提供对readWriteAnyDatabase、dbAdminAnyDatabase、userAdminAnyDatabase、
+    clusterAdmin、restore和backup的所有资源的访问
+</code></pre><p>7、内部角色</p>
 <pre><code>__system : 提供对数据库中任何对象的任何操作的特权
 </code></pre><h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><p>1、创建超级用户角色root</p>
 <pre><code>&gt; use admin
