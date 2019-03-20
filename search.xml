@@ -6,7 +6,7 @@
     <entry>
       <title><![CDATA[MongoDB搭建Replica Set]]></title>
       <url>http://jasonhzy.github.io/2019/03/19/mongodb-replicaset/</url>
-      <content type="html"><![CDATA[<p>Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，<br>本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。</p>
+      <content type="html"><![CDATA[<p>Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。</p>
 <a id="more"></a>
 <h2 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h2><pre><code>192.168.1.40 27011 centos7 PRIMARY（主）
 192.168.1.50 27011 centos7 SECONDARY（备用节点）
