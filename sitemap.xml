@@ -2,30 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://jasonhzy.github.io/2019/03/19/ubuntu-chinese/</loc>
+    <loc>http://jasonhzy.github.io/2019/03/19/mongodb-replicaset/</loc>
     
-    <lastmod>2019-03-19T08:31:54.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/08/25/nginx-alias-root/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <lastmod>2019-03-20T06:23:24.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2018/05/13/zabbix-phpfpm/</loc>
+    <loc>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</loc>
     
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <lastmod>2019-03-19T12:06:32.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2018/04/10/centos7-recovery/</loc>
+    <loc>http://jasonhzy.github.io/2019/03/13/ubuntu-chinese/</loc>
     
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <lastmod>2019-03-19T11:56:53.000Z</lastmod>
     
   </url>
   
@@ -58,13 +51,6 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://jasonhzy.github.io/2016/05/05/git-log/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
@@ -72,7 +58,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/06/15/git-stash/</loc>
+    <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -86,6 +72,13 @@
   </url>
   
   <url>
+    <loc>http://jasonhzy.github.io/2016/06/15/git-stash/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2016/02/03/git-tech/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
@@ -93,14 +86,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2018/04/12/ifconfig/</loc>
+    <loc>http://jasonhzy.github.io/2016/03/29/hexo-create/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/03/29/hexo-create/</loc>
+    <loc>http://jasonhzy.github.io/2018/04/12/ifconfig/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -121,14 +114,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2018/05/03/jenkins/</loc>
+    <loc>http://jasonhzy.github.io/2018/03/15/k8s/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/05/14/linux-mail/</loc>
+    <loc>http://jasonhzy.github.io/2018/05/03/jenkins/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -149,42 +142,14 @@
   </url>
   
   <url>
+    <loc>http://jasonhzy.github.io/2016/05/14/linux-mail/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2019/02/07/linux-mount/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2018/03/15/k8s/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/03/28/mac-vim/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2018/01/09/linux-stdinout/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/03/28/mamp-config/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/05/16/mysql-backup/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -198,7 +163,21 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
+    <loc>http://jasonhzy.github.io/2016/03/28/mac-vim/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/03/28/mamp-config/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2018/01/09/linux-stdinout/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -206,6 +185,27 @@
   
   <url>
     <loc>http://jasonhzy.github.io/2016/02/05/master-slave/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/22/markdown/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/05/16/mysql-backup/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2017/12/20/mysql-proxy/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -226,14 +226,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2017/11/14/mysql-grant/</loc>
+    <loc>http://jasonhzy.github.io/2017/06/14/mysql-explain/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2017/06/14/mysql-explain/</loc>
+    <loc>http://jasonhzy.github.io/2019/02/06/centos-kernel-upgrade/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -247,14 +247,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/</loc>
+    <loc>http://jasonhzy.github.io/2016/08/25/nginx-alias-root/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2017/12/20/mysql-proxy/</loc>
+    <loc>http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -268,7 +268,21 @@
   </url>
   
   <url>
+    <loc>http://jasonhzy.github.io/2017/09/03/nginx/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2016/07/31/php-cookie/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/05/04/php-curl-file/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -296,14 +310,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/05/04/php-curl-file/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2017/09/03/nginx/</loc>
+    <loc>http://jasonhzy.github.io/2018/07/16/php-opcache/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -317,21 +324,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2018/07/16/php-opcache/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://jasonhzy.github.io/2016/06/15/python-email/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/06/02/python-reptile/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -352,14 +345,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/19/sort-algorithm/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/03/ssh-alive/</loc>
+    <loc>http://jasonhzy.github.io/2016/06/02/python-reptile/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -373,7 +359,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/08/24/tmux-config/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/03/ssh-alive/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -387,7 +373,21 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2019/02/06/centos-kernel-upgrade/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/19/sort-algorithm/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2018/04/10/centos7-recovery/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/08/24/tmux-config/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -401,13 +401,6 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2018/04/11/ubuntu-recovery/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://jasonhzy.github.io/2016/09/27/ubuntu-install/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
@@ -415,21 +408,7 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2018/05/15/zabbix-nginx/</loc>
-    
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2018/05/10/zabbix-percona-mysql/</loc>
+    <loc>http://jasonhzy.github.io/2018/04/11/ubuntu-recovery/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -443,7 +422,28 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</loc>
+    <loc>http://jasonhzy.github.io/2018/05/15/zabbix-nginx/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2018/05/10/zabbix-percona-mysql/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2018/05/13/zabbix-phpfpm/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -451,6 +451,13 @@
   
   <url>
     <loc>http://jasonhzy.github.io/2018/05/12/zabbix-redis/</loc>
+    
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jasonhzy.github.io/2017/11/14/mysql-grant/</loc>
     
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     
@@ -471,14 +478,14 @@
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/tags/index.html</loc>
+    <loc>http://jasonhzy.github.io/categories/index.html</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jasonhzy.github.io/categories/index.html</loc>
+    <loc>http://jasonhzy.github.io/tags/index.html</loc>
     
     <lastmod>2016-03-27T14:09:24.000Z</lastmod>
     

@@ -4,8 +4,454 @@
   
     
     <entry>
+      <title><![CDATA[MongoDB搭建Replica Set]]></title>
+      <url>http://jasonhzy.github.io/2019/03/19/mongodb-replicaset/</url>
+      <content type="html"><![CDATA[<p>Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，<br>本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。</p>
+<a id="more"></a>
+<h2 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h2><pre><code>192.168.1.40 27011 centos7 PRIMARY（主）
+192.168.1.50 27011 centos7 SECONDARY（备用节点）
+192.168.1.60 27011 centos7 SECONDARY／ARBITER（备用／仲裁节点）
+</code></pre><h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><p>1、创建数据文件夹</p>
+<pre><code>mkdir -p /data/mongodb/logs 
+mkdir -p /data/mongodb/data
+mkdir -p /data/mongodb/keyfile 
+</code></pre><p>2、配置文件</p>
+<p>集群各节点配置文件mongodb.conf如下：</p>
+<pre><code>systemLog:
+  # 日志输出方式。file/syslog,如果是file，需指定path，默认是输出到标准输出流中
+  destination: file
+  # 日志文件的路径
+  path: /data/mongodb/logs/mongodb.log
+  # 是否追加方式写入日志，默认True
+  logAppend: true
+  # 为true时mongod/mongos 将会尝试减少日志的输出量
+  quiet: false
+
+net:
+  # 设置端口
+  port : 27011
+  # 绑定ip地址访问mongodb，多个ip逗号分隔
+  bindIp : 0.0.0.0
+
+processManagement:
+  # 是否以守护进程方式运行，默认false
+  fork: true
+  # pid文件路径 
+  pidFilePath: /data/mongodb/mongo.pid
+
+storage:
+  journal:
+    enabled: true
+  # 数据库文件位置
+  dbPath: /data/mongodb/data
+  # 存储引擎，mmapv1/wiredTiger/inMemory 默认wiredTiger
+  engine: wiredTiger
+  wiredTiger:                                                              
+      engineConfig:
+         cacheSizeGB: 2                                                        
+         # 为 true，将数据和索引会分成两个目录 index/collection 存储
+         directoryForIndexes: false                                         
+         # 日志压缩，默认压缩算法 snappy，可以选择 zlib
+         journalCompressor: zlib
+      collectionConfig:                                                       
+         blockCompressor: zlib
+      indexConfig:                                                                 
+         prefixCompression: true
+
+security:
+  # 集群中members之间的认证模式，可选值为 “keyFile”、“sendKeyFile”、“sendX509”、“x509”，
+  # 对mongod/mongos有效
+  clusterAuthMode: keyFile
+  # 当 clusterAuthMode 为 “keyFile” 时，此参数指定 keyfile 的位置，mongodb 需要有访问此文件的权限,
+  # 一般x00即可
+  keyFile: /data/mongodb/keyfile/jasonhzy.key 
+  # disabled 或者 enabled, 表示是否开启用户访问控制(Access Control)
+  # 在创建认证用户之前需先disabled，创建完用户之后即可设置enabled，否则不能创建用户
+  authorization: enabled
+
+replication:
+   # oplogSize的大小，单位为MB，建议空闲磁盘的5%
+   oplogSizeMB: 51200
+   replSetName: jasonhzy
+# 性能分析
+operationProfiling:
+   # 认定为查询速度缓慢的时间阈值，超过该时间的查询即为缓慢查询，会被记录到日志中, 单位毫秒，默认100
+   slowOpThresholdMs: 100
+   # operationProfiling模式: off关闭profiling/slowOp只包含慢操作日志/all记录所有操作， 默认off
+   mode: off
+</code></pre><p>3.启动mongodb</p>
+<pre><code>mongod -f /data/mongodb/mongodb.conf  #三台均启动
+</code></pre><p>4、启动mongodb之后，客户端连接mongodb</p>
+<pre><code>mongo --port=27011
+</code></pre><h2 id="配置副本集"><a href="#配置副本集" class="headerlink" title="配置副本集"></a>配置副本集</h2><p>客户端连接mongodb之后进行配置</p>
+<p>1、配置副本集及权重</p>
+<pre><code>&gt; use admin
+switched to db admin
+&gt; cfg = {
+     _id : &quot;jasonhzy&quot;, 
+     members : [
+            {_id:0,host:&quot;192.168.1.40:27011&quot;, priority : 1},
+            {_id:1,host:&quot;192.168.1.50:27011&quot;, priority : 1},
+            {_id:2,host:&quot;192.168.1.60:27011&quot;, priority : 1, arbiterOnly:true} //仲裁节点
+    ]
+};
+&gt; rs.initiate(cfg); #使集群cfg配置生效
+{ &quot;ok&quot; : 1 }
+</code></pre><p>1）<br>_id：Replica Set的名称（需与配置文件mongodb.conf中replication.replSetName保持一致）<br>priority：表示优先级别，数值越大，表示是主节点<br>arbiterOnly：true表示仲裁节点</p>
+<p>2）除上述之外，另一种添加节点方式：</p>
+<pre><code>添加secondary：rs.add({host: &quot;192.168.1.40:27011&quot;, priority: 1 }) 
+添加仲裁点：rs.addArb(&quot;192.168.1.60:27011&quot;)  ---集群中有一个仲裁节点足矣
+</code></pre><p>3）移除节点</p>
+<pre><code>rs.remove({host: &quot;192.168.1.40:27017&quot;})
+</code></pre><p>2、查看状态</p>
+<pre><code>&gt; rs.status()
+{
+    &quot;set&quot; : &quot;jasonhzy&quot;,
+    &quot;date&quot; : ISODate(&quot;2019-03-13T07:46:48.200Z&quot;),
+    &quot;myState&quot; : 1,
+    &quot;term&quot; : NumberLong(1),
+    ....
+    &quot;members&quot; : [
+        {
+            &quot;_id&quot; : 0,
+            &quot;name&quot; : &quot;192.168.1.40:27011&quot;,
+            &quot;health&quot; : 1,
+            &quot;state&quot; : 1,
+            &quot;stateStr&quot; : &quot;PRIMARY&quot;,
+            &quot;uptime&quot; : 61467,
+            &quot;optime&quot; : {
+                &quot;ts&quot; : Timestamp(1553050134, 1),
+                &quot;t&quot; : NumberLong(34)
+            },
+            &quot;optimeDate&quot; : ISODate(&quot;2019-03-20T02:48:54Z&quot;),
+            &quot;syncingTo&quot; : &quot;&quot;,
+            &quot;syncSourceHost&quot; : &quot;&quot;,
+            &quot;syncSourceId&quot; : -1,
+            &quot;infoMessage&quot; : &quot;&quot;,
+            &quot;electionTime&quot; : Timestamp(1553049953, 1),
+            &quot;electionDate&quot; : ISODate(&quot;2019-03-20T02:45:53Z&quot;),
+            &quot;configVersion&quot; : 5,
+            &quot;self&quot; : true,
+            &quot;lastHeartbeatMessage&quot; : &quot;&quot;
+        },
+        {
+            &quot;_id&quot; : 1,
+            &quot;name&quot; : &quot;192.168.1.50:27011&quot;,
+            &quot;health&quot; : 1,
+            &quot;state&quot; : 2,
+            &quot;stateStr&quot; : &quot;SECONDARY&quot;,
+            ...
+            &quot;pingMs&quot; : NumberLong(3)
+            ...
+        },
+        {
+            &quot;_id&quot; : 2,
+            &quot;name&quot; : &quot;192.168.1.60:27011&quot;,
+            &quot;health&quot; : 1,
+            &quot;state&quot; : 7,
+            &quot;stateStr&quot; : &quot;ARBITER&quot;,
+            ...
+            &quot;pingMs&quot; : NumberLong(6)
+            ...
+        }
+    ],
+    &quot;ok&quot; : 1
+    ...
+}  
+</code></pre><p>参数描述：</p>
+<pre><code>self: 这个信息出现在执行rs.status()函数的成员信息中
+stateStr: 用户描述服务器状态的字符串。stateStr有以下几下状态:
+        1. PRIMARY：主节点，可读写
+        2. SECONDARY：备份节点，默认不可读
+        3. ARBITER: 仲裁者
+        4. STARTUP：刚加入到复制集中，配置还未加载
+        5. STARTUP2：配置已加载完，初始化状态(将长期处于该状态，直到同步完所有的数据和索引)
+        6. RECOVERING：正在恢复，不适用读
+        7. DOWN：节点不可到达
+        8. UNKNOWN：未获取其他节点状态而不知是什么状态，一般发生在只有两个成员的架构，脑裂
+        9. REMOVED：移除复制集
+        10. ROLLBACK：数据回滚，在回滚结束时，转移到RECOVERING或SECONDARY状态
+        11. FATAL：出错。查看日志grep “replSet FATAL”找出错原因，重新做同步
+uptime: 从成员可到达一直到现在经历的时间，单位是秒。
+optimeDate: 每个成员oplog最后一次操作发生的时间，这个时间是心跳报上来的，因此可能会存在延迟
+lastHeartbeat: 当前服务器最后一次收到其他成员心跳的时间，如果网络故障等可能这个时间会大于2秒
+pingMs: 心跳从当前服务器达到某个成员所花费的平均时间
+errmsg: 成员在心跳请求中返回的状态信息，通过是一些状态信息，不全是错误信息。
+state: 和stateStr是重复的，都表示成员状态，只是state是内部的叫法。
+health: 表示是否服务器可达，可达是1，不可达是0
+optime: 与optimeDate表达的信息是一样的，只是表示方式不同，一个是用新纪元开始的毫秒数表示的，
+        一个是用一种更容易阅读的方式表示。
+syncingTo: 表示当前服务器从哪个节点做同步。
+</code></pre><p>由于rs.status()是从执行命令成员本身的角度得出的，由于网路等故障，这份报告可能不准确或者有些过时。</p>
+<p>3、修改副本集节点</p>
+<pre><code>&gt; cfg = rs.conf()
+{
+    &quot;_id&quot; : &quot;jasonhzy&quot;,
+    &quot;version&quot; : 5,
+    &quot;protocolVersion&quot; : NumberLong(1),
+    &quot;members&quot; : [
+        {
+            &quot;_id&quot; : 0,
+            &quot;host&quot; : &quot;192.168.1.40:27011&quot;,
+            &quot;arbiterOnly&quot; : false,
+            &quot;buildIndexes&quot; : true,
+            &quot;hidden&quot; : false,
+            &quot;priority&quot; : 1,
+            &quot;tags&quot; : {
+
+            },
+            &quot;slaveDelay&quot; : NumberLong(0),
+            &quot;votes&quot; : 1
+        },
+        {
+            &quot;_id&quot; : 1,
+            &quot;host&quot; : &quot;192.168.1.50:27011&quot;,
+            &quot;arbiterOnly&quot; : false,
+            &quot;hidden&quot; : false,
+            &quot;priority&quot; : 1,
+            ...
+        },
+        {
+            &quot;_id&quot; : 2,
+            &quot;host&quot; : &quot;192.168.1.60:27011&quot;,
+            &quot;arbiterOnly&quot; : true,
+            &quot;hidden&quot; : false,
+            &quot;priority&quot; : 1,
+            ...
+        }
+    ],
+    &quot;settings&quot; : {
+        &quot;chainingAllowed&quot; : true,
+        &quot;heartbeatIntervalMillis&quot; : 2000,
+        &quot;heartbeatTimeoutSecs&quot; : 10,
+        &quot;electionTimeoutMillis&quot; : 10000,
+        &quot;catchUpTimeoutMillis&quot; : -1,
+        &quot;catchUpTakeoverDelayMillis&quot; : 30000,
+        &quot;getLastErrorModes&quot; : {
+
+        },
+        &quot;getLastErrorDefaults&quot; : {
+            &quot;w&quot; : 1,
+            &quot;wtimeout&quot; : 0
+        },
+        &quot;replicaSetId&quot; : ObjectId(&quot;5c88b407092b73db0f7882b9&quot;)
+    }
+}
+&gt; cfg.members[0].host = &quot;192.168.1.30:27011&quot;
+&gt; rs.reconfig(cfg)
+</code></pre><p>参数描述：</p>
+<pre><code>version: 每修改一次集群的配置，副本集的version都会+1
+protocolVersion: 协议版本
+buildIndexes: 默认为true.用来表示同步的时候是否同步索引.如果要设置为false,则必须将priority设置为0
+hidden: 表示节点是否为隐藏节点,true即隐藏节点将不对外服务,只是单纯的同步信息。rs.isMaster()方法将
+   无法查看到隐藏节点的信息,但是可以使用rs.status()查看.设置隐藏节点必须首先将节点的priority设置为0     
+priority: 表示权重,默认为1,如果将priority设置为0那这个节点将永远无法成为primary节点
+slaveDelay: 复制延迟,这个是整数,单位为秒,用来设置复制的延时.一般用来防止误操作,延迟节点必须优先级
+   设置为0, hidden设置为true,然后设置slaveDelay值
+votes: 表示这个节点是否有权利进行投票.
+tags: 表示标记,例如可以标记这个节点的作用等
+chainingAllowed:表示是否允许链式复制,即某个secondary可以作为其它的secondary的源,默认是true.
+heartbeatIntervalMillis:表示heartbeat的间隔时间,默认是没个两秒钟发送一个hearbeat包.
+heartbeatTimeoutSecs:表示心跳检测超时时间,默认是10秒.
+electionTimeoutMillis:表示选举超时时间,默认是10秒.
+</code></pre><p>复制链问题：<br>数据复制时可以从主节点直接复制，也可以从备份节点开始复制，从备份节点复制可以形成复制链，如果想禁止复制链，即所有的数据都从主节点复制，可以通过chainingAllowed属性来设置，具体步骤如下：</p>
+<pre><code>config=rs.config()
+config.settings.chainingAllowed=false
+rs.reconfig(config) 
+</code></pre><p>4、添加备份／延迟等节点<br>1）hidden（成员用于支持专用功能）：设置true后此机器在读写中都不可见，并且不会被选举为Primary，但是可以投票，一般用于备份数据</p>
+<pre><code>rs.add({&quot;host&quot;:&quot;192.168.1.100:27011&quot;, &quot;priority&quot;:0, &quot;hidden&quot;:true})
+</code></pre><p>2）Delayed（成员用于支持专用功能）：可以指定一个时间延迟从primary节点同步数据。主要用于处理误删除数据马上同步到从节点导致的不一致问题。</p>
+<pre><code>rs.add({&quot;host&quot;:&quot;192.168.1.100:27011&quot;, &quot;priority&quot;:0, &quot;hidden&quot;:true, &quot;slaveDelay&quot;:60}) #单位 s
+</code></pre><p>3）Secondary-Only:不能成为primary节点，只能作为secondary副本节点，防止一些性能不高的节点成为主节点。<br>4）Non-Voting：没有选举权的secondary节点，纯粹的备份数据节点。</p>
+<p>具体如下：     </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">角色</th>
+<th>primary(能否)</th>
+<th>客户端可见</th>
+<th>参与投票</th>
+<th>延迟同步</th>
+<th>复制数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Default</td>
+<td>&#10004;</td>
+<td>&#10004;</td>
+<td>&#10004;</td>
+<td>&#10008;</td>
+<td>&#10004;</td>
+</tr>
+<tr>
+<td style="text-align:left">Secondary-Only</td>
+<td>&#10008;</td>
+<td>&#10004;</td>
+<td>&#10004;</td>
+<td>&#10008;</td>
+<td>&#10004;</td>
+</tr>
+<tr>
+<td style="text-align:left">Hidden</td>
+<td>&#10008;</td>
+<td>&#10008;</td>
+<td>&#10004;</td>
+<td>&#10008;</td>
+<td>&#10004;</td>
+</tr>
+<tr>
+<td style="text-align:left">Delayed</td>
+<td>&#10008;</td>
+<td>&#10004;</td>
+<td>&#10004;</td>
+<td>&#10004;</td>
+<td>&#10004;</td>
+</tr>
+<tr>
+<td style="text-align:left">Arbiters</td>
+<td>&#10008;</td>
+<td>&#10008;</td>
+<td>&#10004;</td>
+<td>&#10008;</td>
+<td>&#10008;</td>
+</tr>
+<tr>
+<td style="text-align:left">Non-Voting</td>
+<td>&#10004;</td>
+<td>&#10004;</td>
+<td>&#10008;</td>
+<td>&#10008;</td>
+<td>&#10004;</td>
+</tr>
+</tbody>
+</table>
+<h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>mongodb默认是从主节点读写数据的，副本节点上不允许读，需要设置副本节点可以读：</p>
+<pre><code>jasonhzy:SECONDARY&gt; db.getMongo().setSlaveOk();
+</code></pre><p>有几种模式如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">模式</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">primary</td>
+<td style="text-align:left">主节点，默认模式，读操作只在主节点，如果主节点不可用，报错或者抛出异常。</td>
+</tr>
+<tr>
+<td style="text-align:left">primaryPreferred</td>
+<td style="text-align:left">首选主节点，大多情况下读操作在主节点，如果主节点不可用，如故障转移，读操作在从节点。</td>
+</tr>
+<tr>
+<td style="text-align:left">secondary</td>
+<td style="text-align:left">从节点，读操作只在从节点， 如果从节点不可用，报错或者抛出异常。</td>
+</tr>
+<tr>
+<td style="text-align:left">secondaryPreferred</td>
+<td style="text-align:left">首选从节点，大多情况下读操作在从节点，特殊情况（如单主节点架构）读操作在主节点。</td>
+</tr>
+<tr>
+<td style="text-align:left">nearest</td>
+<td style="text-align:left">最邻近节点，读操作在最邻近的成员，可能是主节点或者从节点</td>
+</tr>
+</tbody>
+</table>
+<h2 id="集群安全认证"><a href="#集群安全认证" class="headerlink" title="集群安全认证"></a>集群安全认证</h2><h3 id="集群之间的安全认证"><a href="#集群之间的安全认证" class="headerlink" title="集群之间的安全认证"></a>集群之间的安全认证</h3><p>集群之间的复制增加keyFile认证</p>
+<pre><code>#生成key
+openssl rand -base64 500 &gt; /data/mongodb/keyfile/jasonhzy.key
+#修改权限
+chmod 600 /data/mongodb/keyfile/jasonhzy.key
+</code></pre><p>将该key放到集群中每一台的机器上，且必须保持一致    </p>
+<h3 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h3><p>在mongodb.conf启动配置文件中增加配置项：</p>
+<pre><code>security:
+  keyFile=/data/mongodb/keyfile/jasonhzy.key
+</code></pre><h3 id="主库创建用户"><a href="#主库创建用户" class="headerlink" title="主库创建用户"></a>主库创建用户</h3><h4 id="MongoDB内建角色"><a href="#MongoDB内建角色" class="headerlink" title="MongoDB内建角色"></a>MongoDB内建角色</h4><p>1、数据库用户角色</p>
+<pre><code>read：允许用户读取指定数据库
+readWrite：允许用户读写指定数据库
+</code></pre><p>2、数据库管理员角色</p>
+<pre><code>dbAdmin：允许用户进行索引创建、删除，查看统计或访问system.profile，但没有角色和用户管理的权限
+userAdmin：提供了在当前数据库中创建和修改角色和用户的能力
+dbOwner： 提供对数据库执行任何管理操作的能力。这个角色组合了readWrite、dbAdmin和userAdmin角色授予的特权。
+</code></pre><p>　　<br>3、集群管理角色</p>
+<pre><code>clusterAdmin ： 提供最强大的集群管理访问。组合clusterManager、clusterMonitor和hostManager角色的能力。还提供了dropDatabase操作
+clusterManager ： 在集群上提供管理和监视操作。可以访问配置和本地数据库，这些数据库分别用于分片和复制
+clusterMonitor ： 提供对监控工具的只读访问，例如MongoDB云管理器和Ops管理器监控代理。
+hostManager ： 提供监视和管理服务器的能力。
+</code></pre><p>　　<br>4、备份恢复角色</p>
+<pre><code>backup ： 提供备份数据所需的能力，使用MongoDB云管理器备份代理、Ops管理器备份代理或使用mongodump
+restore ： 提供使用mongorestore恢复数据所需的能力
+</code></pre><p>　　<br>5、所有数据库角色</p>
+<pre><code>readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限 
+readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限 
+userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限 
+dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。 
+</code></pre><p>　　<br>6、超级用户角色</p>
+<pre><code>root：提供对readWriteAnyDatabase、dbAdminAnyDatabase、userAdminAnyDatabase、clusterAdmin、restore和backup的所有资源的访问
+</code></pre><p>　　<br>7、内部角色</p>
+<pre><code>__system : 提供对数据库中任何对象的任何操作的特权
+</code></pre><h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><p>1、创建超级用户角色root</p>
+<pre><code>&gt; use admin
+&gt; db.createUser(  
+    {  
+        user:&quot;root&quot;,   
+        pwd:&quot;123456&quot;,  
+        roles:[{role:&quot;root&quot;,db:&quot;admin&quot;}]
+    }  
+);
+</code></pre><p>以”forum”数据库为例，创建相应的角色用户：</p>
+<pre><code>use forum //创建数据库
+</code></pre><p>2、创建数据库管理员</p>
+<pre><code>db.createUser({
+    user: &quot;admin&quot;,
+    pwd: &quot;123456&quot;,
+    roles: [{ role: &quot;dbOwner&quot;, db: &quot;forum&quot; }]
+});
+</code></pre><p>3、创建数据库用户</p>
+<p>1）创建一个可读写的用户</p>
+<pre><code>db.createUser({
+    user: &quot;rw&quot;,
+    pwd: &quot;123456&quot;,
+    roles: [{ role: &quot;readWrite&quot;, db: &quot;forum&quot; }]
+});
+</code></pre><p>2）创建一个只读用户 </p>
+<pre><code>db.createUser({
+    user: &quot;read&quot;,
+    pwd: &quot;123456&quot;,
+    roles: [{ role: &quot;read&quot;, db: &quot;forum&quot; }]
+});
+</code></pre><h2 id="安全停止MongoDB进程"><a href="#安全停止MongoDB进程" class="headerlink" title="安全停止MongoDB进程"></a>安全停止MongoDB进程</h2><p>MongoDB进程如果直接kill掉进程或机器突然断电等都会可能MongoDB造成数据损坏，所以在停止MongoDB服务的时候，不要用kill -9 或 killall -9 直接干掉MongoDB的进程·</p>
+<p>要安全停止可以有两种信号：sigint信号，或者sigterm信号</p>
+<p>如何安全kill停止：</p>
+<pre><code>kill -2 8888 #其中 8888 为mongod进程号，该进程号可以通过 ps -axu |grep mongo 获取； -2 表示向mongod进程发送sigint信号
+kill -4 8888 #其中 8888 为mongod进程号 ，该进程号可以通过 ps -axu |grep mongo 获取； -4 表示向mongod进程发送sigterm信号
+</code></pre><p>mongod进程收到sigint信号或者sigterm信号，会做一些处理：关闭所有打开的连接，将内存数据强制刷新到磁盘，当前的操作执行完毕后在安全停止服务。</p>
+<p>推荐停止方法：登录控制台使用mongod命令shutdown的安全停止方式：</p>
+<pre><code>mongo -host 127.0.0.1 -port 27011
+&gt; use admin;                     --使用管理员数据库
+&gt; db.shutdownServer();           --安全关闭MongoDB
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> MongoDB </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> MongoDB </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Ubuntu安装中文]]></title>
-      <url>http://jasonhzy.github.io/2019/03/19/ubuntu-chinese/</url>
+      <url>http://jasonhzy.github.io/2019/03/13/ubuntu-chinese/</url>
       <content type="html"><![CDATA[<p>Ubuntu系统上传的中文文件名称经常出现乱码，此时我们就需要系统支持中文环境。</p>
 <a id="more"></a>
 <h2 id="locale"><a href="#locale" class="headerlink" title="locale"></a>locale</h2><p>locale查看当前系统默认采用的字符集。</p>
@@ -1099,23 +1545,23 @@ mkdir -p /data/mysql
 </code></pre><p>修改目录权限：</p>
 <pre><code>chown -R mysql:mysql /usr/local/mysql
 chown -R mysql:mysql /data/mysql
-</code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql
-        -DMYSQL_DATADIR=/data/mysql
-        -DSYSCONFDIR=/etc
-        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock
-        -DDEFAULT_CHARSET=utf8mb4
-        -DDEFAULT_COLLATION=utf8mb4_unicode_ci
-        -DDOWNLOAD_BOOST=1  #若boost已经下载更改为0即可
+</code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+        -DMYSQL_DATADIR=/data/mysql \
+        -DSYSCONFDIR=/etc \
+        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+        -DDEFAULT_CHARSET=utf8mb4 \
+        -DDEFAULT_COLLATION=utf8mb4_unicode_ci \
+        -DDOWNLOAD_BOOST=1  \   #若boost已经下载更改为0即可
         -DWITH_BOOST=/usr/local/boost
 </code></pre><p>注意:<br>    1、编译过程需要较长的时间，需耐心等待。<br>    2、重新cmake时，由于cmake生成临时文件CMakeCache.txt，需要先删除CMakeCache.txt文件，避免不必要的错误，即</p>
 <pre><code>rm CMakeCache.txt
 </code></pre><h2 id="编译之后安装"><a href="#编译之后安装" class="headerlink" title="编译之后安装"></a>编译之后安装</h2><pre><code>make install
 </code></pre><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>–initialize-insecure 不会生成密码<br>-–initialize 会生成一个随机密码<br>-–datadir 目标目录下不能有数据文件</p>
 <p>初始化命令：</p>
-<pre><code>mysqld --defaults-file=/etc/my.cnf
-    --user=mysql
-    --basedir=/usr/local/mysql
-    --datadir=/data/mysql
+<pre><code>mysqld --defaults-file=/etc/my.cnf \
+    --user=mysql \
+    --basedir=/usr/local/mysql \
+    --datadir=/data/mysql \
     --initialize
 </code></pre><p>如果需要重新初始化，清空datadir即可：</p>
 <pre><code>rm -fr /data/mysql/*

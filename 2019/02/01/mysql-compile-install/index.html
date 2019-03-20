@@ -102,7 +102,7 @@
 <meta property="og:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-compile-install/source.jpg">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-03-19T12:06:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL源码安装">
 <meta name="twitter:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
@@ -419,23 +419,23 @@ mkdir -p /data/mysql
 </code></pre><p>修改目录权限：</p>
 <pre><code>chown -R mysql:mysql /usr/local/mysql
 chown -R mysql:mysql /data/mysql
-</code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql
-        -DMYSQL_DATADIR=/data/mysql
-        -DSYSCONFDIR=/etc
-        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock
-        -DDEFAULT_CHARSET=utf8mb4
-        -DDEFAULT_COLLATION=utf8mb4_unicode_ci
-        -DDOWNLOAD_BOOST=1  #若boost已经下载更改为0即可
+</code></pre><h2 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h2><pre><code>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+        -DMYSQL_DATADIR=/data/mysql \
+        -DSYSCONFDIR=/etc \
+        -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+        -DDEFAULT_CHARSET=utf8mb4 \
+        -DDEFAULT_COLLATION=utf8mb4_unicode_ci \
+        -DDOWNLOAD_BOOST=1  \   #若boost已经下载更改为0即可
         -DWITH_BOOST=/usr/local/boost
 </code></pre><p>注意:<br>    1、编译过程需要较长的时间，需耐心等待。<br>    2、重新cmake时，由于cmake生成临时文件CMakeCache.txt，需要先删除CMakeCache.txt文件，避免不必要的错误，即</p>
 <pre><code>rm CMakeCache.txt
 </code></pre><h2 id="编译之后安装"><a href="#编译之后安装" class="headerlink" title="编译之后安装"></a>编译之后安装</h2><pre><code>make install
 </code></pre><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>–initialize-insecure 不会生成密码<br>-–initialize 会生成一个随机密码<br>-–datadir 目标目录下不能有数据文件</p>
 <p>初始化命令：</p>
-<pre><code>mysqld --defaults-file=/etc/my.cnf
-    --user=mysql
-    --basedir=/usr/local/mysql
-    --datadir=/data/mysql
+<pre><code>mysqld --defaults-file=/etc/my.cnf \
+    --user=mysql \
+    --basedir=/usr/local/mysql \
+    --datadir=/data/mysql \
     --initialize
 </code></pre><p>如果需要重新初始化，清空datadir即可：</p>
 <pre><code>rm -fr /data/mysql/*
@@ -723,7 +723,7 @@ quick
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -734,7 +734,7 @@ quick
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -745,7 +745,7 @@ quick
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

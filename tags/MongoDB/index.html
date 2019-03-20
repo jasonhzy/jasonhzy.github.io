@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Ubuntu,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -93,18 +93,16 @@
 
 
 
-<meta name="description" content="Ubuntu系统上传的中文文件名称经常出现乱码，此时我们就需要系统支持中文环境。">
-<meta name="keywords" content="Ubuntu">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu安装中文">
-<meta property="og:url" content="http://jasonhzy.github.io/2019/03/19/ubuntu-chinese/index.html">
+<meta name="description" content="Share experience summary">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jason Website">
+<meta property="og:url" content="http://jasonhzy.github.io/tags/MongoDB/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Ubuntu系统上传的中文文件名称经常出现乱码，此时我们就需要系统支持中文环境。">
+<meta property="og:description" content="Share experience summary">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-19T08:31:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu安装中文">
-<meta name="twitter:description" content="Ubuntu系统上传的中文文件名称经常出现乱码，此时我们就需要系统支持中文环境。">
+<meta name="twitter:title" content="Jason Website">
+<meta name="twitter:description" content="Share experience summary">
 
 
 
@@ -132,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/2019/03/19/ubuntu-chinese/">
+  <link rel="canonical" href="http://jasonhzy.github.io/tags/MongoDB/">
 
 
 
 
 
-  <title>Ubuntu安装中文 | Jason Website</title>
+  <title>标签: MongoDB | Jason Website</title>
   
 
 
@@ -173,7 +171,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <!-- --------- add Fork me on Github ---------- -->
@@ -303,254 +301,42 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2019/03/19/ubuntu-chinese/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jason hu">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jason Website">
-    </span>
+  <div id="posts" class="posts-collapse">
+    <div class="collection-title">
+      <h1>MongoDB<small>标签</small>
+      </h1>
+    </div>
 
     
-      <header class="post-header">
+      
 
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
         
+            <a class="post-title-link" href="/2019/03/19/mongodb-replicaset/" itemprop="url">
+              
+                <span itemprop="name">MongoDB搭建Replica Set</span>
+              
+            </a>
         
-          <h1 class="post-title" itemprop="name headline">Ubuntu安装中文</h1>
-        
+      </h2>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T11:21:27+08:00">
-                2019-03-19
-              </time>
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2019-03-19T11:08:11+08:00" content="2019-03-19">
+          03-19
+        </time>
+      </div>
 
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Ubuntu/" itemprop="url" rel="index">
-                    <span itemprop="name">Ubuntu</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"> 浏览</i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
-            </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>Ubuntu系统上传的中文文件名称经常出现乱码，此时我们就需要系统支持中文环境。</p>
-<a id="more"></a>
-<h2 id="locale"><a href="#locale" class="headerlink" title="locale"></a>locale</h2><p>locale查看当前系统默认采用的字符集。</p>
-<pre><code>LANG=en_US.UTF-8
-LC_CTYPE=&quot;en_US.UTF- 8&quot;                 #用户所使用的语言符号及其分类
-LC_NUMERIC=&quot;en_US.UTF- 8&quot;               #数字
-LC_TIME=&quot;en_US.UTF-8&quot;                   #时间显示格式
-LC_COLLATE=&quot;en_US.UTF-8&quot;                #比较和排序习惯
-LC_MONETARY=&quot;en_US.UTF-8&quot;               #LC_MONETARY
-LC_MESSAGES=&quot;en_US.UTF- 8&quot;              #信息主要是提示信息,错误信息,状态信息,标题,标签,按钮和菜单等
-LC_PAPER=&quot;en_US.UTF- 8&quot;                 #默认纸张尺寸大小
-LC_NAME=&quot;en_US.UTF-8&quot;                   #姓名书写方式
-LC_ADDRESS=&quot;en_US.UTF-8&quot;                #地址书写方式
-LC_TELEPHONE=&quot;en_US.UTF-8&quot;              #电话号码书写方式
-LC_MEASUREMENT=&quot;en_US.UTF-8&quot;            #度量衡表达方式
-LC_IDENTIFICATION=&quot;en_US.UTF-8&quot;         #对自身包含信息的概述
-LC_ALL=
-</code></pre><p>local设定的优先级关系，LC_ALL是最上级设定或者强制设定（LC_ALL的值将覆盖所有其他的locale设定），而LANG是默认设定值。 </p>
-<pre><code>LC_ALL &gt; LC_* &gt;LANG
-</code></pre><p>查看系统内安装的locale：</p>
-<pre><code>locale -a                                   
-</code></pre><h2 id="安装中文语言包"><a href="#安装中文语言包" class="headerlink" title="安装中文语言包"></a>安装中文语言包</h2><p>中文语言包：</p>
-<pre><code>language-pack-zh-hans 简体中文
-language-pack-zh-hans-base
-language-pack-zh-hant 繁体中文
-language-pack-zh-hant-base
-</code></pre><p>安装命令：</p>
-<pre><code>apt-get install language-pack-zh-hans language-pack-zh-hans-base
-</code></pre><h2 id="配置语言环境变量"><a href="#配置语言环境变量" class="headerlink" title="配置语言环境变量"></a>配置语言环境变量</h2><p>编辑文件/etc/environment，支持中／英文环境</p>
-<pre><code># 英文
-LC_CTYPE=en_US.UTF-8
-LC_ALL=en_US.UTF-8
-LANG=en_US.UTF-8
-LANGUAGE=en_US:en
-
-# 中文
-LC_CTYPE=zh_CN.UTF-8
-LC_ALL=zh_CN.UTF-8
-LANG=zh_CN.UTF-8
-LANGUAGE=zh_CN:zh
-</code></pre><p>使其生效：</p>
-<pre><code>locale-gen 
-或
-dpkg-reconfigure locales  
-</code></pre>
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>轻轻的我走了，正如我轻轻的来</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/wxpay.jpg" alt="Jason hu WeChat Pay">
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="/images/alipay.png" alt="Jason hu Alipay">
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
-
-
-      
-    </div>
-
-    <div>
-      
-        
-  <ul class="post-copyright">
-    <li class="post-copyright-author">
-      <strong>本文作者：</strong>
-      Jason hu
-    </li>
-    <li class="post-copyright-link">
-      <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2019/03/19/ubuntu-chinese/" title="Ubuntu安装中文">http://jasonhzy.github.io/2019/03/19/ubuntu-chinese/</a>
-    </li>
-    <li class="post-copyright-license">
-      <strong>版权声明： </strong>
-      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
-    </li>
-  </ul>
-
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/02/08/linux-nfs/" rel="next" title="Linux NFS配置">
-                <i class="fa fa-chevron-left"></i> Linux NFS配置
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
+
+  
 
 
           </div>
@@ -558,17 +344,6 @@ dpkg-reconfigure locales
 
 
           
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -589,17 +364,8 @@ dpkg-reconfigure locales
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jason hu">
           <p class="site-author-name" itemprop="name">Jason hu</p>
@@ -612,7 +378,7 @@ dpkg-reconfigure locales
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -623,7 +389,7 @@ dpkg-reconfigure locales
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -634,7 +400,7 @@ dpkg-reconfigure locales
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -706,22 +472,6 @@ dpkg-reconfigure locales
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#locale"><span class="nav-number">1.</span> <span class="nav-text">locale</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装中文语言包"><span class="nav-number">2.</span> <span class="nav-text">安装中文语言包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置语言环境变量"><span class="nav-number">3.</span> <span class="nav-text">配置语言环境变量</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -855,10 +605,10 @@ dpkg-reconfigure locales
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 
@@ -874,18 +624,6 @@ dpkg-reconfigure locales
 
     
 
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://jasonhzy.github.io/2019/03/19/ubuntu-chinese/';
-          this.page.identifier = '2019/03/19/ubuntu-chinese/';
-          this.page.title = 'Ubuntu安装中文';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://jasonhzy.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
     
 
   
