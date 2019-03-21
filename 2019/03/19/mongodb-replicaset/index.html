@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-20T09:26:51.000Z">
+<meta property="og:updated_time" content="2019-03-21T02:12:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB搭建Replica Set">
 <meta name="twitter:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
@@ -469,7 +469,7 @@ security:
 
 replication:
    # oplogSize的大小，单位为MB，建议空闲磁盘的5%
-   oplogSizeMB: 51200
+   oplogSizeMB: 5120
    replSetName: jasonhzy
 # 性能分析
 operationProfiling:
@@ -661,6 +661,12 @@ rs.reconfig(config)
 </code></pre><p>2）Delayed（成员用于支持专用功能）：可以指定一个时间延迟从primary节点同步数据。主要用于处理误删除数据马上同步到从节点导致的不一致问题。</p>
 <pre><code>rs.add({&quot;host&quot;:&quot;192.168.1.100:27011&quot;, &quot;priority&quot;:0, &quot;hidden&quot;:true, &quot;slaveDelay&quot;:60}) #单位 s
 </code></pre><p>3）Secondary-Only:不能成为primary节点，只能作为secondary副本节点，防止一些性能不高的节点成为主节点。<br>4）Non-Voting：没有选举权的secondary节点，纯粹的备份数据节点。</p>
+<style>
+    table th:first-of-type {
+        width: 20%;
+    }
+</style>
+
 <p>具体如下：     </p>
 <table>
 <thead>
