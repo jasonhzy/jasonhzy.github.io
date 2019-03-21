@@ -334,7 +334,7 @@ rs.reconfig(config)
 </table>
 <h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>mongodb默认是从主节点读写数据的，副本节点上不允许读，需要设置副本节点可以读：</p>
 <pre><code>jasonhzy:SECONDARY&gt; db.getMongo().setSlaveOk();  # 或 rs.slaveOk();
-</code></pre><p>有几种模式如下：</p>
+</code></pre><p>支持的几种读取策略(Read Preferences)如下：</p>
 <table>
 <thead>
 <tr>
@@ -441,7 +441,9 @@ kill -4 8888 #其中 8888 为mongod进程号 ，该进程号可以通过 ps -axu
 <pre><code>mongo -host 127.0.0.1 -port 27011
 &gt; use admin;                     --使用管理员数据库
 &gt; db.shutdownServer();           --安全关闭MongoDB
-</code></pre>]]></content>
+</code></pre><p>参考资料</p>
+<p><a href="https://juejin.im/entry/58fc1d891b69e6005895eec6" target="_blank" rel="noopener">数据库高可用和分区解决方案 - MongoDB 篇</a><br><a href="http://www.cnblogs.com/kevingrace/p/5685486.html" target="_blank" rel="noopener">Mongodb主从复制/副本集/分片集群介绍</a></p>
+]]></content>
       
         <categories>
             
