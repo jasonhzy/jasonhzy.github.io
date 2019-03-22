@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slave。目前已不推荐使用主从模式；副本集提供的冗余和高可用，可以读写分离，出现故障时自动切换；分片支持部署非常大的数据集，并提高系统的吞吐量。本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-22T02:58:46.000Z">
+<meta property="og:updated_time" content="2019-03-22T06:16:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB搭建Replica Set">
 <meta name="twitter:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slave。目前已不推荐使用主从模式；副本集提供的冗余和高可用，可以读写分离，出现故障时自动切换；分片支持部署非常大的数据集，并提高系统的吞吐量。本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数">
@@ -498,7 +498,8 @@ switched to db admin
 </code></pre><p>1）参数描述<br>_id：Replica Set的名称（需与配置文件mongodb.conf中replication.replSetName保持一致）<br>priority：表示优先级别，数值越大，表示是主节点<br>arbiterOnly：true表示仲裁节点</p>
 <p>2）除上述之外，另一种添加节点方式：</p>
 <pre><code>添加secondary：rs.add({host: &quot;192.168.1.40:27011&quot;, priority: 1 }) 
-添加仲裁点：rs.addArb(&quot;192.168.1.60:27011&quot;)  ---集群中有一个仲裁节点足矣
+添加仲裁点：rs.addArb(&quot;192.168.1.60:27011&quot;)
+          rs.add({host:&quot;192.168.1.60:27011&quot;,arbiterOnly:true})
 </code></pre><p>3）移除节点</p>
 <pre><code>rs.remove({host: &quot;192.168.1.40:27017&quot;})
 </code></pre><p>2、查看状态</p>
@@ -800,8 +801,8 @@ dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库
 </code></pre><p>7、内部角色</p>
 <pre><code>__system : 提供对数据库中任何对象的任何操作的特权
 </code></pre><h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><p>1、创建超级用户角色root</p>
-<pre><code>&gt; use admin
-&gt; db.createUser(  
+<pre><code>jasonhzy:PRIMARY&gt; use admin
+jasonhzy:PRIMARY&gt; db.createUser(  
     {  
         user:&quot;root&quot;,   
         pwd:&quot;123456&quot;,  
@@ -811,20 +812,23 @@ dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库
 </code></pre><p>以”forum”数据库为例，创建相应的角色用户：</p>
 <pre><code>use forum //创建数据库
 </code></pre><p>2、创建数据库管理员</p>
-<pre><code>db.createUser({
+<pre><code>jasonhzy:PRIMARY&gt; use forum
+jasonhzy:PRIMARY&gt; db.createUser({
     user: &quot;admin&quot;,
     pwd: &quot;123456&quot;,
     roles: [{ role: &quot;dbOwner&quot;, db: &quot;forum&quot; }]
 });
 </code></pre><p>3、创建数据库用户</p>
 <p>1）创建一个可读写的用户</p>
-<pre><code>db.createUser({
+<pre><code>jasonhzy:PRIMARY&gt; use forum
+jasonhzy:PRIMARY&gt; db.createUser({
     user: &quot;rw&quot;,
     pwd: &quot;123456&quot;,
     roles: [{ role: &quot;readWrite&quot;, db: &quot;forum&quot; }]
 });
 </code></pre><p>2）创建一个只读用户 </p>
-<pre><code>db.createUser({
+<pre><code>jasonhzy:PRIMARY&gt; use forum
+jasonhzy:PRIMARY&gt; db.createUser({
     user: &quot;read&quot;,
     pwd: &quot;123456&quot;,
     roles: [{ role: &quot;read&quot;, db: &quot;forum&quot; }]
@@ -837,9 +841,31 @@ kill -4 8888 #其中 8888 为mongod进程号 ，该进程号可以通过 ps -axu
 </code></pre><p>mongod进程收到sigint信号或者sigterm信号，会做一些处理：关闭所有打开的连接，将内存数据强制刷新到磁盘，当前的操作执行完毕后在安全停止服务。</p>
 <p>推荐停止方法：登录控制台使用mongod命令shutdown的安全停止方式：</p>
 <pre><code>mongo -host 127.0.0.1 -port 27011
-&gt; use admin;                     --使用管理员数据库
-&gt; db.shutdownServer();           --安全关闭MongoDB
-</code></pre><p>参考资料</p>
+jasonhzy:PRIMARY&gt; use admin;                     --使用管理员数据库
+jasonhzy:PRIMARY&gt; db.shutdownServer();           --安全关闭MongoDB
+</code></pre><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>1、查看oplog状态： rs.printReplicationInfo()</p>
+<pre><code>jasonhzy:PRIMARY&gt; rs.printReplicationInfo()
+configured oplog size:   51200MB
+log length start to end: 720145secs (200.04hrs)
+oplog first event time:  Wed Mar 13 2019 15:40:55 GMT+0800 (CST)
+oplog last event time:   Thu Mar 21 2019 23:43:20 GMT+0800 (CST)
+now:                     Thu Mar 21 2019 23:43:29 GMT+0800 (CST)
+</code></pre><p>字段说明：</p>
+<pre><code>configured oplog size：配置的oplog文件大小。
+log length start to end：oplog日志的启用时间段。
+oplog first event time：第一个事务日志的产生时间。
+oplog last event time：最后一个事务日志的产生时间。
+now：现在的时间。
+</code></pre><p>2、查看复制节点及延迟：  rs.printSlaveReplicationInfo()</p>
+<pre><code>jasonhzy:PRIMARY&gt; rs.printSlaveReplicationInfo()
+source: 192.168.1.50:27011
+    syncedTo: Fri Mar 22 2019 11:31:57 GMT+0800 (CST)
+    0 secs (0 hrs) behind the primary 
+source: 192.168.1.60:27011
+    syncedTo: Fri Mar 22 2019 11:31:57 GMT+0800 (CST)
+    0 secs (0 hrs) behind the primary 
+</code></pre><p>3、查看服务状态详情:   db.serverStatus()</p>
+<p>参考资料</p>
 <p><a href="https://juejin.im/entry/58fc1d891b69e6005895eec6" target="_blank" rel="noopener">数据库高可用和分区解决方案 - MongoDB 篇</a><br><a href="http://www.cnblogs.com/kevingrace/p/5685486.html" target="_blank" rel="noopener">Mongodb主从复制/副本集/分片集群介绍</a></p>
 
       
@@ -919,8 +945,8 @@ kill -4 8888 #其中 8888 为mongod进程号 ，该进程号可以通过 ps -axu
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/13/ubuntu-chinese/" rel="next" title="Ubuntu安装中文">
-                <i class="fa fa-chevron-left"></i> Ubuntu安装中文
+              <a href="/2019/03/17/mongodb-command/" rel="next" title="MongoDB基本命令">
+                <i class="fa fa-chevron-left"></i> MongoDB基本命令
               </a>
             
           </div>
@@ -1005,7 +1031,7 @@ kill -4 8888 #其中 8888 为mongod进程号 ，该进程号可以通过 ps -axu
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">68</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1109,7 +1135,7 @@ kill -4 8888 #其中 8888 为mongod进程号 ，该进程号可以通过 ps -axu
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备环境"><span class="nav-number">1.</span> <span class="nav-text">准备环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本配置"><span class="nav-number">2.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置副本集"><span class="nav-number">3.</span> <span class="nav-text">配置副本集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离"><span class="nav-number">4.</span> <span class="nav-text">读写分离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群安全认证"><span class="nav-number">5.</span> <span class="nav-text">集群安全认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集群之间的安全认证"><span class="nav-number">5.1.</span> <span class="nav-text">集群之间的安全认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置"><span class="nav-number">5.2.</span> <span class="nav-text">修改配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主库创建用户"><span class="nav-number">5.3.</span> <span class="nav-text">主库创建用户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MongoDB内建角色"><span class="nav-number">5.3.1.</span> <span class="nav-text">MongoDB内建角色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建用户"><span class="nav-number">5.3.2.</span> <span class="nav-text">创建用户</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全停止MongoDB进程"><span class="nav-number">6.</span> <span class="nav-text">安全停止MongoDB进程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备环境"><span class="nav-number">1.</span> <span class="nav-text">准备环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本配置"><span class="nav-number">2.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置副本集"><span class="nav-number">3.</span> <span class="nav-text">配置副本集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离"><span class="nav-number">4.</span> <span class="nav-text">读写分离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群安全认证"><span class="nav-number">5.</span> <span class="nav-text">集群安全认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集群之间的安全认证"><span class="nav-number">5.1.</span> <span class="nav-text">集群之间的安全认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置"><span class="nav-number">5.2.</span> <span class="nav-text">修改配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主库创建用户"><span class="nav-number">5.3.</span> <span class="nav-text">主库创建用户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MongoDB内建角色"><span class="nav-number">5.3.1.</span> <span class="nav-text">MongoDB内建角色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建用户"><span class="nav-number">5.3.2.</span> <span class="nav-text">创建用户</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全停止MongoDB进程"><span class="nav-number">6.</span> <span class="nav-text">安全停止MongoDB进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">7.</span> <span class="nav-text">常用命令</span></a></li></ol></div>
             
 
           </div>
