@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
+<meta name="description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slave。目前已不推荐使用主从模式；副本集提供的冗余和高可用，可以读写分离，出现故障时自动切换；分片支持部署非常大的数据集，并提高系统的吞吐量。本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数">
 <meta name="keywords" content="MongoDB">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MongoDB搭建Replica Set">
 <meta property="og:url" content="http://jasonhzy.github.io/2019/03/19/mongodb-replicaset/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
+<meta property="og:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slave。目前已不推荐使用主从模式；副本集提供的冗余和高可用，可以读写分离，出现故障时自动切换；分片支持部署非常大的数据集，并提高系统的吞吐量。本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-21T06:33:56.000Z">
+<meta property="og:updated_time" content="2019-03-22T02:58:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB搭建Replica Set">
-<meta name="twitter:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。">
+<meta name="twitter:description" content="Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slave。目前已不推荐使用主从模式；副本集提供的冗余和高可用，可以读写分离，出现故障时自动切换；分片支持部署非常大的数据集，并提高系统的吞吐量。本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数">
 
 
 
@@ -404,7 +404,7 @@
       
 
       
-        <p>Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slaver，本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。</p>
+        <p>Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slave。目前已不推荐使用主从模式；副本集提供的冗余和高可用，可以读写分离，出现故障时自动切换；分片支持部署非常大的数据集，并提高系统的吞吐量。本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。</p>
 <a id="more"></a>
 <h2 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h2><pre><code>192.168.1.40 27011 centos7 PRIMARY（主）
 192.168.1.50 27011 centos7 SECONDARY（备用节点）
