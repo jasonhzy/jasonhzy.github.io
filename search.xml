@@ -4,6 +4,166 @@
   
     
     <entry>
+      <title><![CDATA[数据库事务]]></title>
+      <url>http://jasonhzy.github.io/2019/03/22/transaction/</url>
+      <content type="html"><![CDATA[<h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h2><p>事务,它是一个操作序列，这些操作要么都执行，要么都不执行，它是一个不可分割的工作单位。</p>
+<a id="more"></a>
+<h2 id="事务的特性"><a href="#事务的特性" class="headerlink" title="事务的特性"></a>事务的特性</h2><p>事务特性分为四个：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持续性（Durability）简称ACID。</p>
+<pre><code>原子性（Atomicity）：事务是数据库逻辑工作单元，事务中包含的操作要么都执行成功，要么都执行失败。
+一致性（Consistency）：事务执行的结果必须是使数据库数据从一个一致性状态变到另外一种一致性状态。
+    当事务执行成功后就说数据库处于一致性状态。如果在执行过程中发生错误，这些未完成事务对数据库所
+    做的修改有一部分已写入物理数据库，这是数据库就处于不一致状态。
+隔离性（Isolation）：一个事务的执行过程中不能影响到其他事务的执行，即一个事务内部的操作及使用的
+    数据对其他事务是隔离的，并发执行各个事务之间无不干扰。
+持久性（Durability）：即一个事务执一旦提交，它对数据库数据的改变是永久性的。之后的其它操作不应该
+    对其执行结果有任何影响。
+</code></pre><h2 id="事务控制"><a href="#事务控制" class="headerlink" title="事务控制"></a>事务控制</h2><p>MySQL默认采用自动提交(autocommit) 模式。 即执行SQL语句后就会马上执行COMMIT操作，也就是隐式的开启了一个事务。但如果显式地开始一个事务，需使用begin、start transaction，或者执行set autocommit=0，以禁用当前会话的自动提交。对于非事务型存储引擎（例如MyISAM），修改autocommit属性是不会有影响的。</p>
+<p>1、查看当前数据库autocommit的设置：</p>
+<pre><code>mysql&gt; show variables like &apos;%autocommit%&apos;;
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| autocommit    | ON    |
++---------------+-------+
+1 row in set (0.00 sec)
+</code></pre><p>即为开启状态，如果是1或ON, 则表示已经开启了, 0或OFF表示禁用。</p>
+<p>2、修改自动提交方式：</p>
+<pre><code>set session autocommit=0 或者 set global autocommit=0
+</code></pre><p>上述SQL修改会话系统变量或全局系统变量，只对当前实例有效，如果MySQL服务重启的话，这些设置就会丢失，如要永久生效，就必须在配置文件中修改系统变量。</p>
+<p>3、事务控制语句：<br>1）start transaction／begin：均为显式地开启一个事务。在存储过程中，MySQL分析会自动将begin识别为begin……end。因此在存储过程中，只能使用start transaction语句来开启一个事务<br>2）commit／commit work：用来提交事务，对数据库永久性的修改。不同之处在于，commit work用来控制事务结束后的行为（可以用 select @@completion_type 查看值，默认是0或NO_CHAIN），是chain还是release的</p>
+<pre><code>completion_type=0，二者等价
+completion_type=1，commit work等同于commit and chain，表示马上自动开启一个相同隔离级别的事务
+completion_type=2，commit work等同于commit and release。表示当事务提交后会自动断开与服务器的连接
+</code></pre><p>3）rollback／rollback work：用来回滚事务，并撤销正在进行的所有未提交的修改。rollback，rollback work与commit，commit work的工作原理一样的<br>4）savepoint &lt;identifier>：在事务中创建保存点，一个事务允许有多个保存点。如果当前事务有一个同样名称的保存点，则旧的保存点被删除，新的保存点被设置。利用savepoint可以回滚指定部分事务，从而使事务处理更加灵活和精细<br>5）release savepoint &lt;identifier>：删除一个事务的保存点，不出现提交或回滚。当没有指定的保存点时，执行该语句会抛出一个异常<br>6）rollback to &lt;identifier>：事务回滚到标记点，而不回滚在此标记点之前的任何工作</p>
+<h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><style>
+    table th:first-of-type {
+        width: 32%;
+    }
+    table th:nth-of-type(3) {
+        width: 30%;
+    }
+    table th:nth-of-type(4) {
+            width: 20%;
+        }
+</style>
+
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th style="text-align:center">脏读<br>（Dirty）</th>
+<th style="text-align:center">不可重复读<br>（NonRepeatable Read）</th>
+<th style="text-align:center">幻读<br>（Phantom Read）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未提交读（Read Uncommitted）</td>
+<td style="text-align:center">可能</td>
+<td style="text-align:center">可能</td>
+<td style="text-align:center">可能</td>
+</tr>
+<tr>
+<td>已提交读（Read Committed）</td>
+<td style="text-align:center">不可能</td>
+<td style="text-align:center">可能</td>
+<td style="text-align:center">可能</td>
+</tr>
+<tr>
+<td>可重复读（Repeatable Read）</td>
+<td style="text-align:center">不可能</td>
+<td style="text-align:center">不可能</td>
+<td style="text-align:center">可能</td>
+</tr>
+<tr>
+<td>可串行化（Serializable）</td>
+<td style="text-align:center">不可能</td>
+<td style="text-align:center">不可能</td>
+<td style="text-align:center">不可能</td>
+</tr>
+</tbody>
+</table>
+<p>脏读：是指在一个事务处理过程里读取了另一个未提交的事务中的数据。<br>不可重复读：一个事务两次读取同一行的数据，结果得到不同状态的结果，中间正好另一个事务更新了该数据，两次结果相异，不可被信任。<br>幻读／虚读：一个事务执行两次查询，第二次结果集包含第一次中没有或某些行已经被删除的数据，造成两次结果不一致，只是另一个事务在这两次查询中间插入或删除了数据造成的。幻读是事务非独立执行时发生的一种现象。</p>
+<p>查看mysql的事务隔离级别：</p>
+<pre><code>select @@tx_isolation 或 show variables like &apos;%tx_isolation%&apos;
+</code></pre><p>例如：</p>
+<pre><code>mysql&gt; show variables like &apos;%tx_isolation%&apos;;
++---------------+-----------------+
+| Variable_name | Value           |
++---------------+-----------------+
+| tx_isolation  | REPEATABLE-READ |
++---------------+-----------------+
+1 row in set (0.00 sec)
+</code></pre><p>修改事务隔离级别（当前会话内）：    </p>
+<pre><code>set session transaction isolation level read uncommitted;
+</code></pre><h3 id="未提交读（读取到未提交数据）"><a href="#未提交读（读取到未提交数据）" class="headerlink" title="未提交读（读取到未提交数据）"></a>未提交读（读取到未提交数据）</h3><p>事务并没有commit，但是我们仍然能读到未提交的数据。实际上当我们的数据并没有commit时，次数读取的结果是不正确的。</p>
+<pre><code>mysql&gt; set session transaction isolation level read committed;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; show variables like &apos;%tx_isolation%&apos;;
++---------------+------------------+
+| Variable_name | Value            |
++---------------+------------------+
+| tx_isolation  | READ-UNCOMMITTED |
++---------------+------------------+
+1 row in set (0.00 sec)    
+</code></pre><p> <img src="/images/transaction/read-uncommitted.png" alt="transaction"> </p>
+<p>开启两个事务，隔离级别均是未提交读。事务1执行更新操作（步骤1），此时事务并未提交，事务2此时可以查询到事务1未提交的更新结果（步骤2）。<br>当前事务能够查询到其他事务仲未提交的数据信息，对于这种现象我们称之为”脏读”。除此之外还可能导致不可重复读以及幻读</p>
+<h3 id="提交读（可以读取其他事务提交的数据）"><a href="#提交读（可以读取其他事务提交的数据）" class="headerlink" title="提交读（可以读取其他事务提交的数据）"></a>提交读（可以读取其他事务提交的数据）</h3><p>大多数数据库默认的隔离级别，如Oracle。当前事务只能读取到其他事务提交的数据，未提交的数据读不到。</p>
+<pre><code>mysql&gt; set session transaction isolation level read committed;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; show variables like &apos;%tx_isolation%&apos;;
++---------------+------------------+
+| Variable_name | Value            |
++---------------+------------------+
+| tx_isolation  | READ-COMMITTED |
++---------------+------------------+
+1 row in set (0.00 sec)    
+</code></pre><p><img src="/images/transaction/read-committed.png" alt="transaction"></p>
+<p>开启两个事务，隔离级别均是提交读。事务2查询数据库得到结果（步骤1），此时事务1执行更新操作（步骤2）并提交更新（步骤3），事务2再次查询数据库得到结果（步骤4）。<br>事务2同一个在同一个事务内两次查询数据库得到结果却不相同，对于这种现象我们称之为”不可重复读”。在此隔离级别下，还可能导致幻读，如下图所示：<br><img src="/images/transaction/phantom-read.png" alt="transaction"></p>
+<h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>当前事务可以重复读，每次读取的结果集都相同，而不管其他事务有没有提交。MySQL默认的隔离级别。<br>    mysql&gt; set session transaction isolation level repeatable read;<br>    Query OK, 0 rows affected (0.00 sec)</p>
+<pre><code>mysql&gt; show variables like &apos;%tx_isolation%&apos;;
++---------------+------------------+
+| Variable_name | Value            |
++---------------+------------------+
+| tx_isolation  | REPEATABLE-READ |
++---------------+------------------+
+1 row in set (0.00 sec)
+</code></pre><p><img src="/images/transaction/repeatable-read.png" alt="transaction"><br>开启两个事务，隔离级别均是可重复读。事务2查询数据库得到结果（步骤1），此时事务1执行更新操作（步骤2）并提交更新（步骤3），事务2再次查询数据库得到结果（步骤4），从截图中可以看出步骤1和4查询的结果是一致的，满足当前可重复读的级别。</p>
+<h3 id="串行化"><a href="#串行化" class="headerlink" title="串行化"></a>串行化</h3><pre><code>mysql&gt; set session transaction isolation level serializable;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; show variables like &apos;%tx_isolation%&apos;;
++---------------+------------------+
+| Variable_name | Value            |
++---------------+------------------+
+| tx_isolation  | SERIALIZABLE |
++---------------+------------------+
+1 row in set (0.00 sec)
+</code></pre><p><img src="/images/transaction/serializable.png" alt="transaction"><br>开启两个事务，隔离级别均是串行化。从事务2中的报错信息来看，事务1执行插入操作（步骤1）时对表加了写锁，事务2对表进行查询时，会被阻塞，从而出现超时情况。事务2再次查询（步骤3）仍然处于等待状态，当事务1提交commit（步骤4）之后，事务2即可显示查询结果。</p>
+<p>四种隔离级别的加锁策略如下：</p>
+<p>读未提交（Read Uncommitted）：事务读不阻塞其他事务读和写，事务写阻塞其他事务写但不阻塞读；通过对写操作加 “持续X锁”，对读操作不加锁 实现；<br>读已提交（Read Committed）：事务读不会阻塞其他事务读和写，事务写会阻塞其他事务读和写；通过对写操作加 “持续X锁”，对读操作加 “临时S锁” 实现；不会出现脏读；<br>可重复读（Repeatable Read）：事务读会阻塞其他事务事务写但不阻塞读，事务写会阻塞其他事务读和写；通过对写操作加 “持续X锁”，对读操作加 “持续S锁” 实现；<br>序列化（Serializable）：为了解决幻读问题，行级锁做不到，需使用表级锁。</p>
+<p>参考资料</p>
+<p><img src="http://hedengcheng.com/?p=771" alt="MySQL 加锁处理分析"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Transaction </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Transaction </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[MongoDB搭建Replica Set]]></title>
       <url>http://jasonhzy.github.io/2019/03/19/mongodb-replicaset/</url>
       <content type="html"><![CDATA[<p>Mongodb是NoSql数据库，它的存储方式是文档式存储，并不是Key-Value形式。Mongodb的三种集群方式的搭建：Replica Set/Sharding/Master-Slave。目前已不推荐使用主从模式；副本集提供的冗余和高可用，可以读写分离，出现故障时自动切换；分片支持部署非常大的数据集，并提高系统的吞吐量。本文只简单介绍一主一备一仲裁的Replica Set方式，主备节点存储数据，仲裁节点不存储数据。</p>
@@ -1670,6 +1830,9 @@ character-set-server = utf8mb4
 collation-server = utf8mb4_unicode_ci
 # init_connect = &apos;SET NAMES utf8mb4&apos;
 # skip-character-set-client-handshake = true
+
+# 禁用自动提交方式
+# autocommit=0
 
 # explicit_defaults_for_timestamp = true
 # 设置时区
