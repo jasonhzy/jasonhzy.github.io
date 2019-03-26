@@ -145,7 +145,7 @@ mysql&gt; show variables like &apos;%tx_isolation%&apos;;
 <p>四种隔离级别的加锁策略如下：</p>
 <p>读未提交（Read Uncommitted）：事务读不阻塞其他事务读和写，事务写阻塞其他事务写但不阻塞读；通过对写操作加 “持续X锁”，对读操作不加锁 实现；<br>读已提交（Read Committed）：事务读不会阻塞其他事务读和写，事务写会阻塞其他事务读和写；通过对写操作加 “持续X锁”，对读操作加 “临时S锁” 实现；不会出现脏读；<br>可重复读（Repeatable Read）：事务读会阻塞其他事务事务写但不阻塞读，事务写会阻塞其他事务读和写；通过对写操作加 “持续X锁”，对读操作加 “持续S锁” 实现；<br>序列化（Serializable）：为了解决幻读问题，行级锁做不到，需使用表级锁。</p>
 <p>参考资料</p>
-<p><img src="http://hedengcheng.com/?p=771" alt="MySQL 加锁处理分析"></p>
+<p><a href="http://hedengcheng.com/?p=771" target="_blank" rel="noopener">MySQL 加锁处理分析</a></p>
 ]]></content>
       
         <categories>
