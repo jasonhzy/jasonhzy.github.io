@@ -131,6 +131,9 @@ mysql&gt; show variables like &apos;%tx_isolation%&apos;;
 +---------------+------------------+
 1 row in set (0.00 sec)
 </code></pre><p><img src="/images/transaction/repeatable-read.png" alt="transaction"><br>开启两个事务，隔离级别均是可重复读。事务2查询数据库得到结果（步骤1），此时事务1执行更新操作（步骤2）并提交更新（步骤3），事务2再次查询数据库得到结果（步骤4），从截图中可以看出步骤1和4查询的结果是一致的，满足当前可重复读的级别。</p>
+<p>以下列出幻读的情况：</p>
+<p>第一种：<br><img src="/images/transaction/phantom-read1.png" alt="transaction1"></p>
+<p>第二种：<br><img src="/images/transaction/phantom-read2.png" alt="transaction2"></p>
 <h3 id="串行化"><a href="#串行化" class="headerlink" title="串行化"></a>串行化</h3><pre><code>mysql&gt; set session transaction isolation level serializable;
 Query OK, 0 rows affected (0.00 sec)
 
