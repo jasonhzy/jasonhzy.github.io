@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="PHP,">
 
 
 
@@ -93,16 +93,18 @@
 
 
 
-<meta name="description" content="Share experience summary">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jason Website">
-<meta property="og:url" content="http://jasonhzy.github.io/archives/2017/01/index.html">
+<meta name="description" content="PHP结合MySQL或Redis简单设计的秒杀系统，在高并发情况下下单，防止商品库存超发的情况。">
+<meta name="keywords" content="PHP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP结合MySQL／Redis秒杀系统">
+<meta property="og:url" content="http://jasonhzy.github.io/2019/03/14/php-seckill/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Share experience summary">
+<meta property="og:description" content="PHP结合MySQL或Redis简单设计的秒杀系统，在高并发情况下下单，防止商品库存超发的情况。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-28T13:19:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jason Website">
-<meta name="twitter:description" content="Share experience summary">
+<meta name="twitter:title" content="PHP结合MySQL／Redis秒杀系统">
+<meta name="twitter:description" content="PHP结合MySQL或Redis简单设计的秒杀系统，在高并发情况下下单，防止商品库存超发的情况。">
 
 
 
@@ -130,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/archives/2017/01/">
+  <link rel="canonical" href="http://jasonhzy.github.io/2019/03/14/php-seckill/">
 
 
 
 
 
-  <title>归档 | Jason Website</title>
+  <title>PHP结合MySQL／Redis秒杀系统 | Jason Website</title>
   
 
 
@@ -171,7 +173,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <!-- --------- add Fork me on Github ---------- -->
@@ -301,63 +303,476 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-       
-        
-      好! 目前共计 70 篇日志。 继续努力。
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2019/03/14/php-seckill/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jason hu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jason Website">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PHP结合MySQL／Redis秒杀系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T14:47:57+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"> 浏览</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <p>PHP结合MySQL或Redis简单设计的秒杀系统，在高并发情况下下单，防止商品库存超发的情况。</p>
+<a id="more"></a>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1、PHP5.6<br>2、Redis4.0.2<br>3、MySQL5.7</p>
+<h2 id="MySQL表格"><a href="#MySQL表格" class="headerlink" title="MySQL表格"></a>MySQL表格</h2><p>创建产品表product：</p>
+<pre><code>CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL DEFAULT &apos;&apos;,
+  `num` int(11) NOT NULL DEFAULT &apos;0&apos;,
+  `version` int(11) NOT NULL DEFAULT &apos;0&apos;,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+</code></pre><p>创建订单表bill：</p>
+<pre><code>CREATE TABLE `bill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bill_no` varchar(60) NOT NULL DEFAULT &apos;&apos;,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userId` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+</code></pre><h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><pre><code>//concurrency.php
+&lt;?php
+    try {
+        $conn = get_mysql_conn();
+
+        $userId = rand(1, 10000);
+        $bill_no = &apos;bill&apos; . (int)(microtime(true) * 1000) . $userId;
+        $buy_num = 1;
+        miaosha_x($conn, $userId, $bill_no, $buy_num);
+        //miaosha_redis($conn, $userId, $bill_no, $buy_num);
+        //miaosha_redis($conn, $userId, $bill_no, $buy_num);
+    } catch (Exception $e) {
+        exit($e-&gt;getMessage());
+    }
+
+    /**
+     * @desc: 连接mysql
+     * @return \mysqli
+     * @throws \Exception
+     */
+    function get_mysql_conn()
+    {
+        $conf = array(
+            &apos;host&apos; =&gt; &apos;192.168.1.40&apos;,
+            &apos;db&apos; =&gt; &apos;test&apos;,
+            &apos;user&apos; =&gt; &apos;jason&apos;,
+            &apos;pwd&apos; =&gt; &apos;123456&apos;,
+            &apos;port&apos; =&gt; 8888
+        );
+
+        $conn = new mysqli($conf[&apos;host&apos;], $conf[&apos;user&apos;], $conf[&apos;pwd&apos;], $conf[&apos;db&apos;], $conf[&apos;port&apos;]);
+        if (mysqli_connect_errno()) {
+            throw new Exception(mysqli_connect_error());
+        }
+        return $conn;
+    }
+
+    /**
+     * @desc: 连接redis
+     * @return \Redis
+     * @throws \Exception
+     */
+    function get_redis_conn()
+    {
+        try {
+            $redis = new Redis();
+            $redis-&gt;pconnect(&quot;127.0.0.1&quot;, 6379); //采用localhost连接会很慢
+            $redis-&gt;auth(&quot;beecloud&quot;);
+            return $redis;
+        } catch (Exception $e) {
+            throw new Exception(&quot;Redis: &quot; . $e-&gt;getMessage());
+        }
+    }
+
+    /**
+     * @desc: 利用数据库的悲观锁（排它锁X）
+     *
+     * @param $conn
+     * @param $userId
+     * @param $bill_no
+     * @param $buy_num
+     */
+    function miaosha_x($conn, $userId, $bill_no, $buy_num)
+    {
+        $conn-&gt;query(&apos;BEGIN&apos;);
+        $sql = &quot;select * from product where id = 1 for update&quot;;
+        $rs = $conn-&gt;query($sql);
+        $row = $rs-&gt;fetch_assoc();
+        if (!empty($row)) {
+            $num = $row[&apos;num&apos;];
+            $id = $row[&apos;id&apos;];
+            if ($num &gt; 0) {
+                $sql = &quot;update product set num = num - $buy_num where id = &quot; . $id;
+                $conn-&gt;query($sql);
+                if (mysqli_affected_rows($conn)) {
+                    $sql = &quot;insert into bill(`user_id`, `product_id`, `bill_no`, `count`) 
+                      values($userId, $id, &apos;$bill_no&apos;, $buy_num)&quot;;
+                    $conn-&gt;query($sql);
+                    if (!mysqli_affected_rows($conn)) {
+                        $conn-&gt;query(&apos;ROLLBACK&apos;);
+                    }
+                }
+            }
+        }
+        $conn-&gt;query(&apos;COMMIT&apos;);
+        $conn-&gt;close();
+    }
+
+    /**
+     * @desc: 利用数据库的乐观锁（共享锁S）
+     *
+     * @param $conn
+     * @param $userId
+     * @param $bill_no
+     * @param $buy_num
+     */
+    function miaosha_s($conn, $userId, $bill_no, $buy_num)
+    {
+        $conn-&gt;query(&apos;BEGIN&apos;);
+        $sql = &quot;select * from product where id = 1&quot;;
+        $rs = $conn-&gt;query($sql);
+        $row = $rs-&gt;fetch_assoc();
+        if (!empty($row)) {
+            $version = $row[&apos;version&apos;];
+            $num = $row[&apos;num&apos;];
+            $id = $row[&apos;id&apos;];
+            if ($num &gt; 0) {
+                //$sql = &quot;update product set num = num - 1 where id = &quot; . $id . &quot; and num = $num&quot;;
+                $sql = &quot;update product set num = num - $buy_num, version = version + 1 where id = &quot; . $id . &quot; and version = $version&quot;;
+                $conn-&gt;query($sql);
+                if (mysqli_affected_rows($conn)) {
+                    $sql = &quot;insert into bill(`user_id`, `product_id`, `bill_no`, `count`) 
+                      values($userId, $id, &apos;$bill_no&apos;, $buy_num)&quot;;
+                    $conn-&gt;query($sql);
+                    if (!mysqli_affected_rows($conn)) {
+                        $conn-&gt;query(&apos;ROLLBACK&apos;);
+                    }
+                }
+            }
+        }
+        $conn-&gt;query(&apos;COMMIT&apos;);
+        $conn-&gt;close();
+    }
+
+    /**
+     * @desc: 利用redis实现商品秒杀下单
+     *
+     * @param $conn
+     * @param $userId
+     * @param $bill_no
+     * @param $buy_num
+     *
+     * @throws \Exception
+     */
+    function miaosha_redis($conn, $userId, $bill_no, $buy_num)
+    {
+        $conn-&gt;query(&apos;BEGIN&apos;);
+        $sql = &quot;select * from product where id = 1&quot;;
+        $rs = $conn-&gt;query($sql);
+        $row = $rs-&gt;fetch_assoc();
+        if (!empty($row)) {
+            $num = $row[&apos;num&apos;];
+            $id = $row[&apos;id&apos;];
+
+            $redis = get_redis_conn();
+
+            $good_amount_key = &apos;product_&apos; . $id;
+            //商品总数
+            if (!$redis-&gt;exists($good_amount_key)) {
+                $redis-&gt;setnx($good_amount_key, $num);
+            }
+            $good_amount = $redis-&gt;get($good_amount_key);
+
+            $key = &apos;product_num_&apos; . $id;
+            if (!($redis-&gt;incrBy($key, $buy_num) &gt; $good_amount)) {
+                $sql = &quot;update product set num = num - $buy_num where id = &quot; . $id;
+                $conn-&gt;query($sql);
+                if (mysqli_affected_rows($conn)) {
+                    $sql = &quot;insert into bill(`user_id`, `product_id`, `bill_no`, `count`) 
+                      values($userId, $id, &apos;$bill_no&apos;, $buy_num)&quot;;
+                    $conn-&gt;query($sql);
+                    if (!mysqli_affected_rows($conn)) {
+                        $conn-&gt;query(&apos;ROLLBACK&apos;);
+                    }
+                }
+            }
+            //关闭redis连接
+            $redis-&gt;close();
+            $conn-&gt;query(&apos;COMMIT&apos;);
+            $conn-&gt;close();
+        }
+    }
+</code></pre><h2 id="ab测试"><a href="#ab测试" class="headerlink" title="ab测试"></a>ab测试</h2><p>测试命令：</p>
+<pre><code>ab -c 110 -n 1000 http://localhost/concurrency.php
+</code></pre><p>参数描述：</p>
+<pre><code>-n 表示请求数
+-c 表示并发数 
+-t 表示多少s内并发和请求
+</code></pre><p>利用数据库的悲观锁（排它锁X）测试结果：</p>
+<pre><code>This is ApacheBench, Version 2.3 &lt;$Revision: 1843412 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        nginx
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /concurrent.php
+Document Length:        0 bytes
+
+Concurrency Level:      110   # 并发请求数
+Time taken for tests:   4.185 seconds  # 整个测试持续的时间
+Complete requests:      1000  # 完成的请求数
+Failed requests:        0  # 失败的请求数
+Total transferred:      130000 bytes # 所有请求的响应数据长度总和，包括每个http响应数据的头信息和正文数据的长度。
+                    注意这里不包括http请求数据的长度，从Web服务器流向用户PC的应用层数据总长度
+HTML transferred:       0 bytes # 所有请求的响应数据中正文数据的总和，也就是减去了Total transferred中
+                    http响应数据中头信息的长度。
+Requests per second:    238.94 [#/sec] (mean) # 最重要的指标之一:吞吐率，表示当前机器的整体性能，值越大越好。
+                    即：Complete requests / Time taken for tests， mean表示这是一个平均值
+Time per request:       460.375 [ms] (mean) # 最重要的指标之二: 用户平均请求等待时间，
+                    即：Time taken for tests / (Complete requests /Concurrency Level)
+Time per request:       4.185 [ms] (mean, across all concurrent requests) # 服务器平均请求处理时间，
+                    即：Time taken for tests / Complete requests
+Transfer rate:          30.33 [Kbytes/sec] received # 这些请求在单位时间内从服务器获取的数据长度，
+                    即：Total transferred / Time taken for tests
+
+# 花费在连接Connect，处理Processing，等待Waiting的时间的最小min，平均值mean，标准差[+/-sd]，中值median，最大表max的一个表。
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   0.9      0       4
+Processing:    35  435 102.9    418     805
+Waiting:       35  435 102.9    418     805
+Total:         39  435 102.7    419     807
+WARNING: The median and mean for the initial connection time are not within a normal deviation
+        These results are probably not that reliable.
+
+Percentage of the requests served within a certain time (ms)
+  50%    419 # 50%请求的响应时间在419ms内
+  66%    443 # ...以此类推
+  75%    455
+  80%    463
+  90%    549
+  95%    667
+  98%    748
+  99%    773
+ 100%    807 (longest request)
+</code></pre>
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>轻轻的我走了，正如我轻轻的来</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wxpay.jpg" alt="Jason hu WeChat Pay">
+          <p>微信打赏</p>
         </div>
       
       
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="Jason hu Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
 
       
+    </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/01/07/php-generate-qr/" itemprop="url">
-              
-                <span itemprop="name">PHP GD库合成图片</span>
-              
-            </a>
-        
-      </h2>
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Jason hu
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jasonhzy.github.io/2019/03/14/php-seckill/" title="PHP结合MySQL／Redis秒杀系统">http://jasonhzy.github.io/2019/03/14/php-seckill/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2017-01-07T11:02:20+08:00" content="2017-01-07">
-          01-07
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/13/ubuntu-chinese/" rel="next" title="Ubuntu安装中文">
+                <i class="fa fa-chevron-left"></i> Ubuntu安装中文
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/17/mongodb-command/" rel="prev" title="MongoDB基本命令">
+                MongoDB基本命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
-  </section>
-
-  
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -365,6 +780,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -385,8 +811,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jason hu">
           <p class="site-author-name" itemprop="name">Jason hu</p>
@@ -493,6 +928,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL表格"><span class="nav-number">2.</span> <span class="nav-text">MySQL表格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">3.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ab测试"><span class="nav-number">4.</span> <span class="nav-text">ab测试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -626,11 +1077,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   
@@ -647,6 +1096,18 @@
 
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jasonhzy.github.io/2019/03/14/php-seckill/';
+          this.page.identifier = '2019/03/14/php-seckill/';
+          this.page.title = 'PHP结合MySQL／Redis秒杀系统';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jasonhzy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   

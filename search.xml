@@ -681,6 +681,288 @@ db.User.update({},{$currentDate:{&quot;create_time&quot;:true}}, false, true)
     </entry>
     
     <entry>
+      <title><![CDATA[PHP结合MySQL／Redis秒杀系统]]></title>
+      <url>http://jasonhzy.github.io/2019/03/14/php-seckill/</url>
+      <content type="html"><![CDATA[<p>PHP结合MySQL或Redis简单设计的秒杀系统，在高并发情况下下单，防止商品库存超发的情况。</p>
+<a id="more"></a>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1、PHP5.6<br>2、Redis4.0.2<br>3、MySQL5.7</p>
+<h2 id="MySQL表格"><a href="#MySQL表格" class="headerlink" title="MySQL表格"></a>MySQL表格</h2><p>创建产品表product：</p>
+<pre><code>CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL DEFAULT &apos;&apos;,
+  `num` int(11) NOT NULL DEFAULT &apos;0&apos;,
+  `version` int(11) NOT NULL DEFAULT &apos;0&apos;,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+</code></pre><p>创建订单表bill：</p>
+<pre><code>CREATE TABLE `bill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bill_no` varchar(60) NOT NULL DEFAULT &apos;&apos;,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userId` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+</code></pre><h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><pre><code>//concurrency.php
+&lt;?php
+    try {
+        $conn = get_mysql_conn();
+
+        $userId = rand(1, 10000);
+        $bill_no = &apos;bill&apos; . (int)(microtime(true) * 1000) . $userId;
+        $buy_num = 1;
+        miaosha_x($conn, $userId, $bill_no, $buy_num);
+        //miaosha_redis($conn, $userId, $bill_no, $buy_num);
+        //miaosha_redis($conn, $userId, $bill_no, $buy_num);
+    } catch (Exception $e) {
+        exit($e-&gt;getMessage());
+    }
+
+    /**
+     * @desc: 连接mysql
+     * @return \mysqli
+     * @throws \Exception
+     */
+    function get_mysql_conn()
+    {
+        $conf = array(
+            &apos;host&apos; =&gt; &apos;192.168.1.40&apos;,
+            &apos;db&apos; =&gt; &apos;test&apos;,
+            &apos;user&apos; =&gt; &apos;jason&apos;,
+            &apos;pwd&apos; =&gt; &apos;123456&apos;,
+            &apos;port&apos; =&gt; 8888
+        );
+
+        $conn = new mysqli($conf[&apos;host&apos;], $conf[&apos;user&apos;], $conf[&apos;pwd&apos;], $conf[&apos;db&apos;], $conf[&apos;port&apos;]);
+        if (mysqli_connect_errno()) {
+            throw new Exception(mysqli_connect_error());
+        }
+        return $conn;
+    }
+
+    /**
+     * @desc: 连接redis
+     * @return \Redis
+     * @throws \Exception
+     */
+    function get_redis_conn()
+    {
+        try {
+            $redis = new Redis();
+            $redis-&gt;pconnect(&quot;127.0.0.1&quot;, 6379); //采用localhost连接会很慢
+            $redis-&gt;auth(&quot;beecloud&quot;);
+            return $redis;
+        } catch (Exception $e) {
+            throw new Exception(&quot;Redis: &quot; . $e-&gt;getMessage());
+        }
+    }
+
+    /**
+     * @desc: 利用数据库的悲观锁（排它锁X）
+     *
+     * @param $conn
+     * @param $userId
+     * @param $bill_no
+     * @param $buy_num
+     */
+    function miaosha_x($conn, $userId, $bill_no, $buy_num)
+    {
+        $conn-&gt;query(&apos;BEGIN&apos;);
+        $sql = &quot;select * from product where id = 1 for update&quot;;
+        $rs = $conn-&gt;query($sql);
+        $row = $rs-&gt;fetch_assoc();
+        if (!empty($row)) {
+            $num = $row[&apos;num&apos;];
+            $id = $row[&apos;id&apos;];
+            if ($num &gt; 0) {
+                $sql = &quot;update product set num = num - $buy_num where id = &quot; . $id;
+                $conn-&gt;query($sql);
+                if (mysqli_affected_rows($conn)) {
+                    $sql = &quot;insert into bill(`user_id`, `product_id`, `bill_no`, `count`) 
+                      values($userId, $id, &apos;$bill_no&apos;, $buy_num)&quot;;
+                    $conn-&gt;query($sql);
+                    if (!mysqli_affected_rows($conn)) {
+                        $conn-&gt;query(&apos;ROLLBACK&apos;);
+                    }
+                }
+            }
+        }
+        $conn-&gt;query(&apos;COMMIT&apos;);
+        $conn-&gt;close();
+    }
+
+    /**
+     * @desc: 利用数据库的乐观锁（共享锁S）
+     *
+     * @param $conn
+     * @param $userId
+     * @param $bill_no
+     * @param $buy_num
+     */
+    function miaosha_s($conn, $userId, $bill_no, $buy_num)
+    {
+        $conn-&gt;query(&apos;BEGIN&apos;);
+        $sql = &quot;select * from product where id = 1&quot;;
+        $rs = $conn-&gt;query($sql);
+        $row = $rs-&gt;fetch_assoc();
+        if (!empty($row)) {
+            $version = $row[&apos;version&apos;];
+            $num = $row[&apos;num&apos;];
+            $id = $row[&apos;id&apos;];
+            if ($num &gt; 0) {
+                //$sql = &quot;update product set num = num - 1 where id = &quot; . $id . &quot; and num = $num&quot;;
+                $sql = &quot;update product set num = num - $buy_num, version = version + 1 where id = &quot; . $id . &quot; and version = $version&quot;;
+                $conn-&gt;query($sql);
+                if (mysqli_affected_rows($conn)) {
+                    $sql = &quot;insert into bill(`user_id`, `product_id`, `bill_no`, `count`) 
+                      values($userId, $id, &apos;$bill_no&apos;, $buy_num)&quot;;
+                    $conn-&gt;query($sql);
+                    if (!mysqli_affected_rows($conn)) {
+                        $conn-&gt;query(&apos;ROLLBACK&apos;);
+                    }
+                }
+            }
+        }
+        $conn-&gt;query(&apos;COMMIT&apos;);
+        $conn-&gt;close();
+    }
+
+    /**
+     * @desc: 利用redis实现商品秒杀下单
+     *
+     * @param $conn
+     * @param $userId
+     * @param $bill_no
+     * @param $buy_num
+     *
+     * @throws \Exception
+     */
+    function miaosha_redis($conn, $userId, $bill_no, $buy_num)
+    {
+        $conn-&gt;query(&apos;BEGIN&apos;);
+        $sql = &quot;select * from product where id = 1&quot;;
+        $rs = $conn-&gt;query($sql);
+        $row = $rs-&gt;fetch_assoc();
+        if (!empty($row)) {
+            $num = $row[&apos;num&apos;];
+            $id = $row[&apos;id&apos;];
+
+            $redis = get_redis_conn();
+
+            $good_amount_key = &apos;product_&apos; . $id;
+            //商品总数
+            if (!$redis-&gt;exists($good_amount_key)) {
+                $redis-&gt;setnx($good_amount_key, $num);
+            }
+            $good_amount = $redis-&gt;get($good_amount_key);
+
+            $key = &apos;product_num_&apos; . $id;
+            if (!($redis-&gt;incrBy($key, $buy_num) &gt; $good_amount)) {
+                $sql = &quot;update product set num = num - $buy_num where id = &quot; . $id;
+                $conn-&gt;query($sql);
+                if (mysqli_affected_rows($conn)) {
+                    $sql = &quot;insert into bill(`user_id`, `product_id`, `bill_no`, `count`) 
+                      values($userId, $id, &apos;$bill_no&apos;, $buy_num)&quot;;
+                    $conn-&gt;query($sql);
+                    if (!mysqli_affected_rows($conn)) {
+                        $conn-&gt;query(&apos;ROLLBACK&apos;);
+                    }
+                }
+            }
+            //关闭redis连接
+            $redis-&gt;close();
+            $conn-&gt;query(&apos;COMMIT&apos;);
+            $conn-&gt;close();
+        }
+    }
+</code></pre><h2 id="ab测试"><a href="#ab测试" class="headerlink" title="ab测试"></a>ab测试</h2><p>测试命令：</p>
+<pre><code>ab -c 110 -n 1000 http://localhost/concurrency.php
+</code></pre><p>参数描述：</p>
+<pre><code>-n 表示请求数
+-c 表示并发数 
+-t 表示多少s内并发和请求
+</code></pre><p>利用数据库的悲观锁（排它锁X）测试结果：</p>
+<pre><code>This is ApacheBench, Version 2.3 &lt;$Revision: 1843412 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        nginx
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /concurrent.php
+Document Length:        0 bytes
+
+Concurrency Level:      110   # 并发请求数
+Time taken for tests:   4.185 seconds  # 整个测试持续的时间
+Complete requests:      1000  # 完成的请求数
+Failed requests:        0  # 失败的请求数
+Total transferred:      130000 bytes # 所有请求的响应数据长度总和，包括每个http响应数据的头信息和正文数据的长度。
+                    注意这里不包括http请求数据的长度，从Web服务器流向用户PC的应用层数据总长度
+HTML transferred:       0 bytes # 所有请求的响应数据中正文数据的总和，也就是减去了Total transferred中
+                    http响应数据中头信息的长度。
+Requests per second:    238.94 [#/sec] (mean) # 最重要的指标之一:吞吐率，表示当前机器的整体性能，值越大越好。
+                    即：Complete requests / Time taken for tests， mean表示这是一个平均值
+Time per request:       460.375 [ms] (mean) # 最重要的指标之二: 用户平均请求等待时间，
+                    即：Time taken for tests / (Complete requests /Concurrency Level)
+Time per request:       4.185 [ms] (mean, across all concurrent requests) # 服务器平均请求处理时间，
+                    即：Time taken for tests / Complete requests
+Transfer rate:          30.33 [Kbytes/sec] received # 这些请求在单位时间内从服务器获取的数据长度，
+                    即：Total transferred / Time taken for tests
+
+# 花费在连接Connect，处理Processing，等待Waiting的时间的最小min，平均值mean，标准差[+/-sd]，中值median，最大表max的一个表。
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   0.9      0       4
+Processing:    35  435 102.9    418     805
+Waiting:       35  435 102.9    418     805
+Total:         39  435 102.7    419     807
+WARNING: The median and mean for the initial connection time are not within a normal deviation
+        These results are probably not that reliable.
+
+Percentage of the requests served within a certain time (ms)
+  50%    419 # 50%请求的响应时间在419ms内
+  66%    443 # ...以此类推
+  75%    455
+  80%    463
+  90%    549
+  95%    667
+  98%    748
+  99%    773
+ 100%    807 (longest request)
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> PHP </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Ubuntu安装中文]]></title>
       <url>http://jasonhzy.github.io/2019/03/13/ubuntu-chinese/</url>
       <content type="html"><![CDATA[<p>Ubuntu系统上传的中文文件名称经常出现乱码，此时我们就需要系统支持中文环境。</p>
