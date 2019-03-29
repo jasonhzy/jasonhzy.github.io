@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="PHP结合MySQL或Redis简单设计的秒杀系统，在高并发情况下下单，防止商品库存超发的情况。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-28T13:25:23.000Z">
+<meta property="og:updated_time" content="2019-03-29T01:32:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP结合MySQL／Redis秒杀系统">
 <meta name="twitter:description" content="PHP结合MySQL或Redis简单设计的秒杀系统，在高并发情况下下单，防止商品库存超发的情况。">
@@ -455,7 +455,7 @@
             &apos;port&apos; =&gt; 8888
         );
 
-        $conn = new mysqli($conf[&apos;host&apos;], $conf[&apos;user&apos;], $conf[&apos;pwd&apos;], $conf[&apos;db&apos;], $conf[&apos;port&apos;]);
+        $conn = new mysqli($conf[&apos;host&apos;],$conf[&apos;user&apos;],$conf[&apos;pwd&apos;],$conf[&apos;db&apos;],$conf[&apos;port&apos;]);
         if (mysqli_connect_errno()) {
             throw new Exception(mysqli_connect_error());
         }
@@ -634,18 +634,18 @@ Concurrency Level:      110   # 并发请求数
 Time taken for tests:   4.185 seconds  # 整个测试持续的时间
 Complete requests:      1000  # 完成的请求数
 Failed requests:        0  # 失败的请求数
-Total transferred:      130000 bytes # 所有请求的响应数据长度总和，包括每个http响应数据的头信息和正文
-                    数据的长度。注意这里不包括http请求数据的长度，从Web服务器流向用户PC的应用层数据总长度
-HTML transferred:       0 bytes # 所有请求的响应数据中正文数据的总和，也就是减去了Total transferred中
-                    http响应数据中头信息的长度。
-Requests per second:    238.94 [#/sec] (mean) # 最重要的指标之一:吞吐率，表示当前机器的整体性能，值越大
-                    越好。即：Complete requests / Time taken for tests， mean表示这是一个平均值
+Total transferred:      130000 bytes # 所有请求的响应数据长度总和，包括每个http响应数据的头信息
+         和正文数据的长度。注意这里不包括http请求数据的长度，从Web服务器流向用户PC的应用层数据总长度
+HTML transferred:       0 bytes # 所有请求的响应数据中正文数据的总和，也就是减去了Total transferred
+         中http响应数据中头信息的长度。
+Requests per second:    238.94 [#/sec] (mean) # 最重要的指标之一:吞吐率，表示当前机器的整体性能，
+         值越大越好。即：Complete requests / Time taken for tests， mean表示这是一个平均值
 Time per request:       460.375 [ms] (mean) # 最重要的指标之二: 用户平均请求等待时间，
-                    即：Time taken for tests / (Complete requests /Concurrency Level)
-Time per request:       4.185 [ms] (mean, across all concurrent requests) # 服务器平均请求处理时间，
-                    即：Time taken for tests / Complete requests
+         即：Time taken for tests / (Complete requests /Concurrency Level)
+Time per request:       4.185 [ms] (mean, across all concurrent requests) # 服务器平均请求处理
+         时间，即：Time taken for tests / Complete requests
 Transfer rate:          30.33 [Kbytes/sec] received # 这些请求在单位时间内从服务器获取的数据长度，
-                    即：Total transferred / Time taken for tests
+         即：Total transferred / Time taken for tests
 
 # 花费在连接Connect，处理Processing，等待Waiting的时间的最小min，平均值mean，标准差[+/-sd]，
 # 中值median，最大表max的一个表。
