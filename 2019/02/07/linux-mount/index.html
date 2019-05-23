@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。通常情况下，为磁盘分区通常使用fdisk，它是对基于MBR机制分区的管理磁盘命令，但是它仅仅支持2TB以下磁盘的分区，超出2TB部分无法识别。若过超过则可以使用parted进行分区，本文主要讲解fdisk分区。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-05-23T09:38:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux分区与挂载">
 <meta name="twitter:description" content="分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。通常情况下，为磁盘分区通常使用fdisk，它是对基于MBR机制分区的管理磁盘命令，但是它仅仅支持2TB以下磁盘的分区，超出2TB部分无法识别。若过超过则可以使用parted进行分区，本文主要讲解fdisk分区。">
@@ -662,6 +662,12 @@ sda
 sdb                                                                      
 `-sdb1          ext4              32ce315d-b6a5-49a6-84c7-daaec7ac32cb   
 sr0                                                         
+</code></pre><p>3、file -s<br>确定磁盘上是否存在文件系统。新磁盘为原始的块储存设备，必须先在这种设备上创建文件系统，然后才能够装载并使用它们,<br>file -s 命令获取设备信息，例如其文件系统类型。如果输出仅显示 data（如以下示例输出），则说明设备上没有文件系统，您必须创建一个文件系统。</p>
+<pre><code>[root@localhost /]# sudo file -s /dev/sdb
+/dev/sdb: data
+
+[root@localhost /]# sudo file -s /dev/sda1
+/dev/sda1: XFS filesystem data
 </code></pre><h4 id="查看当前系统支持的文件系统"><a href="#查看当前系统支持的文件系统" class="headerlink" title="查看当前系统支持的文件系统"></a>查看当前系统支持的文件系统</h4><p>1、cat /proc/filesystems</p>
 <pre><code>[root@localhost /]# cat /proc/filesystems
 nodev    sysfs

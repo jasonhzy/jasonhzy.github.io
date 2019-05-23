@@ -1615,6 +1615,12 @@ sda
 sdb                                                                      
 `-sdb1          ext4              32ce315d-b6a5-49a6-84c7-daaec7ac32cb   
 sr0                                                         
+</code></pre><p>3、file -s<br>确定磁盘上是否存在文件系统。新磁盘为原始的块储存设备，必须先在这种设备上创建文件系统，然后才能够装载并使用它们,<br>file -s 命令获取设备信息，例如其文件系统类型。如果输出仅显示 data（如以下示例输出），则说明设备上没有文件系统，您必须创建一个文件系统。</p>
+<pre><code>[root@localhost /]# sudo file -s /dev/sdb
+/dev/sdb: data
+
+[root@localhost /]# sudo file -s /dev/sda1
+/dev/sda1: XFS filesystem data
 </code></pre><h4 id="查看当前系统支持的文件系统"><a href="#查看当前系统支持的文件系统" class="headerlink" title="查看当前系统支持的文件系统"></a>查看当前系统支持的文件系统</h4><p>1、cat /proc/filesystems</p>
 <pre><code>[root@localhost /]# cat /proc/filesystems
 nodev    sysfs
