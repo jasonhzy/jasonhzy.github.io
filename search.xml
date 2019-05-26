@@ -650,37 +650,6 @@ source: 192.168.1.60:27011
     </entry>
     
     <entry>
-      <title><![CDATA[MongoDB基本命令]]></title>
-      <url>http://jasonhzy.github.io/2019/03/17/mongodb-command/</url>
-      <content type="html"><![CDATA[<a id="more"></a>
-<p>查看用户<br>1、show users;<br>2、use admin; db.system.users.find();</p>
-<p>删除集合</p>
-<p>db.<collection>.drop()</collection></p>
-<p>删除字段</p>
-<pre><code>db.User.update({},{$unset:{&quot;&lt;field name&gt;&quot;:&quot;&quot;}},false, true) //{} 代表所有，也可以增加条件
-</code></pre><p>例如要把User表中address字段删除</p>
-<pre><code>db.User.update({},{$unset:{&quot;address&quot;:&quot;&quot;}}, false, true)
-db.User.update({},{$currentDate:{&quot;create_time&quot;:true}}, false, true)
-</code></pre><p>repair修复<br>“修复” 数据库，当 mongodb 运行一段时间之后，特别是经过大量删除、update 操作之后，我们可以使用 repair 指令对数据存储进行 “repair”，<br>它将整理、压缩底层数据存储文件，重用磁盘空间，相当于数据重新整理了一遍，对数据优化有一定的作用。</p>
-<pre><code>mongod --dbpath=/data/mongodb/data --repair
-</code></pre>]]></content>
-      
-        <categories>
-            
-            <category> MongoDB </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> MongoDB </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[PHP结合MySQL／Redis秒杀系统]]></title>
       <url>http://jasonhzy.github.io/2019/03/14/php-seckill/</url>
       <content type="html"><![CDATA[<p>PHP结合MySQL或Redis简单设计的秒杀系统，在高并发情况下下单，防止商品库存超发的情况。</p>
