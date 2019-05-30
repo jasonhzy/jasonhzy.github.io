@@ -134,6 +134,7 @@ mysql&gt; show variables like &apos;%tx_isolation%&apos;;
 <p>以下列出幻读的情况：</p>
 <p>第一种：<br><img src="/images/transaction/phantom-read1.png" alt="transaction1"></p>
 <p>第二种：<br><img src="/images/transaction/phantom-read2.png" alt="transaction2"></p>
+<p>不可重复读和幻读区别与联系：<br>相同点：一个事务多次读取某条数据，发现读取的数据不完全相同 ，<br>不同点：不可重复读针对数据的修改造成的读不一致，而幻读针对数据的插入和删除造成的读不一致，如同发生幻觉一样</p>
 <h3 id="串行化"><a href="#串行化" class="headerlink" title="串行化"></a>串行化</h3><pre><code>mysql&gt; set session transaction isolation level serializable;
 Query OK, 0 rows affected (0.00 sec)
 
