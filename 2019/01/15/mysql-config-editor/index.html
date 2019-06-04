@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-config-editor/set.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-config-editor/print.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-config-editor/login.png">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-06-03T06:15:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql-config-editor使用">
 <meta name="twitter:description" content="简介登陆MySQL我们需要频繁输入用户名密码，自MySQL5.6+以后出现了mysql_config_editor，可以给指定的连接和密码生成一个加密文件，服务的认证信息加密保存在.mylogin.cnf文件（默认位于用户主目录）之后，MySQL客户端工具可通过读取该加密文件连接MySQL，避免重复输入登录信息，也避免敏感信息的暴露。应用：MySQL的登陆和备份（mysqldump）等即可实现免密">
@@ -412,7 +412,7 @@
         <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>登陆MySQL我们需要频繁输入用户名密码，自MySQL5.6+以后出现了mysql_config_editor，可以给指定的连接和密码生成一个加密文件，服务的认证信息加密保存在.mylogin.cnf文件（默认位于用户主目录）之后，MySQL客户端工具可通过读取该加密文件连接MySQL，避免重复输入登录信息，也避免敏感信息的暴露。<br>应用：<br>MySQL的登陆和备份（mysqldump）等即可实现免密操作。</p>
 <a id="more"></a>
 <h2 id="查看帮助"><a href="#查看帮助" class="headerlink" title="查看帮助"></a>查看帮助</h2><pre><code>mysql_config_editor --help
-mysql_config_editor [set/remove/reset] --help
+mysql_config_editor [/print/set/remove/reset] --help
 </code></pre><p>如图所示：<br><img src="/images/mysql-config-editor/help.png" alt="help">    </p>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><pre><code>mysql_config_editor set --login-path=test --host=localhost --user=root --port=3306 --password
 </code></pre><p>其中配置项：</p>
