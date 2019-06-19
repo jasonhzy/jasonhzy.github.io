@@ -4,6 +4,102 @@
   
     
     <entry>
+      <title><![CDATA[Rabbitmq编译安装]]></title>
+      <url>http://jasonhzy.github.io/2019/06/06/rabbitmq-install/</url>
+      <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>RabbitMQ是采用 Erlang语言实现AMQP协议的消息中间件，AMQP全称是 Advanced Message Queue Protocolg，高级消息队列协议。支持多种客户端，如：Java、PHP、Python等，<br>主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。</p>
+<a id="more"></a>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>系统环境：CentOS7<br>RabbitMQ版本：3.6.12<br>Erlang版本：20.1</p>
+<p>查看 <a href="https://www.rabbitmq.com/which-erlang.html" target="_blank" rel="noopener">RabbitMQ和Erlang匹配版本</a></p>
+<h2 id="安装Erlang"><a href="#安装Erlang" class="headerlink" title="安装Erlang"></a>安装Erlang</h2><p>RabbitMQ是由Erlang语言开发，所以需要先安装Erlang环境</p>
+<p>1、安装依赖</p>
+<p>   yum install gcc gcc-c++ ncurses ncurses-devel openssl openssl-devel unixODBC unixODBC-devel</p>
+<p>2、下载安装，地址：<a href="http://www.erlang.org/downloads" target="_blank" rel="noopener">http://www.erlang.org/downloads</a> ，选择版本下载</p>
+<pre><code>wget http://erlang.org/download/otp_src_20.1.tar.gz
+</code></pre><p>3、解压编译安装</p>
+<pre><code># 解压
+tar -zxvf otp_src_20.1.tar.gz
+
+# 配置安装路径编译代码
+cd otp_src_20.1/
+./configure \
+--prefix=/usr/local/erlang \
+--without-javac
+
+# 安装
+make &amp;&amp; make install
+</code></pre><p>4、环境变量设置</p>
+<pre><code>vim /etc/profile
+#添加以下配置
+#set erlang environment
+export PATH=$PATH:/usr/local/erlang/bin
+</code></pre><p>5、测试是否成功</p>
+<pre><code>[root@iZj6ci19b3r6baljocdx8cZ ~]# erl
+Erlang/OTP 20 [erts-9.1] [source] [64-bit] [smp:2:2] [ds:2:2:10] [async-threads:10] [hipe] [kernel-poll:false]
+
+Eshell V9.1  (abort with ^G)
+1&gt; 
+1&gt; 
+1&gt; halt(). #退出    
+</code></pre><h2 id="安装RabbitMQ"><a href="#安装RabbitMQ" class="headerlink" title="安装RabbitMQ"></a>安装RabbitMQ</h2><p>1、下载安装，从官网下载，选择版本。在linux环境下需要下带有unix的，如下：</p>
+<pre><code>wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.12/rabbitmq-server-generic-unix-3.6.12.tar.xz
+# 解压，这里将其解压到opt目录中。解压之后进入opt目录，修改rabbitmq的文件夹
+tar -xvf rabbitmq-server-generic-unix-3.6.12.tar.xz
+mv rabbitmq-server-3.6.12 /usr/local/rabbitmq
+</code></pre><p>2、配置环境变量</p>
+<pre><code>vim /etc/profile
+#添加以下配置
+#set rabbitmq environment
+export PATH=$PATH:/usr/local/rabbitmq/sbin
+#使得文件生效
+source  /etc/profile
+</code></pre><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>1、启动rabbitmq</p>
+<pre><code>rabbitmq-server -detached #后台启动
+</code></pre><p>2、查看服务状态</p>
+<pre><code>rabbitmqctl status
+</code></pre><p>例如：</p>
+<pre><code>[root@iZj6ci19b3r6baljocdx8cZ ~]# rabbitmqctl status
+Status of node rabbit@iZj6ci19b3r6baljocdx8cZ
+[{pid,19317},
+ {running_applications,
+     [{rabbitmq_management,&quot;RabbitMQ Management Console&quot;,&quot;3.6.12&quot;},
+      {rabbitmq_web_dispatch,&quot;RabbitMQ Web Dispatcher&quot;,&quot;3.6.12&quot;},
+      {cowboy,&quot;Small, fast, modular HTTP server.&quot;,&quot;1.0.4&quot;},
+      ......
+</code></pre><p>3、 停止RabbitMQ</p>
+<pre><code>rabbitmqctl stop
+</code></pre><p>4、启动插件</p>
+<pre><code>rabbitmq-plugins enable rabbitmq_management
+</code></pre><p>默认端口15672，对外访问即：IP:15672，默认的账号密码是guest，但是该账号只能通过localhost登录</p>
+<p>1）添加用户</p>
+<pre><code>rabbitmqctl add_user [username] [password]
+</code></pre><p>2）添加权限</p>
+<pre><code>rabbitmqctl set_permissions -p &quot;/&quot; [username] &quot;.*&quot; &quot;.*&quot; &quot;.*&quot; #&quot;/&quot;即
+</code></pre><p>3）修改用户角色</p>
+<pre><code>rabbitmqctl set_user_tags [username] administrator
+</code></pre><p>4）修改用户密码</p>
+<pre><code>rabbitmqctl change_password [username] [password]    
+</code></pre><p>4）查看当前用户列表</p>
+<pre><code>rabbitmqctl list_users
+</code></pre><p>5）删除用户</p>
+<pre><code>rabbitmqctl delete_user [username]
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Rabbitmq </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Rabbitmq </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[数据库事务]]></title>
       <url>http://jasonhzy.github.io/2019/03/22/transaction/</url>
       <content type="html"><![CDATA[<h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h2><p>事务,它是一个操作序列，这些操作要么都执行，要么都不执行，它是一个不可分割的工作单位。</p>
@@ -1767,59 +1863,6 @@ vim     1485 root    4u   REG   8,17    12288   12 /data/.a.swp
     </entry>
     
     <entry>
-      <title><![CDATA[Ubuntu内核升级]]></title>
-      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
-      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
-<a id="more"></a>
-<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
-apt-cache search linux-headers-\*
-</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
-apt-get install linux-headers-X.X.X.X-generic
-</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
-或
-update-initramfs -u -k `uname -r`
-</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
-</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
-</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
-</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
-<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
-<pre><code>getconf LONG_BIT
-</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
-<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
-</code></pre><p>3、使用wget命令来下载到服务器</p>
-<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>4、安装下载软件包</p>
-<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
-<pre><code>update-grub
-</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
-<pre><code>dpkg --get-selections | grep linux-image
-</code></pre><p>2、移除不要的Kernel</p>
-<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
-</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
-<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
-</code></pre>]]></content>
-      
-        <categories>
-            
-            <category> Linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Linux </tag>
-            
-            <tag> Kernel </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[CentOS内核升级]]></title>
       <url>http://jasonhzy.github.io/2019/02/06/centos-kernel-upgrade/</url>
       <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的CentOS进行操作</p>
@@ -1883,6 +1926,59 @@ yum remove kernel-headers-3.10.0-693.21.1.el7.x86_64 kernel-lt-4.4.121-1.el7.elr
 <pre><code>date
 </code></pre><p>同步系统时间：</p>
 <pre><code>ntpdate time.apple.com
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Kernel </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Ubuntu内核升级]]></title>
+      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
+      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
+<a id="more"></a>
+<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
+apt-cache search linux-headers-\*
+</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
+apt-get install linux-headers-X.X.X.X-generic
+</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
+或
+update-initramfs -u -k `uname -r`
+</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
+</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
+</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
+</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
+<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
+<pre><code>getconf LONG_BIT
+</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
+<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
+</code></pre><p>3、使用wget命令来下载到服务器</p>
+<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>4、安装下载软件包</p>
+<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
+<pre><code>update-grub
+</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
+<pre><code>dpkg --get-selections | grep linux-image
+</code></pre><p>2、移除不要的Kernel</p>
+<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
+</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
+<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
 </code></pre>]]></content>
       
         <categories>
@@ -5064,11 +5160,24 @@ http {
         # 虚拟主机访问日志定义
         #access_log  logs/host.access.log  main;
 
+        #
+        # 申请的证书zip包中一般含有如下三个文件：
+        # SSL 凭证(例如: ssl_certificate.crt,或称最终实体凭证, 公钥凭证或身份验证凭证)
+        # 中继CA凭证(例如: IntermediateCA.crt, 或称信任链凭证或SSL凭证的签名者/发行人)
+        # 私钥文件(例如: private.key, 生成凭证签章要求(CSR)的时候建立的)
+        #
+        # nginx的配置特殊地方: 需要合并SSL凭证和中继CA凭证, 即:
+        #   cat ssl_certificate.crt IntermediateCA.crt &gt;&gt; your_domain_name.crt
+        # 注意：-----END CERTIFICATE----------BEGIN CERTIFICATE-----需要调整为：
+        #   -----END CERTIFICATE-----
+        #   -----BEGIN CERTIFICATE-----
+        # 否则启动时出错，即SSL: error:0906D066:PEM routines:PEM_read_bio:bad end line
+        #
         ssl on;  
         #虚拟主机的证书文件  
-        ssl_certificate      /var/www/xxx.crt;   
+        ssl_certificate /etc/ssl/your_domain_name.crt; #合并SSL凭证和中继CA凭证的文件
         #虚拟主机私钥文件  
-        ssl_certificate_key  /var/www/xxx.key;
+        ssl_certificate_key /etc/ssl/your_domain_name.key; #私钥文件
 
         # 匹配URL
         location / {
@@ -5086,7 +5195,9 @@ http {
             #后7端的Web服务器可以通过X-Forwarded-For获取用户真实IP
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr; 
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;   
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            #nginx反向代理隐藏响应头，多个代理情况下也可以写到http段里面
+            proxy_hide_header X-Application-Context;
             #代理设置
             proxy_pass   http://my_server_pool; 
             #文件过期时间控制
@@ -6513,28 +6624,36 @@ pip/easy_install install html5lib
 <p><img src="/images/mysql-back/mysql-table.png" alt="mysql table"></p>
 <p><strong>表头(header)</strong>: 每一列的名称;<br><strong>列(row)</strong>: 具有相同数据类型的数据的集合;<br><strong>行(col)</strong>: 每一行用来描述某个人/物的具体信息;<br><strong>值(value)</strong>: 行的具体信息, 每个值必须与该列的数据类型相同;<br><strong>键(key)</strong>: 表中用来识别某个特定的人\物的方法,键的值在当前列中具有唯一性。</p>
 <h2 id="备份与还原常用命令"><a href="#备份与还原常用命令" class="headerlink" title="备份与还原常用命令"></a>备份与还原常用命令</h2><p>备份MySQL数据库的命令</p>
-<pre><code>mysqldump -hhostname -uusername -ppassword databasename &gt; backupfile.sql
+<pre><code>mysqldump -hhostname -uusername -ppassword db &gt; bak.sql
 </code></pre><p>备份MySQL数据库为带删除表的格式<br>备份MySQL数据库为带删除表的格式，能够让该备份覆盖已有数据库而不需要手动删除原有数据库。</p>
-<pre><code>mysqldump -–add-drop-table -uusername -ppassword databasename &gt; backupfile.sql
+<pre><code>mysqldump --add-drop-table -uusername -ppassword db &gt; bak.sql
 </code></pre><p>直接将MySQL数据库压缩备份</p>
-<pre><code>mysqldump -hhostname -uusername -ppassword databasename | gzip &gt; backupfile.sql.gz
-</code></pre><p>备份MySQL数据库某个(些)表</p>
-<pre><code>mysqldump -hhostname -uusername -ppassword databasename specific_table1 
-specific_table2 &gt; backupfile.sql
-</code></pre><p>同时备份多个MySQL数据库</p>
-<pre><code>mysqldump -hhostname -uusername -ppassword –databases databasename1 databasename2 
-databasename3 &gt; multibackupfile.sql
-</code></pre><p>仅仅备份数据库结构</p>
-<pre><code>mysqldump –no-data –databases databasename1 databasename2               
-databasename3 &gt; structurebackupfile.sql
+<pre><code>mysqldump -hhostname -uusername -ppassword db | gzip &gt; bak.sql.gz
+</code></pre><p>备份多个MySQL数据库</p>
+<pre><code>mysqldump -hhostname -uusername -ppassword --databases db1 db2 db3 &gt; multibak.sql
+</code></pre><p>备份数据库结构(–no-data, -d)</p>
+<pre><code>mysqldump -hhostname -uusername -p --no-data --databases db1 db2 db3 &gt; structurebak.sql
+mysqldump -hhostname -uusername -p -d db &gt; db.sql
 </code></pre><p>备份服务器上所有数据库</p>
-<pre><code>mysqldump –all-databases &gt; allbackupfile.sql
+<pre><code>mysqldump –all-databases &gt; allbak.sql
+</code></pre><p>备份MySQL数据库某个(些)表</p>
+<pre><code>#含表结构和数据
+mysqldump -hhostname -uusername -ppassword db t1 t2 &gt; bak.sql
+#不含表结构和数据
+mysqldump -hhostname -uusername -ppassword -d db t1 t2 &gt; bak.sql
+</code></pre><p>备份MySQL数据库或某个(些)表数据（不包含表结构）</p>
+<pre><code>#数据库数据
+mysqldump -hhostname -uusername -ppassword -t db &gt; db.sql
+#单张表数据
+mysqldump -hhostname -uusername -ppassword -t db t&gt; t.sql
+#多张表数据
+mysqldump -hhostname -uusername -ppassword -t db t1 t2 &gt; t.sql
 </code></pre><p>还原MySQL数据库的命令</p>
-<pre><code>mysql -hhostname -uusername -ppassword databasename &lt; backupfile.sql
+<pre><code>mysql -hhostname -uusername -ppassword db &lt; bak.sql
 </code></pre><p>还原压缩的MySQL数据库</p>
-<pre><code>gunzip &lt; backupfile.sql.gz | mysql -uusername -ppassword databasename
+<pre><code>gunzip &lt; bak.sql.gz | mysql -uusername -ppassword db
 </code></pre><p>将数据库转移到新服务器</p>
-<pre><code>mysqldump -uusername -ppassword databasename | mysql –host=*.*.*.* -C databasename
+<pre><code>mysqldump -uusername -ppassword db | mysql –host=*.*.*.* -C db
 </code></pre>]]></content>
       
         <categories>
@@ -7574,12 +7693,13 @@ a.php.服务器的版本号   是冲突后服务器版本文件
     
     <entry>
       <title><![CDATA[Mysql 数据库主从同步(Master-Slave)]]></title>
-      <url>http://jasonhzy.github.io/2016/02/05/master-slave/</url>
+      <url>http://jasonhzy.github.io/2016/02/05/mysql-master-slave/</url>
       <content type="html"><![CDATA[<p><img src="/images/master-slave/master-slave.jpg" alt="原理图"></p>
 <a id="more"></a>
 <h2 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h2><blockquote>
 <p>分为同步复制和异步复制，实际复制架构中大部分为异步复制。 复制的基本过程如下：<br>1).Slave上面的IO进程连接上Master，并请求从指定日志文件的指定位置（或者从最开始的日志）之后的日志内容；<br>2).Master接收到来自Slave的IO进程的请求后，通过负责复制的IO进程根据请求信息读取制定日志指定位置之后的日志信息，返回给Slave<br>的IO进程。返回信息中除了日志所包含的信息之外，还包括本次返回的信息已经到Master端的bin-log文件的名称以及bin-log的位置；<br>3).Slave的IO进程接收到信息后，将接收到的日志内容依次添加到Slave端的relay-log文件的最末端，并将读取到的Master端的<br>bin-log的文件名和位置记录到master-info文件中，以便在下一次读取的时候能够清楚的告诉Master“我需要从某个bin-log的哪个位置开始往后的日志内容，请发给我”；<br>4).Slave的Sql进程检测到relay-log中新增加了内容后，会马上解析relay-log的内容成为在Master端真实执行时候的那些可执行的内容，并在自身执行。</p>
 </blockquote>
+<p><img src="/images/master-slave/master-slave-detail.png" alt="detail"></p>
 <h2 id="环境描述"><a href="#环境描述" class="headerlink" title="环境描述"></a>环境描述</h2><ul>
 <li>OS：CentOS</li>
 <li>主服务器master：192.168.11.120</li>
@@ -7587,7 +7707,7 @@ a.php.服务器的版本号   是冲突后服务器版本文件
 </ul>
 <h2 id="mysql主从配置"><a href="#mysql主从配置" class="headerlink" title="mysql主从配置"></a>mysql主从配置</h2><h3 id="mysql主服务器配置-master"><a href="#mysql主服务器配置-master" class="headerlink" title="mysql主服务器配置(master)"></a>mysql主服务器配置(master)</h3><p>master服务器配置:<br>vim /etc/my.cnf</p>
 <pre><code>[mysqld]
-server-id=120
+server-id=1
 log-bin=/var/lib/mysql/mysql-bin # 启用二进制日志
 binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
 #binlog-ignore-db = mysql,information_schema #忽略写入binlog的库
@@ -7595,16 +7715,24 @@ binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
 <pre><code>service mysqld  restart #systemctl restart mysqld.service --- centos7.x重启mysql
 </code></pre><p>在主服务器上建立帐户并授权slave：</p>
 <pre><code>#创建slave帐号，密码123456
-mysql&gt; GRANT REPLICATION SLAVE ON *.* to &apos;slave&apos;@&apos;192.168.11.%&apos; identified by &apos;123456&apos; WITH GRANT OPTION; 
+mysql&gt; GRANT REPLICATION SLAVE ON *.* to &apos;slave&apos;@&apos;192.168.11.%&apos; identified by &apos;123456&apos;; 
 #更新数据库权限
 mysql&gt;flush privileges;
 </code></pre><p>查询master的状态：</p>
 <pre><code>mysql&gt; show master status;
 </code></pre><p>显示结果：<br>        <img src="/images/master-slave/master-status.png" alt="slave status"></p>
 <p>注：执行完这个步骤后不要再操作主数据库了，防止主数据库状态值变化</p>
-<h3 id="mysql从服务器配置-slave"><a href="#mysql从服务器配置-slave" class="headerlink" title="mysql从服务器配置(slave)"></a>mysql从服务器配置(slave)</h3><p>slave服务器配置:<br>vim /etc/my.cnf</p>
+<p>在主库show slave hosts查看有哪些从库节点：</p>
+<pre><code>mysql&gt; show slave hosts;
++-----------+------+------+-----------+
+| Server_id | Host | Port | Master_id |
++-----------+------+------+-----------+
+|         2 |      | 3306 |         1 |
++-----------+------+------+-----------+
+1 row in set (0.00 sec)
+</code></pre><h3 id="mysql从服务器配置-slave"><a href="#mysql从服务器配置-slave" class="headerlink" title="mysql从服务器配置(slave)"></a>mysql从服务器配置(slave)</h3><p>slave服务器配置:<br>vim /etc/my.cnf</p>
 <pre><code>[mysqld]
-server-id=139
+server-id=2
 log-bin=/var/lib/mysql/mysql-bin # 启用二进制日志
 binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
 </code></pre><p>重启服务器：</p>
@@ -7615,6 +7743,16 @@ binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
     MASTER_PASSWORD=&apos;123456&apos;,
     MASTER_LOG_FILE=&apos;mysql-bin.000022&apos;,  #对应show master status中File
     MASTER_LOG_POS=245;                     #对应show master status中Position
+</code></pre><p>备注：如果忘记同步用户账号和密码，查看slave库文件夹下的master.info文件查看信息，例如：</p>
+<pre><code># cat /data/master.info
+60
+mysql-bin.000022 #主库的bin文件
+245
+192.168.11.120 #主库的IP
+slave  #主从同步的账号
+123456 #主从同步的密码
+3306   #连接主库的端口
+...
 </code></pre><p>启用同步：</p>
 <pre><code>mysql&gt;start slave
 </code></pre><p>停止同步：</p>
@@ -7673,7 +7811,28 @@ vim /etc/sysconfig/iptables 添加3306端口：
 （1）注释掉 即：#bind-address=127.0.0.1
 （2）修改为：bind-addess=192.168.11.120 即本机的ip
 （3）修改为：bind-address=0.0.0.0
-</code></pre>]]></content>
+</code></pre><p>3、修改同步账号的密码</p>
+<p>1）主库上复制账户的信息</p>
+<pre><code>&gt; show grants for &apos;slave&apos;@&apos;192.168.11.%&apos;;
++---------------------------------------------------------------------------------------------------+
+| Grants for slave@192.168.11.%                                                                     |
++---------------------------------------------------------------------------------------------------+
+| GRANT REPLICATION SLAVE ON *.* to &apos;slave&apos;@&apos;192.168.11.%&apos; IDENTIFIED BY PASSWORD &apos;*xxxxxxxxxxxxxxx&apos;|
++---------------------------------------------------------------------------------------------------+
+</code></pre><p>2）修改复制账户密码</p>
+<pre><code>&gt; grant replication slave on *.* to &apos;slave&apos;@&apos;192.168.11.%&apos; identified by &apos;repl&apos;;
+&gt; flush privileges;
+</code></pre><p>3）查看从库同步情况(stop slave –&gt; start slave –&gt; show slave status\G)</p>
+<pre><code>Last_IO_Errno: 1045
+Last_IO_Error: error connecting to master &apos;slave@192.168.11.120:3306&apos; - retry-time: 60  retries: 1
+</code></pre><p>4）更改重库连接密码，该信息记录在从库master.info文件中 </p>
+<pre><code>&gt; stop slave;
+&gt; change master to      #由于仅修改了同步账号的密码，可以只重新设置密码即可             
+    -&gt; master_user=&apos;slave&apos;,        
+    -&gt; master_password=&apos;repl&apos;;
+&gt; start slave;
+</code></pre><p>启动同步之后，再次查看slave状态，可以看到已经成功</p>
+]]></content>
       
         <categories>
             
@@ -8306,31 +8465,6 @@ RewriteRule .(gif|jpg|png|jpeg|bmp)$ https://www.example.com/404.jpg [R,NC]
         <tags>
             
             <tag> HTTP </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[沁园春·雪]]></title>
-      <url>http://jasonhzy.github.io/2016/02/01/poetry-snow/</url>
-      <content type="html"><![CDATA[<h2 id="沁园春·雪"><a href="#沁园春·雪" class="headerlink" title="沁园春·雪"></a>沁园春·雪</h2><p>&emsp;&emsp;——— <em> <strong>毛泽东</strong> </em></p>
-<a id="more"></a>
-<blockquote>
-<p>北国风光，千里冰封，万里雪飘。<br>望长城内外，惟余莽莽；<br>大河上下，顿失滔滔。<br>山舞银蛇，原驰蜡象，欲与天公试比高。<br>须晴日，看红装素裹，分外妖娆。<br>江山如此多娇，引无数英雄竞折腰。<br>惜秦皇汉武，略输文采；<br>唐宗宋祖，稍逊风骚。<br>一代天骄，成吉思汗，只识弯弓射大雕。<br>俱往矣，数风流人物，还看今朝。</p>
-</blockquote>
-]]></content>
-      
-        <categories>
-            
-            <category> 诗歌 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> 诗歌 </tag>
             
         </tags>
         

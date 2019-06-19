@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-20T08:50:39.000Z">
+<meta property="og:updated_time" content="2019-06-17T08:06:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -606,11 +606,24 @@ http {
         # 虚拟主机访问日志定义
         #access_log  logs/host.access.log  main;
 
+        #
+        # 申请的证书zip包中一般含有如下三个文件：
+        # SSL 凭证(例如: ssl_certificate.crt,或称最终实体凭证, 公钥凭证或身份验证凭证)
+        # 中继CA凭证(例如: IntermediateCA.crt, 或称信任链凭证或SSL凭证的签名者/发行人)
+        # 私钥文件(例如: private.key, 生成凭证签章要求(CSR)的时候建立的)
+        #
+        # nginx的配置特殊地方: 需要合并SSL凭证和中继CA凭证, 即:
+        #   cat ssl_certificate.crt IntermediateCA.crt &gt;&gt; your_domain_name.crt
+        # 注意：-----END CERTIFICATE----------BEGIN CERTIFICATE-----需要调整为：
+        #   -----END CERTIFICATE-----
+        #   -----BEGIN CERTIFICATE-----
+        # 否则启动时出错，即SSL: error:0906D066:PEM routines:PEM_read_bio:bad end line
+        #
         ssl on;  
         #虚拟主机的证书文件  
-        ssl_certificate      /var/www/xxx.crt;   
+        ssl_certificate /etc/ssl/your_domain_name.crt; #合并SSL凭证和中继CA凭证的文件
         #虚拟主机私钥文件  
-        ssl_certificate_key  /var/www/xxx.key;
+        ssl_certificate_key /etc/ssl/your_domain_name.key; #私钥文件
 
         # 匹配URL
         location / {
@@ -628,7 +641,9 @@ http {
             #后7端的Web服务器可以通过X-Forwarded-For获取用户真实IP
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr; 
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;   
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            #nginx反向代理隐藏响应头，多个代理情况下也可以写到http段里面
+            proxy_hide_header X-Application-Context;
             #代理设置
             proxy_pass   http://my_server_pool; 
             #文件过期时间控制

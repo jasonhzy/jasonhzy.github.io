@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="诗歌,">
+  <meta name="keywords" content="Mysql,">
 
 
 
@@ -93,18 +93,20 @@
 
 
 
-<meta name="description" content="沁园春·雪&amp;emsp;&amp;emsp;———  毛泽东">
-<meta name="keywords" content="诗歌">
+<meta name="keywords" content="Mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="沁园春·雪">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/02/01/poetry-snow/index.html">
+<meta property="og:title" content="Mysql 数据库主从同步(Master-Slave)">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/02/05/mysql-master-slave/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="沁园春·雪&amp;emsp;&amp;emsp;———  毛泽东">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-slave.jpg">
+<meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-slave-detail.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-status.png">
+<meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/slave-status.png">
+<meta property="og:updated_time" content="2019-06-08T06:51:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="沁园春·雪">
-<meta name="twitter:description" content="沁园春·雪&amp;emsp;&amp;emsp;———  毛泽东">
+<meta name="twitter:title" content="Mysql 数据库主从同步(Master-Slave)">
+<meta name="twitter:image" content="http://jasonhzy.github.io/images/master-slave/master-slave.jpg">
 
 
 
@@ -132,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/2016/02/01/poetry-snow/">
+  <link rel="canonical" href="http://jasonhzy.github.io/2016/02/05/mysql-master-slave/">
 
 
 
 
 
-  <title>沁园春·雪 | Jason Website</title>
+  <title>Mysql 数据库主从同步(Master-Slave) | Jason Website</title>
   
 
 
@@ -313,7 +315,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/02/01/poetry-snow/">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/02/05/mysql-master-slave/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jason hu">
@@ -330,7 +332,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">沁园春·雪</h1>
+          <h1 class="post-title" itemprop="name headline">Mysql 数据库主从同步(Master-Slave)</h1>
         
 
         <div class="post-meta">
@@ -342,8 +344,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-01T14:47:40+08:00">
-                2016-02-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-05T10:03:25+08:00">
+                2016-02-05
               </time>
             
 
@@ -365,8 +367,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/诗歌/" itemprop="url" rel="index">
-                    <span itemprop="name">诗歌</span>
+                  <a href="/categories/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
                   </a>
                 </span>
 
@@ -404,11 +406,144 @@
       
 
       
-        <h2 id="沁园春·雪"><a href="#沁园春·雪" class="headerlink" title="沁园春·雪"></a>沁园春·雪</h2><p>&emsp;&emsp;——— <em> <strong>毛泽东</strong> </em></p>
+        <p><img src="/images/master-slave/master-slave.jpg" alt="原理图"></p>
 <a id="more"></a>
-<blockquote>
-<p>北国风光，千里冰封，万里雪飘。<br>望长城内外，惟余莽莽；<br>大河上下，顿失滔滔。<br>山舞银蛇，原驰蜡象，欲与天公试比高。<br>须晴日，看红装素裹，分外妖娆。<br>江山如此多娇，引无数英雄竞折腰。<br>惜秦皇汉武，略输文采；<br>唐宗宋祖，稍逊风骚。<br>一代天骄，成吉思汗，只识弯弓射大雕。<br>俱往矣，数风流人物，还看今朝。</p>
+<h2 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h2><blockquote>
+<p>分为同步复制和异步复制，实际复制架构中大部分为异步复制。 复制的基本过程如下：<br>1).Slave上面的IO进程连接上Master，并请求从指定日志文件的指定位置（或者从最开始的日志）之后的日志内容；<br>2).Master接收到来自Slave的IO进程的请求后，通过负责复制的IO进程根据请求信息读取制定日志指定位置之后的日志信息，返回给Slave<br>的IO进程。返回信息中除了日志所包含的信息之外，还包括本次返回的信息已经到Master端的bin-log文件的名称以及bin-log的位置；<br>3).Slave的IO进程接收到信息后，将接收到的日志内容依次添加到Slave端的relay-log文件的最末端，并将读取到的Master端的<br>bin-log的文件名和位置记录到master-info文件中，以便在下一次读取的时候能够清楚的告诉Master“我需要从某个bin-log的哪个位置开始往后的日志内容，请发给我”；<br>4).Slave的Sql进程检测到relay-log中新增加了内容后，会马上解析relay-log的内容成为在Master端真实执行时候的那些可执行的内容，并在自身执行。</p>
 </blockquote>
+<p><img src="/images/master-slave/master-slave-detail.png" alt="detail"></p>
+<h2 id="环境描述"><a href="#环境描述" class="headerlink" title="环境描述"></a>环境描述</h2><ul>
+<li>OS：CentOS</li>
+<li>主服务器master：192.168.11.120</li>
+<li>从服务器slave：192.168.11.139</li>
+</ul>
+<h2 id="mysql主从配置"><a href="#mysql主从配置" class="headerlink" title="mysql主从配置"></a>mysql主从配置</h2><h3 id="mysql主服务器配置-master"><a href="#mysql主服务器配置-master" class="headerlink" title="mysql主服务器配置(master)"></a>mysql主服务器配置(master)</h3><p>master服务器配置:<br>vim /etc/my.cnf</p>
+<pre><code>[mysqld]
+server-id=1
+log-bin=/var/lib/mysql/mysql-bin # 启用二进制日志
+binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
+#binlog-ignore-db = mysql,information_schema #忽略写入binlog的库
+</code></pre><p>重启服务器：</p>
+<pre><code>service mysqld  restart #systemctl restart mysqld.service --- centos7.x重启mysql
+</code></pre><p>在主服务器上建立帐户并授权slave：</p>
+<pre><code>#创建slave帐号，密码123456
+mysql&gt; GRANT REPLICATION SLAVE ON *.* to &apos;slave&apos;@&apos;192.168.11.%&apos; identified by &apos;123456&apos;; 
+#更新数据库权限
+mysql&gt;flush privileges;
+</code></pre><p>查询master的状态：</p>
+<pre><code>mysql&gt; show master status;
+</code></pre><p>显示结果：<br>        <img src="/images/master-slave/master-status.png" alt="slave status"></p>
+<p>注：执行完这个步骤后不要再操作主数据库了，防止主数据库状态值变化</p>
+<p>在主库show slave hosts查看有哪些从库节点：</p>
+<pre><code>mysql&gt; show slave hosts;
++-----------+------+------+-----------+
+| Server_id | Host | Port | Master_id |
++-----------+------+------+-----------+
+|         2 |      | 3306 |         1 |
++-----------+------+------+-----------+
+1 row in set (0.00 sec)
+</code></pre><h3 id="mysql从服务器配置-slave"><a href="#mysql从服务器配置-slave" class="headerlink" title="mysql从服务器配置(slave)"></a>mysql从服务器配置(slave)</h3><p>slave服务器配置:<br>vim /etc/my.cnf</p>
+<pre><code>[mysqld]
+server-id=2
+log-bin=/var/lib/mysql/mysql-bin # 启用二进制日志
+binlog-do-db=jasontest #指定数据库，如果不指定就是全部数据库
+</code></pre><p>重启服务器：</p>
+<pre><code>service mysqld  restart #systemctl restart mysqld.service --- centos7.x重启mysql
+</code></pre><p>设置同步源：</p>
+<pre><code>mysql&gt; CHANGE MASTER TO MASTER_HOST=&apos;192.168.11.120&apos;, #主服务器master的ip
+    MASTER_USER=&apos;slave&apos;,
+    MASTER_PASSWORD=&apos;123456&apos;,
+    MASTER_LOG_FILE=&apos;mysql-bin.000022&apos;,  #对应show master status中File
+    MASTER_LOG_POS=245;                     #对应show master status中Position
+</code></pre><p>备注：如果忘记同步用户账号和密码，查看slave库文件夹下的master.info文件查看信息，例如：</p>
+<pre><code># cat /data/master.info
+60
+mysql-bin.000022 #主库的bin文件
+245
+192.168.11.120 #主库的IP
+slave  #主从同步的账号
+123456 #主从同步的密码
+3306   #连接主库的端口
+...
+</code></pre><p>启用同步：</p>
+<pre><code>mysql&gt;start slave
+</code></pre><p>停止同步：</p>
+<pre><code>mysql&gt;stop slave
+</code></pre><p>检查从服务器状态：</p>
+<pre><code>mysql&gt; SHOW SLAVE STATUS\G;
+</code></pre><p>显示结果：<br>    <img src="/images/master-slave/slave-status.png" alt="slave status"></p>
+<p><strong>注意：</strong>Slave_IO_Running及Slave_SQL_Running进程必须正常运行，即YES状态，否则说明同步失败</p>
+<p>下面介绍几个比较关键的参数，全面的说明可阅读<a href="https://dev.mysql.com/doc/refman/5.5/en/show-slave-status.html" target="_blank" rel="noopener">参考手册</a>。</p>
+<ul>
+<li>Slave_IO_Running: IO线程是否正常运行</li>
+<li>Slave_SQL_Running: SQL线程是否正常运行</li>
+<li>Master_Log_File: IO线程正在读取的主服务器日志文件</li>
+<li>Read_Master_Log_Pos: IO线程正在读取的主服务器日志文件的位置</li>
+<li>Relay_Log_File: SQL线程正在读取和执行的本地日志文件</li>
+<li>Relay_Log_Pos: SQL线程正在读取和执行的本地日志文件的位置</li>
+<li>Relay_Master_Log_File: SQL线程正在重演的事件所在的主服务器日志文件</li>
+<li>Exec_Master_Log_Pos: SQL线程正在重演的事件在主服务器日志文件中的位置</li>
+<li>Seconds_Behind_Master:如果网络没有明显的延迟，该参数标志着SQL线程的事件重演速度。如果该值较大且不断递增，调整<a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit" target="_blank" rel="noopener">innodb_flush_log_at_trx_commit</a>会有比较明显的效果，但是可能会在MySQL进程崩溃时丢失数据。</li>
+</ul>
+<h3 id="mysql数据库同步验证"><a href="#mysql数据库同步验证" class="headerlink" title="mysql数据库同步验证"></a>mysql数据库同步验证</h3><p>主从数据库设置工作已经完成，可以在master新建数据库和表，插入和修改数据，查看slave是否获得同步，测试一下是否成功。</p>
+<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><p>1、Slave_IO_Running: No Slave_SQL_Running: No</p>
+<pre><code>需要开启slave，即：start slave
+</code></pre><p>2、Slave_IO_Running: No Slave_SQL_Running: Yes</p>
+<pre><code>出现error，如Last_IO_Error: error connecting to master &apos;slave@192.168.11.120:3306&apos; - retry-time: 60  retries: 86400
+</code></pre><p>解决方案：</p>
+<pre><code>1).mysql -h192.168.11.120 -uslave  -p
+如果出现ERROR 2003 (HY000): Can&apos;t connect to MySQL server on &apos;192.168.11.120&apos; (113) 说明服务器不允许远程访问
+
+2).netstat -an | grep 3306
+查看是否开启远程访问的端口3306
+
+3).centos下配置开启3306端口：
+centos7.x下：
+vim /etc/firewalld/zones/public.xml 添加3306端口：
+
+&lt;zone&gt;
+    &lt;short&gt;Public&lt;/short&gt;
+    &lt;description&gt;For use in public areas. You do not trust the other computers on networks 
+        to not harm your computer. Only selected incoming connections are accepted.&lt;/description&gt;
+    &lt;service name=&quot;dhcpv6-client&quot;/&gt;
+    &lt;service name=&quot;ssh&quot;/&gt;
+    &lt;service name=&quot;http&quot;/&gt;
+    &lt;port protocol=&quot;tcp&quot; port=&quot;3306&quot;/&gt;
+&lt;/zone&gt;
+重启firewalld：systemctl restart firewalld.service
+
+centos6.x下：
+vim /etc/sysconfig/iptables 添加3306端口：
+
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT   #允许80端口通过防火墙
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT   #允许3306端口通过防火墙
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+
+如果/etc/my.cnf或者/etc/mysql/my.cnf配置文件中有bind-address，则需要修改配置：
+（1）注释掉 即：#bind-address=127.0.0.1
+（2）修改为：bind-addess=192.168.11.120 即本机的ip
+（3）修改为：bind-address=0.0.0.0
+</code></pre><p>3、修改同步账号的密码</p>
+<p>1）主库上复制账户的信息</p>
+<pre><code>&gt; show grants for &apos;slave&apos;@&apos;192.168.11.%&apos;;
++---------------------------------------------------------------------------------------------------+
+| Grants for slave@192.168.11.%                                                                     |
++---------------------------------------------------------------------------------------------------+
+| GRANT REPLICATION SLAVE ON *.* to &apos;slave&apos;@&apos;192.168.11.%&apos; IDENTIFIED BY PASSWORD &apos;*xxxxxxxxxxxxxxx&apos;|
++---------------------------------------------------------------------------------------------------+
+</code></pre><p>2）修改复制账户密码</p>
+<pre><code>&gt; grant replication slave on *.* to &apos;slave&apos;@&apos;192.168.11.%&apos; identified by &apos;repl&apos;;
+&gt; flush privileges;
+</code></pre><p>3）查看从库同步情况(stop slave –&gt; start slave –&gt; show slave status\G)</p>
+<pre><code>Last_IO_Errno: 1045
+Last_IO_Error: error connecting to master &apos;slave@192.168.11.120:3306&apos; - retry-time: 60  retries: 1
+</code></pre><p>4）更改重库连接密码，该信息记录在从库master.info文件中 </p>
+<pre><code>&gt; stop slave;
+&gt; change master to      #由于仅修改了同步账号的密码，可以只重新设置密码即可             
+    -&gt; master_user=&apos;slave&apos;,        
+    -&gt; master_password=&apos;repl&apos;;
+&gt; start slave;
+</code></pre><p>启动同步之后，再次查看slave状态，可以看到已经成功</p>
 
       
     </div>
@@ -458,7 +593,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2016/02/01/poetry-snow/" title="沁园春·雪">http://jasonhzy.github.io/2016/02/01/poetry-snow/</a>
+      <a href="http://jasonhzy.github.io/2016/02/05/mysql-master-slave/" title="Mysql 数据库主从同步(Master-Slave)">http://jasonhzy.github.io/2016/02/05/mysql-master-slave/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -474,7 +609,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/诗歌/" rel="tag"># 诗歌</a>
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
           
         </div>
       
@@ -487,8 +622,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/31/php-fun/" rel="next" title="PHP 函数图">
-                <i class="fa fa-chevron-left"></i> PHP 函数图
+              <a href="/2016/02/03/ssh-alive/" rel="next" title="How to Keep Alive SSH Sessions">
+                <i class="fa fa-chevron-left"></i> How to Keep Alive SSH Sessions
               </a>
             
           </div>
@@ -497,8 +632,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/02/01/http-status/" rel="prev" title="HTTP状态码">
-                HTTP状态码 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/02/19/sort-algorithm/" rel="prev" title="排序算法">
+                排序算法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -681,7 +816,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#沁园春·雪"><span class="nav-number">1.</span> <span class="nav-text">沁园春·雪</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制的原理"><span class="nav-number">1.</span> <span class="nav-text">主从复制的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境描述"><span class="nav-number">2.</span> <span class="nav-text">环境描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql主从配置"><span class="nav-number">3.</span> <span class="nav-text">mysql主从配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql主服务器配置-master"><span class="nav-number">3.1.</span> <span class="nav-text">mysql主服务器配置(master)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql从服务器配置-slave"><span class="nav-number">3.2.</span> <span class="nav-text">mysql从服务器配置(slave)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql数据库同步验证"><span class="nav-number">3.3.</span> <span class="nav-text">mysql数据库同步验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关问题"><span class="nav-number">4.</span> <span class="nav-text">相关问题</span></a></li></ol></div>
             
 
           </div>
@@ -842,9 +977,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://jasonhzy.github.io/2016/02/01/poetry-snow/';
-          this.page.identifier = '2016/02/01/poetry-snow/';
-          this.page.title = '沁园春·雪';
+          this.page.url = 'http://jasonhzy.github.io/2016/02/05/mysql-master-slave/';
+          this.page.identifier = '2016/02/05/mysql-master-slave/';
+          this.page.title = 'Mysql 数据库主从同步(Master-Slave)';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://jasonhzy.disqus.com/embed.js';

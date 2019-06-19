@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Rabbitmq,">
 
 
 
@@ -93,16 +93,18 @@
 
 
 
-<meta name="description" content="Share experience summary">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jason Website">
-<meta property="og:url" content="http://jasonhzy.github.io/archives/2019/page/2/index.html">
+<meta name="description" content="简介RabbitMQ是采用 Erlang语言实现AMQP协议的消息中间件，AMQP全称是 Advanced Message Queue Protocolg，高级消息队列协议。支持多种客户端，如：Java、PHP、Python等，主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。">
+<meta name="keywords" content="Rabbitmq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rabbitmq编译安装">
+<meta property="og:url" content="http://jasonhzy.github.io/2019/06/06/rabbitmq-install/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Share experience summary">
+<meta property="og:description" content="简介RabbitMQ是采用 Erlang语言实现AMQP协议的消息中间件，AMQP全称是 Advanced Message Queue Protocolg，高级消息队列协议。支持多种客户端，如：Java、PHP、Python等，主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-19T14:15:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jason Website">
-<meta name="twitter:description" content="Share experience summary">
+<meta name="twitter:title" content="Rabbitmq编译安装">
+<meta name="twitter:description" content="简介RabbitMQ是采用 Erlang语言实现AMQP协议的消息中间件，AMQP全称是 Advanced Message Queue Protocolg，高级消息队列协议。支持多种客户端，如：Java、PHP、Python等，主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。">
 
 
 
@@ -130,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/archives/2019/page/2/">
+  <link rel="canonical" href="http://jasonhzy.github.io/2019/06/06/rabbitmq-install/">
 
 
 
 
 
-  <title>归档 | Jason Website</title>
+  <title>Rabbitmq编译安装 | Jason Website</title>
   
 
 
@@ -171,7 +173,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <!-- --------- add Fork me on Github ---------- -->
@@ -301,102 +303,286 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-       
-        
-      好! 目前共计 69 篇日志。 继续努力。
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2019/06/06/rabbitmq-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jason hu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jason Website">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rabbitmq编译安装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T09:32:57+08:00">
+                2019-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Rabbitmq/" itemprop="url" rel="index">
+                    <span itemprop="name">Rabbitmq</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"> 浏览</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>RabbitMQ是采用 Erlang语言实现AMQP协议的消息中间件，AMQP全称是 Advanced Message Queue Protocolg，高级消息队列协议。支持多种客户端，如：Java、PHP、Python等，<br>主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。</p>
+<a id="more"></a>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>系统环境：CentOS7<br>RabbitMQ版本：3.6.12<br>Erlang版本：20.1</p>
+<p>查看 <a href="https://www.rabbitmq.com/which-erlang.html" target="_blank" rel="noopener">RabbitMQ和Erlang匹配版本</a></p>
+<h2 id="安装Erlang"><a href="#安装Erlang" class="headerlink" title="安装Erlang"></a>安装Erlang</h2><p>RabbitMQ是由Erlang语言开发，所以需要先安装Erlang环境</p>
+<p>1、安装依赖</p>
+<p>   yum install gcc gcc-c++ ncurses ncurses-devel openssl openssl-devel unixODBC unixODBC-devel</p>
+<p>2、下载安装，地址：<a href="http://www.erlang.org/downloads" target="_blank" rel="noopener">http://www.erlang.org/downloads</a> ，选择版本下载</p>
+<pre><code>wget http://erlang.org/download/otp_src_20.1.tar.gz
+</code></pre><p>3、解压编译安装</p>
+<pre><code># 解压
+tar -zxvf otp_src_20.1.tar.gz
+
+# 配置安装路径编译代码
+cd otp_src_20.1/
+./configure \
+--prefix=/usr/local/erlang \
+--without-javac
+
+# 安装
+make &amp;&amp; make install
+</code></pre><p>4、环境变量设置</p>
+<pre><code>vim /etc/profile
+#添加以下配置
+#set erlang environment
+export PATH=$PATH:/usr/local/erlang/bin
+</code></pre><p>5、测试是否成功</p>
+<pre><code>[root@iZj6ci19b3r6baljocdx8cZ ~]# erl
+Erlang/OTP 20 [erts-9.1] [source] [64-bit] [smp:2:2] [ds:2:2:10] [async-threads:10] [hipe] [kernel-poll:false]
+
+Eshell V9.1  (abort with ^G)
+1&gt; 
+1&gt; 
+1&gt; halt(). #退出    
+</code></pre><h2 id="安装RabbitMQ"><a href="#安装RabbitMQ" class="headerlink" title="安装RabbitMQ"></a>安装RabbitMQ</h2><p>1、下载安装，从官网下载，选择版本。在linux环境下需要下带有unix的，如下：</p>
+<pre><code>wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.12/rabbitmq-server-generic-unix-3.6.12.tar.xz
+# 解压，这里将其解压到opt目录中。解压之后进入opt目录，修改rabbitmq的文件夹
+tar -xvf rabbitmq-server-generic-unix-3.6.12.tar.xz
+mv rabbitmq-server-3.6.12 /usr/local/rabbitmq
+</code></pre><p>2、配置环境变量</p>
+<pre><code>vim /etc/profile
+#添加以下配置
+#set rabbitmq environment
+export PATH=$PATH:/usr/local/rabbitmq/sbin
+#使得文件生效
+source  /etc/profile
+</code></pre><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>1、启动rabbitmq</p>
+<pre><code>rabbitmq-server -detached #后台启动
+</code></pre><p>2、查看服务状态</p>
+<pre><code>rabbitmqctl status
+</code></pre><p>例如：</p>
+<pre><code>[root@iZj6ci19b3r6baljocdx8cZ ~]# rabbitmqctl status
+Status of node rabbit@iZj6ci19b3r6baljocdx8cZ
+[{pid,19317},
+ {running_applications,
+     [{rabbitmq_management,&quot;RabbitMQ Management Console&quot;,&quot;3.6.12&quot;},
+      {rabbitmq_web_dispatch,&quot;RabbitMQ Web Dispatcher&quot;,&quot;3.6.12&quot;},
+      {cowboy,&quot;Small, fast, modular HTTP server.&quot;,&quot;1.0.4&quot;},
+      ......
+</code></pre><p>3、 停止RabbitMQ</p>
+<pre><code>rabbitmqctl stop
+</code></pre><p>4、启动插件</p>
+<pre><code>rabbitmq-plugins enable rabbitmq_management
+</code></pre><p>默认端口15672，对外访问即：IP:15672，默认的账号密码是guest，但是该账号只能通过localhost登录</p>
+<p>1）添加用户</p>
+<pre><code>rabbitmqctl add_user [username] [password]
+</code></pre><p>2）添加权限</p>
+<pre><code>rabbitmqctl set_permissions -p &quot;/&quot; [username] &quot;.*&quot; &quot;.*&quot; &quot;.*&quot; #&quot;/&quot;即
+</code></pre><p>3）修改用户角色</p>
+<pre><code>rabbitmqctl set_user_tags [username] administrator
+</code></pre><p>4）修改用户密码</p>
+<pre><code>rabbitmqctl change_password [username] [password]    
+</code></pre><p>4）查看当前用户列表</p>
+<pre><code>rabbitmqctl list_users
+</code></pre><p>5）删除用户</p>
+<pre><code>rabbitmqctl delete_user [username]
+</code></pre>
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2019">2019</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>轻轻的我走了，正如我轻轻的来</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wxpay.jpg" alt="Jason hu WeChat Pay">
+          <p>微信打赏</p>
         </div>
       
       
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="Jason hu Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
 
       
+    </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
+    <div>
+      
         
-            <a class="post-title-link" href="/2019/02/01/mysql-compile-install/" itemprop="url">
-              
-                <span itemprop="name">MySQL源码安装</span>
-              
-            </a>
-        
-      </h2>
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Jason hu
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jasonhzy.github.io/2019/06/06/rabbitmq-install/" title="Rabbitmq编译安装">http://jasonhzy.github.io/2019/06/06/rabbitmq-install/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-01T15:51:12+08:00" content="2019-02-01">
-          02-01
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Rabbitmq/" rel="tag"># Rabbitmq</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/22/transaction/" rel="next" title="数据库事务">
+                <i class="fa fa-chevron-left"></i> 数据库事务
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
+    <div class="post-spread">
       
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/01/15/mysql-config-editor/" itemprop="url">
-              
-                <span itemprop="name">mysql-config-editor使用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-15T14:29:32+08:00" content="2019-01-15">
-          01-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2019/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2019/">1</a><span class="page-number current">2</span>
-  </nav>
-
-
+    </div>
+  </div>
 
 
           </div>
@@ -404,6 +590,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -424,8 +621,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jason hu">
           <p class="site-author-name" itemprop="name">Jason hu</p>
@@ -532,6 +738,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Erlang"><span class="nav-number">3.</span> <span class="nav-text">安装Erlang</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装RabbitMQ"><span class="nav-number">4.</span> <span class="nav-text">安装RabbitMQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本操作"><span class="nav-number">5.</span> <span class="nav-text">基本操作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -665,11 +887,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   
@@ -686,6 +906,18 @@
 
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jasonhzy.github.io/2019/06/06/rabbitmq-install/';
+          this.page.identifier = '2019/06/06/rabbitmq-install/';
+          this.page.title = 'Rabbitmq编译安装';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jasonhzy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
