@@ -114,7 +114,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-master-to-slave.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-new-master.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/redis/sentinel-log.png">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-06-19T14:44:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis主从同步，哨兵">
 <meta name="twitter:description" content="Redis简介 redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不">
@@ -422,7 +422,18 @@
 <p>redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><pre><code>192.168.1.49 master 6379 sentinel1 26379
+<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><p>1、下载redis安装包，下载地址：<a href="https://redis.io/download，选择安装的版本，即" target="_blank" rel="noopener">https://redis.io/download，选择安装的版本，即</a></p>
+<pre><code>wget http://download.redis.io/releases/redis-4.0.14.tar.gz
+</code></pre><p>2、 解压并编译安装</p>
+<pre><code>#解压
+tar -xvf redis-4.0.14.tar.gz
+#安装
+cd redis-4.0.14
+make PREFIX=/usr/local/redis install   
+</code></pre><p>3、复制配置文件至redis安装目录</p>
+<pre><code>cp redis-4.0.14/redis.conf  /usr/local/redis/redis.conf
+cp redis-4.0.14/sentinel.conf  /usr/local/redis/sentinel.conf  
+</code></pre><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><pre><code>192.168.1.49 master 6379 sentinel1 26379
 192.168.1.63 slave1 6380 sentinel2 26380
 192.168.1.144 slave2 6381 sentinel3 26381
 </code></pre><h2 id="主从同步-master-slave"><a href="#主从同步-master-slave" class="headerlink" title="主从同步(master-slave)"></a>主从同步(master-slave)</h2><p>   Redis 支持简单且易用的主从复制（master-slave replication）功能</p>
@@ -832,7 +843,7 @@ bind 192.168.1.49
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis简介"><span class="nav-number">1.</span> <span class="nav-text">Redis简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从同步-master-slave"><span class="nav-number">3.</span> <span class="nav-text">主从同步(master-slave)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">3.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单搭建"><span class="nav-number">3.2.</span> <span class="nav-text">简单搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis持久化"><span class="nav-number">3.3.</span> <span class="nav-text">Redis持久化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵-sentinel"><span class="nav-number">4.</span> <span class="nav-text">哨兵(sentinel)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单搭建-1"><span class="nav-number">4.1.</span> <span class="nav-text">简单搭建</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis简介"><span class="nav-number">1.</span> <span class="nav-text">Redis简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译安装"><span class="nav-number">2.</span> <span class="nav-text">编译安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">3.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从同步-master-slave"><span class="nav-number">4.</span> <span class="nav-text">主从同步(master-slave)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">4.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单搭建"><span class="nav-number">4.2.</span> <span class="nav-text">简单搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis持久化"><span class="nav-number">4.3.</span> <span class="nav-text">Redis持久化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵-sentinel"><span class="nav-number">5.</span> <span class="nav-text">哨兵(sentinel)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单搭建-1"><span class="nav-number">5.1.</span> <span class="nav-text">简单搭建</span></a></li></ol></li></ol></div>
             
 
           </div>
