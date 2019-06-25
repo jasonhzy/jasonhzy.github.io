@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-21T06:16:24.000Z">
+<meta property="og:updated_time" content="2019-06-25T13:11:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -722,9 +722,10 @@ location / 　　　　　通用匹配，任何未匹配到其它location的请�
 2.执行location匹配
 3.执行选定的location中的rewrite指令
 </code></pre><p>rewrite指令的最后一项参数为flag标记，支持flag标记有：</p>
-<pre><code>1.last  相当于apache里面的[L]标记，浏览器地址栏URL地址不变。若不指明last或者break，默认是last。会转到匹配
-  新的location，其他的rewrite语句和其他语句不会执行
-2.break  本条规则匹配完成后，继续完成本location中非rewrite的语句，而不跳转到新的location，浏览器地址栏URL地址不变
+<pre><code>1.last  相当于apache里面的[L]标记，浏览器地址栏URL地址不变。若不指明last或者break，默认是last。
+    会转到匹配新的location，其他的rewrite语句和其他语句不会执行
+2.break  本条规则匹配完成后，继续完成本location中非rewrite的语句，而不跳转到新的location，
+    浏览器地址栏URL地址不变
 3.redirect  返回302临时重定向，浏览器地址会显示跳转后的URL地址。
 4.permanent  返回301永久重定向， 浏览器地址会显示跳转后的URL地址。
 </code></pre><p>因为301和302不能简单的只返回状态码，还必须有重定向的URL，这就是return指令无法返回301, 302的原因了。<br>这里last和break区别有点难以理解：</p>

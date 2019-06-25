@@ -1927,59 +1927,6 @@ vim     1485 root    4u   REG   8,17    12288   12 /data/.a.swp
     </entry>
     
     <entry>
-      <title><![CDATA[Ubuntu内核升级]]></title>
-      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
-      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
-<a id="more"></a>
-<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
-apt-cache search linux-headers-\*
-</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
-apt-get install linux-headers-X.X.X.X-generic
-</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
-或
-update-initramfs -u -k `uname -r`
-</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
-</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
-</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
-</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
-<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
-<pre><code>getconf LONG_BIT
-</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
-<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
-</code></pre><p>3、使用wget命令来下载到服务器</p>
-<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>4、安装下载软件包</p>
-<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
-<pre><code>update-grub
-</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
-<pre><code>dpkg --get-selections | grep linux-image
-</code></pre><p>2、移除不要的Kernel</p>
-<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
-</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
-<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
-</code></pre>]]></content>
-      
-        <categories>
-            
-            <category> Linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Linux </tag>
-            
-            <tag> Kernel </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[CentOS内核升级]]></title>
       <url>http://jasonhzy.github.io/2019/02/06/centos-kernel-upgrade/</url>
       <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的CentOS进行操作</p>
@@ -2043,6 +1990,59 @@ yum remove kernel-headers-3.10.0-693.21.1.el7.x86_64 kernel-lt-4.4.121-1.el7.elr
 <pre><code>date
 </code></pre><p>同步系统时间：</p>
 <pre><code>ntpdate time.apple.com
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Kernel </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Ubuntu内核升级]]></title>
+      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
+      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
+<a id="more"></a>
+<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
+apt-cache search linux-headers-\*
+</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
+apt-get install linux-headers-X.X.X.X-generic
+</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
+或
+update-initramfs -u -k `uname -r`
+</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
+</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
+</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
+</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
+<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
+<pre><code>getconf LONG_BIT
+</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
+<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
+</code></pre><p>3、使用wget命令来下载到服务器</p>
+<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>4、安装下载软件包</p>
+<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
+<pre><code>update-grub
+</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
+<pre><code>dpkg --get-selections | grep linux-image
+</code></pre><p>2、移除不要的Kernel</p>
+<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
+</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
+<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
 </code></pre>]]></content>
       
         <categories>
@@ -5351,9 +5351,10 @@ location / 　　　　　通用匹配，任何未匹配到其它location的请�
 2.执行location匹配
 3.执行选定的location中的rewrite指令
 </code></pre><p>rewrite指令的最后一项参数为flag标记，支持flag标记有：</p>
-<pre><code>1.last  相当于apache里面的[L]标记，浏览器地址栏URL地址不变。若不指明last或者break，默认是last。会转到匹配
-  新的location，其他的rewrite语句和其他语句不会执行
-2.break  本条规则匹配完成后，继续完成本location中非rewrite的语句，而不跳转到新的location，浏览器地址栏URL地址不变
+<pre><code>1.last  相当于apache里面的[L]标记，浏览器地址栏URL地址不变。若不指明last或者break，默认是last。
+    会转到匹配新的location，其他的rewrite语句和其他语句不会执行
+2.break  本条规则匹配完成后，继续完成本location中非rewrite的语句，而不跳转到新的location，
+    浏览器地址栏URL地址不变
 3.redirect  返回302临时重定向，浏览器地址会显示跳转后的URL地址。
 4.permanent  返回301永久重定向， 浏览器地址会显示跳转后的URL地址。
 </code></pre><p>因为301和302不能简单的只返回状态码，还必须有重定向的URL，这就是return指令无法返回301, 302的原因了。<br>这里last和break区别有点难以理解：</p>
