@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T14:25:44.000Z">
+<meta property="og:updated_time" content="2019-06-21T06:16:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -722,15 +722,37 @@ location / 　　　　　通用匹配，任何未匹配到其它location的请�
 2.执行location匹配
 3.执行选定的location中的rewrite指令
 </code></pre><p>rewrite指令的最后一项参数为flag标记，支持flag标记有：</p>
-<pre><code>1.last相当于apache里面的[L]标记，表示完成rewrite，浏览器地址栏URL地址不变
-2.break本条规则匹配完成后，终止匹配，不再匹配后面的规则，浏览器地址栏URL地址不变
+<pre><code>1.last  相当于apache里面的[L]标记，浏览器地址栏URL地址不变。若不指明last或者break，默认是last。会转到匹配
+  新的location，其他的rewrite语句和其他语句不会执行
+2.break  本条规则匹配完成后，继续完成本location中非rewrite的语句，而不跳转到新的location，浏览器地址栏URL地址不变
 3.redirect  返回302临时重定向，浏览器地址会显示跳转后的URL地址。
 4.permanent  返回301永久重定向， 浏览器地址会显示跳转后的URL地址。
 </code></pre><p>因为301和302不能简单的只返回状态码，还必须有重定向的URL，这就是return指令无法返回301, 302的原因了。<br>这里last和break区别有点难以理解：</p>
 <pre><code>last 一般写在server和if中，而break一般使用在location中
 last 不终止重写后的url匹配，即新的url会再从server走一遍匹配流程，而break终止重写后的匹配
 break和last 都能组织继续执行后面的rewrite指令
-</code></pre><h3 id="if判断指令"><a href="#if判断指令" class="headerlink" title="if判断指令"></a>if判断指令</h3><p>语法为 if(condition) {…}，对给定的条件 condition 进行判断。如果为真，大括号内的 rewrite 指令将被执行，<br>if 条件(conditon)可以是如下任何内容：</p>
+</code></pre><p>例如：</p>
+<pre><code>server {
+   listen 80 default_server;
+   server_name example.com;
+   root www;
+
+   location /break/ {
+       rewrite ^/break/(.*) /test/$1 break;
+       echo &quot;break page&quot;;
+   } 
+
+   location /last/ {
+        rewrite ^/last/(.*) /test/$1 last;
+        echo &quot;last page&quot;;
+   }    
+
+   location /test/ {
+      echo &quot;test page&quot;;
+   }
+}
+</code></pre><p>请求1：<a href="http://example.com/break/***，输出&quot;break" target="_blank" rel="noopener">http://example.com/break/***，输出&quot;break</a> page”<br>请求2：<a href="http://example.com/last/***，输出&quot;test" target="_blank" rel="noopener">http://example.com/last/***，输出&quot;test</a> page”</p>
+<h3 id="if判断指令"><a href="#if判断指令" class="headerlink" title="if判断指令"></a>if判断指令</h3><p>语法为 if(condition) {…}，对给定的条件 condition 进行判断。如果为真，大括号内的 rewrite 指令将被执行，<br>if 条件(conditon)可以是如下任何内容：</p>
 <pre><code>当表达式只是一个变量时，如果值为空或任何以 0 开头的字符串都会当做 false
 直接比较变量和内容时，使用 = 或 !=
 ~ 正则表达式匹配，~* 不区分大小写的匹配，!~ 区分大小写的不匹配
@@ -927,7 +949,7 @@ $document_uri ： 与$uri相同。
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

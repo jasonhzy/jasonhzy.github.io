@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-slave-detail.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/master-status.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/master-slave/slave-status.png">
-<meta property="og:updated_time" content="2019-06-08T06:51:47.000Z">
+<meta property="og:updated_time" content="2019-06-25T12:22:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql 数据库主从同步(Master-Slave)">
 <meta name="twitter:image" content="http://jasonhzy.github.io/images/master-slave/master-slave.jpg">
@@ -544,7 +544,68 @@ Last_IO_Error: error connecting to master &apos;slave@192.168.11.120:3306&apos; 
     -&gt; master_password=&apos;repl&apos;;
 &gt; start slave;
 </code></pre><p>启动同步之后，再次查看slave状态，可以看到已经成功</p>
+<p>4、清除主从同步信息</p>
+<p>1）reset master<br>删除所有的binglog日志文件，并将日志索引文件清空，重新开始所有新的日志文件。用于第一次搭建主从数据库时，用于主库的初始化binglog操作。主从正在运行时，万不可如此操作。</p>
+<pre><code>mysql&gt; show master status\G
+*************************** 1. row ***************************
+            File: mysql-bin.000015
+        Position: 28170
+    Binlog_Do_DB: 
+Binlog_Ignore_DB: mysql
+1 row in set (0.04 sec)
 
+mysql&gt; reset master;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql&gt; show master status\G;
+*************************** 1. row ***************************
+            File: mysql-bin.000001
+        Position: 106
+    Binlog_Do_DB: 
+Binlog_Ignore_DB: 
+1 row in set (0.01 sec)
+</code></pre><p>2）reset slave<br>删除slave数据库的master.info和relay-log.info文件，但里面的同步信息(即连接信息，包括主库地址、端口、用户、密码等)仍在。</p>
+<pre><code>mysql&gt; show slave status\G
+*************************** 1. row ***************************
+               Slave_IO_State: Waiting for master to send event
+                  Master_Host: 10.10.28.30
+                  Master_User: test
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: mysql-bin.000015
+          Read_Master_Log_Pos: 39249001
+               #可在my.cnf设置relay-log = mysql-relay-bin，默认使用的是host_name-relay-bin.nnnnnn
+               Relay_Log_File: iZ2ze5vyj2j0ati6ddbtddZ-relay-bin.000059 
+                Relay_Log_Pos: 1223762
+        Relay_Master_Log_File: mysql-bin.000013
+        ...
+
+mysql&gt; stop slave;        
+Query OK, 0 rows affected (0.01 sec)    
+
+mysql&gt; reset slave;                
+Query OK, 0 rows affected (0.04 sec)
+
+mysql&gt; show slave status\G;
+*************************** 1\. row ***************************
+              Slave_IO_State: 
+                 Master_Host: 10.10.28.30
+                 Master_User: test
+                 Master_Port: 3306
+               Connect_Retry: 20
+             Master_Log_File: mysql-bin.000015
+         Read_Master_Log_Pos: 39249001
+              Relay_Log_File: iZ2ze5vyj2j0ati6ddbtddZ-relay-bin.00001 
+               Relay_Log_Pos: 10
+       Relay_Master_Log_File: mysql-bin.000013
+       ...
+</code></pre><p> 3）reset slave all<br>将所有同步信息彻底清理，常用于主从关系破坏之后，从库重新初始化进行配置或者移除当前slave<br>    mysql&gt; stop slave;<br>    Query OK, 0 rows affected (0.02 sec) </p>
+<pre><code>mysql&gt; reset slave all; 
+Query OK, 0 rows affected (0.04 sec) 
+
+mysql&gt; show slave status\G; 
+Empty set (0.02 sec)            
+</code></pre>
       
     </div>
 
@@ -712,7 +773,7 @@ Last_IO_Error: error connecting to master &apos;slave@192.168.11.120:3306&apos; 
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

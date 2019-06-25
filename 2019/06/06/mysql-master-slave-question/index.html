@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Mysql,">
 
 
 
@@ -93,16 +93,18 @@
 
 
 
-<meta name="description" content="Share experience summary">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jason Website">
-<meta property="og:url" content="http://jasonhzy.github.io/archives/2017/01/index.html">
+<meta name="description" content="在MySQL主从同步集群部署中，经常会遇到主从不能同步的问题，以下对常见问题及解决办法进行了归纳列举">
+<meta name="keywords" content="Mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql同步复制报错故障处理">
+<meta property="og:url" content="http://jasonhzy.github.io/2019/06/06/mysql-master-slave-question/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="Share experience summary">
+<meta property="og:description" content="在MySQL主从同步集群部署中，经常会遇到主从不能同步的问题，以下对常见问题及解决办法进行了归纳列举">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-25T12:51:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jason Website">
-<meta name="twitter:description" content="Share experience summary">
+<meta name="twitter:title" content="Mysql同步复制报错故障处理">
+<meta name="twitter:description" content="在MySQL主从同步集群部署中，经常会遇到主从不能同步的问题，以下对常见问题及解决办法进行了归纳列举">
 
 
 
@@ -130,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/archives/2017/01/">
+  <link rel="canonical" href="http://jasonhzy.github.io/2019/06/06/mysql-master-slave-question/">
 
 
 
 
 
-  <title>归档 | Jason Website</title>
+  <title>Mysql同步复制报错故障处理 | Jason Website</title>
   
 
 
@@ -171,7 +173,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <!-- --------- add Fork me on Github ---------- -->
@@ -301,63 +303,254 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-       
-        
-      好! 目前共计 70 篇日志。 继续努力。
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2019/06/06/mysql-master-slave-question/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jason hu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jason Website">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mysql同步复制报错故障处理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T09:34:52+08:00">
+                2019-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"> 浏览</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <p>在MySQL主从同步集群部署中，经常会遇到主从不能同步的问题，以下对常见问题及解决办法进行了归纳列举</p>
+<a id="more"></a>
+<h2 id="数据不一致：包括删除失败、主键重复、更新丢失"><a href="#数据不一致：包括删除失败、主键重复、更新丢失" class="headerlink" title="数据不一致：包括删除失败、主键重复、更新丢失"></a>数据不一致：包括删除失败、主键重复、更新丢失</h2><p>例如：</p>
+<pre><code>#更新丢失
+Last_SQL_Errno: 1032
+Last_SQL_Error: Could not execute Update_rows event on table social.test; Can&apos;t find record in &apos;jason&apos;, Error_code: 1032; handler error HA_ERR_KEY_NOT_FOUND;the event&apos;s master log mysql-bin.000019, end_log_pos 4563
+#主键重复
+Last_SQL_Errno: 1062
+Last_SQL_Error: Error &apos;Duplicate entry &apos;1&apos; for key &apos;PRIMARY&apos;&apos; on query. Default database: &apos;social&apos;. Query: &apos;INSERT INTO `social`.`tool`(`createdat`, `updatedat`) VALUES (&apos;2019-06-05 09:11:46&apos;, &apos;2019-06-05 09:11:51&apos;)&apos;
+#删除失败
+Last_SQL_Errno: 1032
+Last_SQL_Error: Could not execute Delete_rows_v1 event on table social.player_role; Can&apos;t find record in &apos;player_role&apos;, Error_code: 1032; handler error HA_ERR_END_OF_FILE; the event&apos;s master log mysql-bin.000013, end_log_pos 20064466
+</code></pre><p>在master上，用mysqlbinlog 分析下出错的binlog日志在干什么：</p>
+<pre><code>[root@localhost ~]# mysqlbinlog --no-defaults -v -v --base64-output=DECODE-ROWS mysql-bin.000013 | grep -A 10 20064466
+#190605  9:12:28 server id 1  end_log_pos 20064466     Delete_rows: table id 442 flags: STMT_END_F
+### DELETE FROM `social`.`player_role`
+### WHERE
+###   @1=1 /* INT meta=0 nullable=0 is_null=0 */
+###   @2=1 /* INT meta=0 nullable=0 is_null=0 */
+###   @3=&apos;2019-06-04 20:10:48&apos; /* DATETIME(0) meta=0 nullable=1 is_null=0 */
+###   @4=&apos;2019-06-04 20:10:48&apos; /* DATETIME(0) meta=0 nullable=1 is_null=0 */
+# at 20064466
+#190605  9:12:28 server id 1  end_log_pos 20064493     Xid = 414815
+COMMIT/*!*/;
+# at 20064493
+#190605  9:13:00 server id 1  end_log_pos 20064531     GTID 0-1-9152684 trans
+/*!100001 SET @@session.gtid_seq_no=9152684*//*!*/;
+BEGIN
+/*!*/;
+# at 20064531
+#190605  9:13:00 server id 1  end_log_pos 20064795     Query    thread_id=1733    exec_time=0    error_code=0
+SET TIMESTAMP=1559697180.6860/*!*/;
+</code></pre><p>对于主键重复／删除失败／更新丢失，更新丢失主要是缺少更新的记录，进行补充下即可，主键重复／删除失败此时可以选择忽略错误，方法如下：</p>
+<pre><code>mysql&gt; stop slave;
+mysql&gt; set global sql_slave_skip_counter=1;
+mysql&gt; start slave;
+mysql&gt; show slave status\G
+</code></pre><h2 id="字段不一致：包括字段重复、丢失、不够长等"><a href="#字段不一致：包括字段重复、丢失、不够长等" class="headerlink" title="字段不一致：包括字段重复、丢失、不够长等"></a>字段不一致：包括字段重复、丢失、不够长等</h2><pre><code>#字段重复
+Last_SQL_Errno: 1060
+Last_SQL_Error: Error &apos;Duplicate column name &apos;del_flag&apos;&apos; on query. Default database: &apos;social&apos;. Query: &apos;ALTER TABLE `social`.`player` ADD COLUMN `del_flag` int(11) NULL AFTER `detail`&apos;
+</code></pre><p>对于数据库字段的同步失败，只需要将主从数据库的字段名称、类型等调整一致即可。之后重启slave，查看主从同步是否恢复</p>
+<h2 id="主从表不一致"><a href="#主从表不一致" class="headerlink" title="主从表不一致"></a>主从表不一致</h2><pre><code>Last_SQL_Errno: 1146
+Last_SQL_Error: Error executing row event: &apos;Table &apos;social.player_role&apos; doesn&apos;t exist&apos;
+</code></pre><p>主从提示缺少表可以进行添加，多余表可以删除，保证主从表的一致即可。之后重启slave，查看主从同步是否恢复</p>
+
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>轻轻的我走了，正如我轻轻的来</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wxpay.jpg" alt="Jason hu WeChat Pay">
+          <p>微信打赏</p>
         </div>
       
       
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="Jason hu Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
 
       
+    </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/01/07/php-generate-qr/" itemprop="url">
-              
-                <span itemprop="name">PHP GD库合成图片</span>
-              
-            </a>
-        
-      </h2>
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Jason hu
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jasonhzy.github.io/2019/06/06/mysql-master-slave-question/" title="Mysql同步复制报错故障处理">http://jasonhzy.github.io/2019/06/06/mysql-master-slave-question/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2017-01-07T11:02:20+08:00" content="2017-01-07">
-          01-07
-        </time>
-      </div>
 
-    </header>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/06/rabbitmq-install/" rel="next" title="RabbitMQ编译安装">
+                <i class="fa fa-chevron-left"></i> RabbitMQ编译安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
-  </section>
-
-  
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -365,6 +558,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -385,8 +589,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jason hu">
           <p class="site-author-name" itemprop="name">Jason hu</p>
@@ -493,6 +706,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据不一致：包括删除失败、主键重复、更新丢失"><span class="nav-number">1.</span> <span class="nav-text">数据不一致：包括删除失败、主键重复、更新丢失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字段不一致：包括字段重复、丢失、不够长等"><span class="nav-number">2.</span> <span class="nav-text">字段不一致：包括字段重复、丢失、不够长等</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从表不一致"><span class="nav-number">3.</span> <span class="nav-text">主从表不一致</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -626,11 +855,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   
@@ -647,6 +874,18 @@
 
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jasonhzy.github.io/2019/06/06/mysql-master-slave-question/';
+          this.page.identifier = '2019/06/06/mysql-master-slave-question/';
+          this.page.title = 'Mysql同步复制报错故障处理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jasonhzy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   

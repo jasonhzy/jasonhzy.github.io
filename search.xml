@@ -4,6 +4,70 @@
   
     
     <entry>
+      <title><![CDATA[Mysql同步复制报错故障处理]]></title>
+      <url>http://jasonhzy.github.io/2019/06/06/mysql-master-slave-question/</url>
+      <content type="html"><![CDATA[<p>在MySQL主从同步集群部署中，经常会遇到主从不能同步的问题，以下对常见问题及解决办法进行了归纳列举</p>
+<a id="more"></a>
+<h2 id="数据不一致：包括删除失败、主键重复、更新丢失"><a href="#数据不一致：包括删除失败、主键重复、更新丢失" class="headerlink" title="数据不一致：包括删除失败、主键重复、更新丢失"></a>数据不一致：包括删除失败、主键重复、更新丢失</h2><p>例如：</p>
+<pre><code>#更新丢失
+Last_SQL_Errno: 1032
+Last_SQL_Error: Could not execute Update_rows event on table social.test; Can&apos;t find record in &apos;jason&apos;, Error_code: 1032; handler error HA_ERR_KEY_NOT_FOUND;the event&apos;s master log mysql-bin.000019, end_log_pos 4563
+#主键重复
+Last_SQL_Errno: 1062
+Last_SQL_Error: Error &apos;Duplicate entry &apos;1&apos; for key &apos;PRIMARY&apos;&apos; on query. Default database: &apos;social&apos;. Query: &apos;INSERT INTO `social`.`tool`(`createdat`, `updatedat`) VALUES (&apos;2019-06-05 09:11:46&apos;, &apos;2019-06-05 09:11:51&apos;)&apos;
+#删除失败
+Last_SQL_Errno: 1032
+Last_SQL_Error: Could not execute Delete_rows_v1 event on table social.player_role; Can&apos;t find record in &apos;player_role&apos;, Error_code: 1032; handler error HA_ERR_END_OF_FILE; the event&apos;s master log mysql-bin.000013, end_log_pos 20064466
+</code></pre><p>在master上，用mysqlbinlog 分析下出错的binlog日志在干什么：</p>
+<pre><code>[root@localhost ~]# mysqlbinlog --no-defaults -v -v --base64-output=DECODE-ROWS mysql-bin.000013 | grep -A 10 20064466
+#190605  9:12:28 server id 1  end_log_pos 20064466     Delete_rows: table id 442 flags: STMT_END_F
+### DELETE FROM `social`.`player_role`
+### WHERE
+###   @1=1 /* INT meta=0 nullable=0 is_null=0 */
+###   @2=1 /* INT meta=0 nullable=0 is_null=0 */
+###   @3=&apos;2019-06-04 20:10:48&apos; /* DATETIME(0) meta=0 nullable=1 is_null=0 */
+###   @4=&apos;2019-06-04 20:10:48&apos; /* DATETIME(0) meta=0 nullable=1 is_null=0 */
+# at 20064466
+#190605  9:12:28 server id 1  end_log_pos 20064493     Xid = 414815
+COMMIT/*!*/;
+# at 20064493
+#190605  9:13:00 server id 1  end_log_pos 20064531     GTID 0-1-9152684 trans
+/*!100001 SET @@session.gtid_seq_no=9152684*//*!*/;
+BEGIN
+/*!*/;
+# at 20064531
+#190605  9:13:00 server id 1  end_log_pos 20064795     Query    thread_id=1733    exec_time=0    error_code=0
+SET TIMESTAMP=1559697180.6860/*!*/;
+</code></pre><p>对于主键重复／删除失败／更新丢失，更新丢失主要是缺少更新的记录，进行补充下即可，主键重复／删除失败此时可以选择忽略错误，方法如下：</p>
+<pre><code>mysql&gt; stop slave;
+mysql&gt; set global sql_slave_skip_counter=1;
+mysql&gt; start slave;
+mysql&gt; show slave status\G
+</code></pre><h2 id="字段不一致：包括字段重复、丢失、不够长等"><a href="#字段不一致：包括字段重复、丢失、不够长等" class="headerlink" title="字段不一致：包括字段重复、丢失、不够长等"></a>字段不一致：包括字段重复、丢失、不够长等</h2><pre><code>#字段重复
+Last_SQL_Errno: 1060
+Last_SQL_Error: Error &apos;Duplicate column name &apos;del_flag&apos;&apos; on query. Default database: &apos;social&apos;. Query: &apos;ALTER TABLE `social`.`player` ADD COLUMN `del_flag` int(11) NULL AFTER `detail`&apos;
+</code></pre><p>对于数据库字段的同步失败，只需要将主从数据库的字段名称、类型等调整一致即可。之后重启slave，查看主从同步是否恢复</p>
+<h2 id="主从表不一致"><a href="#主从表不一致" class="headerlink" title="主从表不一致"></a>主从表不一致</h2><pre><code>Last_SQL_Errno: 1146
+Last_SQL_Error: Error executing row event: &apos;Table &apos;social.player_role&apos; doesn&apos;t exist&apos;
+</code></pre><p>主从提示缺少表可以进行添加，多余表可以删除，保证主从表的一致即可。之后重启slave，查看主从同步是否恢复</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Mysql </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[RabbitMQ编译安装]]></title>
       <url>http://jasonhzy.github.io/2019/06/06/rabbitmq-install/</url>
       <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>RabbitMQ是采用 Erlang语言实现AMQP协议的消息中间件，AMQP全称是 Advanced Message Queue Protocolg，高级消息队列协议。支持多种客户端，如：Java、PHP、Python等，主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。</p>
@@ -1863,6 +1927,59 @@ vim     1485 root    4u   REG   8,17    12288   12 /data/.a.swp
     </entry>
     
     <entry>
+      <title><![CDATA[Ubuntu内核升级]]></title>
+      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
+      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
+<a id="more"></a>
+<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
+apt-cache search linux-headers-\*
+</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
+apt-get install linux-headers-X.X.X.X-generic
+</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
+或
+update-initramfs -u -k `uname -r`
+</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
+</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
+</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
+</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
+<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
+<pre><code>getconf LONG_BIT
+</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
+<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
+</code></pre><p>3、使用wget命令来下载到服务器</p>
+<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>4、安装下载软件包</p>
+<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
+</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
+<pre><code>update-grub
+</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
+<pre><code>dpkg --get-selections | grep linux-image
+</code></pre><p>2、移除不要的Kernel</p>
+<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
+</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
+<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Kernel </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[CentOS内核升级]]></title>
       <url>http://jasonhzy.github.io/2019/02/06/centos-kernel-upgrade/</url>
       <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的CentOS进行操作</p>
@@ -1926,59 +2043,6 @@ yum remove kernel-headers-3.10.0-693.21.1.el7.x86_64 kernel-lt-4.4.121-1.el7.elr
 <pre><code>date
 </code></pre><p>同步系统时间：</p>
 <pre><code>ntpdate time.apple.com
-</code></pre>]]></content>
-      
-        <categories>
-            
-            <category> Linux </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> Linux </tag>
-            
-            <tag> Kernel </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Ubuntu内核升级]]></title>
-      <url>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</url>
-      <content type="html"><![CDATA[<p>随着Linux内核不断的更新，原有服务器默认内核版本比较低。业务的不断发展，也不太满足业务的需要了。这就需要我们对服务器的内核进行升级，以下就针对常用的Ubuntu进行操作</p>
-<a id="more"></a>
-<h2 id="检查想要安裝的kernel版本是否存在"><a href="#检查想要安裝的kernel版本是否存在" class="headerlink" title="检查想要安裝的kernel版本是否存在"></a>检查想要安裝的kernel版本是否存在</h2><pre><code>apt-cache search linux-image-\*
-apt-cache search linux-headers-\*
-</code></pre><h2 id="安装kernel"><a href="#安装kernel" class="headerlink" title="安装kernel"></a>安装kernel</h2><pre><code>apt-get install linux-image-X.X.X.X-generic
-apt-get install linux-headers-X.X.X.X-generic
-</code></pre><h2 id="安裝后更新initramfs-image，详细的man-update-initramfs"><a href="#安裝后更新initramfs-image，详细的man-update-initramfs" class="headerlink" title="安裝后更新initramfs image，详细的man update-initramfs"></a>安裝后更新initramfs image，详细的man update-initramfs</h2><pre><code>update-initramfs -u -k all 
-或
-update-initramfs -u -k `uname -r`
-</code></pre><h2 id="更新grub清单"><a href="#更新grub清单" class="headerlink" title="更新grub清单"></a>更新grub清单</h2><pre><code>update-grub
-</code></pre><h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><pre><code>reboot
-</code></pre><h2 id="检查内核版本（重启之后检查是否生效）"><a href="#检查内核版本（重启之后检查是否生效）" class="headerlink" title="检查内核版本（重启之后检查是否生效）"></a>检查内核版本（重启之后检查是否生效）</h2><pre><code>uname -a
-</code></pre><p><strong> 补充：另一种安装方式：自行下载安装包升级内核 </strong></p>
-<p>1、确定CPU是32／64位，可以用下面的命令查看</p>
-<pre><code>getconf LONG_BIT
-</code></pre><p>2、下载Ubuntu编译好的内核<br>下载地址：</p>
-<pre><code>https://kernel.ubuntu.com/~kernel-ppa/mainline
-</code></pre><p>3、使用wget命令来下载到服务器</p>
-<pre><code>wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-wget https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.10/linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>4、安装下载软件包</p>
-<pre><code>dpkg -i linux-headers-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-dpkg -i linux-image-4.15.10-041510-generic_4.15.10-041510.201803152130_amd64.deb
-</code></pre><p>5、更新grub引导装入程序，并重启服务器</p>
-<pre><code>update-grub
-</code></pre><p><strong> 备注：</strong><br>1、列出目前系統中已安裝哪些kernel</p>
-<pre><code>dpkg --get-selections | grep linux-image
-</code></pre><p>2、移除不要的Kernel</p>
-<pre><code>apt-get purge linux-image-X.X.XX-XX-generic
-</code></pre><p>3、Ubuntu卸载Linux Kernel</p>
-<pre><code>apt-get remove linux-headers-4.4* linux-image-4.4*
 </code></pre>]]></content>
       
         <categories>
@@ -5287,15 +5351,37 @@ location / 　　　　　通用匹配，任何未匹配到其它location的请�
 2.执行location匹配
 3.执行选定的location中的rewrite指令
 </code></pre><p>rewrite指令的最后一项参数为flag标记，支持flag标记有：</p>
-<pre><code>1.last相当于apache里面的[L]标记，表示完成rewrite，浏览器地址栏URL地址不变
-2.break本条规则匹配完成后，终止匹配，不再匹配后面的规则，浏览器地址栏URL地址不变
+<pre><code>1.last  相当于apache里面的[L]标记，浏览器地址栏URL地址不变。若不指明last或者break，默认是last。会转到匹配
+  新的location，其他的rewrite语句和其他语句不会执行
+2.break  本条规则匹配完成后，继续完成本location中非rewrite的语句，而不跳转到新的location，浏览器地址栏URL地址不变
 3.redirect  返回302临时重定向，浏览器地址会显示跳转后的URL地址。
 4.permanent  返回301永久重定向， 浏览器地址会显示跳转后的URL地址。
 </code></pre><p>因为301和302不能简单的只返回状态码，还必须有重定向的URL，这就是return指令无法返回301, 302的原因了。<br>这里last和break区别有点难以理解：</p>
 <pre><code>last 一般写在server和if中，而break一般使用在location中
 last 不终止重写后的url匹配，即新的url会再从server走一遍匹配流程，而break终止重写后的匹配
 break和last 都能组织继续执行后面的rewrite指令
-</code></pre><h3 id="if判断指令"><a href="#if判断指令" class="headerlink" title="if判断指令"></a>if判断指令</h3><p>语法为 if(condition) {…}，对给定的条件 condition 进行判断。如果为真，大括号内的 rewrite 指令将被执行，<br>if 条件(conditon)可以是如下任何内容：</p>
+</code></pre><p>例如：</p>
+<pre><code>server {
+   listen 80 default_server;
+   server_name example.com;
+   root www;
+
+   location /break/ {
+       rewrite ^/break/(.*) /test/$1 break;
+       echo &quot;break page&quot;;
+   } 
+
+   location /last/ {
+        rewrite ^/last/(.*) /test/$1 last;
+        echo &quot;last page&quot;;
+   }    
+
+   location /test/ {
+      echo &quot;test page&quot;;
+   }
+}
+</code></pre><p>请求1：<a href="http://example.com/break/***，输出&quot;break" target="_blank" rel="noopener">http://example.com/break/***，输出&quot;break</a> page”<br>请求2：<a href="http://example.com/last/***，输出&quot;test" target="_blank" rel="noopener">http://example.com/last/***，输出&quot;test</a> page”</p>
+<h3 id="if判断指令"><a href="#if判断指令" class="headerlink" title="if判断指令"></a>if判断指令</h3><p>语法为 if(condition) {…}，对给定的条件 condition 进行判断。如果为真，大括号内的 rewrite 指令将被执行，<br>if 条件(conditon)可以是如下任何内容：</p>
 <pre><code>当表达式只是一个变量时，如果值为空或任何以 0 开头的字符串都会当做 false
 直接比较变量和内容时，使用 = 或 !=
 ~ 正则表达式匹配，~* 不区分大小写的匹配，!~ 区分大小写的不匹配
@@ -6542,7 +6628,7 @@ pip/easy_install install html5lib
 <li>添加隐藏的iframe，name属性值与form的target必须保持一致</li>
 <li>添加js代码实现信息提示</li>
 </ul>
-<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php">$jsoncallback = $_POST[<span class="string">'callback'</span>];</span></span><br><span class="line"><span class="php"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</span></span><br><span class="line"><span class="php">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</span></span><br><span class="line"><span class="php">&#125;<span class="keyword">else</span>&#123;</span></span><br><span class="line"><span class="php">	<span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</span></span><br><span class="line"><span class="php">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</span></span><br><span class="line"><span class="php">	&#125;<span class="keyword">else</span>&#123;</span></span><br><span class="line"><span class="php">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</span></span><br><span class="line"><span class="php">	&#125;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php"><span class="function"><span class="keyword">function</span> <span class="title">response_post</span><span class="params">($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)</span></span>&#123;</span></span><br><span class="line"><span class="php">	$output=<span class="string">""</span>;</span></span><br><span class="line"><span class="php">	$output .= <span class="string">'&lt;script&gt;'</span>;</span></span><br><span class="line"><span class="php">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></span></span><br><span class="line"><span class="php">		.json_encode(<span class="keyword">array</span>(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</span></span><br><span class="line"><span class="php">		.<span class="string">');'</span>);</span></span><br><span class="line"><span class="php">	$output .= <span class="string">'&lt;/script&gt;'</span>;</span></span><br><span class="line"><span class="php">	<span class="keyword">echo</span> $output;</span></span><br><span class="line"><span class="php">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="后台代码（PHP为例）"><a href="#后台代码（PHP为例）" class="headerlink" title="后台代码（PHP为例）"></a>后台代码（PHP为例）</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$jsoncallback = $_POST[<span class="string">'callback'</span>];</span><br><span class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">	response_post(<span class="string">'0'</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>], $jsoncallback);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], <span class="string">'/tmp/'</span>.$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]))&#123;</span><br><span class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存成功!'</span>, $jsoncallback);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		response_post(<span class="string">'0'</span>, <span class="string">'文件保存失败!'</span>, $jsoncallback);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">response_post</span><span class="params">($msgcode, $message, $jsoncallback, $url=<span class="string">""</span>)</span></span>&#123;</span><br><span class="line">	$output=<span class="string">""</span>;</span><br><span class="line">	$output .= <span class="string">'&lt;script&gt;'</span>;</span><br><span class="line">	$output .= ( <span class="string">'top.'</span> . $jsoncallback . <span class="string">'('</span></span><br><span class="line">		.json_encode(<span class="keyword">array</span>(<span class="string">'result_code'</span> =&gt; $msgcode, <span class="string">'result_msg'</span> =&gt; $message, <span class="string">'server_time'</span>=&gt;time(), <span class="string">'url'</span>=&gt;$url))</span><br><span class="line">		.<span class="string">');'</span>);</span><br><span class="line">	$output .= <span class="string">'&lt;/script&gt;'</span>;</span><br><span class="line">	<span class="keyword">echo</span> $output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       
         <categories>
@@ -7842,7 +7928,68 @@ Last_IO_Error: error connecting to master &apos;slave@192.168.11.120:3306&apos; 
     -&gt; master_password=&apos;repl&apos;;
 &gt; start slave;
 </code></pre><p>启动同步之后，再次查看slave状态，可以看到已经成功</p>
-]]></content>
+<p>4、清除主从同步信息</p>
+<p>1）reset master<br>删除所有的binglog日志文件，并将日志索引文件清空，重新开始所有新的日志文件。用于第一次搭建主从数据库时，用于主库的初始化binglog操作。主从正在运行时，万不可如此操作。</p>
+<pre><code>mysql&gt; show master status\G
+*************************** 1. row ***************************
+            File: mysql-bin.000015
+        Position: 28170
+    Binlog_Do_DB: 
+Binlog_Ignore_DB: mysql
+1 row in set (0.04 sec)
+
+mysql&gt; reset master;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql&gt; show master status\G;
+*************************** 1. row ***************************
+            File: mysql-bin.000001
+        Position: 106
+    Binlog_Do_DB: 
+Binlog_Ignore_DB: 
+1 row in set (0.01 sec)
+</code></pre><p>2）reset slave<br>删除slave数据库的master.info和relay-log.info文件，但里面的同步信息(即连接信息，包括主库地址、端口、用户、密码等)仍在。</p>
+<pre><code>mysql&gt; show slave status\G
+*************************** 1. row ***************************
+               Slave_IO_State: Waiting for master to send event
+                  Master_Host: 10.10.28.30
+                  Master_User: test
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: mysql-bin.000015
+          Read_Master_Log_Pos: 39249001
+               #可在my.cnf设置relay-log = mysql-relay-bin，默认使用的是host_name-relay-bin.nnnnnn
+               Relay_Log_File: iZ2ze5vyj2j0ati6ddbtddZ-relay-bin.000059 
+                Relay_Log_Pos: 1223762
+        Relay_Master_Log_File: mysql-bin.000013
+        ...
+
+mysql&gt; stop slave;        
+Query OK, 0 rows affected (0.01 sec)    
+
+mysql&gt; reset slave;                
+Query OK, 0 rows affected (0.04 sec)
+
+mysql&gt; show slave status\G;
+*************************** 1\. row ***************************
+              Slave_IO_State: 
+                 Master_Host: 10.10.28.30
+                 Master_User: test
+                 Master_Port: 3306
+               Connect_Retry: 20
+             Master_Log_File: mysql-bin.000015
+         Read_Master_Log_Pos: 39249001
+              Relay_Log_File: iZ2ze5vyj2j0ati6ddbtddZ-relay-bin.00001 
+               Relay_Log_Pos: 10
+       Relay_Master_Log_File: mysql-bin.000013
+       ...
+</code></pre><p> 3）reset slave all<br>将所有同步信息彻底清理，常用于主从关系破坏之后，从库重新初始化进行配置或者移除当前slave<br>    mysql&gt; stop slave;<br>    Query OK, 0 rows affected (0.02 sec) </p>
+<pre><code>mysql&gt; reset slave all; 
+Query OK, 0 rows affected (0.04 sec) 
+
+mysql&gt; show slave status\G; 
+Empty set (0.02 sec)            
+</code></pre>]]></content>
       
         <categories>
             
