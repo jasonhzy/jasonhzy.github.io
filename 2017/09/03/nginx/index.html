@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-25T13:11:32.000Z">
+<meta property="og:updated_time" content="2019-06-26T13:11:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -520,6 +520,9 @@ http {
 
     # 指定客户端连接保持活动的超时时间（单位：秒），超过时间，服务器会关闭连接  
     keepalive_timeout  65;
+
+    # nginx是支持读取非nginx标准的用户自定义header的，但是需要在http或者server下开启header的下划线支持
+    # underscores_in_headers on;
 
     #客户端请求单个文件的最大字节数
     client_max_body_size 8m;
