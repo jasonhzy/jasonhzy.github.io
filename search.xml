@@ -21,7 +21,7 @@ yum install fontconfig  # 安装fc-cache
 </code></pre><p>5、建立字体缓存</p>
 <p>（1）执行 mkfontscale，生成了fonts.scale文件<br>（2）执行 mkfontdir，生成了fonts.dir文件<br>（3）执行 fc-cache -fv</p>
 <p>6、使用 fc-list 查看字体库，查看是否包含新加入的字体</p>
-<p>7、如果有其他服务使用，只需要重启服务器即可，比如重启Tomcat／Apache等</p>
+<p>7、(重点)如果有其他服务使用，只需要重启服务器即可，比如重启Tomcat／Apache等</p>
 ]]></content>
       
         <categories>

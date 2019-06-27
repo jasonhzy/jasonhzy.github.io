@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="在Linux环境下的，经常会遇到，开发的项目中有生成带中文文字的图片在前台显示会出现方框乱码，比如PHP的GD／ImageMagick，JAVA的BufferedImage Graphics drawString中文乱码等。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-27T08:01:33.000Z">
+<meta property="og:updated_time" content="2019-06-27T08:07:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux安装中文字体">
 <meta name="twitter:description" content="在Linux环境下的，经常会遇到，开发的项目中有生成带中文文字的图片在前台显示会出现方框乱码，比如PHP的GD／ImageMagick，JAVA的BufferedImage Graphics drawString中文乱码等。">
@@ -419,7 +419,7 @@ yum install fontconfig  # 安装fc-cache
 </code></pre><p>5、建立字体缓存</p>
 <p>（1）执行 mkfontscale，生成了fonts.scale文件<br>（2）执行 mkfontdir，生成了fonts.dir文件<br>（3）执行 fc-cache -fv</p>
 <p>6、使用 fc-list 查看字体库，查看是否包含新加入的字体</p>
-<p>7、如果有其他服务使用，只需要重启服务器即可，比如重启Tomcat／Apache等</p>
+<p>7、(重点)如果有其他服务使用，只需要重启服务器即可，比如重启Tomcat／Apache等</p>
 
       
     </div>
