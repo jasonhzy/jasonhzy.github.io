@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title><![CDATA[Linux安装中文字体]]></title>
+      <url>http://jasonhzy.github.io/2019/06/27/linux-fonts/</url>
+      <content type="html"><![CDATA[<p>在Linux环境下的，经常会遇到，开发的项目中有生成带中文文字的图片在前台显示会出现方框乱码，比如PHP的GD／ImageMagick，JAVA的BufferedImage Graphics drawString中文乱码等。</p>
+<a id="more"></a>
+<h2 id="安装mkfontscale，mkfontdir和fc-cache命令"><a href="#安装mkfontscale，mkfontdir和fc-cache命令" class="headerlink" title="安装mkfontscale，mkfontdir和fc-cache命令"></a>安装mkfontscale，mkfontdir和fc-cache命令</h2><h3 id="Ubuntu上安装"><a href="#Ubuntu上安装" class="headerlink" title="Ubuntu上安装"></a>Ubuntu上安装</h3><pre><code>apt-get install ttf-mscorefonts-installer # 安装mkfontscale，mkfontdir
+apt-get install fontconfig  # 安装fc-cache
+</code></pre><h3 id="CentOS上安装"><a href="#CentOS上安装" class="headerlink" title="CentOS上安装"></a>CentOS上安装</h3><pre><code>yum install mkfontscale # 安装mkfontscale，mkfontdir
+yum install fontconfig  # 安装fc-cache
+</code></pre><h2 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h2><p>1、从网络上下载字体或者直接从其他计算机（windows）上拷贝<br>2、建立/usr/share/fonts/myfonts目录</p>
+<pre><code>mkdir -p /usr/share/fonts/myfonts
+</code></pre><p>3、把准备上传的字体上传到/usr/share/fonts/myfonts目录下</p>
+<pre><code>scp /path/fontname  root@localhost:/usr/share/fonts/myfonts
+</code></pre><p>4、修改字体文件的权限</p>
+<pre><code>chmod -R 755 /usr/share/fonts/myfonts
+</code></pre><p>5、建立字体缓存</p>
+<p>（1）执行 mkfontscale，生成了fonts.scale文件<br>（2）执行 mkfontdir，生成了fonts.dir文件<br>（3）执行 fc-cache -fv</p>
+<p>6、使用 fc-list 查看字体库，查看是否包含新加入的字体</p>
+<p>7、如果有其他服务使用，只需要重启服务器即可，比如重启Tomcat／Apache等</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Font </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Mysql同步复制报错故障处理]]></title>
       <url>http://jasonhzy.github.io/2019/06/06/mysql-master-slave-question/</url>
       <content type="html"><![CDATA[<p>在MySQL主从同步集群部署中，经常会遇到主从不能同步的问题，以下对常见问题及解决办法进行了归纳列举</p>
