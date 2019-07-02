@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="在Linux上有时会遇到 df 查看磁盘使用量时卡住，或者 ls 查看不了目录信息，或者cd不能进入目录中等，可以使用strace跟踪下卡在哪个环节">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-02T07:18:06.000Z">
+<meta property="og:updated_time" content="2019-07-02T07:28:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="df或ls卡住">
 <meta name="twitter:description" content="在Linux上有时会遇到 df 查看磁盘使用量时卡住，或者 ls 查看不了目录信息，或者cd不能进入目录中等，可以使用strace跟踪下卡在哪个环节">
@@ -412,9 +412,9 @@ stat(&quot;/sys/kernel/security&quot;, {st_mode=S_IFDIR|0755, st_size=0, ...}) =
 stat(&quot;/dev/shm&quot;, {st_mode=S_IFDIR|S_ISVTX|0777, st_size=40, ...}) = 0
 stat(&quot;/data/share&quot;,
 </code></pre><h2 id="mount查看挂载情况"><a href="#mount查看挂载情况" class="headerlink" title="mount查看挂载情况"></a>mount查看挂载情况</h2><p>执行mount之后，可以看到/data/share目录挂载情况</p>
-<pre><code>18.10.50.29:/home/data/share on /data/share type nfs4 (rw,relatime,vers=4.0,rsize=1048576,wsize=1048576,
-namlen=255,hard,proto=tcp,port=0,timeo=600,retrans=2,sec=sys,clientaddr=192.168.1.100,local_lock=none,
-addr=18.10.50.29)
+<pre><code>18.10.50.29:/home/data/share on /data/share type nfs4 (rw,relatime,vers=4.0,
+rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,port=0,timeo=600,retrans=2,sec=sys,
+clientaddr=192.168.1.100,local_lock=none,addr=18.10.50.29)
 </code></pre><h2 id="umount取消挂载"><a href="#umount取消挂载" class="headerlink" title="umount取消挂载"></a>umount取消挂载</h2><p>挂载情况已知晓，由于18.10.50.29服务器已关闭或者删除，导致了卡顿的情况，因而取消挂载即可</p>
 <pre><code>umount -f /data/share  
 </code></pre>
