@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="准备工作下载nginx的安装包，解压">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-07-04T09:22:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx编译安装">
 <meta name="twitter:description" content="准备工作下载nginx的安装包，解压">
@@ -409,16 +409,17 @@
 <h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><pre><code>cd ./nginx-1.11.9
 
 ./configure 
---prefix=/opt/local/var/run/nginx 
---sbin-path=/opt/local/sbin/nginx 
---conf-path=/opt/local/etc/nginx/nginx.conf 
---pid-path=/opt/local/var/run/nginx/nginx.pid 
---http-log-path=/opt/local/var/log/nginx/access.log 
---error-log-path=/opt/local/var/log/nginx/error.log 
+--prefix=/usr/local/nginx 
+--sbin-path=/usr/local/nginx/sbin/nginx 
+--conf-path=/usr/local/nginx/nginx.conf 
+--pid-path=/usr/local/nginx/nginx.pid 
+--http-log-path=/data/nginx/access.log 
+--error-log-path=/data/nginx/error.log 
 --with-http_ssl_module 
 --with-debug
 ...
 
+./configure  --prefix=/usr/local/nginx  --with-http_ssl_module 
 make &amp;&amp; make install //编译并安装
 </code></pre><p>以本地nginx环境为例（Mac OS X）：</p>
 <pre><code>--prefix=/opt/local/var/run/nginx 

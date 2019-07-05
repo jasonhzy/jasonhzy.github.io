@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-27T01:21:29.000Z">
+<meta property="og:updated_time" content="2019-07-05T03:41:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -479,14 +479,20 @@ http {
     #default_type  text/html;
 
     # 定义输出日志的格式
-    # 1.$remote_addr 与$http_x_forwarded_for 用以记录客户端的ip地址；
+    # 1.$remote_addr 与$http_x_forwarded_for(反向代理服务器) 用以记录客户端的ip地址；
     # 2.$remote_user ：用来记录客户端用户名称；
     # 3.$time_local ：用来记录访问时间与时区；
     # 4.$request  ：用来记录请求的url与http协议；
     # 5.$status ：用来记录请求状态； 
-    # 6.$body_bytes_sent ：记录发送给客户端文件主体内容大小；
-    # 7.$http_referer ：用来记录从那个页面链接访问过来的；
-    # 8.$http_user_agent ：记录客户端浏览器的相关信息
+    # 6.$upstream_status : upstream状态
+    # 7.$body_bytes_sent ：记录发送给客户端文件主体内容大小；
+    # 8.$http_referer ：用来记录从那个页面链接访问过来的；
+    # 9.$http_user_agent ：记录客户端浏览器的相关信息
+    # 10.$ssl_protocol ：SSL协议版本，如TLSv1
+    # 11.$ssl_cipher ：交换数据中的算法，如RC4-SHA
+    # 12.$upstream_addr ：后台upstream的地址，即真正提供服务的主机地址，如10.10.10.100:80
+    # 13.$request_time ：整个请求的总时间
+    # 14.$upstream_response_time ：请求过程中，upstream响应时间    
     #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
     #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
     #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
@@ -676,6 +682,7 @@ http {
 
         #静态文件，nginx自己处理
         location ~ ^/(images|javascript|js|css|flash|media|static)/ {
+            access_log off;  #关闭access_log，即不记录访问日志
             #过期30天，静态文件不怎么更新，过期可以设大一点，
             #如果频繁更新，则可以设置得小一点。
             expires 30d;

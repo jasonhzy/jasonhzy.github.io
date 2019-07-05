@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介SFTP即安全文件传输协议（Secure File Transfer Protocol），一个独立的SSH封装协议包，SFTP本身没有单独的守护进程，必须使用sshd守护进程（端口号默认是22）来完成相应的连接操作，使用加密传输认证信息和传输的数据，所以SFTP是一种比较安全的传输方式。 但由于这种传输方式使用了加密/解密技术，效率比普通的FTP要低得多。在对网络安全性要求更高时，可代替FTP">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-07-04T06:54:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建SFTP">
 <meta name="twitter:description" content="简介SFTP即安全文件传输协议（Secure File Transfer Protocol），一个独立的SSH封装协议包，SFTP本身没有单独的守护进程，必须使用sshd守护进程（端口号默认是22）来完成相应的连接操作，使用加密传输认证信息和传输的数据，所以SFTP是一种比较安全的传输方式。 但由于这种传输方式使用了加密/解密技术，效率比普通的FTP要低得多。在对网络安全性要求更高时，可代替FTP">
@@ -422,6 +422,12 @@ useradd -d /files  -s /sbin/nologin -M manager               #作为管理员角
 -s              # 指定用户登入后所使用的shell
 /sbin/nologin   # 用户不允许登录
 -M              # 不要自动建立用户的登入目录   
+</code></pre><p>修改用户的主目录</p>
+<pre><code># id 命令查看用户名、UID、GID
+id jason
+uid=1014(jason) gid=1009(beecloud) groups=1009(beecloud)
+#修改用户目录
+usermod -d /upload -u 1014 jason
 </code></pre><h3 id="修改sshd-config配置文件-重点"><a href="#修改sshd-config配置文件-重点" class="headerlink" title="修改sshd_config配置文件(重点)"></a>修改sshd_config配置文件(重点)</h3><pre><code>$ vim /etc/ssh/sshd_config
 #Subsystem sftp /usr/libexec/openssh/sftp-server  #此行注释
 
