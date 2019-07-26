@@ -4141,7 +4141,7 @@ b2273f60a8ff  2d194b392dd1  &quot;/bin/bash&quot;  4 seconds ago   Up 4 seconds 
 <pre><code>docker exec -it 86d91c2b5295 /bin/bash #其中字符串为容器ID
 #退出命令行，exit或者ctrl + p、ctrl + q来退出容器。
 </code></pre><p>启用容器</p>
-<pre><code>docker stop [NAME]/[CONTAINER ID]
+<pre><code>docker start [NAME]/[CONTAINER ID]
 </code></pre><p>停用运行中的容器:</p>
 <pre><code>docker stop [NAME]/[CONTAINER ID] #停用某一个容器
 docker stop $(docker ps -q) #停用全部运行中的容器

@@ -103,7 +103,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/docker-virtual.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/docker-iso.png">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-07-26T09:29:47.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker常用命令">
 <meta name="twitter:description" content="docker简介Docker是由PaaS提供商dotCloud在2013年创建的一款开源应用引擎，Docker可以自动将任何应用打包成轻量、可移植、自包涵的容器引擎。开发者构建的应用可以一次构建全平台运行，包括本地开发机器、生产环境、虚拟机和云等。Docker一个基于LinuX Container（LXC）技术之上构建的Container容器引擎，源代码托管在GitHub上，基于Go语言并遵从Ap">
@@ -492,7 +492,7 @@ b2273f60a8ff  2d194b392dd1  &quot;/bin/bash&quot;  4 seconds ago   Up 4 seconds 
 <pre><code>docker exec -it 86d91c2b5295 /bin/bash #其中字符串为容器ID
 #退出命令行，exit或者ctrl + p、ctrl + q来退出容器。
 </code></pre><p>启用容器</p>
-<pre><code>docker stop [NAME]/[CONTAINER ID]
+<pre><code>docker start [NAME]/[CONTAINER ID]
 </code></pre><p>停用运行中的容器:</p>
 <pre><code>docker stop [NAME]/[CONTAINER ID] #停用某一个容器
 docker stop $(docker ps -q) #停用全部运行中的容器
