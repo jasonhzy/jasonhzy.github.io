@@ -103,7 +103,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/docker-virtual.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/docker/docker-iso.png">
-<meta property="og:updated_time" content="2019-07-26T09:29:47.185Z">
+<meta property="og:updated_time" content="2019-07-29T02:08:42.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker常用命令">
 <meta name="twitter:description" content="docker简介Docker是由PaaS提供商dotCloud在2013年创建的一款开源应用引擎，Docker可以自动将任何应用打包成轻量、可移植、自包涵的容器引擎。开发者构建的应用可以一次构建全平台运行，包括本地开发机器、生产环境、虚拟机和云等。Docker一个基于LinuX Container（LXC）技术之上构建的Container容器引擎，源代码托管在GitHub上，基于Go语言并遵从Ap">
@@ -527,14 +527,14 @@ de07f0a1f26a  jasonhzy/php5.6-fpm  &quot;php-fpm&quot;  11 hours ago  Up 4 minut
 docker inspect -f   &apos;{{.Id}}&apos; de07f0a1f26a(或者phpfpm)
 de07f0a1f26af3d3a2bae5546f8b05106fec20bb6293a2e1893a54dd443697b1 #完整的容器ID    
 </code></pre><h3 id="容器与主机之间的数据拷贝"><a href="#容器与主机之间的数据拷贝" class="headerlink" title="容器与主机之间的数据拷贝"></a>容器与主机之间的数据拷贝</h3><p>1.从主机往容器中拷贝</p>
-<p>   docker cp &lt;主机文件／文件夹路径&gt; <container id>:&lt;容器内文件／文件夹路径&gt;</container></p>
-<p>例如：复制容器/var/www/html下的文件夹test到主机根目录文件夹tmp下</p>
-<pre><code>docker cp de07f0a1f26a:/var/www/html/test /tmp/   
-</code></pre><p>2.将容器中文件拷往主机</p>
-<pre><code>docker cp &lt;CONTAINER ID&gt;:&lt;容器内文件／文件夹路径&gt;  &lt;主机文件／文件夹路径&gt;
+<pre><code>docker cp &lt;主机文件／文件夹路径&gt;    &lt;CONTAINER ID&gt;:&lt;容器内文件／文件夹路径&gt;
 </code></pre><p>例如：复制主机/var/www/html目录下的文件夹test到容器的根目录文件夹tmp下</p>
 <pre><code>docker cp /var/www/html/test  de07f0a1f26a:/tmp/
 docker cp /var/www/html/test  de07f0a1f26a:/tmp/xxx #文件夹test复制并重命名为xxx
+</code></pre><p>2.将容器中文件拷往主机</p>
+<pre><code>docker cp &lt;CONTAINER ID&gt;:&lt;容器内文件／文件夹路径&gt;    &lt;主机文件／文件夹路径&gt;
+</code></pre><p>例如：复制容器/var/www/html下的文件夹test到主机根目录文件夹tmp下</p>
+<pre><code>docker cp de07f0a1f26a:/var/www/html/test /tmp/   
 </code></pre><h3 id="资源限制与监控"><a href="#资源限制与监控" class="headerlink" title="资源限制与监控"></a>资源限制与监控</h3><ol>
 <li><p>可用于查询镜像（Images）、容器（Containers）和本地卷（Local Volumes）等空间占用情况        </p>
 <p> docker system df #可以进一步通过-v参数查看空间占用细节    </p>
