@@ -102,7 +102,7 @@
 <meta property="og:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-compile-install/source.jpg">
-<meta property="og:updated_time" content="2019-03-29T09:32:19.000Z">
+<meta property="og:updated_time" content="2019-08-01T13:16:28.541Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL源码安装">
 <meta name="twitter:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
@@ -440,12 +440,30 @@ chown -R mysql:mysql /data/mysql
 </code></pre><p>如果需要重新初始化，清空datadir即可：</p>
 <pre><code>rm -fr /data/mysql/*
 </code></pre><p>备注：5.7之前的版本采用mysql_install_db初始化    </p>
-<h2 id="配置mysql服务"><a href="#配置mysql服务" class="headerlink" title="配置mysql服务"></a>配置mysql服务</h2><pre><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
-</code></pre><h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre><code>service mysqld status/start/stop
+<h2 id="配置mysql服务"><a href="#配置mysql服务" class="headerlink" title="配置mysql服务"></a>配置mysql服务</h2><pre><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
+</code></pre><h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre><code>service mysql status/start/stop
 或者 
-systemctl enable mysqld
-systemctl status/start/stop mysqld
-</code></pre><h2 id="配置root登录密码"><a href="#配置root登录密码" class="headerlink" title="配置root登录密码"></a>配置root登录密码</h2><pre><code>mysql_secure_installation
+systemctl enable mysql
+systemctl status/start/stop mysql
+</code></pre><p>如果启动失败，查看/etc/my.cnf文件：</p>
+<pre><code>[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# Settings user and group are ignored when systemd is used.
+# If you need to run mysqld under a different user or group,
+# customize your systemd unit file for mariadb according to the
+# instructions in http://fedoraproject.org/wiki/Systemd
+
+[mysqld_safe]
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid
+</code></pre><p>修改/etc/my.cnf文件，配置见【配置关键参数】    </p>
+<h2 id="配置root登录密码"><a href="#配置root登录密码" class="headerlink" title="配置root登录密码"></a>配置root登录密码</h2><pre><code>mysql_secure_installation
+</code></pre><p>执行时出现”Can’t connect to local MySQL server through socket”错误时，尝试增加配置：</p>
+<pre><code>[client]
+socket   = /tmp/mysql.sock 
 </code></pre><h2 id="创建远程访问用户"><a href="#创建远程访问用户" class="headerlink" title="创建远程访问用户"></a>创建远程访问用户</h2><pre><code>grant select, insert, update, delete on jasonhzy.* to &apos;test&apos;@&apos;%&apos; identified by &apos;test&apos;;
 flush privileges;
 </code></pre><h2 id="配置关键参数"><a href="#配置关键参数" class="headerlink" title="配置关键参数"></a>配置关键参数</h2><pre><code>[client]

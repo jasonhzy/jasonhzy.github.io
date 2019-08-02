@@ -2290,12 +2290,30 @@ chown -R mysql:mysql /data/mysql
 </code></pre><p>如果需要重新初始化，清空datadir即可：</p>
 <pre><code>rm -fr /data/mysql/*
 </code></pre><p>备注：5.7之前的版本采用mysql_install_db初始化    </p>
-<h2 id="配置mysql服务"><a href="#配置mysql服务" class="headerlink" title="配置mysql服务"></a>配置mysql服务</h2><pre><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
-</code></pre><h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre><code>service mysqld status/start/stop
+<h2 id="配置mysql服务"><a href="#配置mysql服务" class="headerlink" title="配置mysql服务"></a>配置mysql服务</h2><pre><code>cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
+</code></pre><h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre><code>service mysql status/start/stop
 或者 
-systemctl enable mysqld
-systemctl status/start/stop mysqld
-</code></pre><h2 id="配置root登录密码"><a href="#配置root登录密码" class="headerlink" title="配置root登录密码"></a>配置root登录密码</h2><pre><code>mysql_secure_installation
+systemctl enable mysql
+systemctl status/start/stop mysql
+</code></pre><p>如果启动失败，查看/etc/my.cnf文件：</p>
+<pre><code>[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# Settings user and group are ignored when systemd is used.
+# If you need to run mysqld under a different user or group,
+# customize your systemd unit file for mariadb according to the
+# instructions in http://fedoraproject.org/wiki/Systemd
+
+[mysqld_safe]
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid
+</code></pre><p>修改/etc/my.cnf文件，配置见【配置关键参数】    </p>
+<h2 id="配置root登录密码"><a href="#配置root登录密码" class="headerlink" title="配置root登录密码"></a>配置root登录密码</h2><pre><code>mysql_secure_installation
+</code></pre><p>执行时出现”Can’t connect to local MySQL server through socket”错误时，尝试增加配置：</p>
+<pre><code>[client]
+socket   = /tmp/mysql.sock 
 </code></pre><h2 id="创建远程访问用户"><a href="#创建远程访问用户" class="headerlink" title="创建远程访问用户"></a>创建远程访问用户</h2><pre><code>grant select, insert, update, delete on jasonhzy.* to &apos;test&apos;@&apos;%&apos; identified by &apos;test&apos;;
 flush privileges;
 </code></pre><h2 id="配置关键参数"><a href="#配置关键参数" class="headerlink" title="配置关键参数"></a>配置关键参数</h2><pre><code>[client]
@@ -4907,13 +4925,15 @@ grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;12
 </code></pre><p>或者合并为一条语句：    </p>
 <pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 
-备注：数据库的权限存储于mysql-&gt;db，如果是为所有数据库赋予权限信息存储于mysql-&gt;user
-</code></pre><p>（2）为数据库指定的表的列赋予权限</p>
-<pre><code>grant select(`id`, `num`), insert, update, delete on test.user to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+备注：数据库的权限存储于mysql(数据库)-&gt;db(表)，如果是为所有数据库赋予权限信息存储于mysql(数据库)-&gt;user(表)
+</code></pre><p>（2）为数据库指定表的列赋予权限</p>
+<pre><code>grant select(`id`, `num`), insert, update, delete on test.user to &apos;jason&apos;@&apos;%&apos; 
+    identified by &apos;123456&apos;;
 
-备注：列权限信息存储于mysql-&gt;columns_priv, 表权限信息存储于mysql-&gt;table_priv
+备注：列权限信息存储于mysql(数据库)-&gt;columns_priv(表), 表权限信息存储于mysql(数据库)-&gt;table_priv(表)
 </code></pre><p>（3）如果想让授权的用户(如：jason)，也可以将这些权限grant给其他用户，需要选项“grant option”</p>
-<pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos; with grant option;
+<pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; 
+    identified by &apos;123456&apos; with grant option;
 </code></pre><p> (4)逻辑备份工具备份时可能需要的权限<br> 逻辑备份工具：mysqldump,mysqlpump,mydumper等等</p>
 <pre><code>权限：SELECT
 作用：查询表中数据
@@ -4933,10 +4953,12 @@ grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;12
 权限：super
 作用：关闭线程，不受最大连接线程数限制的VIP连接通道，阻断刷新线程的命令，不受离线模式影响
 </code></pre><p> 命令：</p>
-<pre><code>grant select,lock tables,show view on *.* to bak@&apos;192.168.%&apos; identified by &apos;123456&apos;;（一般情况下足以） 
-grant lock tables,reload,process,replication client,super,select,event,trigger,show view on *.* to bak@&apos;192.168.%&apos;;
+<pre><code>grant select,lock tables,show view on *.* to bak@&apos;192.168.%&apos; 
+    identified by &apos;123456&apos;;（一般情况下足以） 
+grant lock tables,reload,process,replication client,super,
+    select,event,trigger,show view on *.* to bak@&apos;192.168.%&apos;;
 </code></pre><p>2、撤销授权</p>
-<pre><code>revoke update,delete on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除drop权限
+<pre><code>revoke update,delete on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除update/delete权限
 revoke all on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除除with grant option之外的所有权限
 revoke grant option on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除with grant option权限
 </code></pre><p>3、查看用户权限：</p>

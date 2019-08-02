@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-04T07:40:08.000Z">
+<meta property="og:updated_time" content="2019-08-01T13:18:49.480Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql Grant／Revoke">
 <meta name="twitter:description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
@@ -423,13 +423,15 @@ grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;12
 </code></pre><p>或者合并为一条语句：    </p>
 <pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 
-备注：数据库的权限存储于mysql-&gt;db，如果是为所有数据库赋予权限信息存储于mysql-&gt;user
-</code></pre><p>（2）为数据库指定的表的列赋予权限</p>
-<pre><code>grant select(`id`, `num`), insert, update, delete on test.user to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+备注：数据库的权限存储于mysql(数据库)-&gt;db(表)，如果是为所有数据库赋予权限信息存储于mysql(数据库)-&gt;user(表)
+</code></pre><p>（2）为数据库指定表的列赋予权限</p>
+<pre><code>grant select(`id`, `num`), insert, update, delete on test.user to &apos;jason&apos;@&apos;%&apos; 
+    identified by &apos;123456&apos;;
 
-备注：列权限信息存储于mysql-&gt;columns_priv, 表权限信息存储于mysql-&gt;table_priv
+备注：列权限信息存储于mysql(数据库)-&gt;columns_priv(表), 表权限信息存储于mysql(数据库)-&gt;table_priv(表)
 </code></pre><p>（3）如果想让授权的用户(如：jason)，也可以将这些权限grant给其他用户，需要选项“grant option”</p>
-<pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos; with grant option;
+<pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; 
+    identified by &apos;123456&apos; with grant option;
 </code></pre><p> (4)逻辑备份工具备份时可能需要的权限<br> 逻辑备份工具：mysqldump,mysqlpump,mydumper等等</p>
 <pre><code>权限：SELECT
 作用：查询表中数据
@@ -449,10 +451,12 @@ grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;12
 权限：super
 作用：关闭线程，不受最大连接线程数限制的VIP连接通道，阻断刷新线程的命令，不受离线模式影响
 </code></pre><p> 命令：</p>
-<pre><code>grant select,lock tables,show view on *.* to bak@&apos;192.168.%&apos; identified by &apos;123456&apos;;（一般情况下足以） 
-grant lock tables,reload,process,replication client,super,select,event,trigger,show view on *.* to bak@&apos;192.168.%&apos;;
+<pre><code>grant select,lock tables,show view on *.* to bak@&apos;192.168.%&apos; 
+    identified by &apos;123456&apos;;（一般情况下足以） 
+grant lock tables,reload,process,replication client,super,
+    select,event,trigger,show view on *.* to bak@&apos;192.168.%&apos;;
 </code></pre><p>2、撤销授权</p>
-<pre><code>revoke update,delete on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除drop权限
+<pre><code>revoke update,delete on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除update/delete权限
 revoke all on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除除with grant option之外的所有权限
 revoke grant option on test.* from &apos;jason&apos;@&apos;%&apos;; -- 删除with grant option权限
 </code></pre><p>3、查看用户权限：</p>
