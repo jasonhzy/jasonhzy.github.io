@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Mail,Python,">
+  <meta name="keywords" content="Apache,">
 
 
 
@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="简介SMTP(Simple Mail Transfer Protocol,简单邮件传输协议)是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。python发送邮件主要使用到了smtplib和email两个模块，email负责构造邮件，smtplib负责发送邮件。">
-<meta name="keywords" content="Mail,Python">
+<meta name="description" content="Options指令是Apache配置文件中一个很常见也很重要的指令，Options指令可以在Apache服务器核心配置(server config)、虚拟主机配置(virtual host)、特定目录配置(directory)以及.htaccess文件中使用。Options指令的主要作用是控制特定目录将启用哪些服务器特性。">
+<meta name="keywords" content="Apache">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python SMTP发送邮件">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/06/15/python-email/index.html">
+<meta property="og:title" content="Apache Options">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/02/04/apache-options/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="简介SMTP(Simple Mail Transfer Protocol,简单邮件传输协议)是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。python发送邮件主要使用到了smtplib和email两个模块，email负责构造邮件，smtplib负责发送邮件。">
+<meta property="og:description" content="Options指令是Apache配置文件中一个很常见也很重要的指令，Options指令可以在Apache服务器核心配置(server config)、虚拟主机配置(virtual host)、特定目录配置(directory)以及.htaccess文件中使用。Options指令的主要作用是控制特定目录将启用哪些服务器特性。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-08-05T08:56:58.268Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python SMTP发送邮件">
-<meta name="twitter:description" content="简介SMTP(Simple Mail Transfer Protocol,简单邮件传输协议)是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。python发送邮件主要使用到了smtplib和email两个模块，email负责构造邮件，smtplib负责发送邮件。">
+<meta name="twitter:title" content="Apache Options">
+<meta name="twitter:description" content="Options指令是Apache配置文件中一个很常见也很重要的指令，Options指令可以在Apache服务器核心配置(server config)、虚拟主机配置(virtual host)、特定目录配置(directory)以及.htaccess文件中使用。Options指令的主要作用是控制特定目录将启用哪些服务器特性。">
 
 
 
@@ -132,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/2016/06/15/python-email/">
+  <link rel="canonical" href="http://jasonhzy.github.io/2016/02/04/apache-options/">
 
 
 
 
 
-  <title>Python SMTP发送邮件 | Jason Website</title>
+  <title>Apache Options | Jason Website</title>
   
 
 
@@ -313,7 +313,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/06/15/python-email/">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/02/04/apache-options/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jason hu">
@@ -330,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python SMTP发送邮件</h1>
+          <h1 class="post-title" itemprop="name headline">Apache Options</h1>
         
 
         <div class="post-meta">
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-15T09:53:43+08:00">
-                2016-06-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-04T11:08:53+08:00">
+                2016-02-04
               </time>
             
 
@@ -365,8 +365,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/Apache/" itemprop="url" rel="index">
+                    <span itemprop="name">Apache</span>
                   </a>
                 </span>
 
@@ -404,39 +404,56 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>SMTP(Simple Mail Transfer Protocol,简单邮件传输协议)是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。python发送邮件主要使用到了smtplib和email两个模块，email负责构造邮件，smtplib负责发送邮件。</p>
+        <p>Options指令是Apache配置文件中一个很常见也很重要的指令，Options指令可以在Apache服务器核心配置(server config)、虚拟主机配置(virtual host)、特定目录配置(directory)以及.htaccess文件中使用。Options指令的主要作用是控制特定目录将启用哪些服务器特性。</p>
 <a id="more"></a>
-<h2 id="相关模块"><a href="#相关模块" class="headerlink" title="相关模块"></a>相关模块</h2><h3 id="smtplib模块"><a href="#smtplib模块" class="headerlink" title="smtplib模块"></a>smtplib模块</h3><pre><code>smtplib.SMTP()
-smtplib.SMTP([host[, port[, local_hostname[, timeout]]]])
-</code></pre><p>SMTP类构造函数，表示与SMTP服务器之间的连接，通过这个连接可以向smtp服务器发送指令，执行相关操作（如：登陆、发送邮件）。所有参数都是可选的。参数意义如下：</p>
-<pre><code>host：smtp服务器主机名
-port：smtp服务的端口，默认是25；如果在创建SMTP对象的时候提供了这两个参数，在初始化的时候会自动调用connect方法去连接服务器。
-</code></pre><p>smtplib模块还提供了SMTP_SSL类和LMTP类，对它们的操作与SMTP基本一致。<br>smtplib.SMTP提供的方法：</p>
-<pre><code>SMTP.set_debuglevel(level)：#设置是否为调试模式。默认为False，即非调试模式，表示不输出任何调试信息。
-SMTP.connect([host[, port]])：#连接到指定的smtp服务器。参数分别表示smpt主机和端口。
-               注意: 也可以在host参数中指定端口号（如：smpt.yeah.net:25），这样就没必要给出port参数。
-SMTP.docmd(cmd[, argstring])：向smtp服务器发送指令。可选参数argstring表示指令的参数。
-SMTP.helo([hostname]) ：使用&quot;helo&quot;指令向服务器确认身份。相当于告诉smtp服务器“我是谁”。
-SMTP.has_extn(name)：判断指定名称在服务器邮件列表中是否存在。出于安全考虑，smtp服务器往往屏蔽了该指令。
-SMTP.verify(address) ：判断指定邮件地址是否在服务器中存在。出于安全考虑，smtp服务器往往屏蔽了该指令。
-SMTP.login(user, password) ：登陆到smtp服务器。现在几乎所有的smtp服务器，都必须在验证用户信息合法之后才允许发送邮件。
-SMTP.sendmail(from_addr, to_addrs, msg[, mail_options, rcpt_options]) ：发送邮件。这里要注意一下第三个参数，
-       msg是字符串，表示邮件。我们知道邮件一般由标题，发信人，收件人，邮件内容，附件等构成，发送邮件的时候，要注意msg的格式。
-       这个格式就是smtp协议中定义的格式。
-SMTP.quit() ：断开与smtp服务器的连接，相当于发送&quot;quit&quot;指令。
-</code></pre><h3 id="email模块"><a href="#email模块" class="headerlink" title="email模块"></a>email模块</h3><p>emial模块用来处理邮件消息，包括MIME和其他基于RFC 2822 的消息文档。使用这些模块来定义邮件的内容，是非常简单的。其包括的类有<strong><a href="http://docs.python.org/3/library/email.mime.html" target="_blank" rel="noopener">点此查看更加详细的介绍</a></strong></p>
-<pre><code>class email.mime.base.MIMEBase(_maintype, _subtype, **_params)：这是MIME的一个基类。一般不需要在使用时创建实例。
-        其中_maintype是内容类型，如text或者image。_subtype是内容的minor type 类型，如plain或者gif。 **_params是一个字典，
-        直接传递给Message.add_header()。
-class email.mime.multipart.MIMEMultipart([_subtype[, boundary[, _subparts[, _params]]]]：MIMEBase的一个子类，
-        多个MIME对象的集合，_subtype默认值为mixed。boundary是MIMEMultipart的边界，默认边界是可数的。
-class email.mime.application.MIMEApplication(_data[, _subtype[, _encoder[, **_params]]])：MIMEMultipart的一个子类。
-class email.mime.audio. MIMEAudio(_audiodata[, _subtype[, _encoder[, **_params]]])： MIME音频对象
-class email.mime.image.MIMEImage(_imagedata[, _subtype[, _encoder[, **_params]]])：MIME二进制文件对象。
-class email.mime.message.MIMEMessage(_msg[, _subtype])：具体的一个message实例.
-class email.mime.text.MIMEText(_text[, _subtype[, _charset]])：MIME文本对象，其中_text是邮件内容，_subtype邮件类型，
-        可以是text/plain（普通文本邮件），html/plain(html邮件),  _charset编码，可以是gb2312等等。
-</code></pre><h2 id="Python-SMTP-发送带附件电子邮件示例"><a href="#Python-SMTP-发送带附件电子邮件示例" class="headerlink" title="Python SMTP 发送带附件电子邮件示例"></a>Python SMTP 发送带附件电子邮件示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#--------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">#   程序：Python SMTP 发送带附件电子邮件</span></span><br><span class="line"><span class="comment">#   作者：Jason Hu</span></span><br><span class="line"><span class="comment">#   日期：2016-06-01</span></span><br><span class="line"><span class="comment">#   语言：Python</span></span><br><span class="line"><span class="comment">#   说明：Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.image <span class="keyword">import</span> MIMEImage</span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendEmail</span><span class="params">(authInfo, fromAdd, toAdd, subject, plainText)</span>:</span></span><br><span class="line"></span><br><span class="line">        strFrom = fromAdd</span><br><span class="line">        strTo = <span class="string">'; '</span>.join(toAdd)</span><br><span class="line"></span><br><span class="line">        server = authInfo.get(<span class="string">'server'</span>)</span><br><span class="line">        smtpPort = <span class="number">25</span></span><br><span class="line">        sslPort = <span class="number">465</span></span><br><span class="line">        user = authInfo.get(<span class="string">'user'</span>)</span><br><span class="line">        passwd = authInfo.get(<span class="string">'password'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (server <span class="keyword">and</span> user <span class="keyword">and</span> passwd) :</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'incomplete login info, exit now'</span></span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 设定root信息</span></span><br><span class="line">        msgRoot = MIMEMultipart(<span class="string">'related'</span>)</span><br><span class="line">        msgRoot[<span class="string">'Subject'</span>] = subject</span><br><span class="line">        msgRoot[<span class="string">'From'</span>] = <span class="string">'%s&lt;%s&gt;'</span> % (Header(<span class="string">'测试'</span>, <span class="string">'utf-8'</span>), strFrom)</span><br><span class="line">        msgRoot[<span class="string">'To'</span>] = strTo</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 邮件正文内容</span></span><br><span class="line">        msgText = MIMEText(plainText, <span class="string">'plain'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">        msgRoot.attach(msgText)</span><br><span class="line"></span><br><span class="line">        msgAlternative = MIMEMultipart(<span class="string">'alternative'</span>)</span><br><span class="line">        msgRoot.attach(msgAlternative)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># mail_msg = """</span></span><br><span class="line">        <span class="comment">#         &lt;p&gt;Python 邮件发送测试...&lt;/p&gt;</span></span><br><span class="line">        <span class="comment">#         &lt;p&gt;&lt;a href="http://www.runoob.com"&gt;菜鸟教程链接&lt;/a&gt;&lt;/p&gt;</span></span><br><span class="line">        <span class="comment">#         &lt;p&gt;图片演示：&lt;/p&gt;</span></span><br><span class="line">        <span class="comment">#         &lt;p&gt;&lt;img src="cid:pic_attach"&gt;&lt;/p&gt;</span></span><br><span class="line">        <span class="comment"># """</span></span><br><span class="line">        <span class="comment"># msgAlternative.attach(MIMEText(mail_msg, 'html', 'utf-8'))</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#设定内置图片信息</span></span><br><span class="line">        fp = open(<span class="string">'/Users/JackyBian/Desktop/aa.png'</span>, <span class="string">'rb'</span>)</span><br><span class="line">        msgImage = MIMEImage(fp.read())</span><br><span class="line">        msgImage[<span class="string">"Content-Type"</span>] = <span class="string">'application/octet-stream'</span></span><br><span class="line">        <span class="comment">#filename可自定义，供邮件中显示</span></span><br><span class="line">        msgImage[<span class="string">"Content-Disposition"</span>] = <span class="string">'attachment; filename="aa.png"'</span></span><br><span class="line">        fp.close()</span><br><span class="line">        msgImage.add_header(<span class="string">'Content-ID'</span>, <span class="string">'&lt;pic_attach&gt;'</span>)</span><br><span class="line">        msgAlternative.attach(msgImage)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">                <span class="comment">#发送邮件</span></span><br><span class="line">                smtp = smtplib.SMTP()</span><br><span class="line">                smtp.connect(server, smtpPort)</span><br><span class="line">                <span class="comment">#ssl加密方式，通信过程加密，邮件数据安全</span></span><br><span class="line">                <span class="comment"># smtp = smtplib.SMTP_SSL()</span></span><br><span class="line">                <span class="comment"># smtp.connect(server, sslPort)</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">#设定调试级别，依情况而定</span></span><br><span class="line">                <span class="comment"># smtp.set_debuglevel(1)</span></span><br><span class="line">                smtp.login(user, passwd)</span><br><span class="line">                smtp.sendmail(strFrom, toAdd, msgRoot.as_string())</span><br><span class="line">                smtp.quit()</span><br><span class="line">                <span class="keyword">print</span> <span class="string">"邮件发送成功!"</span></span><br><span class="line">        <span class="keyword">except</span> Exception, e:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">"失败："</span> + str(e)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span> :</span><br><span class="line">        authInfo = &#123;&#125;</span><br><span class="line">        authInfo[<span class="string">'server'</span>] = <span class="string">'smtp.163.com'</span></span><br><span class="line">        authInfo[<span class="string">'user'</span>] = <span class="string">'h07061108@163.com'</span></span><br><span class="line">        authInfo[<span class="string">'password'</span>] = <span class="string">'xxxxxx'</span></span><br><span class="line">        fromAdd = <span class="string">'h07061108@163.com'</span></span><br><span class="line">        toAdd = [<span class="string">'978229997@qq.com'</span>, <span class="string">'lotushzy@163.com'</span>]</span><br><span class="line">        subject = <span class="string">'Email Subject'</span></span><br><span class="line">        plainText = <span class="string">'Email Content'</span></span><br><span class="line">        sendEmail(authInfo, fromAdd, toAdd, subject, plainText)</span><br></pre></td></tr></table></figure>
+<p>Options指令常见的配置示例代码如下：</p>
+<pre><code>&lt;Directory /&gt;
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride all
+    Order deny, allow
+    Allow from all
+&lt;/Directory&gt;
+</code></pre><p>Options指令的完整语法为：Options [+|-]option [[+|-]option] …。Options指令后可以附加指定多种服务器特性，特性选项之间以空格分隔。常见的设置选项有Indexes，Includes，FollowSymLinks(自版本2.3.11之后默认项从All变更为FollowSymLinks，)，ExecCGI，MultiView，None和All。</p>
+<h2 id="Indexes"><a href="#Indexes" class="headerlink" title="Indexes"></a>Indexes</h2><p>浏览器网址访问对应服务器上的一个文件目录时，若此目录中无DirectoryIndex指令指定的文件(例如：DirectoryIndex index.html index.php)，则服务器会返回文件目录列表，例如：</p>
+<pre><code>#http://loclahost/jason
+Index of /jason
+Name            Last modified        Size    Description
+test/            2019-02-26 20:30            -     
+test1/            2019-07-24 17:47            -     
+test2/            2016-05-24 21:05            -
+</code></pre><p>查看目录test下的文件，即：</p>
+<pre><code>ls -al test/
+total 20
+drwxr-xr-x 2 root root  4096 Aug  5 14:54 .
+drwxr-xr-x 7 root root  4096 Aug  5 16:17 ..
+-rw-r--r-- 1 root root 11510 Feb 26 20:30 index.html
+</code></pre><p>配置如下时，即为显示列表索引：</p>
+<pre><code>Options Indexes FollowSymLinks MultiViews
+</code></pre><p>若禁止显示目录列表，两种方式：<br>1）带有符号”+-“或”-“，Options是多项时都必须加上符号，否则出错，例如：</p>
+<pre><code>Options -Indexes +FollowSymLinks +MultiViews
+</code></pre><p>2）要么就去掉”Indexes”项：</p>
+<pre><code>Options FollowSymLinks MultiViews
+</code></pre><h2 id="FollowSymLinks"><a href="#FollowSymLinks" class="headerlink" title="FollowSymLinks"></a>FollowSymLinks</h2><p>决定在当前目录下是否允许文件系统使用符号连接（软连接）</p>
+<p>以上述为例：</p>
+<pre><code>cd /var/www/jason
+ln -s test/index.html index.html
+</code></pre><p>如果配置了”Options FollowSymLinks”，此时”<a href="http://localhost/jason&quot;，此时不再显示目录而是访问index.html" target="_blank" rel="noopener">http://localhost/jason&quot;，此时不再显示目录而是访问index.html</a>  </p>
+<h2 id="SymLinksIfOwnerMatch"><a href="#SymLinksIfOwnerMatch" class="headerlink" title="SymLinksIfOwnerMatch"></a>SymLinksIfOwnerMatch</h2><p>当使用符号连接时，只有当符号连接的文件拥有者与实际文件的拥有者相同时才可以访问</p>
+<p>上述test目录中index.html的拥有者是root，如果修改软链接文件/var/www/jason/index.html所属用户，即：</p>
+<pre><code>$ cd /var/www/jason
+chown -h www-data index.html
+
+$ ls -al 
+lrwxrwxrwx  1 www-data root    15 Aug  5 16:34 index.html -&gt; test/index.html
+drwxr-xr-x  3 root     root  4096 May 16 18:58 test
+drwxr-xr-x  3 root     root  4096 Jan 18  2019 test1
+drwxr-xr-x  6 root     root  4096 Jan 18  2019 test2
+</code></pre><p>如果配置了”Options SymLinksIfOwnerMatch”，此时”<a href="http://localhost/jason&quot;，此时是不能访问index.html" target="_blank" rel="noopener">http://localhost/jason&quot;，此时是不能访问index.html</a>  </p>
+<h2 id="ExecCGI"><a href="#ExecCGI" class="headerlink" title="ExecCGI"></a>ExecCGI</h2><p>允许使用 mod_cgi模块执行CGI脚本。</p>
+<h2 id="Includes"><a href="#Includes" class="headerlink" title="Includes"></a>Includes</h2><p>允许使用 mod_include模块提供的服务器端包含功能。</p>
+<h2 id="IncludesNOEXEC"><a href="#IncludesNOEXEC" class="headerlink" title="IncludesNOEXEC"></a>IncludesNOEXEC</h2><p>允许服务器端包含，但禁用”#exec cmd”和”#exec cgi”。但仍可以从 ScriptAlias目录使用”#include virtual”虚拟CGI脚本。</p>
+<h2 id="All"><a href="#All" class="headerlink" title="All"></a>All</h2><p>表示除 MultiViews之外的所有特性。自2.3.11版本之后已不再是默认选项</p>
+<h2 id="None"><a href="#None" class="headerlink" title="None"></a>None</h2><p>表示不启用任何的服务器特性。</p>
 
       
     </div>
@@ -486,7 +503,7 @@ class email.mime.text.MIMEText(_text[, _subtype[, _charset]])：MIME文本对象
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2016/06/15/python-email/" title="Python SMTP发送邮件">http://jasonhzy.github.io/2016/06/15/python-email/</a>
+      <a href="http://jasonhzy.github.io/2016/02/04/apache-options/" title="Apache Options">http://jasonhzy.github.io/2016/02/04/apache-options/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -502,9 +519,7 @@ class email.mime.text.MIMEText(_text[, _subtype[, _charset]])：MIME文本对象
       
         <div class="post-tags">
           
-            <a href="/tags/Mail/" rel="tag"># Mail</a>
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
+            <a href="/tags/Apache/" rel="tag"># Apache</a>
           
         </div>
       
@@ -517,8 +532,8 @@ class email.mime.text.MIMEText(_text[, _subtype[, _charset]])：MIME文本对象
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/02/python-reptile/" rel="next" title="Python 爬虫(BeautifulSoup)">
-                <i class="fa fa-chevron-left"></i> Python 爬虫(BeautifulSoup)
+              <a href="/2016/02/03/ssh-alive/" rel="next" title="How to Keep Alive SSH Sessions">
+                <i class="fa fa-chevron-left"></i> How to Keep Alive SSH Sessions
               </a>
             
           </div>
@@ -527,8 +542,8 @@ class email.mime.text.MIMEText(_text[, _subtype[, _charset]])：MIME文本对象
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/06/15/git-stash/" rel="prev" title="Git stash用法">
-                Git stash用法 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/02/05/mysql-master-slave/" rel="prev" title="Mysql 数据库主从同步(Master-Slave)">
+                Mysql 数据库主从同步(Master-Slave) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -711,7 +726,7 @@ class email.mime.text.MIMEText(_text[, _subtype[, _charset]])：MIME文本对象
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关模块"><span class="nav-number">2.</span> <span class="nav-text">相关模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#smtplib模块"><span class="nav-number">2.1.</span> <span class="nav-text">smtplib模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#email模块"><span class="nav-number">2.2.</span> <span class="nav-text">email模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-SMTP-发送带附件电子邮件示例"><span class="nav-number">3.</span> <span class="nav-text">Python SMTP 发送带附件电子邮件示例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Indexes"><span class="nav-number">1.</span> <span class="nav-text">Indexes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FollowSymLinks"><span class="nav-number">2.</span> <span class="nav-text">FollowSymLinks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SymLinksIfOwnerMatch"><span class="nav-number">3.</span> <span class="nav-text">SymLinksIfOwnerMatch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ExecCGI"><span class="nav-number">4.</span> <span class="nav-text">ExecCGI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Includes"><span class="nav-number">5.</span> <span class="nav-text">Includes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IncludesNOEXEC"><span class="nav-number">6.</span> <span class="nav-text">IncludesNOEXEC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#All"><span class="nav-number">7.</span> <span class="nav-text">All</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#None"><span class="nav-number">8.</span> <span class="nav-text">None</span></a></li></ol></div>
             
 
           </div>
@@ -872,9 +887,9 @@ class email.mime.text.MIMEText(_text[, _subtype[, _charset]])：MIME文本对象
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://jasonhzy.github.io/2016/06/15/python-email/';
-          this.page.identifier = '2016/06/15/python-email/';
-          this.page.title = 'Python SMTP发送邮件';
+          this.page.url = 'http://jasonhzy.github.io/2016/02/04/apache-options/';
+          this.page.identifier = '2016/02/04/apache-options/';
+          this.page.title = 'Apache Options';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://jasonhzy.disqus.com/embed.js';

@@ -97,12 +97,12 @@
 <meta name="keywords" content="Linux,Ubuntu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu 配置LAMP环境">
-<meta property="og:url" content="http://jasonhzy.github.io/2016/09/27/ubuntu-install/index.html">
+<meta property="og:url" content="http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/index.html">
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介 不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/ubuntu-lamp.jpg">
-<meta property="og:updated_time" content="2019-08-05T07:13:58.149Z">
+<meta property="og:updated_time" content="2019-08-05T07:55:37.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 配置LAMP环境">
 <meta name="twitter:description" content="简介 不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）">
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://jasonhzy.github.io/2016/09/27/ubuntu-install/">
+  <link rel="canonical" href="http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/">
 
 
 
@@ -315,7 +315,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/09/27/ubuntu-install/">
+    <link itemprop="mainEntityOfPage" href="http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jason hu">
@@ -554,12 +554,6 @@ ServerTokens OS     显示 &quot;Server: Apache/2.4.18 (Ubuntu)&quot;
 ServerTokens Full   显示 &quot;Apache/2.4.18 (Ubuntu) PHP/7.0.33-0ubuntu0.16.04.1&quot;
 </code></pre><h4 id="PHP版本号隐藏"><a href="#PHP版本号隐藏" class="headerlink" title="PHP版本号隐藏"></a>PHP版本号隐藏</h4><p>http响应头中的X-Powered-By泄露了php版本信息，修改php.ini:</p>
 <pre><code>expose_php = Off
-</code></pre><h4 id="禁止列出目录"><a href="#禁止列出目录" class="headerlink" title="禁止列出目录"></a>禁止列出目录</h4><p>配置如下时，即为显示列表索引：</p>
-<pre><code>Options Indexes FollowSymLinks MultiViews
-</code></pre><p>若禁止显示目录列表，两种方式：<br>1）带有符号”+-“或”-“，Options是多项时都必须加上符号，否则出错，例如：</p>
-<pre><code>Options -Indexes +FollowSymLinks -MultiViews
-</code></pre><p>2）要么就去掉”Indexes”项：</p>
-<pre><code>Options FollowSymLinks
 </code></pre><h3 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h3><p>问题一：</p>
 <pre><code>root@ubuntu:~# a2ensite example.com 
 ERROR:  Site example.com does not exists!
@@ -620,7 +614,7 @@ ERROR:  Site example.com does not exists!
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2016/09/27/ubuntu-install/" title="Ubuntu 配置LAMP环境">http://jasonhzy.github.io/2016/09/27/ubuntu-install/</a>
+      <a href="http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/" title="Ubuntu 配置LAMP环境">http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -741,7 +735,7 @@ ERROR:  Site example.com does not exists!
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -845,7 +839,7 @@ ERROR:  Site example.com does not exists!
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache2-conf"><span class="nav-number">2.</span> <span class="nav-text">Apache2.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本配置"><span class="nav-number">3.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache中启用和禁用网站和模块"><span class="nav-number">4.</span> <span class="nav-text">Apache中启用和禁用网站和模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全配置"><span class="nav-number">5.</span> <span class="nav-text">安全配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#隐藏apache信息"><span class="nav-number">5.1.</span> <span class="nav-text">隐藏apache信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP版本号隐藏"><span class="nav-number">5.2.</span> <span class="nav-text">PHP版本号隐藏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#禁止列出目录"><span class="nav-number">5.3.</span> <span class="nav-text">禁止列出目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关问题"><span class="nav-number">6.</span> <span class="nav-text">相关问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache2-conf"><span class="nav-number">2.</span> <span class="nav-text">Apache2.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本配置"><span class="nav-number">3.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache中启用和禁用网站和模块"><span class="nav-number">4.</span> <span class="nav-text">Apache中启用和禁用网站和模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全配置"><span class="nav-number">5.</span> <span class="nav-text">安全配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#隐藏apache信息"><span class="nav-number">5.1.</span> <span class="nav-text">隐藏apache信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP版本号隐藏"><span class="nav-number">5.2.</span> <span class="nav-text">PHP版本号隐藏</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关问题"><span class="nav-number">6.</span> <span class="nav-text">相关问题</span></a></li></ol></div>
             
 
           </div>
@@ -1006,8 +1000,8 @@ ERROR:  Site example.com does not exists!
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://jasonhzy.github.io/2016/09/27/ubuntu-install/';
-          this.page.identifier = '2016/09/27/ubuntu-install/';
+          this.page.url = 'http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/';
+          this.page.identifier = '2016/09/27/ubuntu-lamp/';
           this.page.title = 'Ubuntu 配置LAMP环境';
         };
         var d = document, s = d.createElement('script');
