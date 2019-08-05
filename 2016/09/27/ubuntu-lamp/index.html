@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Linux,Ubuntu,">
+  <meta name="keywords" content="Apache,">
 
 
 
@@ -93,19 +93,19 @@
 
 
 
-<meta name="description" content="简介 不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）">
-<meta name="keywords" content="Linux,Ubuntu">
+<meta name="description" content="简介 Apache HTTP Server（简称Apache）是Apache软件基金会的一个开放源码的网页服务器，是目前比较广泛使用的一种web server，具有跨平台、高效和稳定等特性。">
+<meta name="keywords" content="Apache">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu 配置LAMP环境">
+<meta property="og:title" content="Apache基本配置">
 <meta property="og:url" content="http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/index.html">
 <meta property="og:site_name" content="Jason Website">
-<meta property="og:description" content="简介 不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）">
+<meta property="og:description" content="简介 Apache HTTP Server（简称Apache）是Apache软件基金会的一个开放源码的网页服务器，是目前比较广泛使用的一种web server，具有跨平台、高效和稳定等特性。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/ubuntu-lamp.jpg">
-<meta property="og:updated_time" content="2019-08-05T07:55:37.451Z">
+<meta property="og:updated_time" content="2019-08-05T09:29:18.245Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu 配置LAMP环境">
-<meta name="twitter:description" content="简介 不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）">
+<meta name="twitter:title" content="Apache基本配置">
+<meta name="twitter:description" content="简介 Apache HTTP Server（简称Apache）是Apache软件基金会的一个开放源码的网页服务器，是目前比较广泛使用的一种web server，具有跨平台、高效和稳定等特性。">
 <meta name="twitter:image" content="http://jasonhzy.github.io/images/ubuntu-lamp.jpg">
 
 
@@ -140,7 +140,7 @@
 
 
 
-  <title>Ubuntu 配置LAMP环境 | Jason Website</title>
+  <title>Apache基本配置 | Jason Website</title>
   
 
 
@@ -332,7 +332,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Ubuntu 配置LAMP环境</h1>
+          <h1 class="post-title" itemprop="name headline">Apache基本配置</h1>
         
 
         <div class="post-meta">
@@ -367,8 +367,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/Apache/" itemprop="url" rel="index">
+                    <span itemprop="name">Apache</span>
                   </a>
                 </span>
 
@@ -406,8 +406,7 @@
       
 
       
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><img src="/images/ubuntu-lamp.jpg" alt="ubuntu lamp"></p>
-<p>不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）</p>
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p> Apache HTTP Server（简称Apache）是Apache软件基金会的一个开放源码的网页服务器，是目前比较广泛使用的一种web server，具有跨平台、高效和稳定等特性。</p>
 <a id="more"></a>
 <p>Apache2目录结构：</p>
 <pre><code>apache2
@@ -459,15 +458,6 @@ Server MPM:     prefork
 <pre><code>sudo a2dismod mpm_prefork
 sudo a2enmod mpm_event
 sudo service apache2 restart #重启apache2
-</code></pre><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><p>php安装</p>
-<pre><code>sudo apt-get install php5.6 php5.6-common php5.6-curl php5.6-gd php5.6-mcrypt php5.6-xml 
-                    php5.6-bcmath php5.6-mbstring php5.6-mysql
-</code></pre><p>mysql安装</p>
-<pre><code>sudo apt-get install mysql mysql-server
-</code></pre><p>apache安装</p>
-<pre><code>sudo apt-get install apache2
-</code></pre><p>安装对脚本语言的支持</p>
-<pre><code>sudo apt-get install libapache2-mod-php5
 </code></pre><h3 id="Apache中启用和禁用网站和模块"><a href="#Apache中启用和禁用网站和模块" class="headerlink" title="Apache中启用和禁用网站和模块"></a>Apache中启用和禁用网站和模块</h3><p>启用和禁用网站</p>
 <pre><code>sudo a2ensite 虚拟主机文件名(example.com.conf)
 sudo a2dissite 虚拟主机文件名(example.com.conf)
@@ -505,7 +495,7 @@ sudo a2dismod  模块配置文件名
         &lt;/LimitExcept&gt;
     &lt;/Directory&gt;
 &lt;/IfModule&gt;
-</code></pre><p>3.创建个人文件夹并重启APache</p>
+</code></pre><p>3.创建个人文件夹并重启Apache</p>
 <pre><code>sudo service apache2 restart #重启
 mkdir /home/$USER/public_html
 </code></pre><p>4.给你的文件添加访问权限</p>
@@ -554,6 +544,17 @@ ServerTokens OS     显示 &quot;Server: Apache/2.4.18 (Ubuntu)&quot;
 ServerTokens Full   显示 &quot;Apache/2.4.18 (Ubuntu) PHP/7.0.33-0ubuntu0.16.04.1&quot;
 </code></pre><h4 id="PHP版本号隐藏"><a href="#PHP版本号隐藏" class="headerlink" title="PHP版本号隐藏"></a>PHP版本号隐藏</h4><p>http响应头中的X-Powered-By泄露了php版本信息，修改php.ini:</p>
 <pre><code>expose_php = Off
+</code></pre><h3 id="LAMP环境安装"><a href="#LAMP环境安装" class="headerlink" title="LAMP环境安装"></a>LAMP环境安装</h3><p><img src="/images/ubuntu-lamp.jpg" alt="ubuntu lamp"></p>
+<p>以Ubuntu为例，不同版本的ubuntu，所提供源不同，自然所包含的php、mysql、apache等的版本也是不同的，安装的时候需要选择相应的版本进行安装，如果提供的不能满足需求，需要手动添加源（即/etc/apt/sources.list下添源链接或者add-apt-repository命令添加PPA源）</p>
+<p>php安装</p>
+<pre><code>sudo apt-get install php5.6 php5.6-common php5.6-curl php5.6-gd php5.6-mcrypt php5.6-xml 
+                    php5.6-bcmath php5.6-mbstring php5.6-mysql
+</code></pre><p>mysql安装</p>
+<pre><code>sudo apt-get install mysql mysql-server
+</code></pre><p>apache安装</p>
+<pre><code>sudo apt-get install apache2
+</code></pre><p>安装对脚本语言的支持</p>
+<pre><code>sudo apt-get install libapache2-mod-php5
 </code></pre><h3 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h3><p>问题一：</p>
 <pre><code>root@ubuntu:~# a2ensite example.com 
 ERROR:  Site example.com does not exists!
@@ -614,7 +615,7 @@ ERROR:  Site example.com does not exists!
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/" title="Ubuntu 配置LAMP环境">http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/</a>
+      <a href="http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/" title="Apache基本配置">http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -630,9 +631,7 @@ ERROR:  Site example.com does not exists!
       
         <div class="post-tags">
           
-            <a href="/tags/Linux/" rel="tag"># Linux</a>
-          
-            <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+            <a href="/tags/Apache/" rel="tag"># Apache</a>
           
         </div>
       
@@ -839,7 +838,7 @@ ERROR:  Site example.com does not exists!
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache2-conf"><span class="nav-number">2.</span> <span class="nav-text">Apache2.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本配置"><span class="nav-number">3.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache中启用和禁用网站和模块"><span class="nav-number">4.</span> <span class="nav-text">Apache中启用和禁用网站和模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全配置"><span class="nav-number">5.</span> <span class="nav-text">安全配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#隐藏apache信息"><span class="nav-number">5.1.</span> <span class="nav-text">隐藏apache信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP版本号隐藏"><span class="nav-number">5.2.</span> <span class="nav-text">PHP版本号隐藏</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关问题"><span class="nav-number">6.</span> <span class="nav-text">相关问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache2-conf"><span class="nav-number">2.</span> <span class="nav-text">Apache2.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache中启用和禁用网站和模块"><span class="nav-number">3.</span> <span class="nav-text">Apache中启用和禁用网站和模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全配置"><span class="nav-number">4.</span> <span class="nav-text">安全配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#隐藏apache信息"><span class="nav-number">4.1.</span> <span class="nav-text">隐藏apache信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP版本号隐藏"><span class="nav-number">4.2.</span> <span class="nav-text">PHP版本号隐藏</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LAMP环境安装"><span class="nav-number">5.</span> <span class="nav-text">LAMP环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关问题"><span class="nav-number">6.</span> <span class="nav-text">相关问题</span></a></li></ol></div>
             
 
           </div>
@@ -1002,7 +1001,7 @@ ERROR:  Site example.com does not exists!
         var disqus_config = function () {
           this.page.url = 'http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/';
           this.page.identifier = '2016/09/27/ubuntu-lamp/';
-          this.page.title = 'Ubuntu 配置LAMP环境';
+          this.page.title = 'Apache基本配置';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://jasonhzy.disqus.com/embed.js';

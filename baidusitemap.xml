@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/04/apache-options/</loc>
-    <lastmod>2019-08-05T08:56:58.268Z</lastmod>
+    <loc>http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/</loc>
+    <lastmod>2019-08-05T09:29:18.245Z</lastmod>
     <data>
         <display>
-        <title>Apache Options</title>
-        <pubTime>2016-02-04T03:08:53.000Z</pubTime>
+        <title>Apache基本配置</title>
+        <pubTime>2016-09-27T09:21:31.000Z</pubTime>
         
         <tag>Apache</tag>
          
@@ -24,21 +24,19 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/09/27/ubuntu-lamp/</loc>
-    <lastmod>2019-08-05T07:55:37.451Z</lastmod>
+    <loc>http://jasonhzy.github.io/2016/02/04/apache-options/</loc>
+    <lastmod>2019-08-05T08:56:58.268Z</lastmod>
     <data>
         <display>
-        <title>Ubuntu 配置LAMP环境</title>
-        <pubTime>2016-09-27T09:21:31.000Z</pubTime>
+        <title>Apache Options</title>
+        <pubTime>2016-02-04T03:08:53.000Z</pubTime>
         
-        <tag>Linux</tag>
-         
-        <tag>Ubuntu</tag>
+        <tag>Apache</tag>
          
          
            
              
-              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+              <breadCrumb title="Apache" url="http://jasonhzy.github.io/categories/Apache/"/>
           
         </display>
     </data>
@@ -433,28 +431,6 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/07/31/php-cookie/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>PHP中cookie的 path/domain参数</title>
-        <pubTime>2016-07-31T11:59:56.000Z</pubTime>
-        
-        <tag>PHP</tag>
-         
-        <tag>cookie</tag>
-         
-         
-           
-             
-              <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jasonhzy.github.io/2016/05/14/linux-mail/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -465,6 +441,72 @@
         <tag>Linux</tag>
          
         <tag>Mail</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2018/04/10/centos7-recovery/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 7单用户模式(紧急修复)</title>
+        <pubTime>2018-04-10T07:48:18.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>CentOS</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/03/11/linux-ftp/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Linux上配置FTP</title>
+        <pubTime>2016-03-11T08:00:30.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>FTP</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2018/01/09/linux-stdinout/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Linux I/O重定向</title>
+        <pubTime>2018-01-09T06:42:19.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>I/O</tag>
          
          
            
@@ -543,21 +585,21 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/06/15/git-stash/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/27/ci-smarty/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
         <display>
-        <title>Git stash用法</title>
-        <pubTime>2016-06-15T10:05:28.000Z</pubTime>
+        <title>Codeigniter集成smarty</title>
+        <pubTime>2016-02-27T07:07:40.000Z</pubTime>
         
-        <tag>Git</tag>
+        <tag>PHP</tag>
          
-        <tag>Stash</tag>
+        <tag>Codeigniter</tag>
          
          
            
              
-              <breadCrumb title="Git" url="http://jasonhzy.github.io/categories/Git/"/>
+              <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
           
         </display>
     </data>
@@ -585,19 +627,19 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/03/29/hexo-create/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
         <display>
-        <title>Hexo环境搭建</title>
-        <pubTime>2016-03-29T07:50:48.000Z</pubTime>
+        <title>SVN 服务器搭建</title>
+        <pubTime>2016-02-26T09:55:31.000Z</pubTime>
         
-        <tag>Hexo</tag>
+        <tag>SVN</tag>
          
          
            
              
-              <breadCrumb title="Hexo" url="http://jasonhzy.github.io/categories/Hexo/"/>
+              <breadCrumb title="SVN" url="http://jasonhzy.github.io/categories/SVN/"/>
           
         </display>
     </data>
@@ -605,59 +647,21 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2018/04/12/ifconfig/</loc>
+    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
         <display>
-        <title>ifconfig</title>
-        <pubTime>2018-04-12T07:54:51.000Z</pubTime>
+        <title>CentOS7.x 配置LAMP环境</title>
+        <pubTime>2016-01-25T13:48:18.000Z</pubTime>
         
-        <tag>ifconfig</tag>
+        <tag>Linux</tag>
+         
+        <tag>CentOS</tag>
          
          
            
              
               <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Docker私有仓库</title>
-        <pubTime>2018-03-20T08:08:03.000Z</pubTime>
-        
-        <tag>Docker</tag>
-         
-         
-           
-             
-              <breadCrumb title="Docker" url="http://jasonhzy.github.io/categories/Docker/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/03/git-tech/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Git基本命令</title>
-        <pubTime>2016-02-03T05:17:31.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-         
-           
-             
-              <breadCrumb title="Git" url="http://jasonhzy.github.io/categories/Git/"/>
           
         </display>
     </data>
@@ -705,6 +709,48 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2018/03/20/docker-registry/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Docker私有仓库</title>
+        <pubTime>2018-03-20T08:08:03.000Z</pubTime>
+        
+        <tag>Docker</tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker" url="http://jasonhzy.github.io/categories/Docker/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/06/15/git-stash/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Git stash用法</title>
+        <pubTime>2016-06-15T10:05:28.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+        <tag>Stash</tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://jasonhzy.github.io/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2017/06/14/mysql-explain/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -718,6 +764,48 @@
            
              
               <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/05/05/git-log/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Git日志格式、颜色设置</title>
+        <pubTime>2016-05-05T12:39:19.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+        <tag>Log</tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://jasonhzy.github.io/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2018/08/10/elasticsearch/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Elasticsearch集群部署</title>
+        <pubTime>2018-08-10T08:09:13.000Z</pubTime>
+        
+        <tag>Elasticsearch</tag>
+         
+         
+           
+             
+              <breadCrumb title="Elasticsearch" url="http://jasonhzy.github.io/categories/Elasticsearch/"/>
           
         </display>
     </data>
@@ -747,21 +835,21 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2018/01/09/linux-stdinout/</loc>
+    <loc>http://jasonhzy.github.io/2016/08/25/nginx-alias-root/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
         <display>
-        <title>Linux I/O重定向</title>
-        <pubTime>2018-01-09T06:42:19.000Z</pubTime>
+        <title>nginx 文件路径配置alias&root</title>
+        <pubTime>2016-08-25T14:32:48.000Z</pubTime>
         
-        <tag>Linux</tag>
+        <tag>nginx</tag>
          
-        <tag>I/O</tag>
+        <tag>root&amp;alias</tag>
          
          
            
              
-              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+              <breadCrumb title="nginx" url="http://jasonhzy.github.io/categories/nginx/"/>
           
         </display>
     </data>
@@ -769,41 +857,21 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/centos-install/</loc>
+    <loc>http://jasonhzy.github.io/2016/07/31/php-cookie/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
         <display>
-        <title>CentOS7.x 配置LAMP环境</title>
-        <pubTime>2016-01-25T13:48:18.000Z</pubTime>
+        <title>PHP中cookie的 path/domain参数</title>
+        <pubTime>2016-07-31T11:59:56.000Z</pubTime>
         
-        <tag>Linux</tag>
+        <tag>PHP</tag>
          
-        <tag>CentOS</tag>
+        <tag>cookie</tag>
          
          
            
              
-              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2017/12/20/mysql-proxy/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>MySQL Proxy</title>
-        <pubTime>2017-12-20T08:23:46.000Z</pubTime>
-        
-        <tag>Mysql</tag>
-         
-         
-           
-             
-              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
+              <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
           
         </display>
     </data>
@@ -831,6 +899,26 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2016/02/03/git-tech/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Git基本命令</title>
+        <pubTime>2016-02-03T05:17:31.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://jasonhzy.github.io/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -844,50 +932,6 @@
            
              
               <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/08/25/nginx-alias-root/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>nginx 文件路径配置alias&root</title>
-        <pubTime>2016-08-25T14:32:48.000Z</pubTime>
-        
-        <tag>nginx</tag>
-         
-        <tag>root&amp;alias</tag>
-         
-         
-           
-             
-              <breadCrumb title="nginx" url="http://jasonhzy.github.io/categories/nginx/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/05/05/git-log/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Git日志格式、颜色设置</title>
-        <pubTime>2016-05-05T12:39:19.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-        <tag>Log</tag>
-         
-         
-           
-             
-              <breadCrumb title="Git" url="http://jasonhzy.github.io/categories/Git/"/>
           
         </display>
     </data>
@@ -959,48 +1003,6 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/02/26/create-svn/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>SVN 服务器搭建</title>
-        <pubTime>2016-02-26T09:55:31.000Z</pubTime>
-        
-        <tag>SVN</tag>
-         
-         
-           
-             
-              <breadCrumb title="SVN" url="http://jasonhzy.github.io/categories/SVN/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/27/ci-smarty/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Codeigniter集成smarty</title>
-        <pubTime>2016-02-27T07:07:40.000Z</pubTime>
-        
-        <tag>PHP</tag>
-         
-        <tag>Codeigniter</tag>
-         
-         
-           
-             
-              <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jasonhzy.github.io/2017/01/07/php-generate-qr/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -1011,26 +1013,6 @@
         <tag>PHP</tag>
          
         <tag>QRcode</tag>
-         
-         
-           
-             
-              <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2018/07/16/php-opcache/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>PHP OPcache</title>
-        <pubTime>2018-07-16T02:32:21.000Z</pubTime>
-        
-        <tag>PHP</tag>
          
          
            
@@ -1065,6 +1047,26 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2018/07/16/php-opcache/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>PHP OPcache</title>
+        <pubTime>2018-07-16T02:32:21.000Z</pubTime>
+        
+        <tag>PHP</tag>
+         
+         
+           
+             
+              <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2016/06/02/python-reptile/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -1085,19 +1087,19 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2018/05/03/jenkins/</loc>
+    <loc>http://jasonhzy.github.io/2016/03/29/hexo-create/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
         <display>
-        <title>持续集成Jenkins</title>
-        <pubTime>2018-05-03T12:31:33.000Z</pubTime>
+        <title>Hexo环境搭建</title>
+        <pubTime>2016-03-29T07:50:48.000Z</pubTime>
         
-        <tag>Jenkins</tag>
+        <tag>Hexo</tag>
          
          
            
              
-              <breadCrumb title="Jenkins" url="http://jasonhzy.github.io/categories/Jenkins/"/>
+              <breadCrumb title="Hexo" url="http://jasonhzy.github.io/categories/Hexo/"/>
           
         </display>
     </data>
@@ -1169,26 +1171,6 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2018/03/15/k8s/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>k8s集群环境部署</title>
-        <pubTime>2018-03-15T03:22:06.000Z</pubTime>
-        
-        <tag>Kubernetes</tag>
-         
-         
-           
-             
-              <breadCrumb title="Kubernetes" url="http://jasonhzy.github.io/categories/Kubernetes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jasonhzy.github.io/2016/05/25/iframe-upload/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -1202,6 +1184,26 @@
            
              
               <breadCrumb title="PHP" url="http://jasonhzy.github.io/categories/PHP/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2018/05/03/jenkins/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>持续集成Jenkins</title>
+        <pubTime>2018-05-03T12:31:33.000Z</pubTime>
+        
+        <tag>Jenkins</tag>
+         
+         
+           
+             
+              <breadCrumb title="Jenkins" url="http://jasonhzy.github.io/categories/Jenkins/"/>
           
         </display>
     </data>
@@ -1251,6 +1253,26 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2018/04/12/ifconfig/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>ifconfig</title>
+        <pubTime>2018-04-12T07:54:51.000Z</pubTime>
+        
+        <tag>ifconfig</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2019/02/06/ubuntu-kernel-upgrade/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -1273,19 +1295,19 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2018/08/10/elasticsearch/</loc>
+    <loc>http://jasonhzy.github.io/2018/03/15/k8s/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
         <display>
-        <title>Elasticsearch集群部署</title>
-        <pubTime>2018-08-10T08:09:13.000Z</pubTime>
+        <title>k8s集群环境部署</title>
+        <pubTime>2018-03-15T03:22:06.000Z</pubTime>
         
-        <tag>Elasticsearch</tag>
+        <tag>Kubernetes</tag>
          
          
            
              
-              <breadCrumb title="Elasticsearch" url="http://jasonhzy.github.io/categories/Elasticsearch/"/>
+              <breadCrumb title="Kubernetes" url="http://jasonhzy.github.io/categories/Kubernetes/"/>
           
         </display>
     </data>
@@ -1293,12 +1315,54 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2018/04/10/centos7-recovery/</loc>
+    <loc>http://jasonhzy.github.io/2016/02/03/vim-ide/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
         <display>
-        <title>CentOS 7单用户模式(紧急修复)</title>
-        <pubTime>2018-04-10T07:48:18.000Z</pubTime>
+        <title>Vim IDE搭建</title>
+        <pubTime>2016-02-03T03:30:50.000Z</pubTime>
+        
+        <tag>Vim</tag>
+         
+         
+           
+             
+              <breadCrumb title="Vim" url="http://jasonhzy.github.io/categories/Vim/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2018/04/11/ubuntu-recovery/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Ubuntu恢复模式</title>
+        <pubTime>2018-04-11T08:47:32.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>Ubuntu</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>Webtatic Yum Repository</title>
+        <pubTime>2016-01-25T08:00:47.000Z</pubTime>
         
         <tag>Linux</tag>
          
@@ -1337,70 +1401,6 @@
 
     
   <url>
-    <loc>http://jasonhzy.github.io/2016/03/11/linux-ftp/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Linux上配置FTP</title>
-        <pubTime>2016-03-11T08:00:30.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>FTP</tag>
-         
-         
-           
-             
-              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2018/04/11/ubuntu-recovery/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Ubuntu恢复模式</title>
-        <pubTime>2018-04-11T08:47:32.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>Ubuntu</tag>
-         
-         
-           
-             
-              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/02/03/vim-ide/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Vim IDE搭建</title>
-        <pubTime>2016-02-03T03:30:50.000Z</pubTime>
-        
-        <tag>Vim</tag>
-         
-         
-           
-             
-              <breadCrumb title="Vim" url="http://jasonhzy.github.io/categories/Vim/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jasonhzy.github.io/2018/05/15/zabbix-nginx/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -1411,50 +1411,6 @@
         <tag>nginx</tag>
          
         <tag>zabbix</tag>
-         
-         
-           
-             
-              <breadCrumb title="zabbix" url="http://jasonhzy.github.io/categories/zabbix/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2016/01/25/webtatic-yum-repository/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>Webtatic Yum Repository</title>
-        <pubTime>2016-01-25T08:00:47.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>CentOS</tag>
-         
-         
-           
-             
-              <breadCrumb title="Linux" url="http://jasonhzy.github.io/categories/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2018/05/10/zabbix-percona-mysql/</loc>
-    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
-    <data>
-        <display>
-        <title>zabbix采用percona监控mysql主从</title>
-        <pubTime>2018-05-10T12:04:01.000Z</pubTime>
-        
-        <tag>zabbix</tag>
-         
-        <tag>mysql</tag>
          
          
            
@@ -1489,6 +1445,28 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2018/05/10/zabbix-percona-mysql/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>zabbix采用percona监控mysql主从</title>
+        <pubTime>2018-05-10T12:04:01.000Z</pubTime>
+        
+        <tag>zabbix</tag>
+         
+        <tag>mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="zabbix" url="http://jasonhzy.github.io/categories/zabbix/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2018/05/12/zabbix-redis/</loc>
     <lastmod>2019-03-11T07:56:02.000Z</lastmod>
     <data>
@@ -1504,6 +1482,26 @@
            
              
               <breadCrumb title="zabbix" url="http://jasonhzy.github.io/categories/zabbix/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jasonhzy.github.io/2017/12/20/mysql-proxy/</loc>
+    <lastmod>2019-03-11T07:56:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL Proxy</title>
+        <pubTime>2017-12-20T08:23:46.000Z</pubTime>
+        
+        <tag>Mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
           
         </display>
     </data>
