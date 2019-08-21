@@ -8345,9 +8345,9 @@ git remote show [主机名] #加上主机名，可以查看该主机的详细信
 <blockquote>
 <ul>
 <li>空行不匹配任何内容,所以可以作为块分隔符；</li>
-<li># 开头表示注释,如果相匹配 #,可以在前面加一个反斜杠,即 #</li>
+<li># 开头表示注释,如果相匹配 #,可以在前面加一个反斜杠,即 \#</li>
 <li>除非加了反斜杠,否则一连串的空格会被忽略；</li>
-<li>如果在匹配的内容前面加上 ! ,则这些匹配过的部分将被移出,如果要匹配以 ! 开头的内容,需要加上反斜杠,如 !important.txt</li>
+<li>如果在匹配的内容前面加上 ! ,则这些匹配过的部分将被移出,如果要匹配以 ! 开头的内容,需要加上反斜杠,如 \!important.txt</li>
 <li>如果一个匹配 pattern 后面有一个斜杠,如 foo/,则默认会匹配所有（包含父子文件夹）中的 foo 文件夹内容</li>
 <li>如果一个匹配 pattern 不包含斜杠,如 foo,Git 会将其作为一个 shell 的查找命令匹配内容</li>
 </ul>
@@ -8357,7 +8357,7 @@ git remote show [主机名] #加上主机名，可以查看该主机的详细信
 <ul>
 <li>如果一个 pattern 以 <strong> 开头，如 </strong>/foo，最后会匹配所有文件夹下的 foo 文件(夹)；</li>
 <li>如果一个 pattern 以 /<strong> 结尾，如 abc/</strong>，则表示匹配 abc 目录下的所有内容；</li>
-<li>如果一个 pattern 中间包含 <strong>，如 a/</strong>/b，则会匹配 a/b、a/x/b、a/x/y/b 以及所有类似的内容。</li>
+<li>如果一个 pattern 中间包含 <strong>，如 a/</strong>/b，则会匹配 a/b、a/x/b、a/x/y/b 以及所有类似的内容，即匹配任意中间目录。</li>
 </ul>
 </blockquote>
 <h3 id="Git查看、删除、重命名tag"><a href="#Git查看、删除、重命名tag" class="headerlink" title="Git查看、删除、重命名tag"></a>Git查看、删除、重命名tag</h3><p>创建tag：</p>
