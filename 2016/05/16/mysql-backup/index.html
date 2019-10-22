@@ -103,7 +103,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-back/MariaDB-mysql.jpg">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-back/mysql-table.png">
-<meta property="og:updated_time" content="2019-06-13T03:03:47.000Z">
+<meta property="og:updated_time" content="2019-09-17T07:44:33.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL数据库备份和还原">
 <meta name="twitter:description" content="MySQL简介MySQL 为关系型数据库(Relational Database Management System),这种所谓的”关系型”可以理解为”表格”的概念, 一个关系型数据库由一个或数个表格组成,如图所示的一个表格:">
@@ -437,6 +437,8 @@ mysqldump -hhostname -uusername -ppassword -t db &gt; db.sql
 mysqldump -hhostname -uusername -ppassword -t db t&gt; t.sql
 #多张表数据
 mysqldump -hhostname -uusername -ppassword -t db t1 t2 &gt; t.sql
+</code></pre><p>备份MySQL数据库，并排除某些表</p>
+<pre><code>mysqldump -uusername -ppassword db --ignore-table=db.table1 --ignore-table=db.table2 &gt; db.sql
 </code></pre><p>还原MySQL数据库的命令</p>
 <pre><code>mysql -hhostname -uusername -ppassword db &lt; bak.sql
 </code></pre><p>还原压缩的MySQL数据库</p>

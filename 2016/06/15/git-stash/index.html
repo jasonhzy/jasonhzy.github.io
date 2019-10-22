@@ -103,7 +103,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git-stash/git-status.png">
 <meta property="og:image" content="http://jasonhzy.github.io/images/git-stash/git-stash.png">
-<meta property="og:updated_time" content="2019-03-11T07:56:02.000Z">
+<meta property="og:updated_time" content="2019-10-22T08:43:58.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git stash用法">
 <meta name="twitter:description" content="背景在使用Git开发时，开发者在自己的分支上进行开发，由于需要紧急开发一个新的分支，而当前手里的完成的工作还不能合并。此时，使用git stash命令可以将当前做过的修改从工作区保存到暂存区中。">
@@ -429,6 +429,10 @@ stash@{0}: On jason: save change msg
 <pre><code>git stash drop [-q|--quiet] [&lt;stash@{n}&gt;]
 </code></pre><p>删除所有的储藏</p>
 <pre><code>git stash clear
+</code></pre><p>误删除储藏恢复</p>
+<pre><code>1. git  fsck --lost-found # 查看最近移除的文件
+2. git show &lt;commit id&gt;   # 查看dangling commit的id，看看是否是自己想要的
+3. git stash apply &lt;commit id&gt; # 执行后即可恢复
 </code></pre><h3 id="查看-某次-储藏修改的内容"><a href="#查看-某次-储藏修改的内容" class="headerlink" title="查看[某次]储藏修改的内容"></a>查看[某次]储藏修改的内容</h3><p>若参数[&lt;stash@{n}&gt;]不加，表示查看最后一次的储藏</p>
 <pre><code>git stash show [&lt;stash@{n}&gt;]
 </code></pre><h3 id="恢复保存的工作进度"><a href="#恢复保存的工作进度" class="headerlink" title="恢复保存的工作进度"></a>恢复保存的工作进度</h3><pre><code>git stash &lt;pop | apply&gt; [--index] [-q|--quiet] [&lt;stash@{n}&gt;]
