@@ -4921,11 +4921,13 @@ grant insert on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;12
 grant update on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 
-备注：用户名和密码保持一致时，表示增加权限，如果密码不一致则添加失败。如果用户已经存在，则之后增加的权限identified by &quot;密码&quot;部分可以省略。
+备注：用户名和密码保持一致时，表示增加权限，如果密码不一致则添加失败。
+    如果用户已经存在，则之后增加的权限identified by &quot;密码&quot;部分可以省略。
 </code></pre><p>或者合并为一条语句：    </p>
 <pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 
-备注：数据库的权限存储于mysql(数据库)-&gt;db(表)，如果是为所有数据库赋予权限信息存储于mysql(数据库)-&gt;user(表)
+备注：数据库的权限存储于mysql(数据库)-&gt;db(表)，如果是为所有数据库赋予权限信息存储于
+    mysql(数据库)-&gt;user(表)
 </code></pre><p>（2）为数据库指定表的列赋予权限</p>
 <pre><code>grant select(`id`, `num`), insert, update, delete on test.user to &apos;jason&apos;@&apos;%&apos; 
     identified by &apos;123456&apos;;
