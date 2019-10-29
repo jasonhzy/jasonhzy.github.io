@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-01T13:18:49.480Z">
+<meta property="og:updated_time" content="2019-10-29T12:34:24.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql Grant／Revoke">
 <meta name="twitter:description" content="mysql权限控制mysql用户进行授权即grant，撤销用户的授权即revoke，授权给某个用户语法格式如： GRANT ALL PRIVILEGES ON databasename.tablename TO &amp;apos;username&amp;apos;@&amp;apos;host&amp;apos; IDENTIFIED BY &amp;apos;mypassword&amp;apos; # privileges 权限，可选值">
@@ -415,11 +415,11 @@
 <h3 id="常用关于授权命令介绍"><a href="#常用关于授权命令介绍" class="headerlink" title="常用关于授权命令介绍"></a>常用关于授权命令介绍</h3><p>1、用户授权</p>
 <p>（1）赋予用户指定数据库增删改查权限</p>
 <pre><code>grant select on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
-grant insert on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+grant insert on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;; 
 grant update on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 grant delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 
-备注：用户名和密码保持一致时，表示增加权限，如果密码不一致则添加失败
+备注：用户名和密码保持一致时，表示增加权限，如果密码不一致则添加失败。如果用户已经存在，则之后增加的权限identified by &quot;密码&quot;部分可以省略。
 </code></pre><p>或者合并为一条语句：    </p>
 <pre><code>grant select, insert, update, delete on test.* to &apos;jason&apos;@&apos;%&apos; identified by &apos;123456&apos;;
 
