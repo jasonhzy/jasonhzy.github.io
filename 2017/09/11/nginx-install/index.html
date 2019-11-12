@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="准备工作下载nginx的安装包，解压">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-04T09:22:55.000Z">
+<meta property="og:updated_time" content="2019-11-12T09:47:51.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx编译安装">
 <meta name="twitter:description" content="准备工作下载nginx的安装包，解压">
@@ -421,7 +421,7 @@
 
 ./configure  --prefix=/usr/local/nginx  --with-http_ssl_module 
 make &amp;&amp; make install //编译并安装
-</code></pre><p>以本地nginx环境为例（Mac OS X）：</p>
+</code></pre><p>以本地nginx环境为例（Mac OS X）,添加module：</p>
 <pre><code>--prefix=/opt/local/var/run/nginx 
 --sbin-path=/opt/local/sbin/nginx 
 --conf-path=/opt/local/etc/nginx/nginx.conf 
@@ -431,6 +431,15 @@ make &amp;&amp; make install //编译并安装
 --with-http_ssl_module 
 --with-debug 
 --add-module=/Users/jason/Sites/nginx-1.11.9/echo-nginx-module
+</code></pre><p>安装依赖：</p>
+<p>Ubuntu：</p>
+<pre><code>apt-get install libpcre3 libpcre3-dev 
+apt-get install openssl libssl-dev
+apt-get install zlib1g-dev
+</code></pre><p>CentOS：</p>
+<pre><code>yum install openssl openssl-devel
+yum install pcre-devel
+yum install zlib-devel
 </code></pre><h3 id="常用编译选项说明"><a href="#常用编译选项说明" class="headerlink" title="常用编译选项说明"></a>常用编译选项说明</h3><p>Nginx在编译时，运行期中与路径相关的各种参数</p>
 <pre><code>--prefix=PATH                        #指向安装目录
 --sbin-path=PATH                     #指向（执行）程序文件（nginx）
