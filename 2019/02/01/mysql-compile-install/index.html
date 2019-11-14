@@ -102,7 +102,7 @@
 <meta property="og:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-compile-install/source.jpg">
-<meta property="og:updated_time" content="2019-11-13T10:11:20.908Z">
+<meta property="og:updated_time" content="2019-11-14T07:24:36.849Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL源码安装">
 <meta name="twitter:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
@@ -433,6 +433,9 @@ chown -R mysql:mysql /data/mysql
 </code></pre><p>注意:<br>    1、编译过程需要较长的时间，需耐心等待。<br>    2、重新cmake时，由于cmake生成临时文件CMakeCache.txt，需要先删除CMakeCache.txt文件，避免不必要的错误，即</p>
 <pre><code>rm CMakeCache.txt
 </code></pre><h2 id="编译之后安装"><a href="#编译之后安装" class="headerlink" title="编译之后安装"></a>编译之后安装</h2><pre><code>make install
+</code></pre><h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>可编辑/etc/profile，增加内容：</p>
+<pre><code>PATH=$PATH:/usr/local/mysql/bin
+export PATH
 </code></pre><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>–initialize-insecure 不会生成密码<br>-–initialize 会生成一个随机密码<br>-–datadir 目标目录下不能有数据文件</p>
 <p>初始化命令：</p>
 <pre><code>mysqld --defaults-file=/etc/my.cnf \
@@ -853,7 +856,7 @@ quick
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载地址"><span class="nav-number">1.</span> <span class="nav-text">下载地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖包"><span class="nav-number">2.</span> <span class="nav-text">安装依赖包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建用户和组"><span class="nav-number">3.</span> <span class="nav-text">创建用户和组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件目录"><span class="nav-number">4.</span> <span class="nav-text">创建文件目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预编译"><span class="nav-number">5.</span> <span class="nav-text">预编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译之后安装"><span class="nav-number">6.</span> <span class="nav-text">编译之后安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">7.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mysql服务"><span class="nav-number">8.</span> <span class="nav-text">配置mysql服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务"><span class="nav-number">9.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置root登录密码"><span class="nav-number">10.</span> <span class="nav-text">配置root登录密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建远程访问用户"><span class="nav-number">11.</span> <span class="nav-text">创建远程访问用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置关键参数"><span class="nav-number">12.</span> <span class="nav-text">配置关键参数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载地址"><span class="nav-number">1.</span> <span class="nav-text">下载地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖包"><span class="nav-number">2.</span> <span class="nav-text">安装依赖包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建用户和组"><span class="nav-number">3.</span> <span class="nav-text">创建用户和组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件目录"><span class="nav-number">4.</span> <span class="nav-text">创建文件目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预编译"><span class="nav-number">5.</span> <span class="nav-text">预编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译之后安装"><span class="nav-number">6.</span> <span class="nav-text">编译之后安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境变量"><span class="nav-number">7.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">8.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mysql服务"><span class="nav-number">9.</span> <span class="nav-text">配置mysql服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务"><span class="nav-number">10.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置root登录密码"><span class="nav-number">11.</span> <span class="nav-text">配置root登录密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建远程访问用户"><span class="nav-number">12.</span> <span class="nav-text">创建远程访问用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置关键参数"><span class="nav-number">13.</span> <span class="nav-text">配置关键参数</span></a></li></ol></div>
             
 
           </div>
