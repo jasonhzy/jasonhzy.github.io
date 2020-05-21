@@ -212,7 +212,7 @@ Status of node rabbit@iZj6ci19b3r6baljocdx8cZ
 <p>1）添加用户</p>
 <pre><code>rabbitmqctl add_user [username] [password]
 </code></pre><p>2）添加权限</p>
-<pre><code>rabbitmqctl set_permissions -p &quot;/&quot; [username] &quot;.*&quot; &quot;.*&quot; &quot;.*&quot; #&quot;/&quot;即
+<pre><code>rabbitmqctl set_permissions -p &quot;/&quot; [username] &quot;.*&quot; &quot;.*&quot; &quot;.*&quot; # &quot;/&quot;即vhost
 </code></pre><p>3）修改用户角色</p>
 <pre><code>rabbitmqctl set_user_tags [username] administrator
 </code></pre><p>4）修改用户密码</p>
