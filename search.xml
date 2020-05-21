@@ -5009,7 +5009,9 @@ show grants for &apos;jason&apos;@&apos;%&apos;; --查看其他MySQL用户权限
       <url>http://jasonhzy.github.io/2017/09/11/nginx-install/</url>
       <content type="html"><![CDATA[<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>下载<a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">nginx</a>的安装包，解压</p>
 <a id="more"></a>
-<h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><pre><code>cd ./nginx-1.11.9
+<h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><pre><code>yum -y install pcre pcre-devel openssl openssl-devel (安装依赖，以CentOS为例)
+
+cd ./nginx-1.11.9
 
 ./configure 
 --prefix=/usr/local/nginx 

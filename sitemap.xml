@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jasonhzy.github.io/2017/09/11/nginx-install/</loc>
+    
+    <lastmod>2020-05-21T09:50:30.085Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2019/06/06/rabbitmq-install/</loc>
     
     <lastmod>2020-05-21T09:21:00.057Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>http://jasonhzy.github.io/2018/07/10/mysql-utf8mb4/</loc>
     
     <lastmod>2019-11-14T07:05:45.804Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2017/09/11/nginx-install/</loc>
-    
-    <lastmod>2019-11-12T11:57:47.824Z</lastmod>
     
   </url>
   

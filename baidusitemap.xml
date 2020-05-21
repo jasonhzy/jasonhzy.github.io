@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2017/09/11/nginx-install/</loc>
+    <lastmod>2020-05-21T09:50:30.085Z</lastmod>
+    <data>
+        <display>
+        <title>nginx编译安装</title>
+        <pubTime>2017-09-11T09:58:09.000Z</pubTime>
+        
+        <tag>nginx</tag>
+         
+         
+           
+             
+              <breadCrumb title="nginx" url="http://jasonhzy.github.io/categories/nginx/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2019/06/06/rabbitmq-install/</loc>
     <lastmod>2020-05-21T09:21:00.057Z</lastmod>
     <data>
@@ -97,26 +117,6 @@
            
              
               <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2017/09/11/nginx-install/</loc>
-    <lastmod>2019-11-12T11:57:47.824Z</lastmod>
-    <data>
-        <display>
-        <title>nginx编译安装</title>
-        <pubTime>2017-09-11T09:58:09.000Z</pubTime>
-        
-        <tag>nginx</tag>
-         
-         
-           
-             
-              <breadCrumb title="nginx" url="http://jasonhzy.github.io/categories/nginx/"/>
           
         </display>
     </data>
