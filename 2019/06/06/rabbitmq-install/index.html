@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介RabbitMQ是采用 Erlang语言实现AMQP协议的消息中间件，AMQP全称是 Advanced Message Queue Protocolg，高级消息队列协议。支持多种客户端，如：Java、PHP、Python等，主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-21T02:59:37.245Z">
+<meta property="og:updated_time" content="2020-05-21T03:03:01.527Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RabbitMQ编译安装">
 <meta name="twitter:description" content="简介RabbitMQ是采用 Erlang语言实现AMQP协议的消息中间件，AMQP全称是 Advanced Message Queue Protocolg，高级消息队列协议。支持多种客户端，如：Java、PHP、Python等，主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。">
@@ -465,11 +465,10 @@ Status of node rabbit@iZj6ci19b3r6baljocdx8cZ
       ......
 </code></pre><p>3、 停止RabbitMQ</p>
 <pre><code>rabbitmqctl stop
-</code></pre><p>4、启动插件<br>列出插件</p>
+</code></pre><p>4、列出/启动插件<br>列出插件</p>
 <pre><code>rabbitmq-plugins list
-
-
-rabbitmq-plugins enable rabbitmq_management
+</code></pre><p>启用插件</p>
+<pre><code>rabbitmq-plugins enable rabbitmq_management
 </code></pre><p>默认端口15672，对外访问即：IP:15672，默认的账号密码是guest，但是该账号只能通过localhost登录</p>
 <p>1）添加用户</p>
 <pre><code>rabbitmqctl add_user [username] [password]
