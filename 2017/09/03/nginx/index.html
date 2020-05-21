@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Jason Website">
 <meta property="og:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-05T03:41:36.000Z">
+<meta property="og:updated_time" content="2019-11-15T03:21:12.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx基本信息">
 <meta name="twitter:description" content="简介Nginx是一个轻量级高性能的web服务器，它是为快速响应大量静态文件请求和高效利用系统资源而设计的。">
@@ -558,7 +558,7 @@ http {
     #压缩等级 1-9 等级越高，压缩效果越好，节约宽带，但CPU消耗大
     gzip_comp_level 2;
     #压缩类型，默认就已经包含text/html，所以下面就不用再写了，写上去也不会有问题，但是会有一个warn。
-    gzip_types text/plain application/x-javascript text/css application/xml;
+    gzip_types text/plain text/css application/x-javascript application/xml text/javascript image/jpeg image/gif image/png;
     #前端缓存服务器缓存经过压缩的页面
     gzip_vary on;
 
@@ -1088,7 +1088,7 @@ $document_uri ： 与$uri相同。
         <div class="copyright">
   
   &copy;  2015 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

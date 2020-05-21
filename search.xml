@@ -204,8 +204,11 @@ Status of node rabbit@iZj6ci19b3r6baljocdx8cZ
       ......
 </code></pre><p>3、 停止RabbitMQ</p>
 <pre><code>rabbitmqctl stop
-</code></pre><p>4、启动插件</p>
-<pre><code>rabbitmq-plugins enable rabbitmq_management
+</code></pre><p>4、启动插件<br>列出插件</p>
+<pre><code>rabbitmq-plugins list
+
+
+rabbitmq-plugins enable rabbitmq_management
 </code></pre><p>默认端口15672，对外访问即：IP:15672，默认的账号密码是guest，但是该账号只能通过localhost登录</p>
 <p>1）添加用户</p>
 <pre><code>rabbitmqctl add_user [username] [password]
@@ -5308,7 +5311,7 @@ http {
     #压缩等级 1-9 等级越高，压缩效果越好，节约宽带，但CPU消耗大
     gzip_comp_level 2;
     #压缩类型，默认就已经包含text/html，所以下面就不用再写了，写上去也不会有问题，但是会有一个warn。
-    gzip_types text/plain application/x-javascript text/css application/xml;
+    gzip_types text/plain text/css application/x-javascript application/xml text/javascript image/jpeg image/gif image/png;
     #前端缓存服务器缓存经过压缩的页面
     gzip_vary on;
 
