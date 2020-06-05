@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</loc>
+    
+    <lastmod>2020-06-05T06:10:31.122Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jasonhzy.github.io/2017/09/11/nginx-install/</loc>
     
     <lastmod>2020-05-21T09:50:30.085Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://jasonhzy.github.io/2017/09/03/nginx/</loc>
     
     <lastmod>2019-11-15T03:21:12.556Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</loc>
-    
-    <lastmod>2019-11-14T07:24:36.849Z</lastmod>
     
   </url>
   

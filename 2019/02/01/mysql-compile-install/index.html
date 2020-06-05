@@ -102,7 +102,7 @@
 <meta property="og:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://jasonhzy.github.io/images/mysql-compile-install/source.jpg">
-<meta property="og:updated_time" content="2019-11-14T07:24:36.849Z">
+<meta property="og:updated_time" content="2020-06-05T06:10:31.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL源码安装">
 <meta name="twitter:description" content="MySQL源码安装，本例以在CentOS7上安装MySQL5.7为例">
@@ -411,7 +411,7 @@
 <h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><pre><code>https://dev.mysql.com/downloads/mysql/5.7.html#downloads
 </code></pre><p><img src="/images/mysql-compile-install/source.jpg" alt="mysql"></p>
 <h2 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h2><p>CentOS:</p>
-<pre><code>yum -y install gcc gcc-c++ bison bison-devel ncurses ncurses-devel cmake openssl
+<pre><code>yum -y install gcc gcc-c++ cmake bison bison-devel ncurses ncurses-devel openssl-devel
 </code></pre><p>Ubuntu:</p>
 <pre><code>apt-get install cmake libncurses5-dev pkg-config openssl libssl-dev    
 </code></pre><h2 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h2><pre><code>groupadd mysql

@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</loc>
+    <lastmod>2020-06-05T06:10:31.122Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL源码安装</title>
+        <pubTime>2019-02-01T07:51:12.000Z</pubTime>
+        
+        <tag>Mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jasonhzy.github.io/2017/09/11/nginx-install/</loc>
     <lastmod>2020-05-21T09:50:30.085Z</lastmod>
     <data>
@@ -57,26 +77,6 @@
            
              
               <breadCrumb title="nginx" url="http://jasonhzy.github.io/categories/nginx/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jasonhzy.github.io/2019/02/01/mysql-compile-install/</loc>
-    <lastmod>2019-11-14T07:24:36.849Z</lastmod>
-    <data>
-        <display>
-        <title>MySQL源码安装</title>
-        <pubTime>2019-02-01T07:51:12.000Z</pubTime>
-        
-        <tag>Mysql</tag>
-         
-         
-           
-             
-              <breadCrumb title="Mysql" url="http://jasonhzy.github.io/categories/Mysql/"/>
           
         </display>
     </data>
